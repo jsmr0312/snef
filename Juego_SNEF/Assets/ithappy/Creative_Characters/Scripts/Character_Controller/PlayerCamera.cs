@@ -32,6 +32,7 @@ namespace Controller
         protected Vector2 m_Angles;
         protected float m_Distance;
 
+        public Transform Player => m_Player;
         public Vector3 Target => m_Target.position;
         public float TargetDistance => TARGET_DISTANCE;
 
@@ -44,9 +45,15 @@ namespace Controller
             {
                 m_Target.transform.parent = m_Transform.parent;
             }
+            
+            if(m_Player == null)
+            {
+                Debug.Log($"Please set the player transform to the camera. GameObject name ({gameObject.name})");
+            }
         }
 
-        public void SetPlayer(Transform player) {
+        public void BindPlayer(Transform player)
+        {
             m_Player = player;
         }
 

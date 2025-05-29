@@ -140,6 +140,7 @@ namespace CharacterCustomizationTool.Editor
             characterController.center = new Vector3(0, .95f, 0);
             characterController.radius = .4f;
             characterController.height = 1.8f;
+            characterController.skinWidth = .05f;
         }
 
         private void Randomize()

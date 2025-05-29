@@ -34,17 +34,16 @@ namespace Controller
         private Vector3 m_Target;
         private Vector2 m_MouseDelta;
         private float m_Scroll;
+        
+        public PlayerCamera Camera => m_Camera;
 
         private void Awake()
         {
             m_Mover = GetComponent<CharacterMover>();
 
-            if(m_Camera == null ) 
+            if(m_Camera == null)
             {
-                m_Camera = Camera.main == null ? null : Camera.main.GetComponent<PlayerCamera>();
-            }
-            if(m_Camera != null) {
-                m_Camera.SetPlayer(transform);
+                Debug.Log($"CharacterMover needs a camera. Please add PlayerCamera to the scene. GameObject name ({gameObject.name})");
             }
         }
 
@@ -63,6 +62,11 @@ namespace Controller
             m_Target = (m_Camera == null) ? Vector3.zero : m_Camera.Target;
             m_MouseDelta = new Vector2(Input.GetAxis(m_MouseX), Input.GetAxis(m_MouseY));
             m_Scroll = Input.GetAxis(m_MouseScroll);
+        }
+        
+        public void BindCamera(PlayerCamera currentCamera)
+        {
+            m_Camera = currentCamera;
         }
 
         public void BindMover(CharacterMover mover)
