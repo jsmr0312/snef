@@ -11,6 +11,8 @@ public class CambiaEscena : MonoBehaviour
     public void cambiar()
     {
         funciones.GetComponent<GuardarPersonaje>().Guardar();
-        SceneManager.LoadScene(nombreEscena); // Cambia a la escena indicada
+        PlayerPrefs.Save(); // <- asegúrate que se guarda antes de cargar
+        SceneManager.LoadScene(nombreEscena);
     }
+
 }

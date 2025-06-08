@@ -2,20 +2,25 @@ using UnityEngine;
 
 public class GuardarPersonaje : MonoBehaviour
 {
-
     public bool personaje1;
     public bool personaje2;
     public bool personaje3;
 
-    private void Update()
+    void Start()
     {
-        if (personaje1 == false && personaje2 == false && personaje3 == false)
+        // Cargar solo una vez al iniciar
+        personaje1 = PlayerPrefs.GetInt("personaje1Select", 0) == 1;
+        personaje2 = PlayerPrefs.GetInt("personaje2Select", 0) == 1;
+        personaje3 = PlayerPrefs.GetInt("personaje3Select", 0) == 1;
+
+        // Si ninguno está seleccionado, activar el 1 por defecto
+        if (!personaje1 && !personaje2 && !personaje3)
         {
             personaje1 = true;
+            Guardar();
         }
-        personaje1 = PlayerPrefs.GetInt("personaje1Select") == 1;
-        personaje2 = PlayerPrefs.GetInt("personaje2Select") == 1;
-        personaje3 = PlayerPrefs.GetInt("personaje3Select") == 1;
+
+        MostrarSeleccionado();
     }
 
     public void Personaje1()
@@ -26,7 +31,6 @@ public class GuardarPersonaje : MonoBehaviour
         Guardar();
     }
 
-
     public void Personaje2()
     {
         personaje1 = false;
@@ -34,7 +38,6 @@ public class GuardarPersonaje : MonoBehaviour
         personaje3 = false;
         Guardar();
     }
-
 
     public void Personaje3()
     {
@@ -49,12 +52,24 @@ public class GuardarPersonaje : MonoBehaviour
         PlayerPrefs.SetInt("personaje1Select", personaje1 ? 1 : 0);
         PlayerPrefs.SetInt("personaje2Select", personaje2 ? 1 : 0);
         PlayerPrefs.SetInt("personaje3Select", personaje3 ? 1 : 0);
+        PlayerPrefs.Save(); // Asegura que se guarde inmediatamente
 
+        MostrarSeleccionado();
     }
-    void Start()
+
+    void MostrarSeleccionado()
     {
-        
+        if (personaje1)
+        {
+            Debug.Log("Personaje 1 seleccionado");
+        }
+        else if (personaje2)
+        {
+            Debug.Log("Personaje 2 seleccionado");
+        }
+        else if (personaje3)
+        {
+            Debug.Log("Personaje 3 seleccionado");
+        }
     }
-
-  
 }
