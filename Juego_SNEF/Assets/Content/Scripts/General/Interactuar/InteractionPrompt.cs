@@ -1,16 +1,14 @@
 using UnityEngine;
-using TMPro;
 
-public class NumberGenerator : MonoBehaviour, Interactor.IInteractable, Interactor.IInteractableFeedback
+public class InteractionPrompt : MonoBehaviour, IInteractableFeedback
 {
-    [Header("Canvas 'Presiona E' (opcional)")]
+    [Tooltip("Canvas que dice 'Presiona E para interactuar'")]
     public Canvas promptCanvas;
-    public bool lookAtCamera = true;
 
-    public void Interact()
+    private void Start()
     {
-        int number = Random.Range(0, 100);
-        Debug.Log("Número aleatorio: " + number);
+        if (promptCanvas != null)
+            promptCanvas.gameObject.SetActive(false);
     }
 
     public void OnGazeEnter()
@@ -27,7 +25,7 @@ public class NumberGenerator : MonoBehaviour, Interactor.IInteractable, Interact
 
     private void LateUpdate()
     {
-        if (lookAtCamera && promptCanvas != null && promptCanvas.gameObject.activeSelf)
+        if (promptCanvas != null && promptCanvas.gameObject.activeSelf)
         {
             Transform cam = Camera.main.transform;
             promptCanvas.transform.LookAt(cam);

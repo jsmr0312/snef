@@ -1,27 +1,22 @@
 using UnityEngine;
 using TMPro;
 
-public class NPCDialogue : MonoBehaviour, IInteractable, IInteractableFeedback
+public class NPCDialogue : MonoBehaviour, Interactor.IInteractable, Interactor.IInteractableFeedback
 {
     [Header("Diálogo")]
     public DialogueData dialogue;
     private int currentLine = 0;
 
-    [Header("UI de diálogo")]
-    public Canvas dialogueBubble;               // Canvas de la burbuja
-    public TextMeshProUGUI dialogueText;        // Texto dentro de la burbuja
+    [Header("Burbuja de diálogo")]
+    public Canvas dialogueBubble;
+    public TextMeshProUGUI dialogueText;
 
-    [Header("UI de interacción")]
-    public Canvas interactionCanvas;            // Canvas de “Presiona E”
+    [Header("Canvas 'Presiona E' (opcional)")]
+    public Canvas promptCanvas;
+    public bool lookAtCamera = true;
 
-    private void Start()
-    {
-        if (dialogueBubble != null)
-            dialogueBubble.gameObject.SetActive(false);
-
-        if (interactionCanvas != null)
-            interactionCanvas.gameObject.SetActive(false);
-    }
+    [Header("Pantallas a resaltar")]
+    public ScreenHighlighter[] pantallasDestacadas;
 
     public void Interact()
     {
@@ -41,49 +36,22 @@ public class NPCDialogue : MonoBehaviour, IInteractable, IInteractableFeedback
         {
             dialogueText.text = "¡Ya viste todo!";
             dialogueBubble.gameObject.SetActive(true);
+            ActivarPantallas();
         }
-    }
-
-    private void LateUpdate()
-    {
-        // La burbuja siempre mira a la cámara
-        if (dialogueBubble != null && dialogueBubble.gameObject.activeSelf)
-        {
-            Transform cam = Camera.main.transform;
-            dialogueBubble.transform.LookAt(cam);
-            dialogueBubble.transform.Rotate(0, 180, 0); // Para que no esté de espaldas
-        }
-
-        if (interactionCanvas != null && interactionCanvas.gameObject.activeSelf)
-        {
-            Transform cam = Camera.main.transform;
-            interactionCanvas.transform.LookAt(cam);
-            interactionCanvas.transform.Rotate(0, 180, 0);
-        }
-    }
-
-    // Canvas de “Presiona E”
-    public void ShowCanvas()
-    {
-        if (interactionCanvas != null)
-            interactionCanvas.gameObject.SetActive(true);
-    }
-
-    public void HideCanvas()
-    {
-        if (interactionCanvas != null)
-            interactionCanvas.gameObject.SetActive(false);
     }
 
     public void OnGazeEnter()
     {
-        ShowCanvas(); // Presiona E
+        if (promptCanvas != null)
+            promptCanvas.gameObject.SetActive(true);
     }
 
     public void OnGazeExit()
     {
-        HideCanvas();      // Oculta "Presiona E"
-        ResetDialogue();   // Oculta burbuja y reinicia
+        if (promptCanvas != null)
+            promptCanvas.gameObject.SetActive(false);
+
+        ResetDialogue();
     }
 
     public void ResetDialogue()
@@ -94,4 +62,28 @@ public class NPCDialogue : MonoBehaviour, IInteractable, IInteractableFeedback
             dialogueBubble.gameObject.SetActive(false);
     }
 
+    private void LateUpdate()
+    {
+        Transform cam = Camera.main.transform;
+
+        if (dialogueBubble != null && dialogueBubble.gameObject.activeSelf)
+        {
+            dialogueBubble.transform.LookAt(cam);
+            dialogueBubble.transform.Rotate(0, 180, 0);
+        }
+
+        if (lookAtCamera && promptCanvas != null && promptCanvas.gameObject.activeSelf)
+        {
+            promptCanvas.transform.LookAt(cam);
+            promptCanvas.transform.Rotate(0, 180, 0);
+        }
+    }
+
+    private void ActivarPantallas()
+    {
+        foreach (var pantalla in pantallasDestacadas)
+        {
+            pantalla?.ActivateHighlight();
+        }
+    }
 }

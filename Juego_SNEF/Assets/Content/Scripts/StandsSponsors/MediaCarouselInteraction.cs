@@ -1,320 +1,238 @@
 using UnityEngine;
-using UnityEngine.Video;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using System.Collections;
 
-[RequireComponent(typeof(Collider))]
-public class MediaCarouselInteraction : MonoBehaviour
+public class MediaCarouselInteraction : MonoBehaviour,
+    Interactor.IInteractable,
+    Interactor.IInteractableFeedback
 {
-    [Header("Prompt UI")]
-    [SerializeField] private GameObject promptUI;
+    public enum ContentType { Image, Video, Presentation }
 
-    [Header("Options")]
-    [Tooltip("Si está en false, solo se mostrarán imágenes (no vídeo)")]
-    [SerializeField] private bool useVideo = true;
-    [Tooltip("Si está en false, no se mostrarán los botones Prev/Next")]
-    [SerializeField] private bool usePrevNextButtons = true;
-    [Tooltip("Tablet Animation opcional")]
-    [SerializeField] private bool useTabletAnimation = false;
+    [Header("Contenido")]
+    public ContentType contentType;
 
-    [Header("Video Screen Object")]
-    [SerializeField] private GameObject videoScreenObject;
-    [SerializeField] private VideoPlayer videoPlayer;
+    [Header("– Imagen individual –")]
+    [Tooltip("Textura que se mostrará si eliges 'Image'")]
+    public Texture2D singleImage;
 
-    [Header("Carousel Images")]
-    [SerializeField] private Texture2D[] imageTextures;
-    [SerializeField] private Renderer screenRenderer;
+    [Header("– Video –")]
+    [Tooltip("URL del video (alternativa a VideoClip)")]
+    public string videoURL;
+    [Tooltip("(Opcional) VideoClip si no usas URL")]
+    public VideoClip videoClip;
+    [Tooltip("Componente VideoPlayer que reproducirá el video")]
+    public VideoPlayer videoPlayer;
 
-    [Header("Navigation Buttons UI")]
-    [SerializeField] private GameObject navButtonPanel;
-    [SerializeField] private Button prevButton;
-    [SerializeField] private Button nextButton;
-    [SerializeField] private Button closeButton;
+    [Header("– Presentación –")]
+    [Tooltip("Slides que se mostrarán si eliges 'Presentation'")]
+    public Texture2D[] slides;
+    [Tooltip("Sólo en 'Presentation': botón Anterior")]
+    public Button prevButton;
+    [Tooltip("Sólo en 'Presentation': botón Siguiente")]
+    public Button nextButton;
+    [Tooltip("Sólo en 'Presentation': botón Cerrar")]
+    public Button closeButton;
 
-    [Header("Tablet Animation")]
-    [SerializeField] private Transform tabletTransform;
-    [SerializeField] private Transform tabletLiftedPoint;
-    [SerializeField] private float tabletTransitionDuration = 0.5f;
+    [Header("Interacción y cámara")]
+    [Tooltip("Canvas 'Presiona E' para mostrar al acercarse")]
+    public Canvas promptCanvas;
+    [Tooltip("¿Debe el prompt mirar a la cámara?")]
+    public bool lookAtCamera = true;
 
-    [Header("Camera Settings")]
-    [SerializeField] private Camera playerCamera;
-    [SerializeField] private Transform viewPoint;
-    [SerializeField] private float transitionDuration = 1f;
+    [Tooltip("Objeto raíz del jugador para ocultar durante la vista")]
+    public GameObject playerRoot;
+    [Tooltip("Cámara principal del jugador")]
+    public Camera mainCamera;
+    [Tooltip("Punto de vista (Empty) frente a la pantalla")]
+    public Transform screenViewpoint;
+    [Tooltip("Duración en segundos de la transición de cámara")]
+    public float transitionDuration = 0.5f;
 
-    [Header("Hide On View")]
-    [SerializeField] private GameObject characterRoot;
-    [SerializeField] private GameObject playerUI;
-
-    private bool playerInRange;
-    private bool inViewMode;
-    private int currentIndex = 0;
-    private int totalItems => (useVideo ? 1 : 0) + (imageTextures?.Length ?? 0);
-
-    private Vector3 origCamPos;
-    private Quaternion origCamRot;
-    private Vector3 origTabletPos;
-    private Quaternion origTabletRot;
-    private Coroutine transitionCoroutine;
-    private Coroutine tabletRoutine;
+    // Estado interno
+    private bool isViewing = false;
+    private Vector3 camOrigPos;
+    private Quaternion camOrigRot;
+    private int currentIndex;
 
     void Start()
     {
-        promptUI.SetActive(false);
-        navButtonPanel.SetActive(false);
+        // Ocultar "Presiona E"
+        if (promptCanvas) promptCanvas.gameObject.SetActive(false);
 
-        // Guardar estado tablet si aplica
-        if (useTabletAnimation && tabletTransform != null)
+        // Sólo mostrar botones en Presentation
+        if (contentType != ContentType.Presentation)
         {
-            origTabletPos = tabletTransform.position;
-            origTabletRot = tabletTransform.rotation;
+            if (prevButton) prevButton.gameObject.SetActive(false);
+            if (nextButton) nextButton.gameObject.SetActive(false);
+            if (closeButton) closeButton.gameObject.SetActive(false);
         }
 
-        // Configuración inicial de pantalla
-        if (useVideo)
+        // Preparar VideoPlayer
+        if (contentType == ContentType.Video && videoPlayer != null)
         {
-            videoScreenObject.SetActive(true);
-            screenRenderer.gameObject.SetActive(false);
             videoPlayer.playOnAwake = false;
-        }
-        else
-        {
-            videoScreenObject.SetActive(false);
-            screenRenderer.gameObject.SetActive(true);
-            if (imageTextures.Length > 0)
-                screenRenderer.material.mainTexture = imageTextures[0];
+            videoPlayer.isLooping = false;
         }
 
-        // Listeners
-        prevButton.onClick.AddListener(OnPrevClicked);
-        nextButton.onClick.AddListener(OnNextClicked);
-        closeButton.onClick.AddListener(OnCloseClicked);
-
-        // Cursor oculto
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        // Enlazar botones
+        if (prevButton) prevButton.onClick.AddListener(PrevSlide);
+        if (nextButton) nextButton.onClick.AddListener(NextSlide);
+        if (closeButton) closeButton.onClick.AddListener(CloseViewer);
     }
 
-    void OnTriggerEnter(Collider other)
+    public void OnGazeEnter()
     {
-        if (!inViewMode && other.CompareTag("Player"))
-        {
-            playerInRange = true;
-            promptUI.SetActive(true);
-        }
+        if (promptCanvas) promptCanvas.gameObject.SetActive(true);
     }
 
-    void OnTriggerExit(Collider other)
+    public void OnGazeExit()
     {
-        if (!inViewMode && other.CompareTag("Player"))
-        {
-            playerInRange = false;
-            promptUI.SetActive(false);
-        }
+        if (promptCanvas) promptCanvas.gameObject.SetActive(false);
+        if (!isViewing) EndViewing();
     }
 
-    void Update()
+    public void Interact()
     {
-        if (!playerInRange && !inViewMode) return;
-
-        if (!inViewMode && Input.GetKeyDown(KeyCode.E))
-        {
-            EnterViewMode();
-            return;
-        }
-
-        if (inViewMode)
-        {
-            if (Input.GetKeyDown(KeyCode.E)) OnNextClicked();
-            if (Input.GetKeyDown(KeyCode.F)) OnPrevClicked();
-            if (Input.GetKeyDown(KeyCode.Escape)) OnCloseClicked();
-        }
+        if (isViewing) return;
+        StartViewing();
     }
 
-    private void EnterViewMode()
+    private void StartViewing()
     {
-        inViewMode = true;
-        promptUI.SetActive(false);
-        navButtonPanel.SetActive(true);
+        isViewing = true;
 
-        // Ajustar visibilidad Prev/Next
-        prevButton.gameObject.SetActive(usePrevNextButtons);
-        nextButton.gameObject.SetActive(usePrevNextButtons);
-        closeButton.gameObject.SetActive(true); // siempre visible
+        // Guardar cámara original y ocultar jugador
+        camOrigPos = mainCamera.transform.position;
+        camOrigRot = mainCamera.transform.rotation;
+        if (playerRoot) playerRoot.SetActive(false);
 
-        origCamPos = playerCamera.transform.position;
-        origCamRot = playerCamera.transform.rotation;
-
-        SetCharacterRenderers(false);
-        playerUI?.SetActive(false);
-
-        var ctrl = playerCamera.GetComponentInParent<MonoBehaviour>();
-        if (ctrl) ctrl.enabled = false;
-
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
-        // Tablet animation opcional
-        if (useTabletAnimation && tabletTransform != null && tabletLiftedPoint != null)
-        {
-            if (tabletRoutine != null) StopCoroutine(tabletRoutine);
-            tabletRoutine = StartCoroutine(AnimateTransform(
-                tabletTransform,
-                origTabletPos, tabletLiftedPoint.position,
-                origTabletRot, tabletLiftedPoint.rotation,
-                tabletTransitionDuration, null
-            ));
-        }
-
-        StartTransition(origCamPos, viewPoint.position, origCamRot, viewPoint.rotation, () =>
-        {
-            currentIndex = 0;
-            ShowCurrentMedia();
-        });
+        // Transición de cámara
+        StartCoroutine(MoveCamera(screenViewpoint.position,
+                                  screenViewpoint.rotation,
+                                  transitionDuration,
+                                  () =>
+                                  {
+                                      // Iniciar según tipo
+                                      switch (contentType)
+                                      {
+                                          case ContentType.Image:
+                                              ShowImage();
+                                              break;
+                                          case ContentType.Video:
+                                              PlayVideo();
+                                              break;
+                                          case ContentType.Presentation:
+                                              ShowPresentation();
+                                              break;
+                                      }
+                                  }));
     }
 
-    private void ExitViewMode()
+    private void EndViewing()
     {
-        videoPlayer.Stop();
-        inViewMode = false;
-        navButtonPanel.SetActive(false);
-
-        // Restaurar pantalla
-        if (useVideo)
-        {
-            videoScreenObject.SetActive(true);
-            screenRenderer.gameObject.SetActive(false);
-        }
-        else
-        {
-            videoScreenObject.SetActive(false);
-            screenRenderer.gameObject.SetActive(true);
-        }
-
-        SetCharacterRenderers(true);
-        playerUI?.SetActive(true);
-
-        var ctrl = playerCamera.GetComponentInParent<MonoBehaviour>();
-        if (ctrl) ctrl.enabled = true;
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        // Tablet vuelve a mesa si aplica
-        if (useTabletAnimation && tabletTransform != null)
-        {
-            if (tabletRoutine != null) StopCoroutine(tabletRoutine);
-            tabletRoutine = StartCoroutine(AnimateTransform(
-                tabletTransform,
-                tabletTransform.position, origTabletPos,
-                tabletTransform.rotation, origTabletRot,
-                tabletTransitionDuration, null
-            ));
-        }
-
-        StartTransition(playerCamera.transform.position, origCamPos, playerCamera.transform.rotation, origCamRot, () =>
-        {
-            playerInRange = false;
-            promptUI.SetActive(false);
-        });
-    }
-
-    private void ShowCurrentMedia()
-    {
-        if (useVideo && currentIndex == 0)
-        {
-            videoScreenObject.SetActive(true);
-            screenRenderer.gameObject.SetActive(false);
-
-            videoPlayer.enabled = true;
+        // Detener video si corresponde
+        if (contentType == ContentType.Video && videoPlayer != null && videoPlayer.isPlaying)
             videoPlayer.Stop();
+
+        // Ocultar botones de Presentation
+        if (prevButton) prevButton.gameObject.SetActive(false);
+        if (nextButton) nextButton.gameObject.SetActive(false);
+        if (closeButton) closeButton.gameObject.SetActive(false);
+
+        StartCoroutine(MoveCamera(camOrigPos,
+                                  camOrigRot,
+                                  transitionDuration,
+                                  () =>
+                                  {
+                                      if (playerRoot) playerRoot.SetActive(true);
+                                      isViewing = false;
+                                  }));
+    }
+
+    // – IMAGE –
+    private RawImage tmpImageUI; // opcional: si usas RawImage world-space
+    private void ShowImage()
+    {
+        if (tmpImageUI != null)
+            tmpImageUI.texture = singleImage;
+    }
+
+    // – VIDEO –
+    private void PlayVideo()
+    {
+        if (videoPlayer != null)
+        {
+            if (!string.IsNullOrEmpty(videoURL))
+                videoPlayer.url = videoURL;
+            else if (videoClip != null)
+                videoPlayer.clip = videoClip;
+
             videoPlayer.Play();
         }
-        else
-        {
-            int imgIndex = useVideo ? currentIndex - 1 : currentIndex;
-            if (imgIndex >= 0 && imgIndex < imageTextures.Length)
-            {
-                videoPlayer.Stop();
-                videoPlayer.enabled = false;
-
-                videoScreenObject.SetActive(false);
-                screenRenderer.gameObject.SetActive(true);
-
-                screenRenderer.material.mainTexture = imageTextures[imgIndex];
-            }
-        }
     }
 
-    private void OnNextClicked()
+    // – PRESENTATION –
+    private void ShowPresentation()
     {
-        if (currentIndex < totalItems - 1)
-        {
-            currentIndex++;
-            ShowCurrentMedia();
-        }
+        currentIndex = 0;
+        ChangeSlide(currentIndex);
+        if (prevButton) prevButton.gameObject.SetActive(true);
+        if (nextButton) nextButton.gameObject.SetActive(true);
+        if (closeButton) closeButton.gameObject.SetActive(true);
     }
 
-    private void OnPrevClicked()
+    private void PrevSlide() => ChangeSlide(currentIndex - 1);
+    private void NextSlide() => ChangeSlide(currentIndex + 1);
+
+    private void ChangeSlide(int i)
     {
-        if (currentIndex > 0)
-        {
-            currentIndex--;
-            ShowCurrentMedia();
-        }
+        currentIndex = Mathf.Clamp(i, 0, slides.Length - 1);
+
+        // Si usas quad + PropertyBlock:
+        var rend = GetComponent<Renderer>();
+        var block = new MaterialPropertyBlock();
+        rend.GetPropertyBlock(block);
+        block.SetTexture("_MainTex", slides[currentIndex]);
+        rend.SetPropertyBlock(block);
+
+        // Actualizar botones
+        if (prevButton) prevButton.interactable = currentIndex > 0;
+        if (nextButton) nextButton.interactable = currentIndex < slides.Length - 1;
     }
 
-    private void OnCloseClicked()
+    private void CloseViewer()
     {
-        ExitViewMode();
+        EndViewing();
     }
 
-    private void StartTransition(Vector3 fromPos, Vector3 toPos, Quaternion fromRot, Quaternion toRot, System.Action onComplete)
-    {
-        if (transitionCoroutine != null) StopCoroutine(transitionCoroutine);
-        transitionCoroutine = StartCoroutine(Transition(fromPos, toPos, fromRot, toRot, onComplete));
-    }
-
-    private IEnumerator Transition(Vector3 aPos, Vector3 bPos, Quaternion aRot, Quaternion bRot, System.Action onDone)
+    private IEnumerator MoveCamera(Vector3 targetPos, Quaternion targetRot, float duration, System.Action onComplete)
     {
         float elapsed = 0f;
-        while (elapsed < transitionDuration)
-        {
-            float t = elapsed / transitionDuration;
-            playerCamera.transform.position = Vector3.Lerp(aPos, bPos, t);
-            playerCamera.transform.rotation = Quaternion.Slerp(aRot, bRot, t);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        playerCamera.transform.position = bPos;
-        playerCamera.transform.rotation = bRot;
-        onDone?.Invoke();
-    }
+        Vector3 startPos = mainCamera.transform.position;
+        Quaternion startRot = mainCamera.transform.rotation;
 
-    private IEnumerator AnimateTransform(
-        Transform t,
-        Vector3 startPos, Vector3 endPos,
-        Quaternion startRot, Quaternion endRot,
-        float duration,
-        System.Action onComplete)
-    {
-        float elapsed = 0f;
         while (elapsed < duration)
         {
-            float f = elapsed / duration;
-            t.position = Vector3.Lerp(startPos, endPos, f);
-            t.rotation = Quaternion.Slerp(startRot, endRot, f);
             elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            mainCamera.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            mainCamera.transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
             yield return null;
         }
-        t.position = endPos;
-        t.rotation = endRot;
+
+        mainCamera.transform.position = targetPos;
+        mainCamera.transform.rotation = targetRot;
         onComplete?.Invoke();
     }
 
-    private void SetCharacterRenderers(bool on)
+    private void LateUpdate()
     {
-        if (characterRoot == null) return;
-        foreach (var rend in characterRoot.GetComponentsInChildren<Renderer>())
-            rend.enabled = on;
+        if (lookAtCamera && promptCanvas != null && promptCanvas.gameObject.activeSelf)
+        {
+            Transform cam = Camera.main.transform;
+            promptCanvas.transform.LookAt(cam);
+            promptCanvas.transform.Rotate(0, 180, 0);
+        }
     }
 }

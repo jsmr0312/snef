@@ -4899,26 +4899,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9b2007e8385294e8335428f437eb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptUI: {fileID: 511988479}
-  useVideo: 1
-  usePrevNextButtons: 0
-  useTabletAnimation: 0
-  videoScreenObject: {fileID: 561399515}
+  contentType: 0
+  singleImage: {fileID: 0}
+  videoURL: 
+  videoClip: {fileID: 0}
   videoPlayer: {fileID: 561399516}
-  imageTextures: []
-  screenRenderer: {fileID: 1296547793}
-  navButtonPanel: {fileID: 802681425}
+  slides: []
   prevButton: {fileID: 1937198425}
   nextButton: {fileID: 1139024594}
   closeButton: {fileID: 1813147849}
-  tabletTransform: {fileID: 0}
-  tabletLiftedPoint: {fileID: 0}
-  tabletTransitionDuration: 0.5
-  playerCamera: {fileID: 0}
-  viewPoint: {fileID: 68378313}
+  promptCanvas: {fileID: 0}
+  lookAtCamera: 1
+  playerRoot: {fileID: 0}
+  mainCamera: {fileID: 0}
+  screenViewpoint: {fileID: 0}
   transitionDuration: 1
-  characterRoot: {fileID: 0}
-  playerUI: {fileID: 1106426734}
 --- !u!135 &84321474
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9112,6 +9107,108 @@ Transform:
   - {fileID: 1734183777}
   m_Father: {fileID: 2090429473}
   m_LocalEulerAnglesHint: {x: 0, y: 182.677, z: 0}
+--- !u!1 &158713046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 158713050}
+  - component: {fileID: 158713049}
+  - component: {fileID: 158713048}
+  - component: {fileID: 158713047}
+  m_Layer: 0
+  m_Name: InteractionCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &158713047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158713046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &158713048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158713046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!223 &158713049
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158713046}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &158713050
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158713046}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.93}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 501373404}
+  m_Father: {fileID: 205908705}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &160263610 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7004407707459872958, guid: 70e955611f9de477883a492ec93091fb, type: 3}
@@ -11788,6 +11885,156 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4979465040365473476, guid: 34c7aeecb7cf0724a90d48a07cd81ece, type: 3}
   m_PrefabInstance: {fileID: 205394915}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &205908699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 205908705}
+  - component: {fileID: 205908704}
+  - component: {fileID: 205908703}
+  - component: {fileID: 205908702}
+  - component: {fileID: 205908701}
+  - component: {fileID: 205908700}
+  m_Layer: 0
+  m_Name: Cube (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &205908700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205908699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6bf0c33dd9f8af49b9fa6f15b4813da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 764080989}
+  targetTransform: {fileID: 205908705}
+  transitionDuration: 1
+  promptUI: {fileID: 158713046}
+  lookAtCamera: 0
+--- !u!135 &205908701
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205908699}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &205908702
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205908699}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &205908703
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205908699}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ef458ffb4d58a514c90c9b0613abeca4, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &205908704
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205908699}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &205908705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205908699}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.525, y: 11.273, z: 76.77}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 158713050}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &206869886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19955,29 +20202,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9b2007e8385294e8335428f437eb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptUI: {fileID: 755392393}
-  useVideo: 0
-  usePrevNextButtons: 0
-  useTabletAnimation: 0
-  videoScreenObject: {fileID: 585981715}
+  contentType: 0
+  singleImage: {fileID: 0}
+  videoURL: 
+  videoClip: {fileID: 0}
   videoPlayer: {fileID: 585981717}
-  imageTextures:
-  - {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
-  - {fileID: 2800000, guid: 3cb72178299a984499ff7c6b78e824d4, type: 3}
-  - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
-  screenRenderer: {fileID: 1739172069}
-  navButtonPanel: {fileID: 802681425}
+  slides: []
   prevButton: {fileID: 1937198425}
   nextButton: {fileID: 1139024594}
   closeButton: {fileID: 1813147849}
-  tabletTransform: {fileID: 0}
-  tabletLiftedPoint: {fileID: 0}
-  tabletTransitionDuration: 0.5
-  playerCamera: {fileID: 0}
-  viewPoint: {fileID: 1023981265}
+  promptCanvas: {fileID: 0}
+  lookAtCamera: 1
+  playerRoot: {fileID: 0}
+  mainCamera: {fileID: 0}
+  screenViewpoint: {fileID: 0}
   transitionDuration: 1
-  characterRoot: {fileID: 0}
-  playerUI: {fileID: 1106426734}
 --- !u!135 &390915886
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23907,29 +24146,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9b2007e8385294e8335428f437eb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptUI: {fileID: 341373764}
-  useVideo: 0
-  usePrevNextButtons: 0
-  useTabletAnimation: 0
-  videoScreenObject: {fileID: 1654172821}
+  contentType: 0
+  singleImage: {fileID: 0}
+  videoURL: 
+  videoClip: {fileID: 0}
   videoPlayer: {fileID: 1654172823}
-  imageTextures:
-  - {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
-  - {fileID: 2800000, guid: 3cb72178299a984499ff7c6b78e824d4, type: 3}
-  - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
-  screenRenderer: {fileID: 1437515777}
-  navButtonPanel: {fileID: 802681425}
+  slides: []
   prevButton: {fileID: 1937198425}
   nextButton: {fileID: 1139024594}
   closeButton: {fileID: 1813147849}
-  tabletTransform: {fileID: 0}
-  tabletLiftedPoint: {fileID: 0}
-  tabletTransitionDuration: 0.5
-  playerCamera: {fileID: 0}
-  viewPoint: {fileID: 1339654157}
+  promptCanvas: {fileID: 0}
+  lookAtCamera: 1
+  playerRoot: {fileID: 0}
+  mainCamera: {fileID: 0}
+  screenViewpoint: {fileID: 0}
   transitionDuration: 1
-  characterRoot: {fileID: 0}
-  playerUI: {fileID: 1106426734}
 --- !u!135 &474519651
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24832,6 +25063,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 766665628006609946, guid: e2a1813b71d3ab04286ba78173d6866b, type: 3}
   m_PrefabInstance: {fileID: 260669610}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &501373403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501373404}
+  - component: {fileID: 501373406}
+  - component: {fileID: 501373405}
+  m_Layer: 0
+  m_Name: PressE
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &501373404
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501373403}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 158713050}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 70, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &501373405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501373403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5c1b907b0cfa54646a97d31bb745e978, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &501373406
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501373403}
+  m_CullTransparentMesh: 1
 --- !u!4 &502966159 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 364199229066594788, guid: 422bde28a8ba1419cb4070118bb859b8, type: 3}
@@ -25680,10 +25986,10 @@ MonoBehaviour:
   tabletTransform: {fileID: 549015808}
   tabletLiftedPoint: {fileID: 1079391745}
   tabletTransitionDuration: 0.5
-  playerCamera: {fileID: 0}
+  playerCamera: {fileID: 764080989}
   viewPoint: {fileID: 555233249}
   transitionDuration: 1
-  characterRoot: {fileID: 0}
+  characterRoot: {fileID: 2117633958}
   playerUI: {fileID: 1106426734}
 --- !u!114 &522597451
 MonoBehaviour:
@@ -25692,34 +25998,26 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522597448}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b9b2007e8385294e8335428f437eb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptUI: {fileID: 1648307035}
-  useVideo: 0
-  usePrevNextButtons: 1
-  useTabletAnimation: 1
-  videoScreenObject: {fileID: 1530961383}
+  contentType: 0
+  singleImage: {fileID: 0}
+  videoURL: 
+  videoClip: {fileID: 0}
   videoPlayer: {fileID: 1530961385}
-  imageTextures:
-  - {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
-  - {fileID: 2800000, guid: 3cb72178299a984499ff7c6b78e824d4, type: 3}
-  - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
-  screenRenderer: {fileID: 1086197802}
-  navButtonPanel: {fileID: 802681425}
+  slides: []
   prevButton: {fileID: 1937198425}
   nextButton: {fileID: 1139024594}
   closeButton: {fileID: 1813147849}
-  tabletTransform: {fileID: 549015808}
-  tabletLiftedPoint: {fileID: 1079391745}
-  tabletTransitionDuration: 0.5
-  playerCamera: {fileID: 0}
-  viewPoint: {fileID: 555233249}
+  promptCanvas: {fileID: 0}
+  lookAtCamera: 0
+  playerRoot: {fileID: 0}
+  mainCamera: {fileID: 0}
+  screenViewpoint: {fileID: 0}
   transitionDuration: 1
-  characterRoot: {fileID: 0}
-  playerUI: {fileID: 1106426734}
 --- !u!135 &522597452
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -37446,6 +37744,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3457866463213441492, guid: 0dc07c1673225ad4da4866a046d4593f, type: 3}
   m_PrefabInstance: {fileID: 764045663}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &764080989 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4229457778681791448, guid: bd80aefdeb7a05047a4a047538abed8a, type: 3}
+  m_PrefabInstance: {fileID: 1317577006}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &764228138
 PrefabInstance:
@@ -57768,29 +58071,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9b2007e8385294e8335428f437eb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptUI: {fileID: 138220765}
-  useVideo: 1
-  usePrevNextButtons: 1
-  useTabletAnimation: 0
-  videoScreenObject: {fileID: 1644731699}
+  contentType: 0
+  singleImage: {fileID: 0}
+  videoURL: 
+  videoClip: {fileID: 0}
   videoPlayer: {fileID: 1644731701}
-  imageTextures:
-  - {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
-  - {fileID: 2800000, guid: 3cb72178299a984499ff7c6b78e824d4, type: 3}
-  - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
-  screenRenderer: {fileID: 1316197925}
-  navButtonPanel: {fileID: 802681425}
+  slides: []
   prevButton: {fileID: 1937198425}
   nextButton: {fileID: 1139024594}
   closeButton: {fileID: 1813147849}
-  tabletTransform: {fileID: 0}
-  tabletLiftedPoint: {fileID: 0}
-  tabletTransitionDuration: 0.5
-  playerCamera: {fileID: 0}
-  viewPoint: {fileID: 649612062}
+  promptCanvas: {fileID: 0}
+  lookAtCamera: 1
+  playerRoot: {fileID: 0}
+  mainCamera: {fileID: 0}
+  screenViewpoint: {fileID: 0}
   transitionDuration: 1
-  characterRoot: {fileID: 0}
-  playerUI: {fileID: 1106426734}
 --- !u!135 &1187199214
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -66292,29 +66587,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9b2007e8385294e8335428f437eb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptUI: {fileID: 1478974942}
-  useVideo: 0
-  usePrevNextButtons: 0
-  useTabletAnimation: 0
-  videoScreenObject: {fileID: 1670329919}
+  contentType: 0
+  singleImage: {fileID: 0}
+  videoURL: 
+  videoClip: {fileID: 0}
   videoPlayer: {fileID: 1670329921}
-  imageTextures:
-  - {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
-  - {fileID: 2800000, guid: 3cb72178299a984499ff7c6b78e824d4, type: 3}
-  - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
-  screenRenderer: {fileID: 892121626}
-  navButtonPanel: {fileID: 802681425}
+  slides: []
   prevButton: {fileID: 1937198425}
   nextButton: {fileID: 1139024594}
   closeButton: {fileID: 1813147849}
-  tabletTransform: {fileID: 0}
-  tabletLiftedPoint: {fileID: 0}
-  tabletTransitionDuration: 0.5
-  playerCamera: {fileID: 0}
-  viewPoint: {fileID: 27545150}
+  promptCanvas: {fileID: 0}
+  lookAtCamera: 1
+  playerRoot: {fileID: 0}
+  mainCamera: {fileID: 0}
+  screenViewpoint: {fileID: 0}
   transitionDuration: 1
-  characterRoot: {fileID: 0}
-  playerUI: {fileID: 1106426734}
 --- !u!135 &1372125207
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -101537,6 +101824,11 @@ PrefabInstance:
       addedObject: {fileID: 727416390}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a8d39e09ce364142b762ac2b6002a05, type: 3}
+--- !u!1 &2117633958 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2753839583848718470, guid: bd80aefdeb7a05047a4a047538abed8a, type: 3}
+  m_PrefabInstance: {fileID: 1317577006}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2118638964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103562,3 +103854,4 @@ SceneRoots:
   - {fileID: 2137183427}
   - {fileID: 1477030469}
   - {fileID: 1317577006}
+  - {fileID: 205908705}
