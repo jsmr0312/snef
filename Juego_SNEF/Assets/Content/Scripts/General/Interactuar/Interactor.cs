@@ -2,40 +2,86 @@ using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
-    public Transform InteractorSource;
-    public float InteractRange = 3f;
+    [Header("Interactor Sources")]
+    [Tooltip("Transforms to use as ray origins; the first active one will be used")]
+    public Transform[] interactorSources;
+    [Tooltip("Fallback if no source is active")]
+    public Transform fallbackSource;
+
+    [Header("Interaction Settings")]
+    [Tooltip("Max distance for interaction")]
+    public float InteractRange = 2f;
+    [Tooltip("Radius of the spherecast")]
     public float SphereCastRadius = 0.25f;
 
-    private IInteractable lastInteractable;
+    // Tracks the last hovered feedback component
+    private IInteractableFeedback _lastFeedback;
 
     void Update()
     {
-        Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
+        // 1) Pick the active source transform
+        Transform source = GetActiveSource();
+        if (source == null) return;
 
-        // Usamos SphereCast en lugar de Raycast
-        if (Physics.SphereCast(ray, SphereCastRadius, out RaycastHit hitInfo, InteractRange))
+        IInteractableFeedback found = null;
+
+        // 2) Try spherecast forward
+        Ray ray = new Ray(source.position, source.forward);
+        if (Physics.SphereCast(ray, SphereCastRadius, out RaycastHit hit, InteractRange))
         {
-            if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
-            {
-                if (interactObj != lastInteractable)
-                {
-                    if (lastInteractable is IInteractableFeedback oldFb) oldFb.OnGazeExit();
-                    if (interactObj is IInteractableFeedback newFb) newFb.OnGazeEnter();
-                    lastInteractable = interactObj;
-                }
-
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    Debug.Log($"[Interactor] Pressed E on {interactObj}");
-                    interactObj.Interact();
-                }
-                return;
-            }
+            hit.collider.TryGetComponent(out found);
+        }
+        else
+        {
+            // 3) Fallback: overlap sphere around the source
+            Collider[] cols = Physics.OverlapSphere(source.position, InteractRange);
+            foreach (var c in cols)
+                if (c.TryGetComponent<IInteractableFeedback>(out found))
+                    break;
         }
 
-        // Si no hay nada o salimos del objeto
-        if (lastInteractable is IInteractableFeedback fb) fb.OnGazeExit();
-        lastInteractable = null;
+        // 4) Show/Hide feedback canvas
+        if (found != _lastFeedback)
+        {
+            _lastFeedback?.OnGazeExit();
+            found?.OnGazeEnter();
+            _lastFeedback = found;
+        }
+        else if (found == null && _lastFeedback != null)
+        {
+            _lastFeedback.OnGazeExit();
+            _lastFeedback = null;
+        }
+
+        // 5) Interact on E
+        if (found != null && Input.GetKeyDown(KeyCode.E))
+            (found as IInteractable)?.Interact();
+    }
+
+    /// <summary>
+    /// Returns the first interactorSource whose GameObject is active; otherwise fallback.
+    /// </summary>
+    private Transform GetActiveSource()
+    {
+        if (interactorSources != null)
+        {
+            foreach (var src in interactorSources)
+                if (src != null && src.gameObject.activeInHierarchy)
+                    return src;
+        }
+        return fallbackSource;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Transform source = GetActiveSource();
+        if (source != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(source.position, InteractRange);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(source.position, SphereCastRadius);
+        }
     }
 
     public interface IInteractable
