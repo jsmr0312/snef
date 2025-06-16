@@ -53,6 +53,16 @@ public class UnifiedScreenDisplay : MonoBehaviour
     public float pulsoVelocidad = 2f;
     public float pulsoIntensidadMax = 2f;
 
+    [Header("Tablet Lift (Opcional)")]
+    [Tooltip("¿Debe animarse el objeto al entrar/salir de vista?")]
+    public bool useLiftAnimation = false;
+    [Tooltip("El Transform que se mueve (p.ej. la tablet)")]
+    public Transform liftTransform;
+    [Tooltip("Punto final al levantar")]
+    public Transform liftTarget;
+    [Tooltip("Duración de la animación de lift")]
+    public float liftDuration = 0.5f;
+
     // Estado interno
     private bool _isViewing;
     private Vector3 _camOrigPos;
@@ -62,11 +72,21 @@ public class UnifiedScreenDisplay : MonoBehaviour
     private Coroutine _transitionRoutine;
     private MaterialPropertyBlock _imageProp;
     private RenderTexture _videoRT;
+    public bool Viewed { get; private set; }
 
     // Para el brillo
     private MaterialPropertyBlock _brilloProp;
     private Renderer _brilloRend;
-    private bool _brilloActivo = true;
+    private bool _brilloActivo = false;
+
+    // Para el lift
+    private Vector3 _liftOrigPos;
+    private Quaternion _liftOrigRot;
+
+    public void EnableHighlight()
+    {
+        _brilloActivo = true;
+    }
 
     void Awake()
     {
@@ -95,6 +115,13 @@ public class UnifiedScreenDisplay : MonoBehaviour
         }
 
         _totalSlides = slides?.Length ?? 0;
+
+        // Guardar posición/orientación original del lift
+        if (liftTransform != null)
+        {
+            _liftOrigPos = liftTransform.position;
+            _liftOrigRot = liftTransform.rotation;
+        }
 
         // Listeners de navegación
         prevButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex - 1));
@@ -144,10 +171,11 @@ public class UnifiedScreenDisplay : MonoBehaviour
         _isViewing = true;
         promptUI?.SetActive(false);
 
-        // Desactiva brillo
+        // Desactiva brillo y marca como visto
         _brilloActivo = false;
         _brilloProp.SetColor("_EmissionColor", Color.black);
         _brilloRend.SetPropertyBlock(_brilloProp);
+        Viewed = true;
 
         // Guarda cámara y oculta jugador/UI
         _camOrigPos = mainCamera.transform.position;
@@ -166,7 +194,20 @@ public class UnifiedScreenDisplay : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
-        // Transición a pantalla
+        // Lift animation opcional
+        if (useLiftAnimation && liftTransform != null && liftTarget != null)
+        {
+            StopCoroutine(nameof(AnimateTransform));
+            StartCoroutine(AnimateTransform(
+                liftTransform,
+                _liftOrigPos, liftTarget.position,
+                _liftOrigRot, liftTarget.rotation,
+                liftDuration,
+                null
+            ));
+        }
+
+        // Transición de cámara
         StartOrRestartTransition(
             _camOrigPos, screenViewpoint.position,
             _camOrigRot, screenViewpoint.rotation,
@@ -209,6 +250,20 @@ public class UnifiedScreenDisplay : MonoBehaviour
         navButtonPanel?.SetActive(false);
         closeButton?.gameObject.SetActive(false);
 
+        // Lift down animation opcional
+        if (useLiftAnimation && liftTransform != null && liftTarget != null)
+        {
+            StopCoroutine(nameof(AnimateTransform));
+            StartCoroutine(AnimateTransform(
+                liftTransform,
+                liftTransform.position, _liftOrigPos,
+                liftTransform.rotation, _liftOrigRot,
+                liftDuration,
+                null
+            ));
+        }
+
+        // Cámara de vuelta
         StartOrRestartTransition(
             mainCamera.transform.position, _camOrigPos,
             mainCamera.transform.rotation, _camOrigRot,
@@ -317,6 +372,26 @@ public class UnifiedScreenDisplay : MonoBehaviour
         }
         mainCamera.transform.SetPositionAndRotation(bPos, bRot);
         onDone?.Invoke();
+    }
+
+    private IEnumerator AnimateTransform(
+        Transform t,
+        Vector3 startPos, Vector3 endPos,
+        Quaternion startRot, Quaternion endRot,
+        float duration,
+        System.Action onComplete)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float f = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            t.position = Vector3.Lerp(startPos, endPos, f);
+            t.rotation = Quaternion.Slerp(startRot, endRot, f);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        t.SetPositionAndRotation(endPos, endRot);
+        onComplete?.Invoke();
     }
 
     void LateUpdate()

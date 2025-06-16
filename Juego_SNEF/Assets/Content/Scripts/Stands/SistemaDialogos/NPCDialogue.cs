@@ -1,22 +1,21 @@
 using UnityEngine;
 using TMPro;
 
-public class NPCDialogue : MonoBehaviour, Interactor.IInteractable, Interactor.IInteractableFeedback
+public class NPCDialogue : MonoBehaviour,
+    Interactor.IInteractable,
+    Interactor.IInteractableFeedback
 {
     [Header("Diálogo")]
     public DialogueData dialogue;
     private int currentLine = 0;
 
-    [Header("Burbuja de diálogo")]
+    [Header("UI de diálogo")]
     public Canvas dialogueBubble;
     public TextMeshProUGUI dialogueText;
 
-    [Header("Canvas 'Presiona E' (opcional)")]
+    [Header("Prompt UI")]
     public Canvas promptCanvas;
     public bool lookAtCamera = true;
-
-    [Header("Pantallas a resaltar")]
-    public ScreenHighlighter[] pantallasDestacadas;
 
     public void Interact()
     {
@@ -28,18 +27,37 @@ public class NPCDialogue : MonoBehaviour, Interactor.IInteractable, Interactor.I
 
         if (currentLine < dialogue.lines.Length)
         {
+            // Muestra la línea actual
             dialogueText.text = dialogue.lines[currentLine];
             dialogueBubble.gameObject.SetActive(true);
+
             currentLine++;
+
+            // Si justo acabamos de mostrar la última línea, lanzamos el brillo
+            if (currentLine == dialogue.lines.Length)
+            {
+                TriggerScreensHighlight();
+            }
         }
         else
         {
+            // Mensaje final si vuelves a presionar E
             dialogueText.text = "¡Ya viste todo!";
             dialogueBubble.gameObject.SetActive(true);
-            ActivarPantallas();
         }
     }
 
+    private void TriggerScreensHighlight()
+    {
+        // Encuentra todas las pantallas y activa su brillo
+        var screens = FindObjectsOfType<UnifiedScreenDisplay>();
+        foreach (var screen in screens)
+        {
+            screen.EnableHighlight();
+        }
+    }
+
+    // IInteractableFeedback
     public void OnGazeEnter()
     {
         if (promptCanvas != null)
@@ -50,14 +68,12 @@ public class NPCDialogue : MonoBehaviour, Interactor.IInteractable, Interactor.I
     {
         if (promptCanvas != null)
             promptCanvas.gameObject.SetActive(false);
-
         ResetDialogue();
     }
 
-    public void ResetDialogue()
+    private void ResetDialogue()
     {
         currentLine = 0;
-
         if (dialogueBubble != null)
             dialogueBubble.gameObject.SetActive(false);
     }
@@ -66,24 +82,18 @@ public class NPCDialogue : MonoBehaviour, Interactor.IInteractable, Interactor.I
     {
         Transform cam = Camera.main.transform;
 
-        if (dialogueBubble != null && dialogueBubble.gameObject.activeSelf)
-        {
-            dialogueBubble.transform.LookAt(cam);
-            dialogueBubble.transform.Rotate(0, 180, 0);
-        }
-
+        // Mantener el prompt mirando a cámara
         if (lookAtCamera && promptCanvas != null && promptCanvas.gameObject.activeSelf)
         {
             promptCanvas.transform.LookAt(cam);
             promptCanvas.transform.Rotate(0, 180, 0);
         }
-    }
 
-    private void ActivarPantallas()
-    {
-        foreach (var pantalla in pantallasDestacadas)
+        // Mantener la burbuja mirando a cámara
+        if (dialogueBubble != null && dialogueBubble.gameObject.activeSelf)
         {
-            pantalla?.ActivateHighlight();
+            dialogueBubble.transform.LookAt(cam);
+            dialogueBubble.transform.Rotate(0, 180, 0);
         }
     }
 }
