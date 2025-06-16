@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 2bd8959f5fbd3644aa33af1a155fc147, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 333491e6d5076a4409926b1e011021bc, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -11918,11 +11918,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6bf0c33dd9f8af49b9fa6f15b4813da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 764080989}
-  targetTransform: {fileID: 205908705}
-  transitionDuration: 1
   promptUI: {fileID: 158713046}
   lookAtCamera: 0
+  playerCamera: {fileID: 0}
+  viewPoint: {fileID: 0}
+  transitionDuration: 1
+  characterRoot: {fileID: 0}
+  playerUI: {fileID: 0}
 --- !u!135 &205908701
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -103867,3 +103869,4 @@ SceneRoots:
   - {fileID: 1477030469}
   - {fileID: 1317577006}
   - {fileID: 1198570060}
+  - {fileID: 205908705}
