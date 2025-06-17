@@ -211,8 +211,17 @@ namespace StarterAssets
                 _cinemachineTargetYaw, 0.0f);
         }
 
+        [HideInInspector] public bool FreezeMovement = false;
+
         private void Move()
         {
+            if (FreezeMovement)
+            {
+                // hacemos que el blend de velocidad baje a 0 para reproducir el idle
+                if (_hasAnimator)
+                    _animator.SetFloat(_animIDSpeed, 0f);
+                return;
+            }
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using StarterAssets; // Para ThirdPersonController
 
 public class DusefDialogueController : MonoBehaviour,
     Interactor.IInteractable,
@@ -13,38 +13,45 @@ public class DusefDialogueController : MonoBehaviour,
     public ActivationMode mode = ActivationMode.Interaction;
 
     [Header("TriggerZone (solo si usas TriggerZone)")]
+    [Tooltip("Centro de la zona de activación")]
     public Transform triggerZoneTransform;
+    [Tooltip("Radio de la zona de activación")]
     public float triggerRadius = 3f;
+    [Tooltip("Transform del jugador para medir distancia")]
     public Transform playerTransform;
 
     [Header("Datos de diálogo")]
+    [Tooltip("ScriptableObject con .lines[]")]
     public DialogueData dialogueData;
 
     [Header("UI Elements (Screen Space Canvas)")]
-    public Canvas dialogCanvas;   // Canvas con el panel y sprite
-    public RectTransform spriteRect;     // RectTransform del sprite (Dusef)
-    public RectTransform panelRect;      // RectTransform del panel de texto
-    public TextMeshProUGUI dialogText;     // Componente TMP para el texto
-    public GameObject nextIcon;       // Icono “Siguiente”
-    public GameObject understoodIcon; // Icono “Entendido”
+    public Canvas dialogCanvas;    // Canvas con el panel y sprite
+    public RectTransform spriteRect;      // RectTransform del sprite (Dusef)
+    public RectTransform panelRect;       // RectTransform del panel de texto
+    public TextMeshProUGUI dialogText;    // Componente TMP para el texto
+    public GameObject nextIcon;         // Icono “Siguiente”
+    public GameObject understoodIcon;   // Icono “Entendido”
 
     [Header("Animaciones")]
+    [Tooltip("Duración en s de la animación del panel (sube desde abajo)")]
     public float panelDropDuration = 0.5f;
+    [Tooltip("Duración en s de la animación del sprite (desde izquierda)")]
     public float spriteSlideDuration = 0.5f;
 
     [Header("Typewriter Effect")]
+    [Tooltip("Tiempo entre cada carácter")]
     public float typeSpeed = 0.03f;
 
     [Header("Bloquear durante diálogo")]
-    [Tooltip("Scripts de movimiento + Animator + PlayerInput, etc.")]
-    public Behaviour[] behavioursToBlock;
+    [Tooltip("Los ThirdPersonController a congelar movimiento y cámara")]
+    public ThirdPersonController[] controllersToFreeze;
 
-    // Estado interno
+    // estados internos
+    Vector2 _spriteStart, _spriteTarget;
+    Vector2 _panelStart, _panelTarget;
     int _index = 0;
     bool _running = false;
     bool _triggered = false;
-    Vector2 _spriteStart, _spriteTarget;
-    Vector2 _panelStart, _panelTarget;
 
     void Awake()
     {
@@ -53,14 +60,17 @@ public class DusefDialogueController : MonoBehaviour,
         nextIcon.SetActive(false);
         understoodIcon.SetActive(false);
 
-        // 2) Cachear posiciones destino
+        // 2) Cachear posiciones destino (tal cual las sueltas en el Inspector)
         _spriteTarget = spriteRect.anchoredPosition;
         _panelTarget = panelRect.anchoredPosition;
 
-        // 3) Calcular posiciones iniciales “off-screen”
+        // 3) Calcular posiciones iniciales “off screen”
+        //    - Sprite: a la izquierda
         _spriteStart = _spriteTarget + Vector2.left * spriteRect.rect.width;
-        _panelStart = _panelTarget + Vector2.down * panelRect.rect.height;
+        //    - Panel: **debajo** del target, para que suba hacia arriba
+        _panelStart = _panelTarget - Vector2.up * panelRect.rect.height;
 
+        // 4) Aplicar posiciones iniciales
         spriteRect.anchoredPosition = _spriteStart;
         panelRect.anchoredPosition = _panelStart;
     }
@@ -82,11 +92,11 @@ public class DusefDialogueController : MonoBehaviour,
         }
     }
 
-    // IInteractableFeedback (para Interaction mode)
-    public void OnGazeEnter() { /* opcional: mostrar prompt */ }
+    // IInteractableFeedback (Interaction mode)
+    public void OnGazeEnter() { /* opcional: mostrar prompt “E” */ }
     public void OnGazeExit() { /* opcional: ocultar prompt */ }
 
-    // IInteractable (tecla E sobre Dusef)
+    // IInteractable: inicia al presionar E sobre Dusef
     public void Interact()
     {
         if (mode != ActivationMode.Interaction || _running) return;
@@ -98,25 +108,29 @@ public class DusefDialogueController : MonoBehaviour,
         _running = true;
         _index = 0;
 
-        // 1) Bloquear todos los behaviours (incluye Animator, input, controlador, etc.)
-        foreach (var b in behavioursToBlock)
-            b.enabled = false;
+        // 1) Congelar movimiento y cámara
+        foreach (var ctrl in controllersToFreeze)
+        {
+            ctrl.FreezeMovement = true;
+            ctrl.LockCameraPosition = true;
+        }
 
-        // 2) Mostrar canvas y animar sprite + panel
+        // 2) Mostrar canvas y animar sprite+panel
         dialogCanvas.gameObject.SetActive(true);
         float t = 0f, dur = Mathf.Max(panelDropDuration, spriteSlideDuration);
         while (t < 1f)
         {
             t += Time.deltaTime / dur;
+            // Sprite de la izquierda al target
             spriteRect.anchoredPosition = Vector2.Lerp(_spriteStart, _spriteTarget, t);
+            // Panel sube desde _panelStart hasta su posición target
             panelRect.anchoredPosition = Vector2.Lerp(_panelStart, _panelTarget, t);
             yield return null;
         }
 
-        // 3) Typewriter + avanzar con E
+        // 3) Typewriter + avanzar con tecla E
         while (_index < dialogueData.lines.Length)
         {
-            // escribe cada carácter
             dialogText.text = "";
             foreach (char c in dialogueData.lines[_index])
             {
@@ -125,7 +139,6 @@ public class DusefDialogueController : MonoBehaviour,
             }
             _index++;
 
-            // si quedan más líneas: mostrar NEXT y esperar E
             if (_index < dialogueData.lines.Length)
             {
                 nextIcon.SetActive(true);
@@ -134,15 +147,18 @@ public class DusefDialogueController : MonoBehaviour,
             }
         }
 
-        // 4) Al finalizar todas las líneas: mostrar ENTENDIDO y esperar E
+        // 4) Mostrar “Entendido” y esperar E
         understoodIcon.SetActive(true);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
         understoodIcon.SetActive(false);
 
-        // 5) Cerrar diálogo y reactivar behaviours
+        // 5) Ocultar diálogo y descongelar todo
         dialogCanvas.gameObject.SetActive(false);
-        foreach (var b in behavioursToBlock)
-            b.enabled = true;
+        foreach (var ctrl in controllersToFreeze)
+        {
+            ctrl.FreezeMovement = false;
+            ctrl.LockCameraPosition = false;
+        }
 
         _running = false;
     }
