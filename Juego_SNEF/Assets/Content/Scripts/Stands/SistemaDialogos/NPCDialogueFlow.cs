@@ -49,13 +49,27 @@ public class NPCDialogueFlow : MonoBehaviour,
 
     public void Interact()
     {
-        dialogueBubble.gameObject.SetActive(true);
+        // 1) Ocultar promptUI si está asignado
+        if (promptCanvas != null)
+            promptCanvas.gameObject.SetActive(false);
 
+        // 2) Registrar misión VisitStand en la primera línea de la fase Initial
+        if (_phase == Phase.Initial && _initialIndex == 0 && MissionManager.I != null)
+        {
+            MissionManager.I.NotifyEvent(MissionManager.MissionType.VisitStand);
+        }
+
+        // 3) Mostrar diálogo
+        if (dialogueBubble != null)
+            dialogueBubble.gameObject.SetActive(true);
+
+        // 4) Lógica por fases
         switch (_phase)
         {
             case Phase.Initial:
                 if (_initialIndex < initialDialogue.lines.Length)
                     ShowLine(initialDialogue.lines[_initialIndex++]);
+
                 if (_initialIndex >= initialDialogue.lines.Length)
                 {
                     _phase = Phase.Waiting;
@@ -80,7 +94,7 @@ public class NPCDialogueFlow : MonoBehaviour,
                 if (_postIndex < postScreensDialogue.lines.Length)
                     ShowLine(postScreensDialogue.lines[_postIndex++]);
                 else
-                    StartQuiz();  // aguardamos OnQuizFinished()
+                    StartQuiz();
                 break;
 
             case Phase.Final:
@@ -121,13 +135,17 @@ public class NPCDialogueFlow : MonoBehaviour,
 
     public void OnGazeEnter()
     {
-        promptCanvas?.gameObject.SetActive(true);
+        if (promptCanvas != null)
+            promptCanvas.gameObject.SetActive(true);
     }
 
     public void OnGazeExit()
     {
-        promptCanvas?.gameObject.SetActive(false);
-        dialogueBubble?.gameObject.SetActive(false);
+        if (promptCanvas != null)
+            promptCanvas.gameObject.SetActive(false);
+        if (dialogueBubble != null)
+            dialogueBubble.gameObject.SetActive(false);
+
         ResetCurrentPhase();
         HideAllIcons();
     }
@@ -147,12 +165,12 @@ public class NPCDialogueFlow : MonoBehaviour,
     {
         if (!lookAtCamera) return;
         var cam = Camera.main.transform;
-        if (promptCanvas.gameObject.activeSelf)
+        if (promptCanvas != null && promptCanvas.gameObject.activeSelf)
         {
             promptCanvas.transform.LookAt(cam);
             promptCanvas.transform.Rotate(0, 180, 0);
         }
-        if (dialogueBubble.gameObject.activeSelf)
+        if (dialogueBubble != null && dialogueBubble.gameObject.activeSelf)
         {
             dialogueBubble.transform.LookAt(cam);
             dialogueBubble.transform.Rotate(0, 180, 0);
@@ -165,14 +183,9 @@ public class NPCDialogueFlow : MonoBehaviour,
 
     private void ShowLine(string line)
     {
-        // Ocultar iconos previos
         HideAllIcons();
-
-        // Si ya tipeando, parar
         if (_typingRoutine != null)
             StopCoroutine(_typingRoutine);
-
-        // Iniciar corrutina de tipeo
         _typingRoutine = StartCoroutine(TypeText(line));
     }
 
@@ -200,7 +213,6 @@ public class NPCDialogueFlow : MonoBehaviour,
         switch (_phase)
         {
             case Phase.PostScreens:
-                // Si fue la última línea antes de abrir el quiz
                 if (_postIndex - 1 >= postScreensDialogue.lines.Length - 1)
                     openQuizIcon?.SetActive(true);
                 else
@@ -212,7 +224,6 @@ public class NPCDialogueFlow : MonoBehaviour,
                 break;
 
             default: // Initial & Waiting
-                // Initial: si quedan líneas por recorrer → next, sino understood
                 if (_phase == Phase.Initial && _initialIndex < initialDialogue.lines.Length)
                     nextIcon?.SetActive(true);
                 else

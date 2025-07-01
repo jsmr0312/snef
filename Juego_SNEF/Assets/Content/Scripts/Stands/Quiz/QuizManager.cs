@@ -46,10 +46,12 @@ public class QuizManager : MonoBehaviour
             return;
         }
 
-        // Desactiva movimiento del jugador
-        if (playerController != null) playerController.enabled = false;
+        // —–– LANZAR MISION “CompleteQuiz” —––––––––––––––––––––––––
+        if (MissionManager.I != null)
+            MissionManager.I.NotifyEvent(MissionManager.MissionType.CompleteQuiz);
 
-        // Muestra y libera cursor
+        // Desactiva movimiento, muestra UI, libera cursor…
+        if (playerController != null) playerController.enabled = false;
         quizPanel.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
