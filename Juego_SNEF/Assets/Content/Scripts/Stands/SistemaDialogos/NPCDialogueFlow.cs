@@ -53,11 +53,7 @@ public class NPCDialogueFlow : MonoBehaviour,
         if (promptCanvas != null)
             promptCanvas.gameObject.SetActive(false);
 
-        // 2) Registrar misión VisitStand en la primera línea de la fase Initial
-        if (_phase == Phase.Initial && _initialIndex == 0 && MissionManager.I != null)
-        {
-            MissionManager.I.NotifyEvent(MissionManager.MissionType.VisitStand);
-        }
+     
 
         // 3) Mostrar diálogo
         if (dialogueBubble != null)
@@ -87,6 +83,11 @@ public class NPCDialogueFlow : MonoBehaviour,
                 {
                     _phase = Phase.PostScreens;
                     _postIndex = 0;
+                                // Ya vio todo → contamos la misión y pasamos a PostScreens
+                    if (MissionManager.I != null)
+                        MissionManager.I.NotifyEvent(MissionManager.MissionType.VisitStand);
+                        _phase = Phase.PostScreens;
+                        _postIndex = 0;
                 }
                 break;
 

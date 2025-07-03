@@ -16,6 +16,8 @@ public class QuizManager : MonoBehaviour
     [Header("Control de Jugador")]
     [Tooltip("El componente que controla el movimiento del jugador")]
     public MonoBehaviour playerController;
+    [Tooltip("El componente que controla la rotación de cámara")]
+    public MonoBehaviour cameraController;
 
     // Estado interno
     private int _currentIndex;
@@ -47,11 +49,13 @@ public class QuizManager : MonoBehaviour
         }
 
         // —–– LANZAR MISION “CompleteQuiz” —––––––––––––––––––––––––
-        if (MissionManager.I != null)
-            MissionManager.I.NotifyEvent(MissionManager.MissionType.CompleteQuiz);
+        MissionManager.I?.NotifyEvent(MissionManager.MissionType.CompleteQuiz);
 
-        // Desactiva movimiento, muestra UI, libera cursor…
+        // Desactiva control de jugador y de cámara
         if (playerController != null) playerController.enabled = false;
+        if (cameraController != null) cameraController.enabled = false;
+
+        // Muestra UI y libera cursor
         quizPanel.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -75,8 +79,8 @@ public class QuizManager : MonoBehaviour
             {
                 optionButtons[i].gameObject.SetActive(true);
                 optionButtons[i]
-                  .GetComponentInChildren<TextMeshProUGUI>()
-                  .text = q.options[i];
+                    .GetComponentInChildren<TextMeshProUGUI>()
+                    .text = q.options[i];
             }
             else
             {
@@ -113,15 +117,13 @@ public class QuizManager : MonoBehaviour
 
         // Mostrar el botón de cerrar
         closeButton.gameObject.SetActive(true);
+
+        // Notificar al NPC
         FindObjectOfType<NPCDialogueFlow>()?.OnQuizFinished();
 
-
-        // ——— NUEVO: desbloquear la máquina de arcade ———
-        var arcade = FindObjectOfType<ArcadeInteractable>();
-        if (arcade != null)
-            arcade.UnlockArcade();
+        // Desbloquear arcade
+        FindObjectOfType<ArcadeInteractable>()?.UnlockArcade();
     }
-
 
     private void CancelQuiz()
     {
@@ -132,7 +134,8 @@ public class QuizManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        // Reactiva movimiento del jugador
+        // Reactiva control de jugador y cámara
         if (playerController != null) playerController.enabled = true;
+        if (cameraController != null) cameraController.enabled = true;
     }
 }
