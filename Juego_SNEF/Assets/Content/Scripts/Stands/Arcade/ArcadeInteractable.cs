@@ -75,7 +75,19 @@ public class ArcadeInteractable : MonoBehaviour,
             return;
         }
 
-        // Arcade desbloqueada: cargamos la escena
+        // Guardar la posición del jugador antes de cambiar de escena
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            Vector3 pos = player.transform.position;
+            PlayerPrefs.SetFloat("SavedX", pos.x);
+            PlayerPrefs.SetFloat("SavedY", pos.y);
+            PlayerPrefs.SetFloat("SavedZ", pos.z);
+            PlayerPrefs.SetString("ReturnTo", SceneManager.GetActiveScene().name);
+            PlayerPrefs.Save();
+        }
+
+        // Arcade desbloqueada: cargamos la escena del minijuego
         if (!string.IsNullOrEmpty(arcadeSceneName))
             SceneManager.LoadScene(arcadeSceneName);
         else
@@ -86,7 +98,7 @@ public class ArcadeInteractable : MonoBehaviour,
     {
         if (lockMessageText == null) return;
 
-        lockMessageText.text = "Primero termina de hablar con el NPC";
+        lockMessageText.text = "Termina de hablar con el personaje";
         lockMessageText.gameObject.SetActive(true);
 
         if (_hideMsgRoutine != null) StopCoroutine(_hideMsgRoutine);

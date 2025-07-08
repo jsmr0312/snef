@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using System.Collections;
@@ -21,24 +21,24 @@ public class UnifiedScreenDisplay : MonoBehaviour
     public Texture2D[] slides;
 
     [Header("Idle Image")]
-    [Tooltip("Imagen est·tica que se muestra cuando no se est· interactuando")]
+    [Tooltip("Imagen est√°tica que se muestra cuando no se est√° interactuando")]
     public Texture2D idleImage;
 
     [Header("Quads")]
-    [Tooltip("GameObject que contiene el quad de vÌdeo")]
+    [Tooltip("GameObject que contiene el quad de v√≠deo")]
     public GameObject videoQuad;
-    [Tooltip("Renderer del quad de im·genes/presentaciÛn")]
+    [Tooltip("Renderer del quad de im√°genes/presentaci√≥n")]
     public Renderer imageRenderer;
 
-    [Header("Botones de navegaciÛn")]
+    [Header("Botones de navegaci√≥n")]
     [Tooltip("Panel que agrupa Prev y Next")]
     public GameObject navButtonPanel;
     public Button prevButton;
     public Button nextButton;
-    [Tooltip("BotÛn Cerrar (siempre visible en modo vista)")]
+    [Tooltip("Bot√≥n Cerrar (siempre visible en modo vista)")]
     public Button closeButton;
 
-    [Header("C·mara y jugador")]
+    [Header("C√°mara y jugador")]
     public GameObject playerRoot;
     public GameObject playerUI;
     public Camera mainCamera;
@@ -48,22 +48,24 @@ public class UnifiedScreenDisplay : MonoBehaviour
     [Header("Cursor")]
     public bool unlockCursorDuringView = true;
 
-    [Header("ConfiguraciÛn del brillo")]
+    [Header("Configuraci√≥n del brillo")]
     public Color brilloColor = Color.cyan;
     public float pulsoVelocidad = 2f;
     public float pulsoIntensidadMax = 2f;
 
     [Header("Tablet Lift (Opcional)")]
-    [Tooltip("øDebe animarse el objeto al entrar/salir de vista?")]
+    [Tooltip("¬øDebe animarse el objeto al entrar/salir de vista?")]
     public bool useLiftAnimation = false;
     [Tooltip("El Transform que se mueve (p.ej. la tablet)")]
     public Transform liftTransform;
     [Tooltip("Punto final al levantar")]
     public Transform liftTarget;
-    [Tooltip("DuraciÛn de la animaciÛn de lift")]
+    [Tooltip("Duraci√≥n de la animaci√≥n de lift")]
     public float liftDuration = 0.5f;
 
     // Estado interno
+
+
     private bool _isViewing;
     private Vector3 _camOrigPos;
     private Quaternion _camOrigRot;
@@ -107,7 +109,7 @@ public class UnifiedScreenDisplay : MonoBehaviour
         _imageProp = new MaterialPropertyBlock();
         imageRenderer.GetPropertyBlock(_imageProp);
 
-        // Prepara vÌdeo
+        // Prepara v√≠deo
         if (videoPlayer != null)
         {
             _videoRT = new RenderTexture(1280, 720, 0);
@@ -116,14 +118,14 @@ public class UnifiedScreenDisplay : MonoBehaviour
 
         _totalSlides = slides?.Length ?? 0;
 
-        // Guardar posiciÛn/orientaciÛn original del lift
+        // Guardar posici√≥n/orientaci√≥n original del lift
         if (liftTransform != null)
         {
             _liftOrigPos = liftTransform.position;
             _liftOrigRot = liftTransform.rotation;
         }
 
-        // Listeners de navegaciÛn
+        // Listeners de navegaci√≥n
         prevButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex - 1));
         nextButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex + 1));
         closeButton?.onClick.AddListener(ExitViewMode);
@@ -177,7 +179,7 @@ public class UnifiedScreenDisplay : MonoBehaviour
         _brilloRend.SetPropertyBlock(_brilloProp);
         Viewed = true;
 
-        // Guarda c·mara y oculta jugador/UI
+        // Guarda c√°mara y oculta jugador/UI
         _camOrigPos = mainCamera.transform.position;
         _camOrigRot = mainCamera.transform.rotation;
         playerRoot?.SetActive(false);
@@ -207,7 +209,8 @@ public class UnifiedScreenDisplay : MonoBehaviour
             ));
         }
 
-        // TransiciÛn de c·mara
+
+        // Transici√≥n de c√°mara
         StartOrRestartTransition(
             _camOrigPos, screenViewpoint.position,
             _camOrigRot, screenViewpoint.rotation,
@@ -263,7 +266,7 @@ public class UnifiedScreenDisplay : MonoBehaviour
             ));
         }
 
-        // C·mara de vuelta
+        // C√°mara de vuelta
         StartOrRestartTransition(
             mainCamera.transform.position, _camOrigPos,
             mainCamera.transform.rotation, _camOrigRot,
