@@ -12756,7 +12756,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6753231561116546029, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -21598,6 +21598,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 629295245}
     m_Modifications:
+    - target: {fileID: 908522160506584147, guid: 442820c78c08ee240b8b4dfffcec8791, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e3deb613e07d4c7428fa5256a27a36e3, type: 2}
+    - target: {fileID: 5326339192608798947, guid: 442820c78c08ee240b8b4dfffcec8791, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d85e02691d103144e9e8853117e93760, type: 2}
     - target: {fileID: 5614513737654647967, guid: 442820c78c08ee240b8b4dfffcec8791, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -28202,10 +28210,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Avatar5
       objectReference: {fileID: 0}
+    - target: {fileID: 5501841330507511760, guid: c9bb8c38abfcf2c46bff7f654deb21ba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f43736a3af580394599019b0bbdeddfc, type: 2}
     - target: {fileID: 5810683362337518112, guid: c9bb8c38abfcf2c46bff7f654deb21ba, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7912095208868966159, guid: c9bb8c38abfcf2c46bff7f654deb21ba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f43736a3af580394599019b0bbdeddfc, type: 2}
     - target: {fileID: 8288852036816296407, guid: c9bb8c38abfcf2c46bff7f654deb21ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -34224,6 +34240,10 @@ PrefabInstance:
       propertyPath: CinemachineCameraTarget
       value: 
       objectReference: {fileID: 8318482391669325643}
+    - target: {fileID: 3976277188893968964, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 82438308c0d51e04aaccc0ce88f434a6, type: 2}
     - target: {fileID: 4888695252918921769, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.069403

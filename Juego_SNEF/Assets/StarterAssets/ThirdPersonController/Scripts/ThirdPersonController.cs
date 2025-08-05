@@ -155,10 +155,37 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
+            GroundedCheck();
+
+            if (FreezeMovement)
+            {
+                if (_hasAnimator)
+                {
+                    _animator.SetFloat(_animIDSpeed, 0f);
+                    _animator.SetFloat(_animIDMotionSpeed, 0f); // ← esto activa el Idle en tu Blend Tree
+                    _animator.SetBool(_animIDJump, false);
+                    _animator.SetBool(_animIDFreeFall, false);
+                }
+
+                // Aplica una pequeña fuerza para mantenerlo pegado al piso
+                if (_verticalVelocity < 0.0f)
+                    _verticalVelocity = -2f;
+
+                // Anula inputs para evitar que la cámara gire si no quieres
+                if (_input != null)
+                {
+                    _input.move = Vector2.zero;
+                    _input.jump = false;
+                    _input.sprint = false;
+                    _input.look = Vector2.zero; // quita esto si SÍ quieres rotar cámara con mouse
+                }
+
+                return; // corta el resto de la lógica
+            }
 
             JumpAndGravity();
-            GroundedCheck();
             Move();
+
         }
 
         private void LateUpdate()
@@ -211,17 +238,24 @@ namespace StarterAssets
                 _cinemachineTargetYaw, 0.0f);
         }
 
-        [HideInInspector] public bool FreezeMovement = false;
+        [Header("Lobby")]
+        public bool FreezeMovement = false; // Ahora sí visible en el Inspector
+
 
         private void Move()
         {
             if (FreezeMovement)
             {
-                // hacemos que el blend de velocidad baje a 0 para reproducir el idle
                 if (_hasAnimator)
+                {
                     _animator.SetFloat(_animIDSpeed, 0f);
+                    _animator.SetFloat(_animIDMotionSpeed, 0f); // <- ESTO activa el Idle en el BlendTree
+                    _animator.SetBool(_animIDJump, false);
+                    _animator.SetBool(_animIDFreeFall, false);
+                }
                 return;
             }
+
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
