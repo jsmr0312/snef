@@ -25,17 +25,31 @@ public class ArcadeInteractable : MonoBehaviour,
     [Tooltip("Nombre de la escena o ruta del mini-juego")]
     public string arcadeSceneName;
 
+    [Header("Lock Settings")]
+    [Tooltip("Si está activo, la arcade inicia DESBLOQUEADA")]
+    public bool startUnlocked = false;
+
     // Estado interno
     private bool _isLocked = true;
     private Coroutine _hideMsgRoutine;
 
     void Start()
     {
-        // Mostrar candado al inicio
-        if (lockCanvas) lockCanvas.gameObject.SetActive(true);
+        // Aplicar estado inicial según el toggle del inspector
+        SetLocked(!startUnlocked);
+
         // Ocultar prompt y mensaje
         if (promptUI) promptUI.SetActive(false);
         if (lockMessageText) lockMessageText.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Cambia el estado de bloqueo y actualiza el UI del candado.
+    /// </summary>
+    private void SetLocked(bool value)
+    {
+        _isLocked = value;
+        if (lockCanvas) lockCanvas.gameObject.SetActive(_isLocked);
     }
 
     /// <summary>
@@ -43,9 +57,20 @@ public class ArcadeInteractable : MonoBehaviour,
     /// </summary>
     public void UnlockArcade()
     {
-        _isLocked = false;
-        if (lockCanvas) lockCanvas.gameObject.SetActive(false);
+        SetLocked(false);
     }
+
+    /// <summary>
+    /// (Opcional) Por si quieres volver a bloquearla en runtime.
+    /// </summary>
+    public void LockArcade()
+    {
+        SetLocked(true);
+    }
+
+    // Atajo útil para probar desde el editor (clic derecho en el componente)
+    [ContextMenu("Forzar Desbloqueo (Editor)")]
+    private void ContextUnlock() => SetLocked(false);
 
     // IInteractableFeedback
     public void OnGazeEnter()
