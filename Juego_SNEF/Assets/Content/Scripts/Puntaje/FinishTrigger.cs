@@ -3,8 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class FinishTrigger : MonoBehaviour
 {
-    public int puntajeAlLlegar = 300;
-    bool _usado = false;
     Collider _col;
 
     void Awake()
@@ -15,13 +13,10 @@ public class FinishTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (_usado) return;
         if (!other.CompareTag("Player")) return;
 
-        _usado = true;
-        if (Stats.I) Stats.I.AddPuntaje(puntajeAlLlegar);
-
-        // si quieres que desaparezca el trigger tras activarse:
-        // gameObject.SetActive(false);
+        // Solo notifica. El manager se encarga de ignorar dobles llamadas.
+        var manager = FindObjectOfType<CorreYGanaManager>();
+        if (manager != null) manager.NotificarMeta();
     }
 }
