@@ -20966,6 +20966,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
+  imageRawImage: {fileID: 0}
+  videoRawImage: {fileID: 0}
+  imageFitter: {fileID: 0}
+  videoFitter: {fileID: 0}
   videoQuad: {fileID: 2012953631}
   imageRenderer: {fileID: 1261874061}
   navButtonPanel: {fileID: 179639062}
@@ -20978,6 +20982,12 @@ MonoBehaviour:
   screenViewpoint: {fileID: 984653478}
   transitionDuration: 0.5
   unlockCursorDuringView: 1
+  outline: {fileID: 0}
+  enableOutlineOnProximity: 1
+  outlineModeNear: 1
+  outlineColorNear: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidthNear: 4
+  disableOutlineWhileViewing: 1
   brilloColor: {r: 1, g: 0.6392157, b: 0, a: 0.3882353}
   pulsoVelocidad: 2
   pulsoIntensidadMax: 2
@@ -20985,6 +20995,16 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  startMuted: 1
+  useAudioSourceForVideo: 1
+  videoAudioSource: {fileID: 0}
+  forceLocalOnWebGL: 1
+  localStreamingAssetsFileName: fallback.mp4
+  overrideRenderTexture: {fileID: 0}
+  rtWidth: 1280
+  rtHeight: 720
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
 --- !u!135 &202235465
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -56120,6 +56140,7 @@ MonoBehaviour:
   lockMessageText: {fileID: 237199845}
   lockMessageDuration: 2
   arcadeSceneName: Minigame Shop
+  startUnlocked: 0
 --- !u!64 &544153870
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -74565,6 +74586,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3cb72178299a984499ff7c6b78e824d4, type: 3}
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
+  imageRawImage: {fileID: 0}
+  videoRawImage: {fileID: 0}
+  imageFitter: {fileID: 0}
+  videoFitter: {fileID: 0}
   videoQuad: {fileID: 957496845}
   imageRenderer: {fileID: 957496847}
   navButtonPanel: {fileID: 179639062}
@@ -74577,6 +74602,12 @@ MonoBehaviour:
   screenViewpoint: {fileID: 81237457}
   transitionDuration: 0.8
   unlockCursorDuringView: 1
+  outline: {fileID: 0}
+  enableOutlineOnProximity: 1
+  outlineModeNear: 1
+  outlineColorNear: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidthNear: 4
+  disableOutlineWhileViewing: 1
   brilloColor: {r: 1, g: 0.6392157, b: 0, a: 1}
   pulsoVelocidad: 2
   pulsoIntensidadMax: 2
@@ -74584,6 +74615,16 @@ MonoBehaviour:
   liftTransform: {fileID: 979368859}
   liftTarget: {fileID: 1054892805}
   liftDuration: 0.5
+  startMuted: 1
+  useAudioSourceForVideo: 1
+  videoAudioSource: {fileID: 0}
+  forceLocalOnWebGL: 1
+  localStreamingAssetsFileName: fallback.mp4
+  overrideRenderTexture: {fileID: 0}
+  rtWidth: 1280
+  rtHeight: 720
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
 --- !u!4 &739761071
 Transform:
   m_ObjectHideFlags: 0
@@ -106254,6 +106295,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3cb72178299a984499ff7c6b78e824d4, type: 3}
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
+  imageRawImage: {fileID: 0}
+  videoRawImage: {fileID: 0}
+  imageFitter: {fileID: 0}
+  videoFitter: {fileID: 0}
   videoQuad: {fileID: 1362215930}
   imageRenderer: {fileID: 1362215932}
   navButtonPanel: {fileID: 179639062}
@@ -106266,6 +106311,12 @@ MonoBehaviour:
   screenViewpoint: {fileID: 666000882}
   transitionDuration: 0.8
   unlockCursorDuringView: 1
+  outline: {fileID: 0}
+  enableOutlineOnProximity: 1
+  outlineModeNear: 1
+  outlineColorNear: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidthNear: 4
+  disableOutlineWhileViewing: 1
   brilloColor: {r: 1, g: 0.6392157, b: 0, a: 1}
   pulsoVelocidad: 2
   pulsoIntensidadMax: 2
@@ -106273,6 +106324,16 @@ MonoBehaviour:
   liftTransform: {fileID: 234500026}
   liftTarget: {fileID: 420343555}
   liftDuration: 0.5
+  startMuted: 1
+  useAudioSourceForVideo: 1
+  videoAudioSource: {fileID: 0}
+  forceLocalOnWebGL: 1
+  localStreamingAssetsFileName: fallback.mp4
+  overrideRenderTexture: {fileID: 0}
+  rtWidth: 1280
+  rtHeight: 720
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
 --- !u!4 &1056394486
 Transform:
   m_ObjectHideFlags: 0
@@ -159932,6 +159993,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
+  imageRawImage: {fileID: 0}
+  videoRawImage: {fileID: 0}
+  imageFitter: {fileID: 0}
+  videoFitter: {fileID: 0}
   videoQuad: {fileID: 1712270566}
   imageRenderer: {fileID: 323506674}
   navButtonPanel: {fileID: 179639062}
@@ -159944,6 +160009,12 @@ MonoBehaviour:
   screenViewpoint: {fileID: 1627813572}
   transitionDuration: 0.5
   unlockCursorDuringView: 1
+  outline: {fileID: 0}
+  enableOutlineOnProximity: 1
+  outlineModeNear: 1
+  outlineColorNear: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidthNear: 4
+  disableOutlineWhileViewing: 1
   brilloColor: {r: 1, g: 0.6392157, b: 0, a: 0.3882353}
   pulsoVelocidad: 2
   pulsoIntensidadMax: 2
@@ -159951,6 +160022,16 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  startMuted: 1
+  useAudioSourceForVideo: 1
+  videoAudioSource: {fileID: 0}
+  forceLocalOnWebGL: 1
+  localStreamingAssetsFileName: fallback.mp4
+  overrideRenderTexture: {fileID: 0}
+  rtWidth: 1280
+  rtHeight: 720
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
 --- !u!135 &1634699000
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -170216,6 +170297,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3cb72178299a984499ff7c6b78e824d4, type: 3}
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
+  imageRawImage: {fileID: 0}
+  videoRawImage: {fileID: 0}
+  imageFitter: {fileID: 0}
+  videoFitter: {fileID: 0}
   videoQuad: {fileID: 1962903666}
   imageRenderer: {fileID: 1437032082}
   navButtonPanel: {fileID: 179639062}
@@ -170228,6 +170313,12 @@ MonoBehaviour:
   screenViewpoint: {fileID: 81623669}
   transitionDuration: 0.5
   unlockCursorDuringView: 1
+  outline: {fileID: 0}
+  enableOutlineOnProximity: 1
+  outlineModeNear: 1
+  outlineColorNear: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidthNear: 4
+  disableOutlineWhileViewing: 1
   brilloColor: {r: 1, g: 0.6392157, b: 0, a: 0.3882353}
   pulsoVelocidad: 2
   pulsoIntensidadMax: 2
@@ -170235,6 +170326,16 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  startMuted: 1
+  useAudioSourceForVideo: 1
+  videoAudioSource: {fileID: 0}
+  forceLocalOnWebGL: 1
+  localStreamingAssetsFileName: fallback.mp4
+  overrideRenderTexture: {fileID: 0}
+  rtWidth: 1280
+  rtHeight: 720
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
 --- !u!135 &1727706104
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -180168,6 +180269,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   - {fileID: 2800000, guid: 298a7f7d2f2a77c4eb75c7a055dcbe53, type: 3}
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
+  imageRawImage: {fileID: 0}
+  videoRawImage: {fileID: 0}
+  imageFitter: {fileID: 0}
+  videoFitter: {fileID: 0}
   videoQuad: {fileID: 252557953}
   imageRenderer: {fileID: 936327439}
   navButtonPanel: {fileID: 179639062}
@@ -180180,6 +180285,12 @@ MonoBehaviour:
   screenViewpoint: {fileID: 1850612548}
   transitionDuration: 0.5
   unlockCursorDuringView: 1
+  outline: {fileID: 0}
+  enableOutlineOnProximity: 1
+  outlineModeNear: 1
+  outlineColorNear: {r: 0, g: 1, b: 1, a: 1}
+  outlineWidthNear: 4
+  disableOutlineWhileViewing: 1
   brilloColor: {r: 1, g: 0.6392157, b: 0, a: 0.3882353}
   pulsoVelocidad: 2
   pulsoIntensidadMax: 2
@@ -180187,6 +180298,16 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  startMuted: 1
+  useAudioSourceForVideo: 1
+  videoAudioSource: {fileID: 0}
+  forceLocalOnWebGL: 1
+  localStreamingAssetsFileName: fallback.mp4
+  overrideRenderTexture: {fileID: 0}
+  rtWidth: 1280
+  rtHeight: 720
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
 --- !u!135 &1821902661
 SphereCollider:
   m_ObjectHideFlags: 0
