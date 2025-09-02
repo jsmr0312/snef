@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿// CorreYGanaManager.cs (REEMPLAZA por esta versión)
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 using System.Collections;
 
 public class CorreYGanaManager : MonoBehaviour
@@ -23,33 +25,62 @@ public class CorreYGanaManager : MonoBehaviour
     public Image estrella3;
     public Color colorEstrellaGanada = new Color(1f, 0.84f, 0f);
     public Color colorEstrellaPerdida = new Color(0.4f, 0.4f, 0.4f);
-    public TextMeshProUGUI puntuacionText;
+    public TextMeshProUGUI puntuacionText;   // "Obtuviste XXX"
+    public TextMeshProUGUI recordText;       // opcional: "Mejor tiempo: 00:18.52"
     public Button btnJugarOtraVez;
     public Button btnContinuar;
     public string escenaContinuar = "SiguienteEscena";
 
-    [Header("Umbrales de estrellas (segundos, MENOS es mejor)")]
-    public float tiempo3Estrellas = 20f; // <= 3★
-    public float tiempo2Estrellas = 35f; // <= 2★
-    public float tiempo1Estrella = 50f; // <= 1★
+    [Header("SFX Estrellas")]
+    [Tooltip("AudioSource para reproducir el sonido de cada estrella (desactiva Play On Awake).")]
+    public AudioSource sfxSource;
+    [Tooltip("Clip de sonido (tu mp3 de estrella).")]
+    public AudioClip estrellaSfx;
+    [Range(0f, 1f)] public float estrellaSfxVolume = 1f;
+    [Tooltip("Si está activo, sólo suena cuando la estrella es ganada (amarilla).")]
+    public bool sfxSoloSiEstrellaGanada = true;
+    [Tooltip("Hace que la 2a/3a estrella suenen un poquito más agudas (efecto 'ti-ri-ring').")]
+    public bool sfxPitchAscendente = true;
+    [Tooltip("Pitch base para la 1a estrella.")]
+    public float sfxPitchBase = 1f;
+    [Tooltip("Incremento de pitch por estrella (2a=base+step, 3a=base+2*step).")]
+    public float sfxPitchStep = 0.07f;
 
-    [Header("Puntos según estrellas (configurable)")]
-    public int puntos1Estrella = 100;
-    public int puntos2Estrellas = 200;
-    public int puntos3Estrellas = 300;
-    [Tooltip("Marca esto si quieres que se acrediten puntos automáticamente al ganar")]
-    public bool acreditarPuntosAlGanar = true;
+
+    [Header("Umbrales de estrellas (segundos, MENOS es mejor)")]
+    public float tiempo3Estrellas = 20f;     // <= 3★
+    public float tiempo2Estrellas = 35f;     // <= 2★
+    public float tiempo1Estrella = 50f;     // <= 1★
+
+    [Header("Puntos TOTALES por estrellas (cumulativos)")]
+    [Tooltip("Index 0..3 = total que corresponde a 0,1,2,3 estrellas. El premio de la partida es (totalNuevo - totalPrevio).")]
+    public int[] puntosPorTotalEstrellas = new int[] { 0, 100, 200, 300 };
+
+    [Header("A dónde acreditar el premio")]
+    public bool acreditarEnPresupuesto = true;
+    public bool acreditarEnPuntaje = false;
+
+    [Header("Identificador de minijuego (para progreso)")]
+    [Tooltip("Si lo dejas vacío, usará el nombre de la escena activa")]
+    public string minijuegoId = "";
 
     [Header("Jugador / Control")]
-    public FallRespawner respawner;               // Tu script de respawn
-    public MonoBehaviour[] controladoresAInhabilitar; // p.ej. movimiento/cámara
+    public FallRespawner respawner;
+    public MonoBehaviour[] controladoresAInhabilitar;
+
+    [Header("Visual de estrellas")]
+    [Tooltip("Si está activo, la UI muestra la MEJOR marca histórica; si se desactiva, muestra las estrellas de la partida actual.")]
+    public bool mostrarMejorMarcaEnUI = true;
+
 
     // ---- estado interno ----
     float _tiempoRestante;
     bool _corriendo;
     bool _terminado;
     float _tardo;
-    int _ultimoPuntaje;
+
+    // Cache de objetos reseteables (monedas, etc.)
+    readonly List<ILevelResettable> _reseteables = new List<ILevelResettable>();
 
     void Awake()
     {
@@ -62,7 +93,14 @@ public class CorreYGanaManager : MonoBehaviour
         if (btnContinuar) btnContinuar.onClick.AddListener(Continuar);
     }
 
-    void Start() => ResetearNivel(true);
+    void Start()
+    {
+        if (string.IsNullOrWhiteSpace(minijuegoId))
+            minijuegoId = SceneManager.GetActiveScene().name;
+
+        CacheReseteables();
+        ResetearNivel(true);
+    }
 
     void Update()
     {
@@ -77,35 +115,64 @@ public class CorreYGanaManager : MonoBehaviour
         ActualizarContador();
     }
 
-    // =========== LLAMADO por el FinishTrigger ===========
+    // -------- FINISH (lo llama el FinishTrigger) --------
     public void NotificarMeta()
     {
-        if (_terminado) return; // evita dobles disparos
+        if (_terminado) return;
         _terminado = true;
         _corriendo = false;
 
         _tardo = tiempoNivel - _tiempoRestante;
 
-        int estrellas = CalcularEstrellas(_tardo);
-        _ultimoPuntaje = PuntosPorEstrellas(estrellas);
+        // --- calcular estrellas de la partida ---
+        int estrellasPartida = CalcularEstrellas(_tardo);
 
-        // Acredita puntos/monedas aquí (cambia AddPuntaje por tu método si usas "monedas")
-        if (acreditarPuntosAlGanar)
+        // --- registrar progreso y calcular premio (igual que antes) ---
+        int premio = 0;
+        bool improvedStars, improvedTime;
+        if (Stats.I != null)
         {
-            // Ejemplo: Stats.I.AddPuntaje(_ultimoPuntaje);
-            if (Stats.I != null) Stats.I.AddPuntaje(_ultimoPuntaje);
+            premio = Stats.I.RegisterMinigameResult(
+                minijuegoId,
+                estrellasPartida,
+                _tardo,
+                puntosPorTotalEstrellas,
+                out improvedStars,
+                out improvedTime
+            );
+
+            if (premio > 0)
+            {
+                if (acreditarEnPresupuesto) Stats.I.AddPresupuesto(premio);
+                if (acreditarEnPuntaje) Stats.I.AddPuntaje(premio);
+            }
         }
 
+        // --- mostrar UI ---
         MostrarCursor(true);
         Pausar(true);
         if (panelVictoria) panelVictoria.SetActive(true);
-        if (puntuacionText) puntuacionText.text = _ultimoPuntaje.ToString();
+        if (puntuacionText) puntuacionText.text = premio.ToString();
 
+        // Usa MEJOR marca para la UI si el toggle está activo
+        int estrellasUI = estrellasPartida;
+        if (Stats.I != null)
+        {
+            var snap = Stats.I.GetProgress(minijuegoId);
+            if (mostrarMejorMarcaEnUI)
+                estrellasUI = snap.bestStars;
+
+            if (recordText)
+                recordText.text = $"Mejor tiempo: {FormatearTiempo(snap.bestTime)}";
+        }
+
+        // Resetea y anima usando estrellasUI (no las de la partida)
         PrepararEstrellas();
-        StartCoroutine(AnimarEstrellas(estrellas));
+        StartCoroutine(AnimarEstrellas(estrellasUI));
+
     }
 
-    // =========== Derrota ===========
+    // -------- Derrota --------
     void PerderPorTiempo()
     {
         if (_terminado) return;
@@ -117,7 +184,7 @@ public class CorreYGanaManager : MonoBehaviour
         if (panelDerrota) panelDerrota.SetActive(true);
     }
 
-    // =========== Botones ===========
+    // -------- Botones --------
     public void Reintentar()
     {
         Pausar(false);
@@ -126,7 +193,12 @@ public class CorreYGanaManager : MonoBehaviour
         if (panelVictoria) panelVictoria.SetActive(false);
         if (panelDerrota) panelDerrota.SetActive(false);
 
-        if (respawner != null) respawner.Respawn(); // vuelta al inicio
+        // Respawn jugador
+        if (respawner != null) respawner.Respawn();
+
+        // Respawn monedas / reseteables
+        ResetReseteables();
+
         ResetearNivel(false);
     }
 
@@ -144,7 +216,7 @@ public class CorreYGanaManager : MonoBehaviour
         SceneManager.LoadScene(escenaContinuar);
     }
 
-    // =========== Helpers ===========
+    // -------- Helpers --------
     void ResetearNivel(bool primeraVez)
     {
         _tiempoRestante = tiempoNivel;
@@ -173,17 +245,6 @@ public class CorreYGanaManager : MonoBehaviour
         return 0;
     }
 
-    int PuntosPorEstrellas(int estrellas)
-    {
-        switch (estrellas)
-        {
-            case 3: return puntos3Estrellas;
-            case 2: return puntos2Estrellas;
-            case 1: return puntos1Estrella;
-            default: return 0;
-        }
-    }
-
     void PrepararEstrellas()
     {
         if (estrella1) { estrella1.color = colorEstrellaPerdida; estrella1.transform.localScale = Vector3.zero; }
@@ -194,6 +255,7 @@ public class CorreYGanaManager : MonoBehaviour
     IEnumerator AnimarEstrellas(int cantidad)
     {
         Image[] arr = new Image[] { estrella1, estrella2, estrella3 };
+
         for (int i = 0; i < arr.Length; i++)
         {
             Image img = arr[i];
@@ -203,6 +265,15 @@ public class CorreYGanaManager : MonoBehaviour
             Color c0 = colorEstrellaPerdida;
             Color c1 = ganada ? colorEstrellaGanada : colorEstrellaPerdida;
 
+            // --- SFX: justo cuando empieza a "aparecer" la estrella ---
+            // (Usa OneShot para que no se corte aunque suenen seguidas)
+            if (estrellaSfx && sfxSource && (!sfxSoloSiEstrellaGanada || ganada))
+            {
+                sfxSource.pitch = sfxPitchAscendente ? (sfxPitchBase + sfxPitchStep * i) : 1f;
+                sfxSource.PlayOneShot(estrellaSfx, estrellaSfxVolume);
+            }
+
+            // --- Animación de pop (no escalada para que funcione con Time.timeScale=0) ---
             float t = 0f, dur = 0.28f;
             while (t < 1f)
             {
@@ -215,9 +286,14 @@ public class CorreYGanaManager : MonoBehaviour
             img.transform.localScale = Vector3.one;
             img.color = c1;
 
+            // Pequeño delay entre estrellas (tiempo real)
             yield return new WaitForSecondsRealtime(0.12f);
         }
+
+        // Deja el pitch normal para futuras reproducciones
+        if (sfxSource) sfxSource.pitch = 1f;
     }
+
 
     void Pausar(bool pausa)
     {
@@ -233,8 +309,27 @@ public class CorreYGanaManager : MonoBehaviour
         Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
-    // Expuestos por si los quieres leer
-    public float TiempoRestante => _tiempoRestante;
-    public float TiempoTardado => _tardo;
-    public int UltimoPuntaje => _ultimoPuntaje;
+    void CacheReseteables()
+    {
+        _reseteables.Clear();
+        var monos = GameObject.FindObjectsOfType<MonoBehaviour>(true);
+        foreach (var m in monos)
+        {
+            if (m is ILevelResettable r && m.gameObject.scene.IsValid())
+                _reseteables.Add(r);
+        }
+    }
+
+    void ResetReseteables()
+    {
+        foreach (var r in _reseteables) r?.ResetState();
+    }
+
+    string FormatearTiempo(float seconds)
+    {
+        if (float.IsInfinity(seconds) || seconds <= 0f) return "--:--.--";
+        int m = (int)(seconds / 60f);
+        float s = seconds % 60f;
+        return $"{m:00}:{s:00.00}";
+    }
 }
