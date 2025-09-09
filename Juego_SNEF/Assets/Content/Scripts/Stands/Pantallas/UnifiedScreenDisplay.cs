@@ -4,9 +4,13 @@ using UnityEngine.Video;
 using System.Collections;
 
 [RequireComponent(typeof(Collider), typeof(Renderer))]
-public class UnifiedScreenDisplay : MonoBehaviour
+public class UnifiedScreenDisplay : MonoBehaviour,
+    Interactor.IInteractable,
+    Interactor.IInteractableFeedback
 {
     public enum ContentType { Image, Video, Presentation }
+
+    #region Inspector
 
     [Header("Prompt UI")]
     public GameObject promptUI;
@@ -53,11 +57,28 @@ public class UnifiedScreenDisplay : MonoBehaviour
     public Transform screenViewpoint;
     public float transitionDuration = 0.8f;
 
+    // ——— NUEVO: Avatares múltiples ———
+    [Header("Avatares del jugador (multi)")]
+    [Tooltip("Padre que contiene a todos los avatares (p.ej. 'Personajes'). Tomará sus hijos DIRECTOS.")]
+    public Transform avatarsParent;
+
+    [Tooltip("Opcional: si prefieres seleccionar avatares uno por uno, úsalos aquí. Si hay al menos uno, se ignora avatarsParent.")]
+    public GameObject[] avatarList;
+
+    [Tooltip("Si está activo y hay avatarsParent, también incluirá hijos que estén inicialmente inactivos.")]
+    public bool includeInactiveAvatars = false;
+
+    // Estado interno (no tocar)
+    private readonly System.Collections.Generic.List<GameObject> _avatars = new System.Collections.Generic.List<GameObject>();
+    private readonly System.Collections.Generic.Dictionary<GameObject, bool> _avatarPrevActive = new System.Collections.Generic.Dictionary<GameObject, bool>();
+    private bool _disabledPlayerRoot = false;
+
+
     [Header("Cursor")]
     public bool unlockCursorDuringView = true;
 
     [Header("Outline (QuickOutline)")]
-    public Outline outline;                                  // arrastra aquí el componente Outline del objeto pantalla
+    public Outline outline;                                  // arrastra el componente Outline
     public bool enableOutlineOnProximity = true;             // activar al acercarse
     public Outline.Mode outlineModeNear = Outline.Mode.OutlineVisible;
     public Color outlineColorNear = Color.cyan;
@@ -97,7 +118,16 @@ public class UnifiedScreenDisplay : MonoBehaviour
     public bool autoCreateViewpointIfNull = true;
     public Vector3 autoViewLocalOffset = new Vector3(0f, 1.6f, 2.0f);
 
-    // Estado interno
+    [Header("Integración Interactor")]
+    [Tooltip("Si está activo, también podrás interactuar por proximidad (legacy). Recomiendo dejarlo en OFF y usar el Interactor unificado.")]
+    public bool useProximityTriggers = false;
+    [Tooltip("Sólo tiene efecto si 'useProximityTriggers' está activo. Permite presionar E en proximidad (legacy).")]
+    public bool legacyKeyToInteract = false;
+
+    #endregion
+
+    #region Estado interno
+
     private bool _isViewing;
     private Vector3 _camOrigPos;
     private Quaternion _camOrigRot;
@@ -108,10 +138,9 @@ public class UnifiedScreenDisplay : MonoBehaviour
     private RenderTexture _videoRT;
     private bool _videoPlayPending = false;
     public bool Viewed { get; private set; }
-    private bool _playerInside = false; // para saber si el player está dentro del trigger
+    private bool _playerInside = false; // sólo si usas triggers
 
-    // Solo una instancia “hovered” y una “activa”
-    private static UnifiedScreenDisplay _hovered;
+    // Pantalla activa global (sólo una “abierta”)
     private static UnifiedScreenDisplay _active;
 
     // Brillo
@@ -126,6 +155,10 @@ public class UnifiedScreenDisplay : MonoBehaviour
     // Fallback tracking
     private bool _usingLocalFallback = false;
 
+    #endregion
+
+    #region Setup
+
     public void EnableHighlight() { _brilloActivo = true; }
 
     void ApplyOutlineSettings()
@@ -134,6 +167,63 @@ public class UnifiedScreenDisplay : MonoBehaviour
         outline.OutlineMode = outlineModeNear;
         outline.OutlineColor = outlineColorNear;
         outline.OutlineWidth = outlineWidthNear;
+    }
+
+
+    // Construye la lista de avatares desde el array o desde el padre
+    private void BuildAvatarsList()
+    {
+        _avatars.Clear();
+
+        // Si el array tiene al menos 1, uso el array
+        if (avatarList != null && avatarList.Length > 0)
+        {
+            foreach (var go in avatarList)
+                if (go != null) _avatars.Add(go);
+            return;
+        }
+
+        // Si no, uso los hijos DIRECTOS del padre
+        if (avatarsParent != null)
+        {
+            int childCount = avatarsParent.childCount;
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = avatarsParent.GetChild(i);
+                if (child != null)
+                {
+                    if (includeInactiveAvatars || child.gameObject.activeSelf)
+                        _avatars.Add(child.gameObject);
+                }
+            }
+        }
+    }
+
+    // Apaga/prende los avatares guardando/restaurando su estado previo
+    private void ToggleAvatars(bool turnOn)
+    {
+        if (_avatars.Count == 0) return;
+
+        if (!turnOn)
+        {
+            _avatarPrevActive.Clear();
+            foreach (var go in _avatars)
+            {
+                if (!go) continue;
+                _avatarPrevActive[go] = go.activeSelf;
+                go.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (var kv in _avatarPrevActive)
+            {
+                var go = kv.Key;
+                if (!go) continue;
+                go.SetActive(kv.Value);
+            }
+            _avatarPrevActive.Clear();
+        }
     }
 
     void Awake()
@@ -151,15 +241,15 @@ public class UnifiedScreenDisplay : MonoBehaviour
         _brilloRend.material.EnableKeyword("_EMISSION");
         _brilloRend.SetPropertyBlock(_brilloProp);
 
-        // Outline: si no lo asignaste, lo buscamos en este GO o hijos
+        // Outline (si no fue asignado)
         if (outline == null) outline = GetComponent<Outline>() ?? GetComponentInChildren<Outline>();
-        if (outline != null) outline.enabled = false; // apagado por defecto
+        if (outline != null) outline.enabled = false;
 
         // Imagen (fallback quad)
         _imageProp = new MaterialPropertyBlock();
         if (imageRenderer != null) imageRenderer.GetPropertyBlock(_imageProp);
 
-        // RenderTexture para video (UI y/o quad) — MISMA LÓGICA QUE TE FUNCIONÓ
+        // RenderTexture para video (UI y/o quad)
         if (videoPlayer != null)
         {
             if (overrideRenderTexture != null)
@@ -170,13 +260,13 @@ public class UnifiedScreenDisplay : MonoBehaviour
             {
                 _videoRT = new RenderTexture(rtWidth, rtHeight, 0, RenderTextureFormat.ARGB32);
                 _videoRT.name = "UnifiedScreen_RT";
-                _videoRT.Create(); // importante en WebGL cuando se crea por código
+                _videoRT.Create();
             }
 
             videoPlayer.targetTexture = _videoRT;
 
 #if UNITY_WEBGL
-            videoPlayer.waitForFirstFrame = false; // evitar quedarse esperando
+            videoPlayer.waitForFirstFrame = false; // evita quedarse esperando frame 1
             videoPlayer.skipOnDrop = true;
 #else
             videoPlayer.waitForFirstFrame = true;
@@ -204,7 +294,6 @@ public class UnifiedScreenDisplay : MonoBehaviour
         {
             var vp = new GameObject("AutoViewpoint").transform;
             vp.SetParent(transform, false);
-            // posición frente a la pantalla (ajusta a tu modelo si lo necesitas)
             vp.position = transform.position
                         + transform.right * autoViewLocalOffset.x
                         + Vector3.up * autoViewLocalOffset.y
@@ -217,6 +306,9 @@ public class UnifiedScreenDisplay : MonoBehaviour
         SetVideoVisualActive(false);
         SetImageVisualActive(true);
         ShowIdleImage();
+
+        BuildAvatarsList();
+
     }
 
     void OnDestroy()
@@ -226,15 +318,17 @@ public class UnifiedScreenDisplay : MonoBehaviour
             videoPlayer.errorReceived -= OnVideoError;
             videoPlayer.prepareCompleted -= OnVideoPrepared;
         }
-        if (_hovered == this) _hovered = null;
         if (_active == this) _active = null;
     }
 
     void OnDisable()
     {
-        if (_hovered == this) _hovered = null;
         if (_active == this) _active = null;
     }
+
+    #endregion
+
+    #region Update & Triggers (legacy opcional)
 
     void Update()
     {
@@ -249,11 +343,14 @@ public class UnifiedScreenDisplay : MonoBehaviour
             DynamicGI.SetEmissive(_brilloRend, pulseColor);
         }
 
-        // Entrada de usuario — SOLO si esta instancia es la hovered
-        if (!_isViewing && _hovered == this && promptUI != null && promptUI.activeSelf && Input.GetKeyDown(KeyCode.E))
-            EnterViewMode();
-        else if (_isViewing && Input.GetKeyDown(KeyCode.Escape))
-            ExitViewMode();
+        // Entrada de usuario LEGACY (sólo si activaste proximidad)
+        if (useProximityTriggers && legacyKeyToInteract)
+        {
+            if (!_isViewing && _playerInside && promptUI != null && promptUI.activeSelf && Input.GetKeyDown(KeyCode.E))
+                EnterViewMode();
+            else if (_isViewing && Input.GetKeyDown(KeyCode.Escape))
+                ExitViewMode();
+        }
 
         // Billboarding del prompt
         if (lookAtCamera && promptUI != null && promptUI.activeSelf && mainCamera != null)
@@ -266,10 +363,10 @@ public class UnifiedScreenDisplay : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (!useProximityTriggers) return;
         if (other.CompareTag("Player"))
         {
             _playerInside = true;
-            _hovered = this; // esta es la pantalla en foco
 
             if (!_isViewing)
             {
@@ -286,10 +383,10 @@ public class UnifiedScreenDisplay : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        if (!useProximityTriggers) return;
         if (other.CompareTag("Player"))
         {
             _playerInside = false;
-            if (_hovered == this) _hovered = null;
 
             if (!_isViewing)
             {
@@ -301,9 +398,45 @@ public class UnifiedScreenDisplay : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Interactor integration (UNIFICADO)
+
+    // Llamado por el Interactor cuando presionas "Interact" y esta pantalla es el objetivo
+    public void Interact()
+    {
+        if (!_isViewing) EnterViewMode();
+    }
+
+    // Llamado por el Interactor cuando esta pantalla gana el foco
+    public void OnGazeEnter()
+    {
+        if (_isViewing) return;
+
+        if (enableOutlineOnProximity && outline != null)
+        {
+            ApplyOutlineSettings();
+            outline.enabled = true;
+        }
+        if (promptUI) promptUI.SetActive(true);
+    }
+
+    // Llamado por el Interactor cuando esta pantalla pierde el foco
+    public void OnGazeExit()
+    {
+        if (_isViewing) return;
+
+        if (promptUI) promptUI.SetActive(false);
+        if (outline != null) outline.enabled = false;
+    }
+
+    #endregion
+
+    #region View/Open/Close
+
     void EnterViewMode()
     {
-        // Si hubiera otra activa, la cerramos primero (evita conflictos)
+        // Cierra cualquier otra pantalla activa para evitar conflictos
         if (_active != null && _active != this)
             _active.ExitViewMode();
 
@@ -319,17 +452,38 @@ public class UnifiedScreenDisplay : MonoBehaviour
         Viewed = true;
 
         // Guarda cámara y oculta jugador/UI
-        _camOrigPos = mainCamera.transform.position;
-        _camOrigRot = mainCamera.transform.rotation;
-        playerRoot?.SetActive(false);
+        if (mainCamera != null)
+        {
+            _camOrigPos = mainCamera.transform.position;
+            _camOrigRot = mainCamera.transform.rotation;
+        }
+
+        // AHORA
+        // 1) Oculta avatares si hay lista; en caso contrario, fallback al playerRoot (como antes)
+        if (_avatars.Count > 0)
+        {
+            ToggleAvatars(false);
+            _disabledPlayerRoot = false; // no tocamos el playerRoot en este caso
+        }
+        else
+        {
+            if (playerRoot != null)
+            {
+                _disabledPlayerRoot = playerRoot.activeSelf;
+                playerRoot.SetActive(false);
+            }
+        }
+
+        // 2) UI del jugador como antes
         playerUI?.SetActive(false);
+
 
         // Apaga outline durante la vista (opcional)
         if (disableOutlineWhileViewing && outline != null)
             outline.enabled = false;
 
         // Desactiva control (idealmente referencia explícita a tu controller)
-        var ctrl = mainCamera.GetComponentInParent<MonoBehaviour>();
+        var ctrl = mainCamera ? mainCamera.GetComponentInParent<MonoBehaviour>() : null;
         if (ctrl) ctrl.enabled = false;
 
         // Cursor
@@ -352,7 +506,7 @@ public class UnifiedScreenDisplay : MonoBehaviour
             ));
         }
 
-        // VIDEO — MISMO FLUJO SIMPLE: Setup visuals + Prepare() → Play() en OnVideoPrepared
+        // VIDEO — Setup visuals + Prepare() → Play() en OnVideoPrepared
         if (contentType == ContentType.Video && videoPlayer != null)
         {
             SetupVideoVisualsOnly(); // asegura RT en UI/quad y activa el RawImage correcto
@@ -400,11 +554,19 @@ public class UnifiedScreenDisplay : MonoBehaviour
         }
 
         // Transición de cámara
-        StartOrRestartTransition(
-            _camOrigPos, screenViewpoint.position,
-            _camOrigRot, screenViewpoint.rotation,
-            OnEnteredViewMode
-        );
+        if (mainCamera != null && screenViewpoint != null)
+        {
+            StartOrRestartTransition(
+                _camOrigPos, screenViewpoint.position,
+                _camOrigRot, screenViewpoint.rotation,
+                OnEnteredViewMode
+            );
+        }
+        else
+        {
+            // sin cámara o viewpoint; aplicar estado y continuar
+            OnEnteredViewMode();
+        }
     }
 
     void OnEnteredViewMode()
@@ -461,19 +623,38 @@ public class UnifiedScreenDisplay : MonoBehaviour
         }
 
         // Cámara de vuelta
-        StartOrRestartTransition(
-            mainCamera.transform.position, _camOrigPos,
-            mainCamera.transform.rotation, _camOrigRot,
-            OnExitedViewMode
-        );
+        if (mainCamera != null)
+        {
+            StartOrRestartTransition(
+                mainCamera.transform.position, _camOrigPos,
+                mainCamera.transform.rotation, _camOrigRot,
+                OnExitedViewMode
+            );
+        }
+        else
+        {
+            OnExitedViewMode();
+        }
     }
 
     void OnExitedViewMode()
     {
-        playerRoot?.SetActive(true);
+        // Restaurar avatares o fallback al playerRoot
+        if (_avatars.Count > 0)
+        {
+            ToggleAvatars(true);
+        }
+        else if (playerRoot != null && _disabledPlayerRoot)
+        {
+            playerRoot.SetActive(true);
+            _disabledPlayerRoot = false;
+        }
+
+        // UI del jugador
         playerUI?.SetActive(true);
 
-        var ctrl = mainCamera.GetComponentInParent<MonoBehaviour>();
+
+        var ctrl = mainCamera ? mainCamera.GetComponentInParent<MonoBehaviour>() : null;
         if (ctrl) ctrl.enabled = true;
 
         if (unlockCursorDuringView)
@@ -487,8 +668,8 @@ public class UnifiedScreenDisplay : MonoBehaviour
         SetImageVisualActive(true);
         ShowIdleImage();
 
-        // Si sigues dentro del trigger, vuelve a encender outline + prompt
-        if (_playerInside)
+        // Si sigues dentro del trigger legacy, vuelve a encender outline + prompt
+        if (useProximityTriggers && _playerInside)
         {
             promptUI?.SetActive(true);
 
@@ -499,9 +680,12 @@ public class UnifiedScreenDisplay : MonoBehaviour
             }
         }
 
-        // Limpiar marcador de activo si éramos nosotros
         if (_active == this) _active = null;
     }
+
+    #endregion
+
+    #region Imagen / Presentación / Video Visuals
 
     private void ShowIdleImage()
     {
@@ -539,7 +723,7 @@ public class UnifiedScreenDisplay : MonoBehaviour
         }
     }
 
-    // Solo asegura la salida visual del video (no hace Play)
+    // Sólo asegura la salida visual del video (no hace Play)
     void SetupVideoVisualsOnly()
     {
         if (videoRawImage != null)
@@ -581,6 +765,10 @@ public class UnifiedScreenDisplay : MonoBehaviour
         if (nextButton) nextButton.interactable = idx < _totalSlides - 1;
     }
 
+    #endregion
+
+    #region Transiciones / Animaciones
+
     void StartOrRestartTransition(
         Vector3 fromPos, Vector3 toPos,
         Quaternion fromRot, Quaternion toRot,
@@ -598,6 +786,12 @@ public class UnifiedScreenDisplay : MonoBehaviour
         Quaternion aRot, Quaternion bRot,
         System.Action onDone)
     {
+        if (mainCamera == null)
+        {
+            onDone?.Invoke();
+            yield break;
+        }
+
         float elapsed = 0f;
         while (elapsed < transitionDuration)
         {
@@ -631,6 +825,10 @@ public class UnifiedScreenDisplay : MonoBehaviour
         onComplete?.Invoke();
     }
 
+    #endregion
+
+    #region Audio & Video helpers
+
     // Botón "Activar audio"
     public void UnmuteVideoAudio()
     {
@@ -648,7 +846,6 @@ public class UnifiedScreenDisplay : MonoBehaviour
         }
     }
 
-    // ---------- Helpers ----------
     string GetLocalStreamingURL()
     {
         return Application.streamingAssetsPath + "/" + localStreamingAssetsFileName;
@@ -711,15 +908,17 @@ public class UnifiedScreenDisplay : MonoBehaviour
         videoPlayer.Prepare();
     }
 
-    // Encendido/apagado visual comodín
     private void SetImageVisualActive(bool on)
     {
         if (imageRawImage != null) imageRawImage.gameObject.SetActive(on);
         if (imageRenderer != null) imageRenderer.gameObject.SetActive(on && imageRawImage == null);
     }
+
     private void SetVideoVisualActive(bool on)
     {
         if (videoRawImage != null) videoRawImage.gameObject.SetActive(on);
         if (videoQuad != null) videoQuad.SetActive(on && videoRawImage == null);
     }
+
+    #endregion
 }

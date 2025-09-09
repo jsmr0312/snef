@@ -29,6 +29,15 @@ public class ArcadeInteractable : MonoBehaviour,
     [Tooltip("Si está activo, la arcade inicia DESBLOQUEADA")]
     public bool startUnlocked = false;
 
+    [Header("Outline (QuickOutline)")]
+    [Tooltip("Componente Outline (si no lo asignas, se auto-busca en este objeto o hijos)")]
+    public Outline outline;
+    [Tooltip("Encender outline al enfocar con la mirada")]
+    public bool enableOutlineOnProximity = true;
+    public Outline.Mode outlineModeNear = Outline.Mode.OutlineVisible;
+    public Color outlineColorNear = Color.cyan;
+    [Range(0, 10f)] public float outlineWidthNear = 4f;
+
     // Estado interno
     private bool _isLocked = true;
     private Coroutine _hideMsgRoutine;
@@ -41,6 +50,10 @@ public class ArcadeInteractable : MonoBehaviour,
         // Ocultar prompt y mensaje
         if (promptUI) promptUI.SetActive(false);
         if (lockMessageText) lockMessageText.gameObject.SetActive(false);
+
+        // Outline: auto-descubrir si no está asignado y apagarlo
+        if (outline == null) outline = GetComponent<Outline>() ?? GetComponentInChildren<Outline>();
+        if (outline != null) outline.enabled = false;
     }
 
     /// <summary>
@@ -72,26 +85,38 @@ public class ArcadeInteractable : MonoBehaviour,
     [ContextMenu("Forzar Desbloqueo (Editor)")]
     private void ContextUnlock() => SetLocked(false);
 
-    // IInteractableFeedback
+    // ============================
+    //   Interactor Feedback
+    // ============================
     public void OnGazeEnter()
     {
-        // Siempre mostramos el prompt al mirar la arcade
-        if (promptUI)
-            promptUI.SetActive(true);
+        // Prompt on
+        if (promptUI) promptUI.SetActive(true);
+
+        // Outline on
+        if (enableOutlineOnProximity && outline)
+        {
+            ApplyOutlineSettings();
+            outline.enabled = true;
+        }
     }
 
     public void OnGazeExit()
     {
-        // Ocultamos todo al alejarnos
-        if (promptUI)
-            promptUI.SetActive(false);
-        if (lockMessageText)
-            lockMessageText.gameObject.SetActive(false);
-        if (_hideMsgRoutine != null)
-            StopCoroutine(_hideMsgRoutine);
+        // Prompt off
+        if (promptUI) promptUI.SetActive(false);
+
+        // Ocultar mensaje de bloqueo si estaba mostrándose
+        if (lockMessageText) lockMessageText.gameObject.SetActive(false);
+        if (_hideMsgRoutine != null) StopCoroutine(_hideMsgRoutine);
+
+        // Outline off
+        if (outline) outline.enabled = false;
     }
 
-    // IInteractable
+    // ============================
+    //       Interactor Core
+    // ============================
     public void Interact()
     {
         if (_isLocked)
@@ -139,11 +164,33 @@ public class ArcadeInteractable : MonoBehaviour,
 
     void LateUpdate()
     {
-        if (lookAtCamera && promptUI != null && promptUI.activeSelf && Camera.main != null)
+        if (!Camera.main) return;
+
+        var cam = Camera.main.transform;
+
+        if (lookAtCamera && promptUI != null && promptUI.activeSelf)
         {
-            var cam = Camera.main.transform;
             promptUI.transform.LookAt(cam);
             promptUI.transform.Rotate(0, 180, 0);
         }
+
+        // El candado (si es world-space) también mira a cámara
+        if (lookAtCamera && lockCanvas != null && lockCanvas.gameObject.activeSelf)
+        {
+            var t = lockCanvas.transform;
+            t.LookAt(cam);
+            t.Rotate(0, 180, 0);
+        }
+    }
+
+    // ============================
+    //          Helpers
+    // ============================
+    private void ApplyOutlineSettings()
+    {
+        if (!outline) return;
+        outline.OutlineMode = outlineModeNear;
+        outline.OutlineColor = outlineColorNear;
+        outline.OutlineWidth = outlineWidthNear;
     }
 }

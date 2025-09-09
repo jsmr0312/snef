@@ -9,62 +9,79 @@ public class QuizManager : MonoBehaviour
     public QuizData quizData;
 
     [Header("Referencias UI")]
-    public GameObject quizPanel;              // Panel raíz (incluye fondo oscuro)
-    public RectTransform questionPanelRT;     // Panel que contiene pregunta (para animar)
-    public RectTransform optionsGridRT;       // Grid de botones de opción
-    public GameObject bgResultado;            // Panel de resultado final
+    public GameObject quizPanel;
+    public RectTransform questionPanelRT;
+    public RectTransform optionsGridRT;
+    public GameObject bgResultado;
 
-    public TextMeshProUGUI questionText;      // Texto de la pregunta
-    public Button[] optionButtons;            // Array de 2–4 botones de opción
+    public TextMeshProUGUI questionText;
+    public Button[] optionButtons;
 
     [Header("Feedback Icons")]
-    public Image correctFeedback;             // Imagen ✓ en el centro
-    public Image incorrectFeedback;           // Imagen ✕ en el centro
+    public Image correctFeedback;
+    public Image incorrectFeedback;
 
     [Header("Resultado UI")]
-    public TextMeshProUGUI resultadoText;     // Texto "2/3"
-    public TextMeshProUGUI motivacionalText;  // Texto motivacional
-    public Button retryButton;                // Botón Reintentar
-    public Button exitButton;                 // Botón Salir
+    public TextMeshProUGUI resultadoText;
+    public TextMeshProUGUI motivacionalText;
+    public Button retryButton;
+    public Button exitButton;
 
     [Header("Control de Jugador y Cámara")]
     public MonoBehaviour playerController;
     public MonoBehaviour cameraController;
+
+    [Header("Tiempo por pregunta")]
+    [Tooltip("Segundos por pregunta. 15 por defecto.")]
+    public float timePerQuestion = 15f;
+    [Tooltip("Image de la barrita azul (BarraTiempoProgresoImagen).")]
+    public Image barraTiempoProgreso;
+    [Tooltip("Si se acaba el tiempo sin responder, se cuenta como incorrecta.")]
+    public bool autoFailOnTimeout = true;
 
     // estado interno
     int _currentIndex;
     int _score;
     Vector2 _questionOrigPos, _optionsOrigPos;
 
+    // timer
+    Coroutine _timerCo;
+    float _timeLeft;
+    bool _awaitingAnswer;
+
     void Awake()
     {
-        // cachea posiciones originales
         _questionOrigPos = questionPanelRT.anchoredPosition;
         _optionsOrigPos = optionsGridRT.anchoredPosition;
 
-        // oculta todo al inicio
         quizPanel.SetActive(false);
         bgResultado.SetActive(false);
         correctFeedback.gameObject.SetActive(false);
         incorrectFeedback.gameObject.SetActive(false);
 
-        // listeners de opciones
+        // Forzar configuración del Image para que llene de izq→der
+        if (barraTiempoProgreso != null)
+        {
+            barraTiempoProgreso.type = Image.Type.Filled;
+            barraTiempoProgreso.fillMethod = Image.FillMethod.Horizontal;
+            barraTiempoProgreso.fillOrigin = (int)Image.OriginHorizontal.Left;
+            barraTiempoProgreso.fillAmount = 0f;
+        }
+
         for (int i = 0; i < optionButtons.Length; i++)
         {
             int idx = i;
             optionButtons[i].onClick.AddListener(() => StartCoroutine(HandleAnswer(idx)));
         }
 
-        // retry y exit
         retryButton.onClick.AddListener(() =>
         {
             bgResultado.SetActive(false);
-            // reactivamos preguntas/opciones
             questionPanelRT.gameObject.SetActive(true);
             optionsGridRT.gameObject.SetActive(true);
-            // reiniciamos el quiz
             StartQuiz();
         });
+
         exitButton.onClick.AddListener(CloseQuiz);
     }
 
@@ -76,18 +93,14 @@ public class QuizManager : MonoBehaviour
             return;
         }
 
-        // misión complete quiz
         MissionManager.I?.NotifyEvent(MissionManager.MissionType.CompleteQuiz);
 
-        // desactiva controles
         if (playerController != null) playerController.enabled = false;
         if (cameraController != null) cameraController.enabled = false;
 
-        // muestra panel de quiz
         quizPanel.SetActive(true);
         bgResultado.SetActive(false);
 
-        // asegúrate de que pregunta/opciones estén activos y en su lugar
         questionPanelRT.gameObject.SetActive(true);
         optionsGridRT.gameObject.SetActive(true);
         questionPanelRT.anchoredPosition = _questionOrigPos;
@@ -106,6 +119,7 @@ public class QuizManager : MonoBehaviour
     {
         var q = quizData.questions[index];
         questionText.text = q.question;
+
         for (int i = 0; i < optionButtons.Length; i++)
         {
             if (i < q.options.Length)
@@ -114,31 +128,61 @@ public class QuizManager : MonoBehaviour
                 optionButtons[i].interactable = true;
                 optionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = q.options[i];
             }
-            else
-            {
-                optionButtons[i].gameObject.SetActive(false);
-            }
+            else optionButtons[i].gameObject.SetActive(false);
+        }
+
+        // reiniciar barra y arrancar timer
+        if (barraTiempoProgreso) barraTiempoProgreso.fillAmount = 0f;
+        StopTimer();
+        _timerCo = StartCoroutine(TimerRoutine());
+    }
+
+    IEnumerator TimerRoutine()
+    {
+        _awaitingAnswer = true;
+        _timeLeft = Mathf.Max(0.01f, timePerQuestion);
+
+        while (_timeLeft > 0f && _awaitingAnswer)
+        {
+            _timeLeft -= Time.deltaTime;
+            float normalized = Mathf.Clamp01(1f - (_timeLeft / timePerQuestion)); // 0→1
+            if (barraTiempoProgreso) barraTiempoProgreso.fillAmount = normalized;
+            yield return null;
+        }
+
+        if (_awaitingAnswer && autoFailOnTimeout)
+        {
+            _awaitingAnswer = false;
+            yield return StartCoroutine(HandleAnswer(-1)); // -1 = timeout
+        }
+    }
+
+    void StopTimer()
+    {
+        if (_timerCo != null)
+        {
+            StopCoroutine(_timerCo);
+            _timerCo = null;
         }
     }
 
     IEnumerator HandleAnswer(int chosenIdx)
     {
-        // bloquea botones
-        foreach (var b in optionButtons)
-            b.interactable = false;
+        if (!_awaitingAnswer) yield break;
+        _awaitingAnswer = false;
 
-        // comprueba
+        StopTimer();
+        foreach (var b in optionButtons) b.interactable = false;
+
         var q = quizData.questions[_currentIndex];
-        bool correct = chosenIdx == q.correctIndex;
+        bool correct = (chosenIdx >= 0) && (chosenIdx == q.correctIndex);
         if (correct) _score++;
 
-        // muestra el icono correcto/incorrecto
         var img = correct ? correctFeedback : incorrectFeedback;
         img.transform.localScale = Vector3.zero;
         img.transform.rotation = Quaternion.identity;
         img.gameObject.SetActive(true);
 
-        // anima crecer + rotar
         float t = 0f, dur = 0.3f;
         while (t < dur)
         {
@@ -151,11 +195,10 @@ public class QuizManager : MonoBehaviour
         img.transform.localScale = Vector3.one;
         img.transform.rotation = Quaternion.identity;
 
-        // espera
         yield return new WaitForSeconds(1f);
         img.gameObject.SetActive(false);
 
-        // desliza pregunta/opciones hacia abajo
+        // animación slide out
         Vector2 qStart = _questionOrigPos;
         Vector2 oStart = _optionsOrigPos;
         float slide = questionPanelRT.rect.height + optionsGridRT.rect.height + 20f;
@@ -169,27 +212,23 @@ public class QuizManager : MonoBehaviour
             yield return null;
         }
 
-        // siguiente
         _currentIndex++;
         if (_currentIndex < quizData.questions.Length)
         {
-            // reposiciona abajo y vuelve a subir
             questionPanelRT.anchoredPosition = qStart - Vector2.up * slide;
             optionsGridRT.anchoredPosition = oStart - Vector2.up * slide;
+
             ShowQuestion(_currentIndex);
 
-            t = 0f; dur = 0.3f;
-            while (t < dur)
+            float durUp = 0.3f; t = 0f;
+            while (t < durUp)
             {
                 t += Time.deltaTime;
-                float f = t / dur;
+                float f = t / durUp;
                 questionPanelRT.anchoredPosition = Vector2.Lerp(qStart - Vector2.up * slide, qStart, f);
                 optionsGridRT.anchoredPosition = Vector2.Lerp(oStart - Vector2.up * slide, oStart, f);
                 yield return null;
             }
-            // reactiva botones
-            foreach (var b in optionButtons)
-                b.interactable = true;
         }
         else
         {
@@ -199,38 +238,39 @@ public class QuizManager : MonoBehaviour
 
     void EndQuiz()
     {
-        // oculta pregunta/opciones
+        StopTimer();
+        _awaitingAnswer = false;
+
         questionPanelRT.gameObject.SetActive(false);
         optionsGridRT.gameObject.SetActive(false);
 
-        // calcula resultado
         resultadoText.text = $"{_score}/{quizData.questions.Length}";
         float ratio = (float)_score / quizData.questions.Length;
         if (ratio >= 1f) motivacionalText.text = "¡Lo hiciste perfecto!";
         else if (ratio >= 0.6f) motivacionalText.text = "¡Muy bien, sigue así!";
         else motivacionalText.text = "¡Sigue intentando!";
 
-        // muestra panel de resultados
         bgResultado.SetActive(true);
 
-        // notifica NPC y desbloquea arcade
         FindObjectOfType<NPCDialogueFlow>()?.OnQuizFinished();
         FindObjectOfType<ArcadeInteractable>()?.UnlockArcade();
     }
 
     void CloseQuiz()
     {
-        // cierra todo
+        StopTimer();
+        _awaitingAnswer = false;
+
         quizPanel.SetActive(false);
         bgResultado.SetActive(false);
 
-        // restablece pregunta + grid para la próxima partida
         questionPanelRT.gameObject.SetActive(true);
         optionsGridRT.gameObject.SetActive(true);
         questionPanelRT.anchoredPosition = _questionOrigPos;
         optionsGridRT.anchoredPosition = _optionsOrigPos;
 
-        // reactiva controles y oculta cursor
+        if (barraTiempoProgreso) barraTiempoProgreso.fillAmount = 0f;
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         if (playerController != null) playerController.enabled = true;
