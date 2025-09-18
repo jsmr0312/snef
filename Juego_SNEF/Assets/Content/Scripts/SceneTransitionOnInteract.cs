@@ -40,10 +40,23 @@ public class SceneTransitionOnInteract : MonoBehaviour
     {
         if (!playerInRange) return;
 
+        // Método para PC (tecla E)
         if (Input.GetKeyDown(KeyCode.E))
         {
-            // Opcional: aquí podrías reproducir un sonido o animación
+            DoSceneTransition();
+        }
+    }
+
+    // Método público para llamar desde un botón UI en móvil
+    public void DoSceneTransition()
+    {
+        if (!string.IsNullOrEmpty(sceneName))
+        {
+            // Opcional: aquí podrías reproducir un sonido o animación antes del cambio
             SceneManager.LoadScene(sceneName);
+
+            // Ocultar el prompt por seguridad
+            if (promptUI) promptUI.SetActive(false);
         }
     }
 }

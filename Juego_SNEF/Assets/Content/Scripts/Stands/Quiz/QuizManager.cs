@@ -34,6 +34,10 @@ public class QuizManager : MonoBehaviour
     [Header("Tiempo por pregunta")]
     [Tooltip("Segundos por pregunta. 15 por defecto.")]
     public float timePerQuestion = 15f;
+
+    [Header("UI del temporizador")]
+    [Tooltip("Panel/Contenedor del temporizador (se mostrará durante la pregunta y se ocultará al ver resultados).")]
+    public GameObject barraTiempoPanel;
     [Tooltip("Image de la barrita azul (BarraTiempoProgresoImagen).")]
     public Image barraTiempoProgreso;
     [Tooltip("Si se acaba el tiempo sin responder, se cuenta como incorrecta.")]
@@ -59,7 +63,10 @@ public class QuizManager : MonoBehaviour
         correctFeedback.gameObject.SetActive(false);
         incorrectFeedback.gameObject.SetActive(false);
 
-        // Forzar configuración del Image para que llene de izq→der
+        // Panel del tiempo oculto mientras el quiz está oculto
+        if (barraTiempoPanel) barraTiempoPanel.SetActive(false);
+
+        // Configurar la barra de tiempo para llenar de izq→der
         if (barraTiempoProgreso != null)
         {
             barraTiempoProgreso.type = Image.Type.Filled;
@@ -68,12 +75,14 @@ public class QuizManager : MonoBehaviour
             barraTiempoProgreso.fillAmount = 0f;
         }
 
+        // Listeners de opciones
         for (int i = 0; i < optionButtons.Length; i++)
         {
             int idx = i;
             optionButtons[i].onClick.AddListener(() => StartCoroutine(HandleAnswer(idx)));
         }
 
+        // Retry y Exit
         retryButton.onClick.AddListener(() =>
         {
             bgResultado.SetActive(false);
@@ -93,8 +102,10 @@ public class QuizManager : MonoBehaviour
             return;
         }
 
+        // Cuenta abrir el quiz como progreso de misión (según tu diseño actual)
         MissionManager.I?.NotifyEvent(MissionManager.MissionType.CompleteQuiz);
 
+        // Desactivar control de jugador/cámara
         if (playerController != null) playerController.enabled = false;
         if (cameraController != null) cameraController.enabled = false;
 
@@ -105,6 +116,10 @@ public class QuizManager : MonoBehaviour
         optionsGridRT.gameObject.SetActive(true);
         questionPanelRT.anchoredPosition = _questionOrigPos;
         optionsGridRT.anchoredPosition = _optionsOrigPos;
+
+        // Mostrar panel del tiempo al iniciar
+        if (barraTiempoPanel) barraTiempoPanel.SetActive(true);
+        if (barraTiempoProgreso) barraTiempoProgreso.fillAmount = 0f;
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -131,7 +146,10 @@ public class QuizManager : MonoBehaviour
             else optionButtons[i].gameObject.SetActive(false);
         }
 
-        // reiniciar barra y arrancar timer
+        // Asegura que el panel del tiempo esté visible por cada pregunta
+        if (barraTiempoPanel) barraTiempoPanel.SetActive(true);
+
+        // Reiniciar barra y arrancar timer
         if (barraTiempoProgreso) barraTiempoProgreso.fillAmount = 0f;
         StopTimer();
         _timerCo = StartCoroutine(TimerRoutine());
@@ -152,7 +170,7 @@ public class QuizManager : MonoBehaviour
 
         if (_awaitingAnswer && autoFailOnTimeout)
         {
-            _awaitingAnswer = false;
+            // Tiempo agotado → marcar como incorrecta igual que un error
             yield return StartCoroutine(HandleAnswer(-1)); // -1 = timeout
         }
     }
@@ -175,14 +193,18 @@ public class QuizManager : MonoBehaviour
         foreach (var b in optionButtons) b.interactable = false;
 
         var q = quizData.questions[_currentIndex];
+
+        // Si es timeout (chosenIdx == -1), se toma como incorrecto
         bool correct = (chosenIdx >= 0) && (chosenIdx == q.correctIndex);
         if (correct) _score++;
 
+        // Mostrar feedback correspondiente
         var img = correct ? correctFeedback : incorrectFeedback;
         img.transform.localScale = Vector3.zero;
         img.transform.rotation = Quaternion.identity;
         img.gameObject.SetActive(true);
 
+        // Animación de feedback
         float t = 0f, dur = 0.3f;
         while (t < dur)
         {
@@ -198,7 +220,7 @@ public class QuizManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         img.gameObject.SetActive(false);
 
-        // animación slide out
+        // Animación slide out
         Vector2 qStart = _questionOrigPos;
         Vector2 oStart = _optionsOrigPos;
         float slide = questionPanelRT.rect.height + optionsGridRT.rect.height + 20f;
@@ -212,6 +234,7 @@ public class QuizManager : MonoBehaviour
             yield return null;
         }
 
+        // Avanzar o terminar
         _currentIndex++;
         if (_currentIndex < quizData.questions.Length)
         {
@@ -241,9 +264,12 @@ public class QuizManager : MonoBehaviour
         StopTimer();
         _awaitingAnswer = false;
 
+        // Oculta pregunta/opciones y panel del tiempo
         questionPanelRT.gameObject.SetActive(false);
         optionsGridRT.gameObject.SetActive(false);
+        if (barraTiempoPanel) barraTiempoPanel.SetActive(false);
 
+        // Resultado
         resultadoText.text = $"{_score}/{quizData.questions.Length}";
         float ratio = (float)_score / quizData.questions.Length;
         if (ratio >= 1f) motivacionalText.text = "¡Lo hiciste perfecto!";
@@ -264,11 +290,14 @@ public class QuizManager : MonoBehaviour
         quizPanel.SetActive(false);
         bgResultado.SetActive(false);
 
+        // Restablece UI para próxima partida
         questionPanelRT.gameObject.SetActive(true);
         optionsGridRT.gameObject.SetActive(true);
         questionPanelRT.anchoredPosition = _questionOrigPos;
         optionsGridRT.anchoredPosition = _optionsOrigPos;
 
+        // Oculta y resetea el panel/barra del tiempo
+        if (barraTiempoPanel) barraTiempoPanel.SetActive(false);
         if (barraTiempoProgreso) barraTiempoProgreso.fillAmount = 0f;
 
         Cursor.visible = false;

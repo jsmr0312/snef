@@ -1,28 +1,39 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
+using TMPro;
 
 [RequireComponent(typeof(Collider))]
 public class CoinPickup : MonoBehaviour, ILevelResettable
 {
     [Header("Recompensa")]
     public int presupuestoGanado = 10;
+    public string nombreObjeto = "FONDO DE EMERGENCIA";
+    public string formatoPuntos = "+{0}";
 
-    [Header("Animación de recogida")]
+    [Header("Animación de recogida (objeto)")]
     public float riseHeight = 0.6f;
     public float riseTime = 0.18f;
     public float dropExtra = 0.8f;
     public float fallGravity = 18f;
     public float spinSpeedOnCollect = 720f;
 
-    [Header("Opcionales")]
+    [Header("FX Opcionales")]
     public AudioSource sfx;
     public ParticleSystem particles;
 
+    [Header("Popup (Canvas hijo)")]
+    public bool showPopup = true;
+    public PopupPopAndScale popup;          // <— referencia al script del Canvas
+    public Vector3 popupWorldOffset = new Vector3(0f, 1.0f, 0f);
+
+    [Header("Eventos (Opcional)")]
+    public UnityEvent onCollected;
+
     private Collider _col;
     private RotateAndLevitate _rot;
-    private bool _collected = false;
+    private bool _collected;
 
-    // Guardamos estado inicial para restaurar en reintento
     private Vector3 _startPos;
     private Quaternion _startRot;
     private Vector3 _startScale;
@@ -42,10 +53,10 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
     {
         if (_collected) return;
         if (!other.CompareTag("Player")) return;
-
         _collected = true;
 
         if (Stats.I) Stats.I.AddPresupuesto(presupuestoGanado);
+        onCollected?.Invoke();
 
         if (sfx) sfx.Play();
         if (particles) particles.Play();
@@ -53,6 +64,12 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
         _col.enabled = false;
         if (_rot) _rot.enabled = false;
 
+        // Lanza popup independiente (NO depende de este GameObject)
+        if (showPopup && popup != null)
+        {
+            string puntos = string.Format(formatoPuntos, presupuestoGanado);
+            popup.Play(nombreObjeto, puntos, transform.position + popupWorldOffset);
+        }
         StartCoroutine(CollectAnimAndHide());
     }
 
@@ -67,7 +84,7 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
             t += Time.deltaTime;
             float k = Mathf.Clamp01(t / riseTime);
             float e = 1f - Mathf.Pow(1f - k, 3f);
-            var p = startPos;
+            Vector3 p = startPos;
             p.y = startPos.y + riseHeight * e;
             transform.position = p;
             transform.Rotate(Vector3.up, spinSpeedOnCollect * Time.deltaTime, Space.World);
@@ -77,7 +94,7 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
         // CAÍDA
         float v = 0f;
         float targetY = startPos.y - dropExtra;
-        var pos = transform.position;
+        Vector3 pos = transform.position;
 
         while (pos.y > targetY)
         {
@@ -88,6 +105,7 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
             yield return null;
         }
 
+        // El ítem se apaga sin matar el popup (corre en su propio componente)
         gameObject.SetActive(false);
     }
 
@@ -95,19 +113,15 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
     public void ResetState()
     {
         StopAllCoroutines();
-
         _collected = false;
 
-        // Restaurar trasform
         transform.position = _startPos;
         transform.rotation = _startRot;
         transform.localScale = _startScale;
 
-        // Reset FX
         if (sfx) { sfx.Stop(); sfx.time = 0f; }
         if (particles) particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
-        // Reactivar y dejar lista para recoger otra vez
         if (_rot) _rot.enabled = true;
         _col.enabled = true;
         gameObject.SetActive(true);
