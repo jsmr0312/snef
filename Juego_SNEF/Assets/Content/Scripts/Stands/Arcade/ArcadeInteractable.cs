@@ -6,7 +6,13 @@ using System.Collections;
 public class ArcadeInteractable : MonoBehaviour,
     Interactor.IInteractable,
     Interactor.IInteractableFeedback
+
 {
+
+    [Header("Stand (Progress)")]
+    public string standId;
+    public string standType = "master";
+
     [Header("Prompt UI")]
     [Tooltip("GameObject que indica “Presiona E”")]
     public GameObject promptUI;
@@ -46,6 +52,10 @@ public class ArcadeInteractable : MonoBehaviour,
     {
         // Aplicar estado inicial según el toggle del inspector
         SetLocked(!startUnlocked);
+        // Si ya estaba desbloqueada en progreso, reflejarlo
+        if (ProgressCore.I != null && ProgressCore.I.Stand_IsArcadeUnlocked(standId))
+            SetLocked(false);
+
 
         // Ocultar prompt y mensaje
         if (promptUI) promptUI.SetActive(false);
@@ -79,6 +89,9 @@ public class ArcadeInteractable : MonoBehaviour,
     public void LockArcade()
     {
         SetLocked(true);
+        ProgressCore.I?.Stand_UnlockArcade(standId);
+        ProgressCore.I?.SaveNow("stand_arcade_unlocked_" + standId);
+
     }
 
     // Atajo útil para probar desde el editor (clic derecho en el componente)

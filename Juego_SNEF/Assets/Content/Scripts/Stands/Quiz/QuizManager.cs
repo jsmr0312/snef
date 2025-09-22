@@ -4,7 +4,12 @@ using TMPro;
 using System.Collections;
 
 public class QuizManager : MonoBehaviour
+
+
 {
+    [Header("Stand (Progress)")]
+    public string standId;
+
     [Header("Datos del Quiz")]
     public QuizData quizData;
 
@@ -268,6 +273,10 @@ public class QuizManager : MonoBehaviour
         questionPanelRT.gameObject.SetActive(false);
         optionsGridRT.gameObject.SetActive(false);
         if (barraTiempoPanel) barraTiempoPanel.SetActive(false);
+        ProgressCore.I?.Stand_RecordQuiz(standId, _score, quizData.questions.Length);
+        // Puedes guardar de inmediato
+        ProgressCore.I?.SaveNow("stand_quiz_result_" + standId);
+
 
         // Resultado
         resultadoText.text = $"{_score}/{quizData.questions.Length}";

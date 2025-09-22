@@ -8,6 +8,11 @@ public class NPCDialogueFlow : MonoBehaviour,
 {
     public enum Phase { Initial, Waiting, PostScreens, Final }
 
+    [Header("Stand (Progress)")]
+    public string standId;             // mismo id que usas en ese stand (ej. "eco1_banco_master")
+    public string standType = "master";
+    public int requiredScreens = 4;    // Master 4, Premier 2, Excellence 1, Punto 2
+
     [Header("Diálogos")]
     public DialogueData initialDialogue;       // hasta resaltar pantallas
     public DialogueData waitingDialogue;       // mientras ven pantallas
@@ -84,6 +89,22 @@ public class NPCDialogueFlow : MonoBehaviour,
         // Outline (auto-descubrir si no está asignado)
         if (outline == null) outline = GetComponent<Outline>() ?? GetComponentInChildren<Outline>();
         if (outline != null) outline.enabled = false;
+    }
+
+    void Start()
+    {
+        // Hidratar fase desde progreso (por si el jugador vuelve luego)
+        var p = ProgressCore.I?.Stand_GetPhase(standId);
+        if (!string.IsNullOrEmpty(p))
+        {
+            switch (p)
+            {
+                case "Waiting": _phase = Phase.Waiting; break;
+                case "PostScreens": _phase = Phase.PostScreens; break;
+                case "Final": _phase = Phase.Final; break;
+                default: _phase = Phase.Initial; break;
+            }
+        }
     }
 
     void Update()
@@ -194,6 +215,10 @@ public class NPCDialogueFlow : MonoBehaviour,
                 if (initialDialogue != null && initialDialogue.lines != null && _initialIndex >= initialDialogue.lines.Length)
                 {
                     TriggerScreensHighlight();
+
+                    // ↳ Persistir fase a progreso
+                    ProgressCore.I?.Stand_SetPhase(standId, "Waiting", standType);
+
                     _phase = Phase.Waiting;
                     _waitingIndex = 0;
                 }
@@ -212,6 +237,11 @@ public class NPCDialogueFlow : MonoBehaviour,
                 {
                     if (MissionManager.I != null)
                         MissionManager.I.NotifyEvent(MissionManager.MissionType.VisitStand);
+
+                    // ↳ Persistir paso a PostScreens + desbloquear quiz
+                    ProgressCore.I?.Stand_SetPhase(standId, "PostScreens", standType);
+                    ProgressCore.I?.Stand_UnlockQuiz(standId);
+                    ProgressCore.I?.SaveNow("stand_postscreens_" + standId);
 
                     _phase = Phase.PostScreens;
                     _postIndex = 0;
@@ -268,13 +298,27 @@ public class NPCDialogueFlow : MonoBehaviour,
 
     private bool AllScreensViewed()
     {
-        if (screensToHighlight == null || screensToHighlight.Length == 0) return false;
-        foreach (var s in screensToHighlight) if (s && !s.Viewed) return false;
-        return true;
+        // 1) Si hay pantallas ligadas en escena, usa su flag 'Viewed'
+        if (screensToHighlight != null && screensToHighlight.Length > 0)
+        {
+            foreach (var s in screensToHighlight) if (s && !s.Viewed) return false;
+            return true;
+        }
+
+        // 2) Fallback: usa el progreso (cuenta de viewed_screens)
+        var list = ProgressCore.I?.Data?.stands;
+        if (list != null)
+        {
+            var sp = list.Find(x => x.stand_id == standId);
+            if (sp != null) return sp.viewed_screens != null && sp.viewed_screens.Count >= requiredScreens;
+        }
+
+        return false;
     }
 
     private void StartQuiz()
     {
+        // O bien puedes mostrar un botón en UI
         var qm = FindObjectOfType<QuizManager>();
         if (qm != null) qm.StartQuiz();
     }
@@ -284,6 +328,10 @@ public class NPCDialogueFlow : MonoBehaviour,
     {
         _phase = Phase.Final;
         _finalIndex = 0;
+
+        // ↳ Persistir fase final al progreso (el QuizManager ya habrá guardado score)
+        ProgressCore.I?.Stand_SetPhase(standId, "Final", standType);
+        ProgressCore.I?.SaveNow("stand_quiz_finished_" + standId);
 
         if (finalDialogue != null && finalDialogue.lines != null && finalDialogue.lines.Length > 0)
         {

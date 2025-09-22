@@ -25,9 +25,8 @@ public class ShopUIController : MonoBehaviour
     {
         if (comprarButton) comprarButton.onClick.AddListener(BuySelected);
 
-        // Si Stats existe, suscríbete para refrescar el estado de compra cuando cambie el presupuesto
         if (Stats.I != null)
-            Stats.I.OnPresupuestoChanged += _ => RefreshBuyState();
+            Stats.I.OnPresupuestoChanged += OnPresupuestoChanged; // <- handler con nombre
 
         if (defaultItem != null) SelectItem(defaultItem);
         else ClearPreview();
@@ -39,7 +38,12 @@ public class ShopUIController : MonoBehaviour
     {
         if (comprarButton) comprarButton.onClick.RemoveListener(BuySelected);
         if (Stats.I != null)
-            Stats.I.OnPresupuestoChanged -= _ => RefreshBuyState(); // safe aunque no coincida la ref
+            Stats.I.OnPresupuestoChanged -= OnPresupuestoChanged; // <- se desuscribe bien
+    }
+
+    void OnPresupuestoChanged(int _)
+    {
+        RefreshBuyState();
     }
 
     public void SelectItem(ShopItemData item)
@@ -56,11 +60,13 @@ public class ShopUIController : MonoBehaviour
 
     public void BuySelected()
     {
-        if (_selected == null || Stats.I == null) return;
+        if (_selected == null || Stats.I == null || ProgressCore.I == null) return;
 
-        if (IsOwned(_selected))
+        // ¿Ya lo tiene?
+        if (ProgressCore.I.IsOwned(_selected.id))
         {
             Feedback("Ya lo tienes.");
+            RefreshBuyState();
             return;
         }
 
@@ -68,13 +74,28 @@ public class ShopUIController : MonoBehaviour
         if (Stats.I.Presupuesto < _selected.price)
         {
             Feedback("Presupuesto insuficiente.");
+            RefreshBuyState();
             return;
         }
 
-        // Cobrar y guardar propiedad
+        // 1) Cobrar en el sistema actual del juego (Stats)
         Stats.I.AddPresupuesto(-_selected.price);
-        PlayerPrefs.SetInt($"shop_owned_{_selected.id}", 1);
-        PlayerPrefs.Save();
+
+        // 2) Reflejar ese presupuesto en el JSON único
+        ProgressCore.I.SetPresupuesto(Stats.I.Presupuesto);
+
+        // 3) Marcar propiedad en el JSON único
+        bool added = ProgressCore.I.OwnItem(_selected.id);
+        if (!added)
+        {
+            // si llegó aquí y no se agregó, ya estaba; evita estados raros
+            Feedback("Ya lo tenías.");
+            RefreshBuyState();
+            return;
+        }
+
+        // 4) Guardar remoto (manda TODO el JSON)
+        ProgressCore.I.SaveNow("shop_buy_" + _selected.id);
 
         Feedback("¡Comprado!");
         RefreshBuyState();
@@ -88,19 +109,15 @@ public class ShopUIController : MonoBehaviour
             return;
         }
 
-        bool owned = IsOwned(_selected);
-        bool canAfford = Stats.I != null && Stats.I.Presupuesto >= _selected.price;
+        bool owned = (ProgressCore.I != null) && ProgressCore.I.IsOwned(_selected.id);
+        bool canAfford = (Stats.I != null) && Stats.I.Presupuesto >= _selected.price;
 
         if (precioText) precioText.color = canAfford ? precioOK : precioNoAlcanza;
-
         if (comprarButton) comprarButton.interactable = !owned;
 
         if (comprarButtonLabel)
             comprarButtonLabel.text = owned ? "COMPRADO" : "COMPRAR";
     }
-
-    private bool IsOwned(ShopItemData item)
-        => PlayerPrefs.GetInt($"shop_owned_{item.id}", 0) == 1;
 
     private void Feedback(string msg)
     {

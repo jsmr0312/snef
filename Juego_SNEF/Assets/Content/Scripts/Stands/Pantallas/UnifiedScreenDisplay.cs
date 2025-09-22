@@ -16,6 +16,13 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public GameObject promptUI;
     public bool lookAtCamera = true;
 
+    [Header("Stand (Progress)")]
+    public string standId;              // ej. eco1_banco_master
+    public string screenId = "screen1"; // screen1, screen2, screen3, screen4
+    public string standType = "master"; // master/premier/excellence/punto
+    public bool reportViewToProgress = true;
+
+
     [Header("Contenido")]
     public ContentType contentType;
     public Texture2D singleImage;
@@ -28,21 +35,11 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     [Tooltip("Imagen estática que se muestra cuando no se está interactuando")]
     public Texture2D idleImage;
 
-    [Header("Canvas Targets (nuevo)")]
+    [Header("Canvas Targets")]
     [Tooltip("RawImage para IMAGEN/SLIDES/IDLE")]
     public RawImage imageRawImage;
     [Tooltip("RawImage para VIDEO")]
     public RawImage videoRawImage;
-    [Tooltip("Opcional: ajusta relación de aspecto de la imagen")]
-    public AspectRatioFitter imageFitter;
-    [Tooltip("Opcional: ajusta relación de aspecto del video")]
-    public AspectRatioFitter videoFitter;
-
-    [Header("Quads (compatibilidad)")]
-    [Tooltip("GameObject que contiene el quad de vídeo (fallback)")]
-    public GameObject videoQuad;
-    [Tooltip("Renderer del quad de imágenes/presentación (fallback)")]
-    public Renderer imageRenderer;
 
     [Header("Botones de navegación")]
     public GameObject navButtonPanel;
@@ -72,7 +69,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     private readonly System.Collections.Generic.List<GameObject> _avatars = new System.Collections.Generic.List<GameObject>();
     private readonly System.Collections.Generic.Dictionary<GameObject, bool> _avatarPrevActive = new System.Collections.Generic.Dictionary<GameObject, bool>();
     private bool _disabledPlayerRoot = false;
-
 
     [Header("Cursor")]
     public bool unlockCursorDuringView = true;
@@ -134,7 +130,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     private int _currentIndex;
     private int _totalSlides;
     private Coroutine _transitionRoutine;
-    private MaterialPropertyBlock _imageProp;  // para fallback quad
     private RenderTexture _videoRT;
     private bool _videoPlayPending = false;
     public bool Viewed { get; private set; }
@@ -168,7 +163,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         outline.OutlineColor = outlineColorNear;
         outline.OutlineWidth = outlineWidthNear;
     }
-
 
     // Construye la lista de avatares desde el array o desde el padre
     private void BuildAvatarsList()
@@ -245,11 +239,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         if (outline == null) outline = GetComponent<Outline>() ?? GetComponentInChildren<Outline>();
         if (outline != null) outline.enabled = false;
 
-        // Imagen (fallback quad)
-        _imageProp = new MaterialPropertyBlock();
-        if (imageRenderer != null) imageRenderer.GetPropertyBlock(_imageProp);
-
-        // RenderTexture para video (UI y/o quad)
+        // RenderTexture para video (UI)
         if (videoPlayer != null)
         {
             if (overrideRenderTexture != null)
@@ -308,7 +298,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         ShowIdleImage();
 
         BuildAvatarsList();
-
     }
 
     void OnDestroy()
@@ -451,6 +440,15 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         _brilloRend.SetPropertyBlock(_brilloProp);
         Viewed = true;
 
+        // Reportar primera vista de pantalla al progreso
+        if (reportViewToProgress && ProgressCore.I != null)
+        {
+            ProgressCore.I.Stand_MarkScreenViewed(standId, screenId, standType);
+            // si quieres enviar inmediatamente:
+            // ProgressCore.I.SaveNow("stand_screen_viewed_" + standId + "_" + screenId);
+        }
+
+
         // Guarda cámara y oculta jugador/UI
         if (mainCamera != null)
         {
@@ -476,7 +474,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         // 2) UI del jugador como antes
         playerUI?.SetActive(false);
-
 
         // Apaga outline durante la vista (opcional)
         if (disableOutlineWhileViewing && outline != null)
@@ -509,7 +506,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         // VIDEO — Setup visuals + Prepare() → Play() en OnVideoPrepared
         if (contentType == ContentType.Video && videoPlayer != null)
         {
-            SetupVideoVisualsOnly(); // asegura RT en UI/quad y activa el RawImage correcto
+            SetupVideoVisualsOnly(); // asegura RT en UI y activa el RawImage correcto
 
             bool useLocal =
                 forceLocalOnWebGL &&
@@ -653,7 +650,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         // UI del jugador
         playerUI?.SetActive(true);
 
-
         var ctrl = mainCamera ? mainCamera.GetComponentInParent<MonoBehaviour>() : null;
         if (ctrl) ctrl.enabled = true;
 
@@ -697,7 +693,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         ShowImage(tex);
     }
 
-    // === Imagen (prioriza UI) ===
+    // === Imagen (UI) ===
     void ShowImage(Texture2D tex)
     {
         if (imageRawImage != null)
@@ -705,21 +701,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             SetVideoVisualActive(false);
             SetImageVisualActive(true);
             imageRawImage.texture = tex;
-            if (imageFitter != null && tex != null)
-                imageFitter.aspectRatio = (float)tex.width / tex.height;
-        }
-        else
-        {
-            // Fallback quad
-            if (videoQuad != null) videoQuad.SetActive(false);
-            if (imageRenderer != null)
-            {
-                imageRenderer.gameObject.SetActive(true);
-                if (_imageProp == null) _imageProp = new MaterialPropertyBlock();
-                _imageProp.Clear();
-                _imageProp.SetTexture("_MainTex", tex);
-                imageRenderer.SetPropertyBlock(_imageProp);
-            }
         }
     }
 
@@ -731,25 +712,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             SetImageVisualActive(false);
             SetVideoVisualActive(true);
             videoRawImage.texture = _videoRT;
-            if (videoFitter != null && _videoRT != null)
-                videoFitter.aspectRatio = (float)_videoRT.width / _videoRT.height;
-        }
-        else
-        {
-            // Fallback quad
-            if (imageRenderer != null) imageRenderer.gameObject.SetActive(false);
-            if (videoQuad != null)
-            {
-                videoQuad.SetActive(true);
-                var vr = videoQuad.GetComponent<Renderer>();
-                if (vr != null)
-                {
-                    var mb = new MaterialPropertyBlock();
-                    vr.GetPropertyBlock(mb);
-                    mb.SetTexture("_MainTex", _videoRT);
-                    vr.SetPropertyBlock(mb);
-                }
-            }
         }
     }
 
@@ -853,10 +815,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     void OnVideoPrepared(VideoPlayer vp)
     {
-        // Ajustar AR con textura real si quieres
-        if (videoRawImage != null && vp.texture != null && videoFitter != null)
-            videoFitter.aspectRatio = (float)vp.texture.width / vp.texture.height;
-
         if (_videoPlayPending)
         {
             _videoPlayPending = false;
@@ -911,13 +869,11 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     private void SetImageVisualActive(bool on)
     {
         if (imageRawImage != null) imageRawImage.gameObject.SetActive(on);
-        if (imageRenderer != null) imageRenderer.gameObject.SetActive(on && imageRawImage == null);
     }
 
     private void SetVideoVisualActive(bool on)
     {
         if (videoRawImage != null) videoRawImage.gameObject.SetActive(on);
-        if (videoQuad != null) videoQuad.SetActive(on && videoRawImage == null);
     }
 
     #endregion

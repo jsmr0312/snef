@@ -7128,6 +7128,52 @@ MonoBehaviour:
   onDeselected:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1028682132
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1028682134}
+  - component: {fileID: 1028682133}
+  m_Layer: 0
+  m_Name: ApiCLient
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1028682133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028682132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff08224afdf7b1c43909d7f2430adc65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apiBase: https://api.estudiohera.mx
+  timeoutSeconds: 15
+--- !u!4 &1028682134
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028682132}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 774.8401, y: 515.08765, z: 19611.064}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1068696712
 GameObject:
   m_ObjectHideFlags: 0
@@ -7961,6 +8007,140 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164662554}
   m_CullTransparentMesh: 1
+--- !u!1 &1182851484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1182851487}
+  - component: {fileID: 1182851486}
+  - component: {fileID: 1182851485}
+  - component: {fileID: 1182851488}
+  - component: {fileID: 1182851490}
+  - component: {fileID: 1182851489}
+  m_Layer: 0
+  m_Name: Backend
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1182851485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182851484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe532ebc5be4bd4ebcfadc6cfc8075c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avatarIds:
+  - a1
+  - a2
+  - a3
+  - a4
+  - a5
+  - a6
+  - a7
+  - a8
+  - a9
+  - a10
+  - a11
+  - a12
+--- !u!114 &1182851486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182851484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7db9f3ed6e2a2e459d9af774a25968e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseUrl: https://webhook.site
+  progressPath: /2a2fedee-c05c-4c27-8c67-8e7931d7870f
+  tokenPlayerPrefsKey: snef_token
+  saveLocalOnEachChange: 1
+  autoCreateRemoteIfMissing: 1
+  requestTimeout: 8
+  allowSendWithoutToken: 1
+  verboseLogs: 1
+--- !u!4 &1182851487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182851484}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 774.8401, y: 515.08765, z: 19611.064}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1182851488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182851484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131f91e0c2e2d4745aacdae37ad7b14a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseUrl: https://api.estudiohera.mx
+  metricsPath: /metricas/metricas
+  dashboardPath: /metricas/dashboard
+  tokenPlayerPrefsKey: auth_token
+  requestTimeout: 8
+  verboseLogs: 1
+  allowSendWithoutToken: 0
+--- !u!114 &1182851489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182851484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff08224afdf7b1c43909d7f2430adc65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apiBase: https://api.estudiohera.mx
+  timeoutSeconds: 15
+--- !u!114 &1182851490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182851484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83ef7fe754bbc0c45839688c39431ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokenKey: auth_token
+  usernameKey: player_username
+  queryParam: token
+  devToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTg0OTkwNTQsImZpbmdlcnByaW50IjoiZDBjMDk2ZTg4NGY4MzNjNjIzMWVkZjdlNTIzMWQwNTkwMDRmNTEzNGEwODBhOTMyMTFhMmJiMzg4NzUyYzUxZSJ9.N7ZNrJGPPejiXYbOSyiS3_QA377-AUkfXp89pkuUrYU
+  simulateLogin: 0
+  api: {fileID: 1182851489}
+  devUsername: prueba1
+  devPassword: 1234
 --- !u!1 &1184137207
 GameObject:
   m_ObjectHideFlags: 0
@@ -10012,6 +10192,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549813759}
   m_CullTransparentMesh: 1
+--- !u!1 &1558939635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1558939637}
+  - component: {fileID: 1558939636}
+  m_Layer: 0
+  m_Name: SkipSelection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1558939636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558939635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a26d34a908eb3d43929bebbbdd445b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextSceneName: Menu
+--- !u!4 &1558939637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558939635}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 774.8401, y: 515.08765, z: 19611.064}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1590454445
 GameObject:
   m_ObjectHideFlags: 0
@@ -13883,7 +14108,7 @@ MonoBehaviour:
   personaje4: 0
   personaje5: 0
   personaje6: 0
-  personaje7: 0
+  personaje7: 1
   personaje8: 0
   personaje9: 0
   personaje10: 0
@@ -13902,6 +14127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   funciones: {fileID: 2127764531}
+  avatarMapper: {fileID: 0}
+  confirmButton: {fileID: 0}
+  loadingBlocker: {fileID: 0}
   nombreEscena: Menu
 --- !u!1 &2135823042
 GameObject:
@@ -14117,3 +14345,6 @@ SceneRoots:
   - {fileID: 922229114}
   - {fileID: 2127764533}
   - {fileID: 1299444850}
+  - {fileID: 1028682134}
+  - {fileID: 1558939637}
+  - {fileID: 1182851487}

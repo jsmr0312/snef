@@ -2,22 +2,12 @@ using UnityEngine;
 
 public class GuardarPersonaje : MonoBehaviour
 {
-    public bool personaje1;
-    public bool personaje2;
-    public bool personaje3;
-    public bool personaje4;
-    public bool personaje5;
-    public bool personaje6;
-    public bool personaje7;
-    public bool personaje8;
-    public bool personaje9;
-    public bool personaje10;
-    public bool personaje11;
-    public bool personaje12;
+    public bool personaje1, personaje2, personaje3, personaje4, personaje5, personaje6,
+                personaje7, personaje8, personaje9, personaje10, personaje11, personaje12;
 
     void Start()
     {
-        // Cargar solo una vez al iniciar
+        // Carga legacy
         personaje1 = PlayerPrefs.GetInt("personaje1Select", 0) == 1;
         personaje2 = PlayerPrefs.GetInt("personaje2Select", 0) == 1;
         personaje3 = PlayerPrefs.GetInt("personaje3Select", 0) == 1;
@@ -39,11 +29,10 @@ public class GuardarPersonaje : MonoBehaviour
             personaje1 = true;
             Guardar();
         }
-
         MostrarSeleccionado();
     }
 
-    // Métodos públicos para seleccionar cada personaje:
+    // Botones UI
     public void Personaje1() { Seleccionar(1); }
     public void Personaje2() { Seleccionar(2); }
     public void Personaje3() { Seleccionar(3); }
@@ -57,15 +46,13 @@ public class GuardarPersonaje : MonoBehaviour
     public void Personaje11() { Seleccionar(11); }
     public void Personaje12() { Seleccionar(12); }
 
-    // Centraliza la lógica de selección de un solo personaje
-    private void Seleccionar(int index)
+    void Seleccionar(int index)
     {
-        // Primero, desactivar todos
+        // Solo cambia flags y guarda selección local (no manda métricas)
         personaje1 = personaje2 = personaje3 = personaje4 =
         personaje5 = personaje6 = personaje7 = personaje8 =
         personaje9 = personaje10 = personaje11 = personaje12 = false;
 
-        // Activar solo el elegido
         switch (index)
         {
             case 1: personaje1 = true; break;
@@ -83,6 +70,7 @@ public class GuardarPersonaje : MonoBehaviour
         }
 
         Guardar();
+        AvatarSelectionBridge.SetSelectedIndexToPrefs(index);
     }
 
     public void Guardar()
@@ -99,8 +87,16 @@ public class GuardarPersonaje : MonoBehaviour
         PlayerPrefs.SetInt("personaje10Select", personaje10 ? 1 : 0);
         PlayerPrefs.SetInt("personaje11Select", personaje11 ? 1 : 0);
         PlayerPrefs.SetInt("personaje12Select", personaje12 ? 1 : 0);
-        PlayerPrefs.Save(); // Asegura que se guarde inmediatamente
 
+        // índice unificado e indicador de que ya hay selección
+        int idx = AvatarSelectionBridge.GetSelectedIndexFromBools(
+            personaje1, personaje2, personaje3, personaje4, personaje5, personaje6,
+            personaje7, personaje8, personaje9, personaje10, personaje11, personaje12
+        );
+        if (idx > 0) AvatarSelectionBridge.SetSelectedIndexToPrefs(idx);
+        PlayerPrefs.SetInt("avatar_selected", 1);
+
+        PlayerPrefs.Save();
         MostrarSeleccionado();
     }
 
