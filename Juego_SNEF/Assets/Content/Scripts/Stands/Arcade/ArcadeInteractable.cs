@@ -90,7 +90,7 @@ public class ArcadeInteractable : MonoBehaviour,
     {
         SetLocked(true);
         ProgressCore.I?.Stand_UnlockArcade(standId);
-        ProgressCore.I?.SaveNow("stand_arcade_unlocked_" + standId);
+        ProgressRemote.I.UpdateStand(standId, standType, phase: "PostScreens", screensViewed: null, quizUnlocked: true);
 
     }
 

@@ -4,10 +4,9 @@ using TMPro;
 using System.Collections;
 
 public class QuizManager : MonoBehaviour
-
-
 {
     [Header("Stand (Progress)")]
+    [Tooltip("ID del stand al que pertenece este quiz (ej. 'nu', 'mx_bank_01').")]
     public string standId;
 
     [Header("Datos del Quiz")]
@@ -33,7 +32,9 @@ public class QuizManager : MonoBehaviour
     public Button exitButton;
 
     [Header("Control de Jugador y Cámara")]
+    [Tooltip("Desactiva este componente mientras el quiz está activo.")]
     public MonoBehaviour playerController;
+    [Tooltip("Desactiva este componente mientras el quiz está activo.")]
     public MonoBehaviour cameraController;
 
     [Header("Tiempo por pregunta")]
@@ -43,30 +44,33 @@ public class QuizManager : MonoBehaviour
     [Header("UI del temporizador")]
     [Tooltip("Panel/Contenedor del temporizador (se mostrará durante la pregunta y se ocultará al ver resultados).")]
     public GameObject barraTiempoPanel;
-    [Tooltip("Image de la barrita azul (BarraTiempoProgresoImagen).")]
+    [Tooltip("Image de la barrita (llena de izquierda a derecha).")]
     public Image barraTiempoProgreso;
     [Tooltip("Si se acaba el tiempo sin responder, se cuenta como incorrecta.")]
     public bool autoFailOnTimeout = true;
 
-    // estado interno
+    // ----- Estado interno -----
     int _currentIndex;
-    int _score;
+    int _score;                 // # de correctas
     Vector2 _questionOrigPos, _optionsOrigPos;
 
-    // timer
+    // Timer por pregunta
     Coroutine _timerCo;
     float _timeLeft;
     bool _awaitingAnswer;
+
+    // Métricas de la sesión del quiz
+    float _quizStartRealtime;   // para calcular ms totales
 
     void Awake()
     {
         _questionOrigPos = questionPanelRT.anchoredPosition;
         _optionsOrigPos = optionsGridRT.anchoredPosition;
 
-        quizPanel.SetActive(false);
-        bgResultado.SetActive(false);
-        correctFeedback.gameObject.SetActive(false);
-        incorrectFeedback.gameObject.SetActive(false);
+        if (quizPanel) quizPanel.SetActive(false);
+        if (bgResultado) bgResultado.SetActive(false);
+        if (correctFeedback) correctFeedback.gameObject.SetActive(false);
+        if (incorrectFeedback) incorrectFeedback.gameObject.SetActive(false);
 
         // Panel del tiempo oculto mientras el quiz está oculto
         if (barraTiempoPanel) barraTiempoPanel.SetActive(false);
@@ -81,46 +85,56 @@ public class QuizManager : MonoBehaviour
         }
 
         // Listeners de opciones
-        for (int i = 0; i < optionButtons.Length; i++)
+        if (optionButtons != null)
         {
-            int idx = i;
-            optionButtons[i].onClick.AddListener(() => StartCoroutine(HandleAnswer(idx)));
+            for (int i = 0; i < optionButtons.Length; i++)
+            {
+                int idx = i;
+                if (optionButtons[i] != null)
+                    optionButtons[i].onClick.AddListener(() => StartCoroutine(HandleAnswer(idx)));
+            }
         }
 
         // Retry y Exit
-        retryButton.onClick.AddListener(() =>
+        if (retryButton != null)
         {
-            bgResultado.SetActive(false);
-            questionPanelRT.gameObject.SetActive(true);
-            optionsGridRT.gameObject.SetActive(true);
-            StartQuiz();
-        });
+            retryButton.onClick.AddListener(() =>
+            {
+                if (bgResultado) bgResultado.SetActive(false);
+                if (questionPanelRT) questionPanelRT.gameObject.SetActive(true);
+                if (optionsGridRT) optionsGridRT.gameObject.SetActive(true);
+                StartQuiz();
+            });
+        }
 
-        exitButton.onClick.AddListener(CloseQuiz);
+        if (exitButton != null)
+        {
+            exitButton.onClick.AddListener(CloseQuiz);
+        }
     }
 
     public void StartQuiz()
     {
-        if (quizData == null || quizData.questions.Length == 0)
+        if (quizData == null || quizData.questions == null || quizData.questions.Length == 0)
         {
-            Debug.LogWarning("QuizData no asignado o sin preguntas.");
+            Debug.LogWarning("[QuizManager] QuizData no asignado o sin preguntas.");
             return;
         }
 
-        // Cuenta abrir el quiz como progreso de misión (según tu diseño actual)
+        // Evento de misión (si tu sistema lo usa)
         MissionManager.I?.NotifyEvent(MissionManager.MissionType.CompleteQuiz);
 
         // Desactivar control de jugador/cámara
         if (playerController != null) playerController.enabled = false;
         if (cameraController != null) cameraController.enabled = false;
 
-        quizPanel.SetActive(true);
-        bgResultado.SetActive(false);
+        if (quizPanel) quizPanel.SetActive(true);
+        if (bgResultado) bgResultado.SetActive(false);
 
-        questionPanelRT.gameObject.SetActive(true);
-        optionsGridRT.gameObject.SetActive(true);
-        questionPanelRT.anchoredPosition = _questionOrigPos;
-        optionsGridRT.anchoredPosition = _optionsOrigPos;
+        if (questionPanelRT) questionPanelRT.gameObject.SetActive(true);
+        if (optionsGridRT) optionsGridRT.gameObject.SetActive(true);
+        if (questionPanelRT) questionPanelRT.anchoredPosition = _questionOrigPos;
+        if (optionsGridRT) optionsGridRT.anchoredPosition = _optionsOrigPos;
 
         // Mostrar panel del tiempo al iniciar
         if (barraTiempoPanel) barraTiempoPanel.SetActive(true);
@@ -131,6 +145,7 @@ public class QuizManager : MonoBehaviour
 
         _currentIndex = 0;
         _score = 0;
+        _quizStartRealtime = Time.realtimeSinceStartup;
 
         ShowQuestion(_currentIndex);
     }
@@ -138,17 +153,24 @@ public class QuizManager : MonoBehaviour
     void ShowQuestion(int index)
     {
         var q = quizData.questions[index];
-        questionText.text = q.question;
+        if (questionText) questionText.text = q.question;
 
         for (int i = 0; i < optionButtons.Length; i++)
         {
+            if (optionButtons[i] == null) continue;
+
             if (i < q.options.Length)
             {
                 optionButtons[i].gameObject.SetActive(true);
                 optionButtons[i].interactable = true;
-                optionButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = q.options[i];
+
+                var txt = optionButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+                if (txt) txt.text = q.options[i];
             }
-            else optionButtons[i].gameObject.SetActive(false);
+            else
+            {
+                optionButtons[i].gameObject.SetActive(false);
+            }
         }
 
         // Asegura que el panel del tiempo esté visible por cada pregunta
@@ -195,7 +217,11 @@ public class QuizManager : MonoBehaviour
         _awaitingAnswer = false;
 
         StopTimer();
-        foreach (var b in optionButtons) b.interactable = false;
+        if (optionButtons != null)
+        {
+            foreach (var b in optionButtons)
+                if (b != null) b.interactable = false;
+        }
 
         var q = quizData.questions[_currentIndex];
 
@@ -205,37 +231,41 @@ public class QuizManager : MonoBehaviour
 
         // Mostrar feedback correspondiente
         var img = correct ? correctFeedback : incorrectFeedback;
-        img.transform.localScale = Vector3.zero;
-        img.transform.rotation = Quaternion.identity;
-        img.gameObject.SetActive(true);
-
-        // Animación de feedback
-        float t = 0f, dur = 0.3f;
-        while (t < dur)
+        if (img != null)
         {
-            t += Time.deltaTime;
-            float f = t / dur;
-            img.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, f);
-            img.transform.rotation = Quaternion.Euler(0, 0, 360f * f);
-            yield return null;
-        }
-        img.transform.localScale = Vector3.one;
-        img.transform.rotation = Quaternion.identity;
+            img.transform.localScale = Vector3.zero;
+            img.transform.rotation = Quaternion.identity;
+            img.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(1f);
-        img.gameObject.SetActive(false);
+            // Animación de feedback
+            float t = 0f, dur = 0.3f;
+            while (t < dur)
+            {
+                t += Time.deltaTime;
+                float f = t / dur;
+                img.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, f);
+                img.transform.rotation = Quaternion.Euler(0, 0, 360f * f);
+                yield return null;
+            }
+            img.transform.localScale = Vector3.one;
+            img.transform.rotation = Quaternion.identity;
+
+            yield return new WaitForSeconds(1f);
+            img.gameObject.SetActive(false);
+        }
 
         // Animación slide out
         Vector2 qStart = _questionOrigPos;
         Vector2 oStart = _optionsOrigPos;
-        float slide = questionPanelRT.rect.height + optionsGridRT.rect.height + 20f;
-        t = 0f; dur = 0.3f;
-        while (t < dur)
+        float slide = (questionPanelRT.rect.height + optionsGridRT.rect.height) + 20f;
+
+        float t2 = 0f, dur2 = 0.3f;
+        while (t2 < dur2)
         {
-            t += Time.deltaTime;
-            float f = t / dur;
-            questionPanelRT.anchoredPosition = Vector2.Lerp(qStart, qStart - Vector2.up * slide, f);
-            optionsGridRT.anchoredPosition = Vector2.Lerp(oStart, oStart - Vector2.up * slide, f);
+            t2 += Time.deltaTime;
+            float f = t2 / dur2;
+            if (questionPanelRT) questionPanelRT.anchoredPosition = Vector2.Lerp(qStart, qStart - Vector2.up * slide, f);
+            if (optionsGridRT) optionsGridRT.anchoredPosition = Vector2.Lerp(oStart, oStart - Vector2.up * slide, f);
             yield return null;
         }
 
@@ -243,18 +273,18 @@ public class QuizManager : MonoBehaviour
         _currentIndex++;
         if (_currentIndex < quizData.questions.Length)
         {
-            questionPanelRT.anchoredPosition = qStart - Vector2.up * slide;
-            optionsGridRT.anchoredPosition = oStart - Vector2.up * slide;
+            if (questionPanelRT) questionPanelRT.anchoredPosition = qStart - Vector2.up * slide;
+            if (optionsGridRT) optionsGridRT.anchoredPosition = oStart - Vector2.up * slide;
 
             ShowQuestion(_currentIndex);
 
-            float durUp = 0.3f; t = 0f;
-            while (t < durUp)
+            float durUp = 0.3f; float t3 = 0f;
+            while (t3 < durUp)
             {
-                t += Time.deltaTime;
-                float f = t / durUp;
-                questionPanelRT.anchoredPosition = Vector2.Lerp(qStart - Vector2.up * slide, qStart, f);
-                optionsGridRT.anchoredPosition = Vector2.Lerp(oStart - Vector2.up * slide, oStart, f);
+                t3 += Time.deltaTime;
+                float f = t3 / durUp;
+                if (questionPanelRT) questionPanelRT.anchoredPosition = Vector2.Lerp(qStart - Vector2.up * slide, qStart, f);
+                if (optionsGridRT) optionsGridRT.anchoredPosition = Vector2.Lerp(oStart - Vector2.up * slide, oStart, f);
                 yield return null;
             }
         }
@@ -270,23 +300,45 @@ public class QuizManager : MonoBehaviour
         _awaitingAnswer = false;
 
         // Oculta pregunta/opciones y panel del tiempo
-        questionPanelRT.gameObject.SetActive(false);
-        optionsGridRT.gameObject.SetActive(false);
+        if (questionPanelRT) questionPanelRT.gameObject.SetActive(false);
+        if (optionsGridRT) optionsGridRT.gameObject.SetActive(false);
         if (barraTiempoPanel) barraTiempoPanel.SetActive(false);
+
+        // ----- SINCRONIZACIÓN DE PROGRESO -----
+        // Cache local (si tu ProgressCore guarda el resultado):
         ProgressCore.I?.Stand_RecordQuiz(standId, _score, quizData.questions.Length);
-        // Puedes guardar de inmediato
-        ProgressCore.I?.SaveNow("stand_quiz_result_" + standId);
+        // (Antes hacías SaveNow aquí; lo dejamos como cache local opcional)
+        // ProgressCore.I?.SaveNow("stand_quiz_result_" + standId);
 
+        // Remoto granular (si añadiste ProgressRemote al proyecto):
+        int total = quizData.questions.Length;
+        float elapsed = Mathf.Max(0f, Time.realtimeSinceStartup - _quizStartRealtime);
+        int ms = Mathf.RoundToInt(elapsed * 1000f);
 
-        // Resultado
-        resultadoText.text = $"{_score}/{quizData.questions.Length}";
-        float ratio = (float)_score / quizData.questions.Length;
-        if (ratio >= 1f) motivacionalText.text = "¡Lo hiciste perfecto!";
-        else if (ratio >= 0.6f) motivacionalText.text = "¡Muy bien, sigue así!";
-        else motivacionalText.text = "¡Sigue intentando!";
+        // Calcula estrellas con umbrales típicos (ajusta a tu diseño)
+        float ratio = total > 0 ? (float)_score / total : 0f;
+        int stars = (ratio >= 0.9f) ? 3 : (ratio >= 0.7f) ? 2 : (ratio >= 0.5f) ? 1 : 0;
 
-        bgResultado.SetActive(true);
+        if (ProgressRemote.I != null && !string.IsNullOrEmpty(standId))
+        {
+            // Resultado del minijuego/quiz
+            ProgressRemote.I.PostQuizResult(standId, _score, stars, _score, total, ms);
+            // Actualiza fase del stand (Final) y marcar quiz desbloqueado/completado
+            ProgressRemote.I.UpdateStand(standId, standType: "master", phase: "Final", screensViewed: null, quizUnlocked: true);
+        }
 
+        // ----- UI de resultado -----
+        if (resultadoText) resultadoText.text = $"{_score}/{total}";
+        if (motivacionalText)
+        {
+            if (ratio >= 1f) motivacionalText.text = "¡Lo hiciste perfecto!";
+            else if (ratio >= 0.6f) motivacionalText.text = "¡Muy bien, sigue así!";
+            else motivacionalText.text = "¡Sigue intentando!";
+        }
+
+        if (bgResultado) bgResultado.SetActive(true);
+
+        // Notifica a otros sistemas (si existen estos métodos en tus scripts)
         FindObjectOfType<NPCDialogueFlow>()?.OnQuizFinished();
         FindObjectOfType<ArcadeInteractable>()?.UnlockArcade();
     }
@@ -296,14 +348,14 @@ public class QuizManager : MonoBehaviour
         StopTimer();
         _awaitingAnswer = false;
 
-        quizPanel.SetActive(false);
-        bgResultado.SetActive(false);
+        if (quizPanel) quizPanel.SetActive(false);
+        if (bgResultado) bgResultado.SetActive(false);
 
         // Restablece UI para próxima partida
-        questionPanelRT.gameObject.SetActive(true);
-        optionsGridRT.gameObject.SetActive(true);
-        questionPanelRT.anchoredPosition = _questionOrigPos;
-        optionsGridRT.anchoredPosition = _optionsOrigPos;
+        if (questionPanelRT) questionPanelRT.gameObject.SetActive(true);
+        if (optionsGridRT) optionsGridRT.gameObject.SetActive(true);
+        if (questionPanelRT) questionPanelRT.anchoredPosition = _questionOrigPos;
+        if (optionsGridRT) optionsGridRT.anchoredPosition = _optionsOrigPos;
 
         // Oculta y resetea el panel/barra del tiempo
         if (barraTiempoPanel) barraTiempoPanel.SetActive(false);
@@ -311,6 +363,7 @@ public class QuizManager : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
         if (playerController != null) playerController.enabled = true;
         if (cameraController != null) cameraController.enabled = true;
     }

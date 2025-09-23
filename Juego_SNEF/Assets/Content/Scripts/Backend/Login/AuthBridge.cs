@@ -4,48 +4,57 @@ using UnityEngine;
 
 public class AuthBridge : MonoBehaviour
 {
-    [Header("Opciones")]
-    public string tokenKey = "auth_token";
+    [Header("Opciones (solo compatibilidad / debug)")]
+    public string tokenKey = "auth_token";     // Fallback sólo en dev
     public string usernameKey = "player_username";
 
     [Header("WebGL")]
-    public string queryParam = "token"; // ?token=XYZ
+    [Tooltip("Nombre del query param si alguna vez pasas ?token=XYZ (sólo debug)")]
+    public string queryParam = "token";
 
-    [Header("Dev: pegar token a mano")]
+    [Header("Dev: pegar token a mano (sólo pruebas)")]
     [TextArea] public string devToken;
 
-    [Header("Dev: simular login")]
+    [Header("Dev: simular login (NO llama APIs)")]
     public bool simulateLogin;
-    public APIClient api;
     public string devUsername = "bunchyta";
-    public string devPassword = "1234";
 
     void Awake()
     {
-        // 1) Querystring
+        // 1) Si viene por querystring (?token=XYZ) — útil en pruebas manuales:
         var qTok = GetQuery(queryParam);
-        if (!string.IsNullOrEmpty(qTok)) { SaveToken(qTok, "(from_query)"); return; }
-
-        // 2) Dev token pegado a mano
-        if (!string.IsNullOrWhiteSpace(devToken)) { SaveToken(devToken, "(devToken)"); return; }
-
-        // 3) Simular login
-        if (simulateLogin && api != null)
+        if (!string.IsNullOrEmpty(qTok))
         {
-            StartCoroutine(api.PostJson<LoginBody, LoginResponse>(
-                "/game/login-player",
-                new LoginBody { username = devUsername.Trim(), password = devPassword },
-                onOk: res => SaveToken(res.token, devUsername),
-                onErr: err => Debug.LogError("[AuthBridge] Login simulado falló: " + err)
-            ));
+            SetExternalToken(qTok);
+            SaveDevUsername("(from_query)");
+            return;
         }
+
+        // 2) Token pegado a mano para dev:
+        if (!string.IsNullOrWhiteSpace(devToken))
+        {
+            SetExternalToken(devToken);
+            SaveDevUsername("(devToken)");
+            return;
+        }
+
+        // 3) "Simular login" ahora sólo aplica devToken si existe (no hace llamadas)
+        if (simulateLogin && !string.IsNullOrWhiteSpace(devToken))
+        {
+            SetExternalToken(devToken);
+            SaveDevUsername(devUsername);
+            return;
+        }
+
+        // Producción: el token debe llegar desde React con:
+        // unityInstance.SendMessage("WebBridge","ReceiveToken", token)
+        // o, si sigues usando este puente:
+        // unityInstance.SendMessage("AuthBridge","SetExternalToken", token)
     }
 
-    // Para que la página WebGL inyecte el token vía JS:
-    // unityInstance.SendMessage('AuthBridge','SetExternalToken','<token>')
-    public void SetExternalToken(string token) => SaveToken(token, "(from_js)");
-
-    void SaveToken(string rawToken, string username)
+    // Para que la página WebGL pueda inyectar el token (alternativa a WebBridge):
+    // unityInstance.SendMessage("AuthBridge","SetExternalToken","<token>")
+    public void SetExternalToken(string rawToken)
     {
         string token = SanitizeToken(rawToken);
         if (string.IsNullOrEmpty(token))
@@ -53,10 +62,34 @@ public class AuthBridge : MonoBehaviour
             Debug.LogError("[AuthBridge] Token vacío/ inválido después de sanitizar.");
             return;
         }
+
+        // Preferimos guardarlo en memoria vía WebGLBridge (flujo nuevo)
+        if (WebGLBridge.I != null)
+        {
+            WebGLBridge.I.ReceiveToken(token);
+            Debug.Log("[AuthBridge] Token aplicado a WebGLBridge (memoria). len=" + token.Length);
+        }
+        else
+        {
+            Debug.LogWarning("[AuthBridge] WebGLBridge no está listo aún. Se usará fallback de dev (PlayerPrefs).");
+        }
+
+        // Fallback de desarrollo: PlayerPrefs (EVITAR en producción WebGL)
+#if !UNITY_WEBGL || UNITY_EDITOR
         PlayerPrefs.SetString(tokenKey, token);
-        if (!string.IsNullOrEmpty(username)) PlayerPrefs.SetString(usernameKey, username);
         PlayerPrefs.Save();
-        Debug.Log("[AuthBridge] Token guardado. len=" + token.Length);
+#endif
+    }
+
+    void SaveDevUsername(string username)
+    {
+#if !UNITY_WEBGL || UNITY_EDITOR
+        if (!string.IsNullOrEmpty(username))
+        {
+            PlayerPrefs.SetString(usernameKey, username);
+            PlayerPrefs.Save();
+        }
+#endif
     }
 
     string GetQuery(string key)
@@ -73,7 +106,7 @@ public class AuthBridge : MonoBehaviour
         return null;
     }
 
-    // Quita "Bearer ", comillas, saltos de línea y caracteres de control
+    // Quita "Bearer ", comillas, saltos y controles
     public static string SanitizeToken(string s)
     {
         if (string.IsNullOrWhiteSpace(s)) return "";

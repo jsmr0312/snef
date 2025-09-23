@@ -445,7 +445,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         {
             ProgressCore.I.Stand_MarkScreenViewed(standId, screenId, standType);
             // si quieres enviar inmediatamente:
-            // ProgressCore.I.SaveNow("stand_screen_viewed_" + standId + "_" + screenId);
+            ProgressRemote.I.AddStandScreen(standId, screenId);
         }
 
 

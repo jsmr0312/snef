@@ -9626,9 +9626,6 @@ GameObject:
   - component: {fileID: 1648279789}
   - component: {fileID: 1648279791}
   - component: {fileID: 1648279790}
-  - component: {fileID: 1648279792}
-  - component: {fileID: 1648279794}
-  - component: {fileID: 1648279793}
   m_Layer: 5
   m_Name: PanelInicio
   m_TagString: Untagged
@@ -9695,50 +9692,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648279788}
   m_CullTransparentMesh: 1
---- !u!114 &1648279792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648279788}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd08e21d5aa30b14f93602bc9514fa17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usernameLabel: {fileID: 1405887434}
-  loginUrl: /login.html
---- !u!114 &1648279793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648279788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff08224afdf7b1c43909d7f2430adc65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  apiBase: https://api.estudiohera.mx
-  timeoutSeconds: 15
---- !u!114 &1648279794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648279788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7310fd8a4ef89b645a35d0f6654c24d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  api: {fileID: 1648279793}
-  usernameLabel: {fileID: 1405887434}
-  username: Bunchy23
-  password: 1234
 --- !u!1 &1681066191
 GameObject:
   m_ObjectHideFlags: 0

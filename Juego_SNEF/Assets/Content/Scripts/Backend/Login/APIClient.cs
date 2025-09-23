@@ -1,62 +1,74 @@
-// Assets/Scripts/ApiClient.cs
-using System;
-using System.Text;
+// ApiClient.cs
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Text;
 
-public class APIClient : MonoBehaviour
+public static class APIClient
 {
-    [Header("Config")]
-    public string apiBase = "https://api.estudiohera.mx"; // cámbialo si fuese otro
-    public float timeoutSeconds = 15f;
+    public static string BaseUrl = "https://api.tu-backend.com";
+    public static float TimeoutSeconds = 15f;
 
-    public IEnumerator PostJson<TReq, TRes>(string path, TReq body,
-        Action<TRes> onOk, Action<string> onErr)
+    static string GetToken() => WebGLBridge.Token; // <-- de memoria
+
+    static void AddAuth(UnityWebRequest req)
     {
-        var url = apiBase.TrimEnd('/') + path;
-        var json = JsonUtility.ToJson(body);
-
-        using var req = new UnityWebRequest(url, "POST");
-        req.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
-        req.downloadHandler = new DownloadHandlerBuffer();
-        req.SetRequestHeader("Content-Type", "application/json");
-        req.timeout = Mathf.CeilToInt(timeoutSeconds);
-
-        yield return req.SendWebRequest();
-
-        if (req.result != UnityWebRequest.Result.Success)
-        {
-            onErr?.Invoke($"{(int)req.responseCode} {req.error} :: {req.downloadHandler.text}");
-            yield break;
-        }
-
-        // La API puede devolver texto o JSON; aquí asumimos JSON { "token": "..." }
-        try
-        {
-            var res = JsonUtility.FromJson<TRes>(req.downloadHandler.text);
-            onOk?.Invoke(res);
-        }
-        catch
-        {
-            onErr?.Invoke("No pude parsear la respuesta: " + req.downloadHandler.text);
-        }
+#if UNITY_WEBGL && !UNITY_EDITOR
+        var t = GetToken();
+        if (!string.IsNullOrEmpty(t)) req.SetRequestHeader("Authorization", "Bearer " + t);
+#endif
     }
 
-    // Utilidad para llamadas autenticadas con Bearer <token>
-    public IEnumerator GetJsonAuth(string path, string token,
-        Action<string> onOk, Action<string> onErr)
+    public static IEnumerator Get(string path, System.Action<string> onOk, System.Action<long, string> onErr)
     {
-        var url = apiBase.TrimEnd('/') + path;
-        using var req = UnityWebRequest.Get(url);
+        using var req = UnityWebRequest.Get(BaseUrl.TrimEnd('/') + path);
         req.downloadHandler = new DownloadHandlerBuffer();
-        if (!string.IsNullOrEmpty(token))
-            req.SetRequestHeader("Authorization", "Bearer " + token);
-        req.timeout = Mathf.CeilToInt(timeoutSeconds);
-
+        req.timeout = Mathf.CeilToInt(TimeoutSeconds);
+        AddAuth(req);
         yield return req.SendWebRequest();
-
         if (req.result == UnityWebRequest.Result.Success) onOk?.Invoke(req.downloadHandler.text);
-        else onErr?.Invoke($"{(int)req.responseCode} {req.error} :: {req.downloadHandler.text}");
+        else onErr?.Invoke(req.responseCode, req.error);
+    }
+
+    public static IEnumerator PutJson(string path, string json, System.Action<string> onOk, System.Action<long, string> onErr)
+    {
+        using var req = new UnityWebRequest(BaseUrl.TrimEnd('/') + path, UnityWebRequest.kHttpVerbPUT);
+        var body = Encoding.UTF8.GetBytes(string.IsNullOrEmpty(json) ? "{}" : json);
+        req.uploadHandler = new UploadHandlerRaw(body);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+        req.timeout = Mathf.CeilToInt(TimeoutSeconds);
+        AddAuth(req);
+        yield return req.SendWebRequest();
+        if (req.result == UnityWebRequest.Result.Success) onOk?.Invoke(req.downloadHandler.text);
+        else onErr?.Invoke(req.responseCode, req.error);
+    }
+
+    public static IEnumerator PatchJson(string path, string json, System.Action<string> onOk, System.Action<long, string> onErr)
+    {
+        using var req = new UnityWebRequest(BaseUrl.TrimEnd('/') + path, "PATCH");
+        var body = Encoding.UTF8.GetBytes(string.IsNullOrEmpty(json) ? "{}" : json);
+        req.uploadHandler = new UploadHandlerRaw(body);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+        req.timeout = Mathf.CeilToInt(TimeoutSeconds);
+        AddAuth(req);
+        yield return req.SendWebRequest();
+        if (req.result == UnityWebRequest.Result.Success) onOk?.Invoke(req.downloadHandler.text);
+        else onErr?.Invoke(req.responseCode, req.error);
+    }
+
+    public static IEnumerator PostJson(string path, string json, System.Action<string> onOk, System.Action<long, string> onErr)
+    {
+        using var req = new UnityWebRequest(BaseUrl.TrimEnd('/') + path, UnityWebRequest.kHttpVerbPOST);
+        var body = Encoding.UTF8.GetBytes(string.IsNullOrEmpty(json) ? "{}" : json);
+        req.uploadHandler = new UploadHandlerRaw(body);
+        req.downloadHandler = new DownloadHandlerBuffer();
+        req.SetRequestHeader("Content-Type", "application/json");
+        req.timeout = Mathf.CeilToInt(TimeoutSeconds);
+        AddAuth(req);
+        yield return req.SendWebRequest();
+        if (req.result == UnityWebRequest.Result.Success) onOk?.Invoke(req.downloadHandler.text);
+        else onErr?.Invoke(req.responseCode, req.error);
     }
 }

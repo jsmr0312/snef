@@ -241,7 +241,7 @@ public class NPCDialogueFlow : MonoBehaviour,
                     // ↳ Persistir paso a PostScreens + desbloquear quiz
                     ProgressCore.I?.Stand_SetPhase(standId, "PostScreens", standType);
                     ProgressCore.I?.Stand_UnlockQuiz(standId);
-                    ProgressCore.I?.SaveNow("stand_postscreens_" + standId);
+                    ProgressRemote.I.UpdateStand(standId, standType, phase: "PostScreens");
 
                     _phase = Phase.PostScreens;
                     _postIndex = 0;
