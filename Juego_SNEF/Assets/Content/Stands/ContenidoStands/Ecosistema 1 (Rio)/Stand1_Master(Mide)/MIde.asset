@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: MIde
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFCu\xE1l es una buena pr\xE1ctica para controlar tus gastos mensuales?\n"
+    options:
+    - 'Gastar todo al inicio del mes '
+    - 'Anotar mis ingresos y gastos '
+    - "Pagar solo el m\xEDnimo de tu tarjeta "
+    - 'No revisar tu cuenta hasta fin de mes '
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 'Este comportamiento genera una deuda a largo plazo por los intereses, lo que
+      hace que el costo real de tus compras aumente.
+
+'
+    - 'Esto te impide tener un control real de tus gastos, lo que puede llevar a
+      un sobreendeudamiento o a quedarte sin dinero antes de lo esperado.
+
+'
+  - question: "\xBFCu\xE1l de estas opciones es un ejemplo de gasto hormiga?"
+    options:
+    - 'Renta mensual '
+    - 'Pago del celular '
+    - "Caf\xE9 diario de $50 en camino al trabajo "
+    - "Compra del s\xFAper "
+    correctIndex: 2
+    optionJustifications:
+    - "La renta es un gasto fijo que debe estar contemplado en tu presupuesto; no
+      es un gasto peque\xF1o e insignificante.\n"
+    - 'Este es un gasto regular y programado,  por lo que no se considera hormiga.
+
+'
+    - 
+    - "El supermercado es un gasto b\xE1sico y necesario, no un gasto peque\xF1o
+      o innecesario que pasa desapercibido.\n"
