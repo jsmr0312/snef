@@ -3632,6 +3632,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -3644,10 +3648,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 551702901}
   videoRawImage: {fileID: 728690137}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -4358,6 +4358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
+  requiredScreens: 4
   initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
@@ -6403,6 +6406,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1013656394}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 2
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -6417,10 +6424,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 208697000}
-  imageRenderer: {fileID: 1679587921}
   navButtonPanel: {fileID: 1017607442}
   prevButton: {fileID: 120535849}
   nextButton: {fileID: 1152335477}
@@ -7328,6 +7331,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -7340,10 +7347,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 442024179}
   videoRawImage: {fileID: 1548799137}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -9583,6 +9586,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/video/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5.mp4
@@ -9595,10 +9602,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 606562697}
   videoRawImage: {fileID: 1364714968}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -10251,6 +10254,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 306848788}
   lookAtCamera: 1
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -10263,10 +10270,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 897541335}
-  imageRenderer: {fileID: 897541337}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -11300,6 +11303,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
@@ -11312,10 +11319,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 410293835}
   videoRawImage: {fileID: 245186917}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -12861,6 +12864,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 157880660}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 2
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -12875,10 +12882,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 437554391}
-  imageRenderer: {fileID: 603415826}
   navButtonPanel: {fileID: 1017607442}
   prevButton: {fileID: 120535849}
   nextButton: {fileID: 1152335477}
@@ -13515,6 +13518,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -13527,10 +13534,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 1973711009}
   videoRawImage: {fileID: 736873946}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -14689,6 +14692,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257b64907d3e6b04398f649e43518cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
   promptUI: {fileID: 913974277}
   lookAtCamera: 0
   lockCanvas: {fileID: 487172969}
@@ -16822,6 +16827,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 457853385}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &603814230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 603814232}
+  - component: {fileID: 603814231}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &603814231
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603814230}
+  m_Enabled: 1
+  serializedVersion: 11
+  m_Type: 1
+  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
+--- !u!4 &603814232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603814230}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.5841054, y: 0.0773665, z: 0.11005477, w: 0.8004519}
+  m_LocalPosition: {x: 66.3, y: 93.4, z: 47.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 66.645, y: 39.55, z: 42.255}
 --- !u!1 &604251594
 GameObject:
   m_ObjectHideFlags: 0
@@ -19398,6 +19500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257b64907d3e6b04398f649e43518cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
   promptUI: {fileID: 1141281249}
   lookAtCamera: 0
   lockCanvas: {fileID: 1485061742}
@@ -19926,6 +20030,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 439687418}
   lookAtCamera: 1
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -19938,10 +20046,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 2094068876}
-  imageRenderer: {fileID: 2094068878}
   navButtonPanel: {fileID: 1017607442}
   prevButton: {fileID: 120535849}
   nextButton: {fileID: 1152335477}
@@ -20420,6 +20524,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
+  requiredScreens: 4
   initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
@@ -20904,103 +21011,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7b89a7eba346c34faba791b8fa554dd, type: 3}
---- !u!1 &808656777
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 808656779}
-  - component: {fileID: 808656778}
-  m_Layer: 0
-  m_Name: Directional Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!108 &808656778
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808656777}
-  m_Enabled: 1
-  serializedVersion: 11
-  m_Type: 1
-  m_Color: {r: 1, g: 0.94610935, b: 0.8392157, a: 1}
-  m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 2
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ForceVisible: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
-  m_LightUnit: 1
-  m_LuxAtDistance: 1
-  m_EnableSpotReflector: 1
---- !u!4 &808656779
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808656777}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.80236816, y: -0, z: -0, w: 0.5968294}
-  m_LocalPosition: {x: 142.3, y: 245.3, z: 11.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 106.71399, y: 0, z: 0}
 --- !u!1 &822207998
 GameObject:
   m_ObjectHideFlags: 0
@@ -22058,7 +22068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414212335306586619, guid: 2b804a57db404a94697511922e014b2e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.869402
+      value: -15.869409
       objectReference: {fileID: 0}
     - target: {fileID: 7414212335306586619, guid: 2b804a57db404a94697511922e014b2e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22067,6 +22077,22 @@ PrefabInstance:
     - target: {fileID: 7414212335306586619, guid: 2b804a57db404a94697511922e014b2e, type: 3}
       propertyPath: m_LocalPosition.z
       value: -2.3945122
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414212335306586619, guid: 2b804a57db404a94697511922e014b2e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414212335306586619, guid: 2b804a57db404a94697511922e014b2e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414212335306586619, guid: 2b804a57db404a94697511922e014b2e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414212335306586619, guid: 2b804a57db404a94697511922e014b2e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22319,6 +22345,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/video/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5.mp4
@@ -22331,10 +22361,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 1913249271}
   videoRawImage: {fileID: 686277409}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -31531,6 +31557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e53f32c99fade94483603fbf7b659f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
   quizData: {fileID: 11400000, guid: a5d82c5a4f84e2542a5a177ca74e43ab, type: 2}
   quizPanel: {fileID: 32760281}
   questionPanelRT: {fileID: 0}
@@ -31551,6 +31578,7 @@ MonoBehaviour:
   playerController: {fileID: 710339592}
   cameraController: {fileID: 0}
   timePerQuestion: 15
+  barraTiempoPanel: {fileID: 0}
   barraTiempoProgreso: {fileID: 0}
   autoFailOnTimeout: 1
 --- !u!1001 &1413849582
@@ -31672,6 +31700,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257b64907d3e6b04398f649e43518cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
   promptUI: {fileID: 169573185}
   lookAtCamera: 0
   lockCanvas: {fileID: 1556413317}
@@ -32421,6 +32451,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
+  requiredScreens: 4
   initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
@@ -33902,6 +33935,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 553136889}
   lookAtCamera: 1
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -33914,10 +33951,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 713879152}
-  imageRenderer: {fileID: 713879154}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -36372,6 +36405,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
@@ -36384,10 +36421,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 826061626}
   videoRawImage: {fileID: 598590179}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -37602,6 +37635,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/video/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5.mp4
@@ -37614,10 +37651,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 1467968377}
   videoRawImage: {fileID: 186856476}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -38779,6 +38812,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 0}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
@@ -38791,10 +38828,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 82074799}
   videoRawImage: {fileID: 1794338996}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 0}
-  imageRenderer: {fileID: 0}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -39208,6 +39241,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
+  requiredScreens: 4
   initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
@@ -39473,6 +39509,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
+  requiredScreens: 4
   initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
@@ -40496,6 +40535,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standId: 
+  standType: master
+  requiredScreens: 4
   initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
@@ -41019,6 +41061,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 546291187}
   lookAtCamera: 1
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -41031,10 +41077,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 1547301438}
-  imageRenderer: {fileID: 1547301440}
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -44927,6 +44969,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 207628544}
   lookAtCamera: 0
+  standId: 
+  screenId: screen1
+  standType: master
+  reportViewToProgress: 1
   contentType: 2
   singleImage: {fileID: 2800000, guid: 8ff192353dba50f4088add968df9bc41, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -44941,10 +44987,6 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
-  imageFitter: {fileID: 0}
-  videoFitter: {fileID: 0}
-  videoQuad: {fileID: 329011641}
-  imageRenderer: {fileID: 21633369}
   navButtonPanel: {fileID: 1017607442}
   prevButton: {fileID: 120535849}
   nextButton: {fileID: 1152335477}
@@ -46183,8 +46225,8 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 808656779}
   - {fileID: 1602965743}
+  - {fileID: 603814232}
   - {fileID: 1060348670}
   - {fileID: 481513904}
   - {fileID: 1953484833}
