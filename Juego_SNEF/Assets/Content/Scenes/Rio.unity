@@ -3119,6 +3119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1494913722}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -8398,6 +8399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1352070644}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -12934,6 +12936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1494913722}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -20078,31 +20081,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 298.31
+      value: 294.75018
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.39816
+      value: 7.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 257.41
+      value: 254.8519
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8900715
+      value: 0.46443725
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.000000008043862
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.4558209
+      value: 0.885606
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.00000011122095
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -20110,7 +20113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 54.236
+      value: 124.652
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -21478,6 +21481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1291117571}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -32796,29 +32800,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standId: 
+  standType: master
+  npcOwner: {fileID: 0}
   quizData: {fileID: 11400000, guid: a5d82c5a4f84e2542a5a177ca74e43ab, type: 2}
   quizPanel: {fileID: 1368494349}
   questionPanelRT: {fileID: 351918743}
   optionsGridRT: {fileID: 973736412}
-  bgResultado: {fileID: 254376730}
-  questionText: {fileID: 499857187}
-  optionButtons:
-  - {fileID: 585592784}
-  - {fileID: 1285386102}
-  - {fileID: 820730787}
-  - {fileID: 45170080}
+  barraTiempoPanel: {fileID: 0}
+  barraTiempoProgreso: {fileID: 987832281}
+  timePerQuestion: 15
+  autoFailOnTimeout: 1
+  panelRespuestaIncorrecta: {fileID: 0}
+  textoPreguntaElegida: {fileID: 0}
+  textoJustificacion: {fileID: 0}
+  defaultJustificationText: Puedes probar viendo otra vez los contenidos del stand
+    :D
+  barraTiempoIncorrectaPanel: {fileID: 0}
+  barraTiempoIncorrectaProgreso: {fileID: 0}
+  timeIncorrectPanel: 4
   correctFeedback: {fileID: 126599177}
   incorrectFeedback: {fileID: 822894157}
+  bgResultado: {fileID: 254376730}
   resultadoText: {fileID: 1734144331}
   motivacionalText: {fileID: 1041139065}
   retryButton: {fileID: 1162247162}
   exitButton: {fileID: 865585798}
+  redesContainer: {fileID: 0}
+  sitioWebContainer: {fileID: 0}
+  instagramButton: {fileID: 0}
+  facebookButton: {fileID: 0}
+  xButton: {fileID: 0}
+  linkedinButton: {fileID: 0}
+  sitioWebButton: {fileID: 0}
+  instagramURL: 
+  facebookURL: 
+  xURL: 
+  linkedinURL: 
+  sitioWebURL: 
   playerController: {fileID: 604577845}
   cameraController: {fileID: 604577845}
-  timePerQuestion: 15
-  barraTiempoPanel: {fileID: 0}
-  barraTiempoProgreso: {fileID: 987832281}
-  autoFailOnTimeout: 1
+  manageControllers: 1
+  manageCursor: 1
 --- !u!1001 &742972600
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33556,6 +33578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1494913722}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -34217,6 +34240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1494913722}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -38585,6 +38609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1494913722}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -39061,7 +39086,7 @@ MonoBehaviour:
   standId: 
   standType: master
   requiredScreens: 4
-  initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
+  initialLines: []
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 58ae6e17dd59f364a972a0ba25bd3993, type: 2}
@@ -39081,11 +39106,32 @@ MonoBehaviour:
   nextIcon: {fileID: 333106375}
   openQuizIcon: {fileID: 990532441}
   understoodIcon: {fileID: 1436120223}
+  nextButton: {fileID: 0}
+  openQuizButton: {fileID: 0}
+  understoodButton: {fileID: 0}
   closeWhenFar: 1
   closeDistance: 5
   closeWhenGazeLost: 1
   gazeLostGrace: 0.4
   playerTransforms: []
+  focusCameraOnTalk: 0
+  mainCamera: {fileID: 0}
+  focusViewpoint: {fileID: 0}
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0.8, y: 1.65, z: 1.6}
+  cameraTransitionDuration: 0.6
+  controllersToFreeze: []
+  playerUI: {fileID: 0}
+  playerRoot: {fileID: 0}
+  disablePlayerRootDuringFocus: 0
+  closeButton: {fileID: 0}
+  allowEscToClose: 1
+  detachCameraFromParentDuringFocus: 1
+  disableCinemachineDuringFocus: 1
+  reparentFallback: {fileID: 0}
+  supportEKeyWhileFocused: 1
+  interactKey: 101
+  autoFreezeFirstParentController: 1
 --- !u!135 &865398487
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -42339,7 +42385,7 @@ MonoBehaviour:
   standId: 
   standType: master
   requiredScreens: 4
-  initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
+  initialLines: []
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 58ae6e17dd59f364a972a0ba25bd3993, type: 2}
@@ -42359,11 +42405,32 @@ MonoBehaviour:
   nextIcon: {fileID: 881688592}
   openQuizIcon: {fileID: 394647439}
   understoodIcon: {fileID: 328383630}
+  nextButton: {fileID: 0}
+  openQuizButton: {fileID: 0}
+  understoodButton: {fileID: 0}
   closeWhenFar: 1
   closeDistance: 5
   closeWhenGazeLost: 1
   gazeLostGrace: 0.4
   playerTransforms: []
+  focusCameraOnTalk: 0
+  mainCamera: {fileID: 0}
+  focusViewpoint: {fileID: 0}
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0.8, y: 1.65, z: 1.6}
+  cameraTransitionDuration: 0.6
+  controllersToFreeze: []
+  playerUI: {fileID: 0}
+  playerRoot: {fileID: 0}
+  disablePlayerRootDuringFocus: 0
+  closeButton: {fileID: 0}
+  allowEscToClose: 1
+  detachCameraFromParentDuringFocus: 1
+  disableCinemachineDuringFocus: 1
+  reparentFallback: {fileID: 0}
+  supportEKeyWhileFocused: 1
+  interactKey: 101
+  autoFreezeFirstParentController: 1
 --- !u!135 &931353756
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -43413,7 +43480,7 @@ PrefabInstance:
     - target: {fileID: 5700872605525297142, guid: bf22854124951f04ba66f467ed8c8969, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 766c3f0aab7a6ed4fba1bafb8e3eedaa, type: 2}
+      objectReference: {fileID: 2100000, guid: 1b4e83cf3e4e5f14c923c55c2d1731a6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -44988,6 +45055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1856527559}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -45487,6 +45555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1494913722}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -47099,6 +47168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1464119061}
   lookAtCamera: 1
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -51973,7 +52043,7 @@ MonoBehaviour:
   standId: 
   standType: master
   requiredScreens: 4
-  initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
+  initialLines: []
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 58ae6e17dd59f364a972a0ba25bd3993, type: 2}
@@ -51994,11 +52064,32 @@ MonoBehaviour:
   nextIcon: {fileID: 1419458442}
   openQuizIcon: {fileID: 1352872704}
   understoodIcon: {fileID: 282229587}
+  nextButton: {fileID: 0}
+  openQuizButton: {fileID: 0}
+  understoodButton: {fileID: 0}
   closeWhenFar: 1
   closeDistance: 5
   closeWhenGazeLost: 1
   gazeLostGrace: 0.4
   playerTransforms: []
+  focusCameraOnTalk: 0
+  mainCamera: {fileID: 0}
+  focusViewpoint: {fileID: 0}
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0.8, y: 1.65, z: 1.6}
+  cameraTransitionDuration: 0.6
+  controllersToFreeze: []
+  playerUI: {fileID: 0}
+  playerRoot: {fileID: 0}
+  disablePlayerRootDuringFocus: 0
+  closeButton: {fileID: 0}
+  allowEscToClose: 1
+  detachCameraFromParentDuringFocus: 1
+  disableCinemachineDuringFocus: 1
+  reparentFallback: {fileID: 0}
+  supportEKeyWhileFocused: 1
+  interactKey: 101
+  autoFreezeFirstParentController: 1
 --- !u!135 &1206759929
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -54522,7 +54613,7 @@ MonoBehaviour:
   standId: 
   standType: master
   requiredScreens: 4
-  initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
+  initialLines: []
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 58ae6e17dd59f364a972a0ba25bd3993, type: 2}
@@ -54542,11 +54633,32 @@ MonoBehaviour:
   nextIcon: {fileID: 1043616271}
   openQuizIcon: {fileID: 1513217122}
   understoodIcon: {fileID: 1178000198}
+  nextButton: {fileID: 0}
+  openQuizButton: {fileID: 0}
+  understoodButton: {fileID: 0}
   closeWhenFar: 1
   closeDistance: 5
   closeWhenGazeLost: 1
   gazeLostGrace: 0.4
   playerTransforms: []
+  focusCameraOnTalk: 0
+  mainCamera: {fileID: 0}
+  focusViewpoint: {fileID: 0}
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0.8, y: 1.65, z: 1.6}
+  cameraTransitionDuration: 0.6
+  controllersToFreeze: []
+  playerUI: {fileID: 0}
+  playerRoot: {fileID: 0}
+  disablePlayerRootDuringFocus: 0
+  closeButton: {fileID: 0}
+  allowEscToClose: 1
+  detachCameraFromParentDuringFocus: 1
+  disableCinemachineDuringFocus: 1
+  reparentFallback: {fileID: 0}
+  supportEKeyWhileFocused: 1
+  interactKey: 101
+  autoFreezeFirstParentController: 1
 --- !u!135 &1253448367
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -60304,6 +60416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1494913722}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -64456,7 +64569,7 @@ MonoBehaviour:
   standId: 
   standType: master
   requiredScreens: 4
-  initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
+  initialLines: []
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 099db4c91de98dc4ba96c19d84b189df, type: 2}
@@ -64478,6 +64591,9 @@ MonoBehaviour:
   nextIcon: {fileID: 463204485}
   openQuizIcon: {fileID: 674863843}
   understoodIcon: {fileID: 747176501}
+  nextButton: {fileID: 0}
+  openQuizButton: {fileID: 0}
+  understoodButton: {fileID: 0}
   closeWhenFar: 1
   closeDistance: 5
   closeWhenGazeLost: 1
@@ -64495,6 +64611,24 @@ MonoBehaviour:
   - {fileID: 238168539}
   - {fileID: 1766290210}
   - {fileID: 1730806668}
+  focusCameraOnTalk: 0
+  mainCamera: {fileID: 0}
+  focusViewpoint: {fileID: 0}
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0.8, y: 1.65, z: 1.6}
+  cameraTransitionDuration: 0.6
+  controllersToFreeze: []
+  playerUI: {fileID: 0}
+  playerRoot: {fileID: 0}
+  disablePlayerRootDuringFocus: 0
+  closeButton: {fileID: 0}
+  allowEscToClose: 1
+  detachCameraFromParentDuringFocus: 1
+  disableCinemachineDuringFocus: 1
+  reparentFallback: {fileID: 0}
+  supportEKeyWhileFocused: 1
+  interactKey: 101
+  autoFreezeFirstParentController: 1
 --- !u!135 &1499633581
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -65844,7 +65978,7 @@ MonoBehaviour:
   standId: 
   standType: master
   requiredScreens: 4
-  initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
+  initialLines: []
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 099db4c91de98dc4ba96c19d84b189df, type: 2}
@@ -65866,6 +66000,9 @@ MonoBehaviour:
   nextIcon: {fileID: 15557818}
   openQuizIcon: {fileID: 1404637922}
   understoodIcon: {fileID: 1930865772}
+  nextButton: {fileID: 0}
+  openQuizButton: {fileID: 0}
+  understoodButton: {fileID: 0}
   closeWhenFar: 1
   closeDistance: 5
   closeWhenGazeLost: 1
@@ -65883,6 +66020,24 @@ MonoBehaviour:
   - {fileID: 238168539}
   - {fileID: 1766290210}
   - {fileID: 1730806668}
+  focusCameraOnTalk: 0
+  mainCamera: {fileID: 0}
+  focusViewpoint: {fileID: 0}
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0.8, y: 1.65, z: 1.6}
+  cameraTransitionDuration: 0.6
+  controllersToFreeze: []
+  playerUI: {fileID: 0}
+  playerRoot: {fileID: 0}
+  disablePlayerRootDuringFocus: 0
+  closeButton: {fileID: 0}
+  allowEscToClose: 1
+  detachCameraFromParentDuringFocus: 1
+  disableCinemachineDuringFocus: 1
+  reparentFallback: {fileID: 0}
+  supportEKeyWhileFocused: 1
+  interactKey: 101
+  autoFreezeFirstParentController: 1
 --- !u!135 &1528374045
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -67575,7 +67730,7 @@ MonoBehaviour:
   standId: 
   standType: master
   requiredScreens: 4
-  initialDialogue: {fileID: 11400000, guid: 57419118c5ab63f448bb6d213c57510e, type: 2}
+  initialLines: []
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 58ae6e17dd59f364a972a0ba25bd3993, type: 2}
@@ -67595,11 +67750,32 @@ MonoBehaviour:
   nextIcon: {fileID: 914888733}
   openQuizIcon: {fileID: 1789090169}
   understoodIcon: {fileID: 517211313}
+  nextButton: {fileID: 0}
+  openQuizButton: {fileID: 0}
+  understoodButton: {fileID: 0}
   closeWhenFar: 1
   closeDistance: 5
   closeWhenGazeLost: 1
   gazeLostGrace: 0.4
   playerTransforms: []
+  focusCameraOnTalk: 0
+  mainCamera: {fileID: 0}
+  focusViewpoint: {fileID: 0}
+  autoCreateViewpointIfNull: 1
+  autoViewLocalOffset: {x: 0.8, y: 1.65, z: 1.6}
+  cameraTransitionDuration: 0.6
+  controllersToFreeze: []
+  playerUI: {fileID: 0}
+  playerRoot: {fileID: 0}
+  disablePlayerRootDuringFocus: 0
+  closeButton: {fileID: 0}
+  allowEscToClose: 1
+  detachCameraFromParentDuringFocus: 1
+  disableCinemachineDuringFocus: 1
+  reparentFallback: {fileID: 0}
+  supportEKeyWhileFocused: 1
+  interactKey: 101
+  autoFreezeFirstParentController: 1
 --- !u!135 &1566265640
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -70337,6 +70513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1645960255}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -73979,6 +74156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1694716277}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master
@@ -78812,6 +78990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   promptUI: {fileID: 1494913722}
   lookAtCamera: 0
+  promptOpenButton: {fileID: 0}
   standId: 
   screenId: screen1
   standType: master

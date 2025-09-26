@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Banorte
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFCu\xE1l es uno de los principales beneficios de ahorrar desde
+      joven?"
+    options:
+    - "Tienes m\xE1s tiempo para lograr tus metas"
+    - "Puedes gastar m\xE1s sin preocuparte"
+    - Evitas pagar impuestos
+    - No necesitas hacer un presupuesto
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - Ahorrar no significa gastar sin control; implica planear y cuidar tus finanzas.
+    - "Ahorrar no exime del pago de impuestos; eso depende del tipo de inversi\xF3n
+      y del r\xE9gimen fiscal."
+    - "Ahorrar requiere justamente tener un presupuesto para saber cu\xE1nto puedes
+      guardar."
+  - question: "\xBFPor qu\xE9 es importante tener un ahorro?"
+    options:
+    - Para comprar cosas innecesarias
+    - "Para evitar trabajar m\xE1s"
+    - Para tener respaldo ante imprevistos
+    - Para no tener que invertir
+    correctIndex: 2
+    optionJustifications:
+    - "El ahorro est\xE1 pensado para cubrir necesidades importantes, no para gastos
+      superfluos"
+    - "Ahorrar no sustituye el trabajo, pero s\xED ayuda a tener estabilidad financiera. "
+    - 
+    - "El ahorro y la inversi\xF3n son complementarios; ahorrar te permite luego
+      invertir."
+  - question: "\xBFQu\xE9 son los Fondos de Inversi\xF3n?"
+    options:
+    - Una forma de ahorrar dinero sin riesgo
+    - "Instrumentos financieros que re\xFAnen dinero de varias personas para invertirlo
+      en distintos activos"
+    - "Cr\xE9ditos otorgados por instituciones bancarias"
+    - Cuentas de ahorro con intereses fijos
+    correctIndex: 1
+    optionJustifications:
+    - "El ahorro y la inversi\xF3n son complementarios; ahorrar te permite luego
+      invertir."
+    - 
+    - "Los fondos de inversi\xF3n no son pr\xE9stamos; son veh\xEDculos para invertir
+      dinero. "
+    - "No son cuentas de ahorro, ya que su rendimiento var\xEDa seg\xFAn el mercado."
+  - question: "\xBFCu\xE1l de los siguientes beneficios ofrece la ciberseguridad?"
+    options:
+    - Aumenta la cantidad de seguidores en redes sociales
+    - Protege tu identidad, dinero y privacidad en internet
+    - Permite compartir tus datos libremente
+    - "Elimina autom\xE1ticamente los correos electr\xF3nico"
+    correctIndex: 1
+    optionJustifications:
+    - "La ciberseguridad no tiene relaci\xF3n directa con popularidad en redes. "
+    - 
+    - 'La ciberseguridad busca precisamente limitar el acceso a tus datos. '
+    - No elimina correos, pero puede ayudarte a identificar los maliciosos.
+  - question: "\xBFQu\xE9 es un seguro?"
+    options:
+    - "Un pr\xE9stamo que se paga en mensualidades"
+    - "Un servicio de atenci\xF3n m\xE9dica gratuita"
+    - Una cuenta de ahorro con beneficios fiscales
+    - "Un contrato que te protege econ\xF3micamente ante imprevistos como accidentes,
+      robos o enfermedades"
+    correctIndex: 3
+    optionJustifications:
+    - "Un seguro no es un pr\xE9stamo; es una protecci\xF3n financiera ante riesgos."
+    - "Aunque algunos seguros incluyen atenci\xF3n m\xE9dica, no es gratuita ni universal. "
+    - Los seguros no son cuentas de ahorro, aunque algunos pueden tener beneficios
+      fiscales
+    - 

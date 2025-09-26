@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Amafore
+  m_EditorClassIdentifier: 
+  questions:
+  - question: 'Si ya estas trabajando y cotizas al IMSS, seguro ya tienes:'
+    options:
+    - Mucho tiempo libre
+    - "Deudas y estr\xE9s"
+    - "Afore (gui\xF1o, gui\xF1o)"
+    - "Poco caf\xE9"
+    correctIndex: 2
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 puedes revisar en tu estado de cuenta Afore?"
+    options:
+    - Aportaciones recibidas
+    - El saldo total de tu ahorro para el retiro
+    - "Las semanas de cotizaci\xF3n que has acumulado"
+    - Todas las anteriores
+    correctIndex: 3
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFCada cu\xE1nto tiempo te debe llegar tu estado de cuenta Afore?"
+    options:
+    - Cada 4 meses
+    - Nunca
+    - Cada 6 meses
+    - Diario
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 tipo de datos debes mantener actualizados en tu Afore para
+      tu seguridad?"
+    options:
+    - Mi cuenta de Facebook
+    - "Mis datos biom\xE9tricos"
+    - El nombre de mi mascota
+    - Mi escolaridad
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 es lo m\xE1s futurista que puedes hacer hoy por tu retiro?"
+    options:
+    - Mandarte una carta al 2050
+    - Checar y mantener tu Afore en la mira
+    - "Hacer una c\xE1psula del tiempo"
+    - Un cafecito
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 

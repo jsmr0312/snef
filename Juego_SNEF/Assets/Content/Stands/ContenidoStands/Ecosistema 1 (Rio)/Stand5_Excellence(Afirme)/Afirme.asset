@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Afirme
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 es un presupuesto personal?"
+    options:
+    - Una lista de videojuegos favoritos
+    - Un plan para organizar ingresos y gastos
+    - Una cuenta de redes sociales
+    - Ninguna de las anteriores
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFPor qu\xE9 es importante ahorrar un porcentaje de tus ingresos?"
+    options:
+    - Para estar preparado ante imprevistos
+    - "Para gastar m\xE1s en el momento"
+    - Para no pagar impuestos
+    - Ninguna de las anteriores
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFCu\xE1l es la diferencia principal entre una tarjeta de d\xE9bito
+      y una de cr\xE9dito?"
+    options:
+    - "La de d\xE9bito usa dinero que ya tienes; la de cr\xE9dito te presta dinero"
+    - "La de d\xE9bito sirve solo en cajeros y la de cr\xE9dito solo en internet"
+    - No hay diferencia, son iguales
+    - Ninguna de las anteriores
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 significa \u201Cinter\xE9s\u201D en las finanzas personales?"
+    options:
+    - El gusto por un producto
+    - El dinero extra que pagas o recibes al usar o prestar dinero
+    - Un descuento en una tienda
+    - Ninguna de las anteriores
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFCu\xE1l es un buen h\xE1bito financiero para los j\xF3venes?"
+    options:
+    - Guardar los recibos de compras y llevar un registro
+    - Gastar todo lo que ganan de inmediato
+    - "Pedir pr\xE9stamos aunque no los necesiten"
+    - Ninguna de las anteriores
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 

@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Banco Azteca
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "M\xE9todo que funciona como una bola de nieve, se empieza a pagar
+      la deuda m\xE1s peque\xF1a y poco a poco crece hasta acabar con la m\xE1s grande. "
+    options:
+    - "M\xE9todo Avalancha "
+    - "M\xE9todo Bola de Nieve "
+    - 'Presupuesto '
+    - "Bit\xE1cora de deudas"
+    correctIndex: 1
+    optionJustifications:
+    - "El m\xE9todo avalancha se enfoca en pagar primero la deuda m\xE1s grande para
+      desp\xFAes concentrarse en las deudas m\xE1s peque\xF1as."
+    - 
+    - "Un Presupuesto es una herramienta de registro que permite llevar un control
+      detallado de todas las deudas que una persona, empresa o instituci\xF3n tiene.
+      Puede ser f\xEDsica (como una libreta) o digital (como una hoja de c\xE1lculo "
+    - "La bit\xE1cora de deudas no es un m\xE9todo es es una herramienta de registro
+      que permite llevar un control detallado de todas las deudas que una persona,
+      empresa o instituci\xF3n tiene. Puede ser f\xEDsica (como una libreta) o digital "
+  - question: "\xBFCu\xE1l de los siguientes personajes tiene la mejor estrategia
+      para evitar estr\xE9s financiero y mejorar la administraci\xF3n de sus gastos? "
+    options:
+    - "Rodrigo prioriza sus gastos en alimentaci\xF3n y recreaci\xF3n, en caso de
+      que necesite dinero para completar el pago de su renta acude a cr\xE9ditos
+      expr\xE9s. "
+    - "Alex paga por adelantado sus gastos fijos como servicios, renta y telefon\xEDa,
+      lo dem\xE1s lo deposita en su tarjeta de cr\xE9dito. Mientras haya saldo en
+      la tarjeta, gasta sin problema"
+    - "C\xE9sar utiliza los SOBRES digitales de su app bancaria para separar los
+      gastos que tiene cada mes, adem\xE1s utiliza recordatorios para hacer sus pagos
+      de servicio a tiempo. Tambi\xE9n lleva un control de lo que gasta diariamente "
+    - Ninguna de las anteriores
+    correctIndex: 2
+    optionJustifications:
+    - "Rodrigo no est\xE1 priorizando el pago de su renta la cual es una necesidad
+      fundamental que debe cubrir cada mes."
+    - "No es muy buena idea depender demasiado de las tarjetas de credito, recuerda,
+      el cr\xE9dito no es una extensi\xF3n de tu sueldo."
+    - 
+    - Revisa nuevamente las otras opciones.
+  - question: "Es un buen consejo para cuando regreses a clases en la universidad
+      y pongas en pr\xE1ctica buenos h\xE1bitos financieros."
+    options:
+    - "Cada vez que compres un libro, cot\xEDzalo nuevo o usado en librer\xEDas f\xEDsicas
+      o por l\xEDnea "
+    - 'Gasta sin pensar en ahorrar '
+    - "Lleva tu tarjeta de cr\xE9dito cuando salgas de fiesta"
+    - "Come en los lugares m\xE1s caros."
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - No es una buena idea gastar todo tu dinero sin pensar en ahorrar una parte.
+    - "Las tarjetas de cr\xE9dito solo hay que utilizarlas para emergencias o en
+      compras grandes que puedas diferir a  meses isn intereses."
+    - Comer siempre en lugares caros o costosos puede impactar fuertemente a tu bolsillo.
+  - question: 'Son acciones que puedes llevar a cabo para ser un adulto independiente
+      con finanzas muy decentes. '
+    options:
+    - 'Preparar tus alimentos en casa en lugar de comer en restaurantes. '
+    - "Buscar opciones econ\xF3micas en caf\xE9 soluble o para cafetera port\xE1til
+      en lugar de comprar un caf\xE9 costoso todas las ma\xF1anas. "
+    - "Salir con anticipaci\xF3n, desplazarte a pie, en bici o en transporte p\xFAblico
+      puede ser m\xE1s adecuado para tu bolsillo que pedir muchos viajes por aplicaci\xF3n. "
+    - 'Todas las anteriores. '
+    correctIndex: 3
+    optionJustifications:
+    - "\xA1Muy bien! Esta es una de esas acciones pero hay otras m\xE1s."
+    - "\xA1Muy bien! Esta es una de esas acciones pero hay otras m\xE1s."
+    - "\xA1Muy bien! Esta es una de esas acciones pero hay otras m\xE1s."
+    - 
+  - question: "Es el m\xF3dulo del e-Learning Financiero Aprender y Crece de Banco
+      Azteca donde aprender\xE1s como realizar un presupuesto, que es el ahorro formal
+      y como gestionar tus gastos. "
+    options:
+    - 'Ahorro para el retiro '
+    - "Inversi\xF3n "
+    - Ahorro
+    - "Cr\xE9dito "
+    correctIndex: 2
+    optionJustifications:
+    - "En este m\xF3dulo aprender\xE1s que es el ahorro para el retiro y las herraminetas
+      y acciones para lograr un buen retiro."
+    - "En este m\xF3dulo aprenderas sobre la importancia de invertir y las formas
+      y mecanismos que tienes al alcance."
+    - 
+    - "En este m\xF3dulo aprenderas sobre el cr\xE9dito y los pr\xE9stamos y como
+      usarlos a tu favor."

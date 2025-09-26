@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Paypal
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 es lo primero al hacer un presupuesto?"
+    options:
+    - Registrar ingresos y gastos
+    - Comprar lo necesario primero
+    - Ahorrar lo que sobre
+    - Anotar deudas sin ingresos
+    correctIndex: 0
+    optionJustifications: []
+  - question: "\xBFPor qu\xE9 es \xFAtil separar gastos fijos y variables?"
+    options:
+    - Facilita ajustar el consumo
+    - Reduce impuestos
+    - Garantiza ahorro inmediato
+    - Permite gastar sin control
+    correctIndex: 0
+    optionJustifications: []
+  - question: "\xBFQu\xE9 hacer antes de usar cr\xE9dito en compras grandes?"
+    options:
+    - "Pedir pr\xE9stamo personal"
+    - Evitar comparar opciones
+    - Comparar precios
+    - Comprar sin planear
+    correctIndex: 2
+    optionJustifications: []
+  - question: "\xBFC\xF3mo identificar una compra inteligente?"
+    options:
+    - "Elegir siempre lo m\xE1s barato"
+    - Comparar calidad y precio
+    - Gastar sin revisar
+    - Ver si encaja en tu presupuesto
+    correctIndex: 1
+    optionJustifications: []
+  - question: "\xBFCu\xE1l es un buen h\xE1bito para el ahorro?"
+    options:
+    - Evitar registrar gastos
+    - Ahorrar solo lo que sobra
+    - Ahorrar al recibir ingresos
+    - Guardar dinero en casa
+    correctIndex: 2
+    optionJustifications: []

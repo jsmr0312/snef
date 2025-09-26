@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Asamep
+  m_EditorClassIdentifier: 
+  questions:
+  - question: 'Los agregadores de pago:'
+    options:
+    - "Facilitan el cobro de pagos electr\xF3nicos"
+    - "Integran distintas soluciones de pago (SPEI/transferencia, tarjetas de cr\xE9dito
+      y d\xE9bito, wallets)"
+    - Permiten abrir tu cuenta y cobrar en minutos
+    - Todos los anteriores
+    correctIndex: 3
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "Contesta con verdadero o falso. Los agregadores atienden a m\xE1s
+      de 4 millones de comercios en M\xE9xico"
+    options:
+    - Verdadero
+    - Falso
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+  - question: Cual de los siguientes NO es un beneficio de usar un agregador de pago
+      en un comercio?
+    options:
+    - "Acceso a datos y anal\xEDtica de consumo"
+    - Mayor burocracia en la apertura de cuentas
+    - Cobertura nacional, incluso en zonas sin bancos
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+  - question: "Contesta con verdadero o falso. ASAMEP es la Asociaci\xF3n de Agregadores
+      de Medios de Pagos que agrupa y representa a los principales agregadores de
+      M\xE9xico."
+    options:
+    - Verdadero
+    - Falso
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+  - question: "\xBFCu\xE1l de los siguientes NO es un agregador de pagos?"
+    options:
+    - Clip
+    - Santander
+    - PayPal
+    - MercadoPago
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 

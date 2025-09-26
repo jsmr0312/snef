@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Santander
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFCu\xE1l es una forma efectiva de hacer tu presupuesto mensual?"
+    options:
+    - Usar la regla 50/30/20
+    - Dividir el dinero en partes iguales
+    - Todas las anteriores
+    - Gastar 70% y ahorrar lo que sobre
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFCu\xE1l es una buena forma de ahorrar constantemente?"
+    options:
+    - Ahorrar cuando te acuerdes
+    - "Guardar el cambio en una alcanc\xEDa"
+    - "Programar ahorro autom\xE1tico"
+    - Ninguna de las anteriores
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 ejemplo muestra un uso responsable del cr\xE9dito?"
+    options:
+    - "Comprar y pagar s\xF3lo el m\xEDnimo"
+    - "Usar cr\xE9dito y pagar a tiempo"
+    - Retirar efectivo con la tarjeta
+    - Respuesta A y B
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 hacer si recibes un mensaje sospechoso del \u201Cbanco\u201D?"
+    options:
+    - "Llamar al n\xFAmero oficial del banco"
+    - Hacer clic para revisar
+    - Contestar con tus datos
+    - Respuestas B y C
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFC\xF3mo puedes proteger tus finanzas digitales?"
+    options:
+    - "Reutilizar contrase\xF1as"
+    - "Activar doble autenticaci\xF3n"
+    - Prestar tu NIP si es urgente
+    - Todas las anteriores
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 

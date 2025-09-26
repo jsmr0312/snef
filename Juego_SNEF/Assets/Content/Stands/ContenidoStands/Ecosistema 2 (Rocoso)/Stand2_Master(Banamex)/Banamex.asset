@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Banamex
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFDe qu\xE9 est\xE1 hecho el escudo financiero?"
+    options:
+    - "De un cr\xE9dito."
+    - Del ahorro.
+    - Del gasto.
+    - De la lista del super.
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFC\xF3mo afrontas los imprevistos de manera r\xE1pida?"
+    options:
+    - "Con un pr\xE9stamo."
+    - "Con una tarjeta de cr\xE9dito."
+    - Con un fondo de ahorro.
+    - Con la compra de un auto.
+    correctIndex: 2
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFC\xF3mo diversificas tus recursos?"
+    options:
+    - Inviertes tus ahorros en diferentes fondos.
+    - Haces compras compulsivas.
+    - Le pides prestado dinero a un amigo.
+    - Duplicas tus gastos.
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFC\xF3mo activas tu visi\xF3n a futuro para enfrentar crisis econ\xF3micas?"
+    options:
+    - Sin perder de vista las ofertas.
+    - Tienes un plan para tu retiro.
+    - Te enfocas en gastar la quincena.
+    - Cierras los ojos y esperas a que aparezca.
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 

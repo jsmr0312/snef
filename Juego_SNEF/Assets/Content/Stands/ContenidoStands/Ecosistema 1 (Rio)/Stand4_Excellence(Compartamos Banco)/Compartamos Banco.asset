@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Compartamos Banco
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 beneficios tiene emprender cuando hablamos de dinero?"
+    options:
+    - "Tener m\xE1s tiempo libre sin trabajar"
+    - Construir una fuente de ingresos propia y mejorar tu salud financiera
+    - Evitar pagar impuestos
+    - Ganar dinero sin depender de nadie
+    correctIndex: 1
+    optionJustifications:
+    - Recuerda que emprender es invertir de forma valiosa tu tiempo.
+    - 
+    - Este no es un beneficio para emprendedores
+    - "Lo m\xE1s importante es tener una fuente de ingresos propia"
+  - question: "\xBFQu\xE9 es lo primero que deber\xEDas tener claro antes de iniciar
+      un emprendimiento?"
+    options:
+    - La cantidad de seguidores en redes sociales
+    - Un nombre llamativo para tu marca
+    - "Qu\xE9 producto o servicio vas a ofrecer y por qu\xE9 ser\xEDa \xFAtil para
+      otros"
+    - Contarle a mis conocidos
+    correctIndex: 2
+    optionJustifications:
+    - No es necesario al iniciar
+    - Es importante, pero no lo primero a considerar
+    - 
+    - Es importante, pero no lo primero a considerar
+  - question: "\xBFQu\xE9 rol juega la educaci\xF3n financiera en el emprendimiento?"
+    options:
+    - Te ayuda a tomar mejores decisiones con tu dinero
+    - Solo sirve si manejas mucho efectivo
+    - "Es \xFAtil solo cuando ya est\xE1s ganando bastante"
+    - Es buena para darle publicidad a mi negocio
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - El emprendimiento es para todo aquel que quiera mejorar sus ingresos
+    - El emprendimiento es para todo aquel que quiera mejorar sus ingresos
+    - "Es \xFAtil, pero primero debes aprender a tomar buenas decisiones con tu dinero"
+  - question: "\xBFCu\xE1les son algunas claves para un emprendimiento financiero
+      saludable?"
+    options:
+    - "Ideas claras y planificaci\xF3n correcta"
+    - "Gesti\xF3n financiera y educaci\xF3n continua"
+    - "Diversificaci\xF3n y ahorro"
+    - Todas las anteriores
+    correctIndex: 3
+    optionJustifications:
+    - "Importante, pero hay m\xE1s"
+    - "Es valioso, pero hay m\xE1s"
+    - "Indispensable, pero hay m\xE1s"
+    - 

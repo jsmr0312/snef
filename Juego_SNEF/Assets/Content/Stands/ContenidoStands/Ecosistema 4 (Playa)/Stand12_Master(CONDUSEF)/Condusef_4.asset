@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Condusef_4
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "Identifica una decisi\xF3n del viaje a la libertad financiera "
+    options:
+    - Guarda tu dinero en instituciones financieras seguras
+    - "Haz crecer tus ingresos: trabaja, pide prestado y capac\xEDtate "
+    - 'Pon todo tu dinero en un solo lugar '
+    - 'No inviertas porque puedes perder dinero '
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - "\xA1Capacitarse y trabajar,  s\xED! Pero pedir prestado no es siempre la soluci\xF3n."
+    - "Diversificar es proteger. \xA1No pongas todos los huevos en una sola canasta!"
+    - "El miedo paraliza. \xA1Inf\xF3rmate y decide con estrategia!"
+  - question: "\xBFQu\xE9 significa alcanzar la libertad financiera?"
+    options:
+    - Usar solo efectivo en todas tus compras
+    - 'Poder vivir sin depender totalmente de un sueldo, gracias a ingresos, ahorros
+      e inversiones bien planificadas. '
+    - Endeudarse para mantener el estilo de vida
+    - No tener cuenta bancaria
+    correctIndex: 1
+    optionJustifications:
+    - "El efectivo no te da historial para acceder a otros servicios y productos
+      financieros. \xA1Equilibra!"
+    - 
+    - "Vivir bien no debe costarte el futuro. \xA1S\xE9 estrat\xE9gico!"
+    - "Tu inclusi\xF3n financiera es importante, pero con control. \xA1Tu cuenta
+      puede ser tu base!"
+  - question: "\xBFPara qu\xE9 sirve un PPR?"
+    options:
+    - "Para ahorrar dinero y asegurar tu futuro cuando est\xE9s en tu retiro "
+    - Para comprar ropa
+    - "Para pedir pr\xE9stamos"
+    - Para pagar la renta cada mes
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - "\xA1La moda pasa, tu retiro no!"
+    - No es para endeudarte, es para protegerte.
+    - Es ahorro a largo plazo, no gasto mensual.
+  - question: "\xBFPor qu\xE9 es importante planificar tus finanzas desde edad temprana?"
+    options:
+    - Porque solo sirve para comprar cosas de moda
+    - Para gastar sin preocuparte en el futuro
+    - Para evitar abrir cuentas de ahorro
+    - "Porque as\xED puedes formar h\xE1bitos saludables de ahorro e inversi\xF3n "
+    correctIndex: 3
+    optionJustifications:
+    - "La moda cambia, tus h\xE1bitos financieros permanecen."
+    - "El futuro llega, y agradecer\xE1 tu previsi\xF3n."
+    - Ahorrar es abrir puertas a tu futuro financiero, no cerrarlas.
+    - 

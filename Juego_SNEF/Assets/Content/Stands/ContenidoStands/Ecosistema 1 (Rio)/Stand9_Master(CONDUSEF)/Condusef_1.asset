@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Condusef_1
+  m_EditorClassIdentifier: 
+  questions:
+  - question: 'Son formas de sobreendeudamiento: '
+    options:
+    - "Gastar m\xE1s de lo que gano, sobregirar la tarjeta de cr\xE9dito y tener
+      gastos impulsivos. "
+    - "Comprar con tarjeta de d\xE9bito y no contestarle al banco. "
+    - "Pagar a tiempo la tarjeta de cr\xE9dito. Hacer buen uso del dinero"
+    - 'Anotar mis gastos y planificar mis compras. '
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - "No es cr\xE9dito, as\xED que no genera deuda. \xA1Pero ojo con el impulso
+      de gastarte la quincena!. Adem\xE1s, ignorar no resuelve, solo complica."
+    - "Eso est\xE1 bien! Pero no evita el sobreendeudamiento si gastas de m\xE1s
+      lo que ganas"
+    - "\xA1Gran h\xE1bito! No caigas en sobre girar las tarjetas "
+  - question: "El uso responsable de una tarjeta de cr\xE9dito es: "
+    options:
+    - 'Olvidar tu fecha de corte. '
+    - "Pagar solo el m\xEDnimo "
+    - 'Utilizarla como ingresos adicionales '
+    - 'Ser totalero (pagar todas las compras mes con mes) y pagar a tiempo '
+    correctIndex: 3
+    optionJustifications:
+    - "Peque\xF1os olvidos pueden costar caro. \xA1Tu estado de cuenta es tu aliado!"
+    - "Parece f\xE1cil, pero te puede salir m\xE1s caro. \xA1Si  puedes paga el total! "
+    - "No es dinero extra, es dinero prestado. \xA1No te confundas!"
+    - 
+  - question: "\xBFC\xF3mo se realiza un presupuesto? "
+    options:
+    - 'Registrando solo tus gastos '
+    - 'Haciendo cuentas mentales de tu dinero '
+    - "Llevar un registro de tus ingresos y tus gastos, peri\xF3dicamente "
+    - 'Registrando solo tus ingresos '
+    correctIndex: 2
+    optionJustifications:
+    - "\xA1Vas a medias! Falta ver cu\xE1nto son tus ingresos "
+    - "La memoria falla, el papel no. \xA1Hazlo visible!"
+    - 
+    - " Saber cu\xE1nto tienes no basta. \xA1Tambi\xE9n importa c\xF3mo lo usas!"
+  - question: "\xBFQu\xE9 acci\xF3n evita el sobreendeudamiento?"
+    options:
+    - "Gastar m\xE1s de lo que ganas"
+    - 'Asegurarte que tus gastos no superen tus ingresos '
+    - "Pedir pr\xE9stamos constantemente"
+    - No revisar tu historial crediticio
+    correctIndex: 1
+    optionJustifications:
+    - "Suena obvio, pero pasa seguido. \xA1Hazlo consciente!"
+    - 
+    - "No es soluci\xF3n, es un ciclo. \xA1Rompe el patr\xF3n con educaci\xF3n financiera!"
+    - "Tu historial crediticio habla por ti. \xA1Haz que diga cosas buenas!"

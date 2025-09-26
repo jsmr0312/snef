@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Nu Bank
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 es la resiliencia financiera?"
+    options:
+    - Tener mucho dinero ahorrado
+    - "Nunca pedir un cr\xE9dito"
+    - "Poder hacerle frente al momento econ\xF3mico sin perder tu estabilidad"
+    - "Sabe qu\xE9 gastos requerir\xE1s en el futuro"
+    correctIndex: 2
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFCu\xE1l de estos h\xE1bitos te ayuda a ser m\xE1s resiliente financieramente?"
+    options:
+    - "Desarrollar una estrategia financiera y planear con anticipaci\xF3n"
+    - "Evitar usar tarjetas de cr\xE9dito"
+    - Ahorrar solo si te sobra
+    - Todas las anteriores
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 herramienta financiera te puede ayudar ante una emergencia?"
+    options:
+    - Un seguro de vida
+    - "Un pr\xE9stamo expr\xE9s"
+    - Un fondo de emergencia y productos financieros no abusivos
+    - Ninguno
+    correctIndex: 2
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 papel juega la educaci\xF3n financiera en tu resiliencia?"
+    options:
+    - "Ninguno, todo es cuesti\xF3n de suerte"
+    - Es lo que te da herramientas desarrollar una estrategia financiera efectiva
+    - Solo sirve si tienes mucho dinero
+    - "La educaci\xF3n financiera se enfoca en econom\xEDa compleja y no tiene utilidad
+      pr\xE1ctica en la vida cotidiana"
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 

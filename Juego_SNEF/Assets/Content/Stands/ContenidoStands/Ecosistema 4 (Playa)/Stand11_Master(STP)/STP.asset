@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: STP
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "Si est\xE1s registrado en el IMSS o ISSSTE \xBFQu\xE9 aportaciones
+      hacen t\xFA y tu empleador?"
+    options:
+    - Aportaciones extras
+    - Aportaciones obligatorias
+    - Aportaciones voluntarias
+    - Aportaciones legales
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: Aportaciones que puedes realizar para crecer tu ahorro cuando quieras
+      y con la cantidad que puedas.
+    options:
+    - Aportaciones extras
+    - Aportaciones obligatorias
+    - Aportaciones voluntarias
+    - Aportaciones legales
+    correctIndex: 2
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "Instituci\xF3n financiera que administra el ahorro que cada persona
+      acumula para su retiro."
+    options:
+    - AFORE
+    - CONDUSEF
+    - CoDi
+    - "Banco de M\xE9xico"
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "Sistema de Banco de M\xE9xico que sirve para realizar transferencias
+      r\xE1pidas y seguras."
+    options:
+    - SPEUA
+    - SPEI
+    - "Banco de M\xE9xico"
+    - Sistema de pagos
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "Documento que emite Banco de M\xE9xico y valida las operaciones realizadas
+      a trav\xE9s de SPEI."
+    options:
+    - Comprobante de cobro
+    - "Comprobante de operaci\xF3n"
+    - "Comprobante el\xE9ctrico"
+    - "Comprobante electr\xF3nico de pago"
+    correctIndex: 3
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 

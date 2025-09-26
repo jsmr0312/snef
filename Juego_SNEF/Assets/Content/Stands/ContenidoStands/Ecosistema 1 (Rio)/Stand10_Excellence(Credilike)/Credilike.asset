@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Credilike
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFPor qu\xE9 una app de pr\xE9stamos te pedir\xEDa acceso a TODAS
+      tus fotos, contactos y mensajes?"
+    options:
+    - Para darles like
+    - Para evaluar tu perfil crediticio
+    - "Para imprimirlas en un \xE1lbum de fotos"
+    - Para decidir si te prestan o no
+    correctIndex: 1
+    optionJustifications:
+    - "Porque a una app de pr\xE9stamos no le interesar\xEDa darle like a tus fotos,
+      sino tener tu informaci\xF3n."
+    - 
+    - "Porque a una app de pr\xE9stamos no le interesar\xEDa imprimir tus fotos,
+      sino tener tu informaci\xF3n."
+    - 
+  - question: "\xBFQu\xE9 pueden saber con esa informaci\xF3n?"
+    options:
+    - "Qu\xE9 tipos de mensajes recibes"
+    - Tu color favorito
+    - La probabilidad de atraso en tus pagos
+    - "Tu pel\xEDcula favorita"
+    correctIndex: 2
+    optionJustifications:
+    - 
+    - "Porque no es el tipo de informaci\xF3n que querr\xEDan saber sobre ti para
+      evaluar tu perfil financiero."
+    - 
+    - "Porque no es el tipo de informaci\xF3n que querr\xEDan saber sobre ti para
+      evaluar tu perfil financiero."
+  - question: "\xBFCu\xE1ndo podr\xEDan utilizar esa informaci\xF3n para presionarte?"
+    options:
+    - Cuando adelantas tus pagos
+    - "Cuando liquidas tu pr\xE9stamo"
+    - Cuando revisas tu estado de cuenta
+    - Cuando caes en mora
+    correctIndex: 3
+    optionJustifications:
+    - "Porque no es una situaci\xF3n en la que les interesar\xEDa comunicarte contigo
+      con la informaci\xF3n que obtuvieron de tu perfil financiero."
+    - "Porque no es una situaci\xF3n en la que les interesar\xEDa comunicarte contigo
+      con la informaci\xF3n que obtuvieron de tu perfil financiero."
+    - "Porque no es una situaci\xF3n en la que les interesar\xEDa comunicarte contigo
+      con la informaci\xF3n que obtuvieron de tu perfil financiero."
+    - 
+  - question: "\xBFC\xF3mo puedes protegerte?"
+    options:
+    - "Revisando los permisos antes de instalar apps de pr\xE9stamos"
+    - Descargando solo apps oficiales
+    - "Pidiendo pr\xE9stamos en todas las apps que encuentres"
+    - Eligiendo financieras reguladas por CONDUSEF
+    correctIndex: 3
+    optionJustifications:
+    - 
+    - 
+    - "Porque no es una acci\xF3n recomendada, ya que podr\xEDas caer en apps que
+      no son confiables."
+    - 

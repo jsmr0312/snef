@@ -13,37 +13,64 @@ MonoBehaviour:
   m_Name: MIde
   m_EditorClassIdentifier: 
   questions:
-  - question: "\xBFCu\xE1l es una buena pr\xE1ctica para controlar tus gastos mensuales?\n"
+  - question: "\xBFC\xF3mo ayudar\xEDas a Tu Yo del Futuro?"
     options:
-    - 'Gastar todo al inicio del mes '
-    - 'Anotar mis ingresos y gastos '
-    - "Pagar solo el m\xEDnimo de tu tarjeta "
-    - 'No revisar tu cuenta hasta fin de mes '
+    - Destinando un ahorro para tu AFORE
+    - Pagando tus vacaciones a meses sin intereses
+    - Apostando en apuestas deportivas
+    - "Usando las tarjetas de cr\xE9dito al tope"
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - Pagar unas vacaciones a meses sin intereses puede significar mantener una deuda
+      aunque ya hayas disfrutado tu viaje.
+    - "Las apuestas nunca deben verse como un instrumento de inversi\xF3n; al contrario,
+      pueden descapitalizarte r\xE1pidamente y alejarte de otros objetivos financieros. "
+    - "El cr\xE9dito no es una extensi\xF3n de tu dinero, debe usarse responsablemente
+      y evitar la carga de intereses por falta de pago. "
+  - question: "\xBFQu\xE9 desarrollo educativo del MIDE te har\xE1 reflexionar sobre
+      la planeaci\xF3n de tu retiro?"
+    options:
+    - Cartas a la vejez
+    - Arrugas
+    - Backstage
+    - "Misi\xF3n Cyborg: Batallas en la red"
     correctIndex: 1
     optionJustifications:
+    - Este es un nombre ficticio y no se asocia a ningun desarrollo creado por el
+      MIDE
     - 
-    - 
-    - 'Este comportamiento genera una deuda a largo plazo por los intereses, lo que
-      hace que el costo real de tus compras aumente.
-
-'
-    - 'Esto te impide tener un control real de tus gastos, lo que puede llevar a
-      un sobreendeudamiento o a quedarte sin dinero antes de lo esperado.
-
-'
-  - question: "\xBFCu\xE1l de estas opciones es un ejemplo de gasto hormiga?"
+    - "Backstage: economia detr\xE1s de los festivales es un desarollo del MIDE que
+      liga la econom\xEDa y los conciertos."
+    - "Misi\xF3n cyborg: Batallas en la red es un desarrollo del MIDE que explora
+      los peligros y estafas del ciberespacio y c\xF3mo podemos combatirlas. "
+  - question: "\xBFQu\xE9 ocasiona el sesgo del presente?"
     options:
-    - 'Renta mensual '
-    - 'Pago del celular '
-    - "Caf\xE9 diario de $50 en camino al trabajo "
-    - "Compra del s\xFAper "
+    - Tengas un optimismo excesivo con tu futuro
+    - "Te dejes llevar por lo que hacen los dem\xE1s"
+    - Prefieras recompensas inmediatas
+    - Pienses en los beneficios de decisiones a largo plazo
     correctIndex: 2
     optionJustifications:
-    - "La renta es un gasto fijo que debe estar contemplado en tu presupuesto; no
-      es un gasto peque\xF1o e insignificante.\n"
-    - 'Este es un gasto regular y programado,  por lo que no se considera hormiga.
-
-'
+    - El sesgo de exceso de optimismo hace sobrevalorar tus capacidades o las probabilidades
+      positivas de que puedas mejorar en el futuro sin preocuparte en el presente
+    - 'El sesgo de arrastre puede ocasionar que te dejes llevar por impresiones o
+      decisiones ajenas sin analizar si esto realmente es una buena decision. '
     - 
-    - "El supermercado es un gasto b\xE1sico y necesario, no un gasto peque\xF1o
-      o innecesario que pasa desapercibido.\n"
+    - Con esto combates el sesgo del presente. Sobrepones los beneficios futuros
+      y no las recompensas inmediatas.
+  - question: "\xBFC\xF3mo se llama la sala digital del MIDE y Profuturo?"
+    options:
+    - "El bienestar del ma\xF1ana"
+    - Economia del futuro
+    - Tu Yo del Futuro
+    - "Inversiones del ma\xF1ana"
+    correctIndex: 2
+    optionJustifications:
+    - Esto es un nombre ficticio y no corresponde a la sala digital que fue presentada
+      en los materiales del stand digital
+    - Esto es un nombre ficticio y no corresponde a la sala digital que fue presentada
+      en los materiales del stand digital
+    - 
+    - Esto es un nombre ficticio y no corresponde a la sala digital que fue presentada
+      en los materiales del stand digital

@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Condusef_3
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 significa tener control financiero?"
+    options:
+    - "Depender siempre del cr\xE9dito"
+    - 'Planificar tus metas a corto, mediano y largo plazo '
+    - Comprar por impulso
+    - No revisar tus estados de cuenta
+    correctIndex: 1
+    optionJustifications:
+    - "El cr\xE9dito es apoyo, no tu ahorro. \xA1No lo uses como base!"
+    - 
+    - "Lo que emociona hoy, pesa ma\xF1ana. \xA1Respira antes de comprar!"
+    - "No revises m\xE1s tus redes sociales que tus estados de cuenta \xA1Siempre
+      atento a tus finanzas! "
+  - question: "\xBFCu\xE1l ser\xEDa una buena decisi\xF3n financiera? "
+    options:
+    - "Pagar la tarjeta de cr\xE9dito a tiempo "
+    - "Pedir pr\xE9stamos r\xE1pidos y f\xE1ciles sin necesitarlo "
+    - 'Prestar dinero a un familiar '
+    - Hacer un presupuesto y no respetarlo
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - "Lo f\xE1cil  y r\xE1pido puede salir caro y tardado de pagar. \xA1Eval\xFAa
+      antes si realmente lo necesitas!"
+    - 'La familia nos apoya. Pero no siempre puede pedirle dinero a tu familia. '
+    - "Tenerlo es el primer paso. \xA1Cumplirlo es el logro!"
+  - question: 'Escoge una meta a corto, mediano y largo plazo '
+    options:
+    - "Comprar un caf\xE9 de a sobreprecio cada ma\xF1ana, invertir en una estafa
+      piramidal durante 2 a\xF1os, no ahorrar para mi vejez "
+    - "Gastar mi sueldo en una semana, comprar una casa sin enganche, no acudir al
+      m\xE9dico hasta la vejez "
+    - "Pagar mis deudas en los pr\xF3ximos 18 meses, ahorrar para comprar un videojuego "
+    - "Pagar mis deudas en los pr\xF3ximos 6 meses, ahorrar para comprar un auto
+      en 3 a\xF1os, aportar en un PPR para usarlo dentro de 25 a\xF1os. "
+    correctIndex: 3
+    optionJustifications:
+    - "\xA1Suena extremo! Mejor metas que te construyan un futuro financiero con
+      bienestar."
+    - "\xA1Tu salud y estabilidad no son negociables!"
+    - "Puede que 18 meses suene atractivo cuando son meses sin intereses \xA1Pero
+      no para pagar tus deudas! "
+    - 
+  - question: 'Identifica los elementos de tu equilibrio financiero '
+    options:
+    - "Mantenerte en el caos, no cumplir tus metas, estr\xE9s financiero "
+    - "No tener educaci\xF3n financiera, no aprender a manejar tu dinero"
+    - "Gastas menos de lo que ganas, ahorras constantemente, tomas decisiones conscientes
+      y estrat\xE9gicas sobre tu dinero "
+    - 'Gastar mis ahorros y pedir prestado '
+    correctIndex: 2
+    optionJustifications:
+    - " \xA1No es sostenible! T\xFA mereces salud financiera financiera."
+    - "Aprender es poder. \xA1Empieza hoy con los cursos de la CONDUSEF! son gratuitos "
+    - 
+    - "Si el ahorro se va, la deuda llega. \xA1Cu\xEDdalo!"

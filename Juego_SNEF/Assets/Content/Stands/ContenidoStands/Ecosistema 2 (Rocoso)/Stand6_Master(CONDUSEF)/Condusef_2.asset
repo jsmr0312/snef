@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Condusef_2
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 significa desarrollar resiliencia financiera?"
+    options:
+    - Aprender a gastar todo lo que ganas
+    - "Tener la capacidad de adaptarte y recuperarte de imprevistos econ\xF3micos
+      que afecten los ingresos o aumenten los gastos. "
+    - Ahorrar solo cuando sobra dinero
+    - "Evitar cualquier tipo de inversi\xF3n"
+    correctIndex: 1
+    optionJustifications:
+    - "Si todo se va, nada queda para imprevistos. \xA1Tu futuro tambi\xE9n cuenta!"
+    - 
+    - "Si esperas a que sobre, nunca empieza. \xA1Hazlo parte de tu vida diaria!"
+    - "No invertir es quedarse quieto. \xA1Tu dinero puede crecer contigo! Pero siempre
+      de forma segura y con instituciones reguladas. "
+  - question: "\xBFQu\xE9 es un fondo de emergencia? "
+    options:
+    - "Tener un ahorro para imprevistos como emergencias m\xE9dicas, desempleo o
+      gastos inesperados (llanta ponchada, diente roto, entre otros) "
+    - 'Invertir en una ambulancia '
+    - 'Prestar dinero a un familiar '
+    - Una bolsa muy grande para el supermercado
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - Mejor tener dinero disponible que una ambulancia estacionada.
+    - "Ayudar est\xE1 bien, pero primero aseg\xFArate t\xFA."
+    - "\xA1Suena \xFAtil para tu s\xFAper! Pero no te salva en una urgencia."
+  - question: "\xBFQu\xE9 h\xE1bito contribuye a construir tu fondo de emergencia? "
+    options:
+    - "Gastar primero y ahorrar despu\xE9s"
+    - "Tener m\xFAltiples deudas"
+    - "Establecer metas de ahorro a trav\xE9s de un presupuesto y apegarse a \xE9l "
+    - Evitar registrar tus gastos
+    correctIndex: 2
+    optionJustifications:
+    - "Si lo dejas al final, nunca llega. \xA1Empieza al rev\xE9s!"
+    - "M\xE1s deudas, menos ahorro. \xA1Cambia la balanza!"
+    - 
+    - "Lo que no se mide, no se mejora. \xA1Hazlo visible!"
+  - question: "\xBFQu\xE9 herramienta es clave para fortalecer tu resiliencia financiera?"
+    options:
+    - Ignorar tus deudas
+    - No llevar un registro de gastos
+    - Descargar una app para administrar gastos y no usarla
+    - "Planificaci\xF3n financiera, fondo de emergencias, seguros, planes de retiro
+      y diversificaci\xF3n de tu dinero"
+    correctIndex: 3
+    optionJustifications:
+    - "No desaparecen por arte de magia. \xA1Enfr\xE9ntalas con educaci\xF3n financiera!"
+    - "Lo que no ves, te sorprende. \xA1Evita sustos!"
+    - "\xA1Ojo! no es como un videojuego que te aburre. Puede ser tu aliada. "
+    - 

@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: BBVA
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFC\xF3mo puedes empezar a ahorrar aunque a veces no tengas tanto
+      dinero?"
+    options:
+    - "Guardando una cantidad peque\xF1a cada semana (s\xED se puede desde $5)"
+    - "Esperando a tener m\xE1s dinero para empezar a ahorrar"
+    - Evitando gastar, pero sin un plan (tal vez eso no funcione a un largo plazo)
+    - "Comprar solo si tus amigos tambi\xE9n lo hacen"
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 h\xE1bito mejora tu relaci\xF3n con el dinero?"
+    options:
+    - Anotar tus gastos diarios para entender tus patrones y generar estrategias
+      de uso
+    - Dejar de pensar en el dinero hasta que se acabe
+    - "Gastar en lo que sea, total \u201Cluego veo c\xF3mo lo resuelvo"
+    - "Gastar lo m\xE1s r\xE1pido posible para no tener m\xE1s tentaciones despu\xE9s"
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 deber\xEDas hacer al recibir tu dinero?"
+    options:
+    - "Gastar primero y ver despu\xE9s qu\xE9 queda (y arriesgarte a quedarte sin
+      nada)"
+    - Ahorrar lo que sobre (pero muchas veces no sobra)
+    - Planear tus gastos desde el inicio con un presupuesto simple (checa tus ingresos
+      y tus gastos)
+    - "Solo ahorrar si alguien m\xE1s te recuerda hacerlo"
+    correctIndex: 2
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFQu\xE9 tipo de meta te ayuda a ahorrar mejor?"
+    options:
+    - "\u201CQuiero ahorrar para algo alg\xFAn d\xEDa\u201D (con el riesgo de que
+      no llegue ese d\xEDa)"
+    - "\u201CQuiero ahorrar $100 en 4 semanas para un concierto\u201D"
+    - "\u201CAhorrar lo que pueda cuando se pueda\u201D (checar el avance puede ser
+      dif\xEDcil)"
+    - No revisar tus gastos para no estresarte
+    correctIndex: 1
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFC\xF3mo puedes mantener tu motivaci\xF3n para ahorrar?"
+    options:
+    - "Compar\xE1ndote con lo que otros ahorran (con el riesgo de frustrarte)"
+    - Evitando salir para no gastar (pero eso no siempre es posible)
+    - "Celebrando cada paso que logres (aunque sea con algo simb\xF3lico)"
+    - "Comprar en cuanto se te antoja algo (porque \u201Cpara eso trabajas\u201D)"
+    correctIndex: 2
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
