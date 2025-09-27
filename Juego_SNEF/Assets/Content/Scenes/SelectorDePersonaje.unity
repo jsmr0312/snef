@@ -1353,18 +1353,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avatarIds:
-  - 1743b8a6-e612-4b8b-ad08-789e1151fef6
-  - d74de266-d666-4897-b93e-1a54fbc26b04
-  - 5fbd37ee-db44-4abb-be5c-64ca615785d0
-  - a4
-  - bad45bd4-56ec-4bc8-bb14-712c15318ca3
-  - a6
-  - d9a277c4-6bcc-4af5-9311-bea82a60ac69
-  - 0fb31413-5ba9-47c6-8f34-44bda8717a4c
-  - a9
-  - e0f50045-992b-4f5a-a269-df9f7a1864a2
-  - e36c0561-9026-4893-b6fe-bb96c6fcae95
-  - 07968914-6646-4672-a6f5-f4ec99284a66
+  - Avatar 1
+  - Avatar 2
+  - Avatar 3
+  - Avatar 4
+  - Avatar 5
+  - Avatar 6
+  - Avatar 7
+  - Avatar 8
+  - Avatar 9
+  - Avatar 10
+  - Avatar 11
+  - Avatar 12
 --- !u!4 &149462344
 Transform:
   m_ObjectHideFlags: 0
@@ -10501,7 +10501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1662061182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10840,9 +10840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseUrl: https://api.estudiohera.mx
   metricsPath: /metricas/metricas
-  dashboardPath: /metricas/dashboard
-  tokenPlayerPrefsKey: auth_token
-  requestTimeout: 8
+  requestTimeout: 4
   verboseLogs: 1
   allowSendWithoutToken: 0
 --- !u!4 &1731951221
@@ -14293,12 +14291,7 @@ MonoBehaviour:
   avatarMapper: {fileID: 0}
   confirmButton: {fileID: 0}
   loadingBlocker: {fileID: 0}
-  metrics: {fileID: 1731951220}
-  progressRemote: {fileID: 1662061182}
-  progressCore: {fileID: 0}
   nombreEscena: Menu
-  sendMetricHere: 1
-  syncRemoteProfile: 1
 --- !u!1 &2135823042
 GameObject:
   m_ObjectHideFlags: 0

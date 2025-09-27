@@ -2,39 +2,34 @@
 
 public class AvatarSelectionMetricsBinder : MonoBehaviour
 {
-    [Header("Mapper (índice → id)")]
+    [Header("Mapper (índice → id/nombre)")]
     public AvatarIdMapper mapper;
 
     int currentIndex = 1; // ajusta a tu UI real (1..N)
 
     void Start()
     {
-        MetricsClient.I?.TrackAvatarScreenEntered();
-        // Si tu UI de inicio ya muestra una tarjeta, repórtala:
-        var id = mapper ? mapper.GetByIndex(currentIndex) : null;
-        if (!string.IsNullOrEmpty(id))
-            MetricsClient.I?.TrackAvatarCardViewed(id);
+        // Ya no mandamos "entered/viewed" aquí.
+        // Si quieres debug visual, puedes imprimir el avatar inicial:
+        // var id = mapper ? mapper.GetByIndex(currentIndex) : null;
+        // Debug.Log($"[Binder] start on {id}");
     }
 
     // Llama esto desde tus botones de navegación izquierda/derecha
     public void OnNavigateToIndex(int idx1Based)
     {
         currentIndex = Mathf.Max(1, idx1Based);
-        var id = mapper ? mapper.GetByIndex(currentIndex) : null;
-        if (!string.IsNullOrEmpty(id))
-            MetricsClient.I?.TrackAvatarCardViewed(id);
+        // Ya no mandamos métricas aquí.
     }
 
-    // Llama esto al confirmar selección (además de tu flujo normal de guardar avatar)
+    // Si usas este método, solo fija selección local.
+    // La métrica "avatar_seleccionado" la envía CambiaEscena al confirmar.
     public void OnConfirmSelection()
     {
         var id = mapper ? mapper.GetByIndex(currentIndex) : null;
         if (!string.IsNullOrEmpty(id))
         {
-            // 1) Métrica
-            MetricsClient.I?.TrackAvatarSeleccionado(id);
-            // 2) Progreso (persistencia real)
-            AvatarSelectionBridge.SetAvatarId(id);
+            AvatarSelectionBridge.SetAvatarId(id); // persistencia local / legacy
         }
     }
 }

@@ -5,11 +5,15 @@ using System.Collections;
 
 public class QuizManager : MonoBehaviour
 {
-    [Header("Stand (Progress)")]
-    [Tooltip("ID del stand al que pertenece este quiz (ej. 'nu', 'mx_bank_01').")]
-    public string standId;
-    [Tooltip("Tipo de stand para Progress (master/premier/excellence/punto).")]
+    [Header("Stand & Trivia")]
+    public string standId;      // uuid
+    public string triviaId;     // uuid
+    public int coinsPerCorrect = 0;
     public string standType = "master";
+
+    [Header("Vinculaciones")]
+    public ArcadeInteractable linkedArcade; // del mismo stand
+    public NPCDialogueFlow linkedNpc;       // opcional, para OnQuizFinished()
 
     [Header("NPC dueño (opcional)")]
     [Tooltip("NPC que lanzó/posee este quiz. Si no lo asignas, se intentará encontrar por standId.")]
@@ -45,7 +49,6 @@ public class QuizManager : MonoBehaviour
     [Tooltip("Si una opción incorrecta no tiene justificación, se usará este texto.")]
     [TextArea(2, 3)]
     public string defaultJustificationText = "Puedes probar viendo otra vez los contenidos del stand :D";
-
 
     [Tooltip("Panel/Contenedor del temporizador del panel de justificación.")]
     public GameObject barraTiempoIncorrectaPanel;
@@ -118,6 +121,10 @@ public class QuizManager : MonoBehaviour
     bool _prevCursorVisible;
     CursorLockMode _prevCursorLock;
 
+    // internos de métrica (intentos)
+    float _attemptStart;
+    int _attemptIndex = 1;
+
     void Awake()
     {
         _questionOrigPos = questionPanelRT ? questionPanelRT.anchoredPosition : Vector2.zero;
@@ -147,38 +154,20 @@ public class QuizManager : MonoBehaviour
             barraTiempoIncorrectaProgreso.fillOrigin = (int)Image.OriginHorizontal.Left;
             barraTiempoIncorrectaProgreso.fillAmount = 0f;
         }
-
-        // Hook a las opciones
-        if (quizData == null || quizData.questions == null) return;
-        if (quizData.questions.Length == 0) return;
-
-        // Los botones se asignan en el inspector (mismo orden que las opciones)
-        // Si hay más botones que opciones, los extra se ocultan en tiempo de ejecución.
-        // Si hay menos, las opciones adicionales se ignorarán.
-        // Conectamos los onClick aquí para evitar duplicidad.
-        // (Se asignan de nuevo en StartQuiz() por seguridad si hiciste cambios en play mode).
     }
 
-    void OnEnable()
-    {
-        // Conectar listeners aquí garantiza que al reactivar el GO no dupliquemos handlers.
-        WireOptionButtons();
-        WireResultButtons();
-    }
+    // IMPORTANTE: ya NO enlazamos botones aquí para evitar cruces entre stands
+    void OnEnable() { }
 
     void WireOptionButtons()
     {
         if (questionPanelRT == null || optionsGridRT == null) return;
         if (quizData == null || quizData.questions == null) return;
 
-        // Busca todos los Buttons hijos de optionsGridRT si no se configuró un array fijo
-        // (si ya los tienes en un array público, comenta esta parte y deja tu asignación manual).
         var localButtons = optionsGridRT.GetComponentsInChildren<Button>(true);
-        // Evita listeners duplicados
-        foreach (var b in localButtons)
-        {
-            b.onClick.RemoveAllListeners();
-        }
+
+        foreach (var b in localButtons) b.onClick.RemoveAllListeners();
+
         for (int i = 0; i < localButtons.Length; i++)
         {
             int idx = i;
@@ -187,6 +176,8 @@ public class QuizManager : MonoBehaviour
                 StartCoroutine(HandleAnswer(idx));
             });
         }
+
+        Debug.Log($"[QuizManager:{name}] Botones enlazados: {localButtons.Length}");
     }
 
     void WireResultButtons()
@@ -215,11 +206,18 @@ public class QuizManager : MonoBehaviour
 
     public void StartQuiz()
     {
+        _attemptStart = Time.realtimeSinceStartup;
+        MetricsClient.I?.TrackTriviaIniciada(standId, triviaId);
+
         if (quizData == null || quizData.questions == null || quizData.questions.Length == 0)
         {
             Debug.LogWarning("[QuizManager] QuizData no asignado o sin preguntas.");
             return;
         }
+
+        // Garantiza que los botones apunten a ESTE QuizManager
+        WireOptionButtons();
+        WireResultButtons();
 
         // Vincular NPC si no está asignado
         if (npcOwner == null && !string.IsNullOrEmpty(standId))
@@ -230,13 +228,6 @@ public class QuizManager : MonoBehaviour
                 if (n != null && n.standId == standId) { npcOwner = n; break; }
             }
         }
-
-        // Marcar Fase Final desde primera apertura del quiz
-        ProgressCore.I?.Stand_SetPhase(standId, "Final", standType);
-        try { ProgressRemote.I?.UpdateStand(standId, standType: standType, phase: "Final"); }
-        catch (System.Exception ex) { Debug.LogWarning("[QuizManager] UpdateStand(Final) al abrir quiz: " + ex.Message); }
-
-        MissionManager.I?.NotifyEvent(MissionManager.MissionType.CompleteQuiz);
 
         // Snapshot del estado actual (para restaurar al cerrar)
         _prevPlayerCtrlEnabled = playerController ? playerController.enabled : false;
@@ -286,7 +277,7 @@ public class QuizManager : MonoBehaviour
             if (qLabel) qLabel.text = q.question;
         }
 
-        // Pintar opciones (busca los botones hijos y rellena su TMP)
+        // Pintar opciones
         var localButtons = optionsGridRT.GetComponentsInChildren<Button>(true);
         for (int i = 0; i < localButtons.Length; i++)
         {
@@ -369,7 +360,6 @@ public class QuizManager : MonoBehaviour
         if (correct) _score++;
 
         // ===== Caso A: CORRECTA  ||  TIMEOUT =====
-        //   -> Usa animación de feedback (palomita/incorrecto) y pasa a la siguiente.
         if (correct || byTimeout)
         {
             var img = correct ? correctFeedback : incorrectFeedback;
@@ -403,9 +393,6 @@ public class QuizManager : MonoBehaviour
         }
 
         // ===== Caso B: INCORRECTA por CLIC =====
-        //   -> Ocultamos panel de preguntas/opciones, mostramos panelRespuestaIncorrecta con:
-        //      - Texto de la opción que eligió
-        //      - Justificación específica (si existe); si no, texto genérico
         if (questionPanelRT) questionPanelRT.gameObject.SetActive(false);
         if (optionsGridRT) optionsGridRT.gameObject.SetActive(false);
         if (barraTiempoPanel) barraTiempoPanel.SetActive(false);
@@ -450,7 +437,6 @@ public class QuizManager : MonoBehaviour
 
     string GetJustificationSafe(QuizQuestion qq, int chosenIdx)
     {
-        // Si existe justificación específica y no está vacía, úsala
         if (qq != null && qq.optionJustifications != null &&
             chosenIdx >= 0 && chosenIdx < qq.optionJustifications.Length)
         {
@@ -458,12 +444,10 @@ public class QuizManager : MonoBehaviour
             if (!string.IsNullOrWhiteSpace(j)) return j;
         }
 
-        // Fallback configurable desde el inspector
         return string.IsNullOrWhiteSpace(defaultJustificationText)
             ? "Puedes probar viendo otra vez los contenidos del stand :D"
             : defaultJustificationText;
     }
-
 
     IEnumerator NextStepOrEnd()
     {
@@ -471,7 +455,6 @@ public class QuizManager : MonoBehaviour
 
         if (_currentIndex < quizData.questions.Length)
         {
-            // Preparar siguiente pregunta
             if (questionPanelRT) questionPanelRT.gameObject.SetActive(true);
             if (optionsGridRT) optionsGridRT.gameObject.SetActive(true);
 
@@ -501,35 +484,25 @@ public class QuizManager : MonoBehaviour
         if (panelRespuestaIncorrecta) panelRespuestaIncorrecta.SetActive(false);
         if (barraTiempoIncorrectaPanel) barraTiempoIncorrectaPanel.SetActive(false);
 
-        // ----- PROGRESO -----
-        ProgressCore.I?.Stand_RecordQuiz(standId, _score, quizData.questions.Length);
+        int total = quizData != null && quizData.questions != null ? quizData.questions.Length : 0;
 
-        int total = quizData.questions.Length;
-        float elapsed = Mathf.Max(0f, Time.realtimeSinceStartup - _quizStartRealtime);
-        int ms = Mathf.RoundToInt(elapsed * 1000f);
+        float attemptElapsed = Mathf.Max(0f, Time.realtimeSinceStartup - _attemptStart);
+        int elapsedSecs = Mathf.RoundToInt(attemptElapsed);
+        int errores = Mathf.Max(0, total - _score);
+        int coins = Mathf.Max(0, _score * coinsPerCorrect);
 
-        float ratio = total > 0 ? (float)_score / total : 0f;
-        int stars = (ratio >= 0.9f) ? 3 : (ratio >= 0.7f) ? 2 : (ratio >= 0.5f) ? 1 : 0;
-
-        try
-        {
-            if (ProgressRemote.I != null && !string.IsNullOrEmpty(standId))
-            {
-                ProgressRemote.I.PostQuizResult(standId, _score, stars, _score, total, ms);
-                ProgressRemote.I.UpdateStand(standId, standType: standType, phase: "Final", screensViewed: null, quizUnlocked: true);
-            }
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogWarning("[QuizManager] ProgressRemote falló: " + ex.Message);
-        }
+        // ----- MÉTRICAS (intento + resultado) -----
+        MetricsClient.I?.TrackIntentoQuiz(standId, triviaId, _attemptIndex, elapsedSecs, _score, errores);
+        MetricsClient.I?.TrackTriviaCompletada(standId, triviaId, _score, errores, elapsedSecs, coins);
+        _attemptIndex++;
 
         // ----- UI de resultado -----
         if (resultadoText) resultadoText.text = $"{_score}/{total}";
         if (motivacionalText)
         {
+            float ratio = total > 0 ? (float)_score / total : 0f;
             if (ratio >= 1f) motivacionalText.text = "¡Lo hiciste perfecto!";
-            else if (ratio >= .6) motivacionalText.text = "¡Muy bien, sigue así!";
+            else if (ratio >= .6f) motivacionalText.text = "¡Muy bien, sigue así!";
             else motivacionalText.text = "¡Sigue intentando!";
         }
 
@@ -537,9 +510,13 @@ public class QuizManager : MonoBehaviour
 
         if (bgResultado) bgResultado.SetActive(true);
 
-        // Notificar a sistemas
-        (npcOwner != null ? npcOwner : FindObjectOfType<NPCDialogueFlow>())?.OnQuizFinished();
-        FindObjectOfType<ArcadeInteractable>()?.UnlockArcade();
+        // Notificar a sistemas (usar referencias si existen; fallback a Find)
+        var npc = (npcOwner != null) ? npcOwner : linkedNpc;
+        if (npc == null) npc = FindObjectOfType<NPCDialogueFlow>();
+        npc?.OnQuizFinished();
+
+        var arcade = linkedArcade != null ? linkedArcade : FindObjectOfType<ArcadeInteractable>();
+        arcade?.UnlockArcade();
     }
 
     void SetupSponsorLinksUI()
@@ -550,7 +527,7 @@ public class QuizManager : MonoBehaviour
         {
             sitioWebButton.onClick.RemoveAllListeners();
             if (!string.IsNullOrWhiteSpace(sitioWebURL))
-                sitioWebButton.onClick.AddListener(() => Application.OpenURL(sitioWebURL));
+                sitioWebButton.onClick.AddListener(() => OnExternalLinkClick(sitioWebURL, "web"));
         }
 
         int activeCount = 0;
@@ -561,7 +538,7 @@ public class QuizManager : MonoBehaviour
             bool has = !string.IsNullOrWhiteSpace(instagramURL);
             instagramButton.gameObject.SetActive(has);
             instagramButton.onClick.RemoveAllListeners();
-            if (has) { instagramButton.onClick.AddListener(() => Application.OpenURL(instagramURL)); activeCount++; }
+            if (has) { instagramButton.onClick.AddListener(() => OnExternalLinkClick(instagramURL, "instagram")); activeCount++; }
         }
 
         // Facebook
@@ -570,7 +547,7 @@ public class QuizManager : MonoBehaviour
             bool has = !string.IsNullOrWhiteSpace(facebookURL);
             facebookButton.gameObject.SetActive(has);
             facebookButton.onClick.RemoveAllListeners();
-            if (has) { facebookButton.onClick.AddListener(() => Application.OpenURL(facebookURL)); activeCount++; }
+            if (has) { facebookButton.onClick.AddListener(() => OnExternalLinkClick(facebookURL, "facebook")); activeCount++; }
         }
 
         // X / Twitter
@@ -579,7 +556,7 @@ public class QuizManager : MonoBehaviour
             bool has = !string.IsNullOrWhiteSpace(xURL);
             xButton.gameObject.SetActive(has);
             xButton.onClick.RemoveAllListeners();
-            if (has) { xButton.onClick.AddListener(() => Application.OpenURL(xURL)); activeCount++; }
+            if (has) { xButton.onClick.AddListener(() => OnExternalLinkClick(xURL, "x")); activeCount++; }
         }
 
         // LinkedIn
@@ -588,11 +565,18 @@ public class QuizManager : MonoBehaviour
             bool has = !string.IsNullOrWhiteSpace(linkedinURL);
             linkedinButton.gameObject.SetActive(has);
             linkedinButton.onClick.RemoveAllListeners();
-            if (has) { linkedinButton.onClick.AddListener(() => Application.OpenURL(linkedinURL)); activeCount++; }
+            if (has) { linkedinButton.onClick.AddListener(() => OnExternalLinkClick(linkedinURL, "linkedin")); activeCount++; }
         }
 
         // Oculta contenedor de redes si no hay ninguna
         if (redesContainer) redesContainer.SetActive(activeCount > 0);
+    }
+
+    public void OnExternalLinkClick(string url, string network)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return;
+        MetricsClient.I?.TrackClickEnlaceExterno(standId, url, string.IsNullOrWhiteSpace(network) ? "other" : network);
+        Application.OpenURL(url);
     }
 
     void CloseQuiz()

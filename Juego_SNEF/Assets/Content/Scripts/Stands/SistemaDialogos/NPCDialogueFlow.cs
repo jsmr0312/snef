@@ -15,6 +15,10 @@ public class NPCDialogueFlow : MonoBehaviour,
     public string standType = "master";
     public int requiredScreens = 4;
 
+    [Header("Refs")]
+    public QuizManager quizManagerRef;
+
+
     [Header("Diálogos (Initial inline)")]
     [TextArea(2, 4)] public List<string> initialLines = new List<string>();
 
@@ -433,17 +437,11 @@ public class NPCDialogueFlow : MonoBehaviour,
 
     private void StartQuiz()
     {
-        var qm = FindObjectOfType<QuizManager>();
-        if (qm != null)
-        {
-            // pasa tu standType y vínculo si quieres asegurarlo
-            if (string.IsNullOrEmpty(qm.standId)) qm.standId = standId;
-            if (qm.npcOwner == null) qm.npcOwner = this;
-            if (string.IsNullOrEmpty(qm.standType)) qm.standType = standType;
-
-            qm.StartQuiz();
-        }
+        if (quizManagerRef != null) { quizManagerRef.StartQuiz(); return; }
+        // Fallback si quedó sin asignar (evitar romper):
+        FindObjectOfType<QuizManager>()?.StartQuiz();
     }
+
 
     /// Llamar desde QuizManager cuando se cierre o termine el quiz
     public void OnQuizFinished()

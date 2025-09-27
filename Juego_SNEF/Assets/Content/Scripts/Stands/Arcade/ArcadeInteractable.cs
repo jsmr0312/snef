@@ -8,10 +8,12 @@ public class ArcadeInteractable : MonoBehaviour,
     Interactor.IInteractableFeedback
 
 {
-
-    [Header("Stand (Progress)")]
+    [Header("Stand Context")]
     public string standId;
-    public string standType = "master";
+    public string standNumber;
+    public string ecosystemName;
+    public string miniGameId;
+    
 
     [Header("Prompt UI")]
     [Tooltip("GameObject que indica “Presiona E”")]
@@ -90,7 +92,7 @@ public class ArcadeInteractable : MonoBehaviour,
     {
         SetLocked(true);
         ProgressCore.I?.Stand_UnlockArcade(standId);
-        ProgressRemote.I.UpdateStand(standId, standType, phase: "PostScreens", screensViewed: null, quizUnlocked: true);
+       
 
     }
 
@@ -149,6 +151,10 @@ public class ArcadeInteractable : MonoBehaviour,
             PlayerPrefs.SetString("ReturnTo", SceneManager.GetActiveScene().name);
             PlayerPrefs.Save();
         }
+
+        StandContext.I?.SetCurrentStand(standId, standNumber, ecosystemName);
+        if (!string.IsNullOrEmpty(miniGameId))
+            StandContext.I?.SetMiniGame(miniGameId);
 
         // Arcade desbloqueada: cargamos la escena del minijuego
         if (!string.IsNullOrEmpty(arcadeSceneName))

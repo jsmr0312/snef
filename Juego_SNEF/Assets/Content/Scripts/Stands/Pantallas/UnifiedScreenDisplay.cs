@@ -16,14 +16,28 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public GameObject promptUI;
     public bool lookAtCamera = true;
 
-    // NUEVO: botón dentro del prompt para abrir (funciona con mouse y touch)
+    // Botón dentro del prompt para abrir (mouse/touch)
     public Button promptOpenButton;
 
-    [Header("Stand (Progress)")]
-    public string standId;              // ej. eco1_banco_master
-    public string screenId = "screen1"; // screen1, screen2, screen3, screen4
+    [Header("Stand (Identidad)")]
+    public string standId;              // ej. eco1_banco_master (uuid/string)
+    public string screenId = "screen1"; // screen1, screen2, ...
     public string standType = "master"; // master/premier/excellence/punto
-    public bool reportViewToProgress = true;
+
+    [Header("Stand (Métricas)")]
+    [Tooltip("Nombre del ecosistema (Ecosistema 1, 2, etc.)")]
+    public string ecosystemName;
+    [Tooltip("ID único del contenido (si lo dejas vacío, usará screenId).")]
+    public string assetId;
+
+    [Header("Descarga")]
+    [Tooltip("Botón para descargar el contenido (se oculta si no hay URL).")]
+    public Button downloadButton;
+    [Tooltip("URL directa al archivo que se quiere descargar.")]
+    public string downloadURL;
+    [Tooltip("Si true, el botón se oculta cuando no hay URL; si false, sólo se desactiva.")]
+    public bool hideDownloadIfEmpty = true;
+
 
     [Header("Contenido")]
     public ContentType contentType;
@@ -67,7 +81,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     [Tooltip("Si está activo y hay avatarsParent, también incluirá hijos que estén inicialmente inactivos.")]
     public bool includeInactiveAvatars = false;
 
-    // Estado interno (no tocar)
+    // Estado interno de avatares
     private readonly System.Collections.Generic.List<GameObject> _avatars = new System.Collections.Generic.List<GameObject>();
     private readonly System.Collections.Generic.Dictionary<GameObject, bool> _avatarPrevActive = new System.Collections.Generic.Dictionary<GameObject, bool>();
     private bool _disabledPlayerRoot = false;
@@ -152,6 +166,11 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     // Fallback tracking
     private bool _usingLocalFallback = false;
 
+    // ======= Métricas de contenido =======
+    private float _viewStart;
+    private int _progressPct;
+    private bool _completed;
+
     #endregion
 
     #region Setup
@@ -192,6 +211,39 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         }
     }
 
+    public void OnDownloadClick()
+    {
+        if (string.IsNullOrWhiteSpace(downloadURL)) return;
+
+        // Métrica como click externo con network="download"
+        MetricsClient.I?.TrackClickEnlaceExterno(
+            standId,
+            downloadURL,
+            "download"
+        );
+
+        // Abre el link (en WebGL el navegador gestiona la descarga)
+        Application.OpenURL(downloadURL);
+    }
+
+    void SetupDownloadUI()
+    {
+        if (downloadButton == null) return;
+
+        downloadButton.onClick.RemoveAllListeners();
+
+        bool hasUrl = !string.IsNullOrWhiteSpace(downloadURL);
+
+        if (hideDownloadIfEmpty)
+            downloadButton.gameObject.SetActive(hasUrl);
+        else
+            downloadButton.interactable = hasUrl;
+
+        if (hasUrl)
+            downloadButton.onClick.AddListener(OnDownloadClick);
+    }
+
+
     private void ToggleAvatars(bool turnOn)
     {
         if (_avatars.Count == 0) return;
@@ -231,6 +283,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         if (promptOpenButton != null)
             promptOpenButton.onClick.AddListener(() => Interact());
 
+        SetupDownloadUI();
+
+
         // Brillo
         _brilloRend = GetComponent<Renderer>();
         _brilloProp = new MaterialPropertyBlock();
@@ -267,6 +322,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 #endif
             videoPlayer.errorReceived += OnVideoError;
             videoPlayer.prepareCompleted += OnVideoPrepared;
+            videoPlayer.loopPointReached += OnVideoFinished; // para marcar completed= true
         }
 
         _totalSlides = slides?.Length ?? 0;
@@ -310,6 +366,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         {
             videoPlayer.errorReceived -= OnVideoError;
             videoPlayer.prepareCompleted -= OnVideoPrepared;
+            videoPlayer.loopPointReached -= OnVideoFinished;
         }
         if (promptOpenButton != null)
             promptOpenButton.onClick.RemoveAllListeners();
@@ -338,14 +395,13 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             DynamicGI.SetEmissive(_brilloRend, pulseColor);
         }
 
-        // Entrada de usuario LEGACY (sólo si activaste proximidad)
+        // Entrada de usuario LEGACY (proximidad + tecla)
         if (useProximityTriggers && legacyKeyToInteract)
         {
             if (!_isViewing && _playerInside && promptUI != null && promptUI.activeSelf && Input.GetKeyDown(KeyCode.E))
                 EnterViewMode();
 
-            // IMPORTANTE: Eliminado el cierre con ESC para cumplir con tu cambio
-            // (antes aquí se llamaba ExitViewMode() al presionar Escape)
+            // No cerrar con ESC (eliminado)
         }
 
         // Billboarding del prompt
@@ -443,12 +499,10 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         _brilloRend.SetPropertyBlock(_brilloProp);
         Viewed = true;
 
-        // Reportar primera vista
-        if (reportViewToProgress && ProgressCore.I != null)
-        {
-            ProgressCore.I.Stand_MarkScreenViewed(standId, screenId, standType);
-            ProgressRemote.I.AddStandScreen(standId, screenId);
-        }
+        // ==== MÉTRICAS: iniciar temporizador ====
+        _viewStart = Time.realtimeSinceStartup;
+        _progressPct = 0;
+        _completed = false;
 
         // Guarda cámara y oculta jugador/UI
         if (mainCamera != null)
@@ -575,6 +629,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         {
             case ContentType.Image:
                 ShowImage(singleImage);
+                // imagen se considera completada al visualizar
+                _completed = true; _progressPct = 100;
                 break;
             case ContentType.Video:
                 // Play ocurre en OnVideoPrepared
@@ -584,6 +640,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 ShowPresentationItem(0);
                 break;
         }
+
+        SetupDownloadUI(); // refresca por si cambiaste la URL en runtime
+
     }
 
     void ExitViewMode()
@@ -671,6 +730,21 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             }
         }
 
+        // ==== MÉTRICAS: enviar contenido_visualizado al salir ====
+        int dur = Mathf.Max(0, Mathf.RoundToInt(Time.realtimeSinceStartup - _viewStart));
+        // Si fue video y no marcó completed (loop), calculemos el progreso aproximado
+        if (contentType == ContentType.Video && videoPlayer != null && videoPlayer.length > 0.01)
+        {
+            int pct = Mathf.RoundToInt((float)(videoPlayer.time / videoPlayer.length) * 100f);
+            _progressPct = Mathf.Clamp(pct, 0, 100);
+            if (_progressPct >= 100) _completed = true;
+        }
+
+        string asset = string.IsNullOrEmpty(assetId) ? screenId : assetId;
+        MetricsClient.I?.TrackContenidoVisualizado(
+            standId, asset, ecosystemName, dur, _completed, _progressPct
+        );
+
         if (_active == this) _active = null;
     }
 
@@ -715,6 +789,10 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         idx = Mathf.Clamp(idx, 0, _totalSlides - 1);
         _currentIndex = idx;
         ShowImage(slides[idx]);
+
+        // progreso
+        _progressPct = (_totalSlides <= 1) ? 100 : Mathf.RoundToInt(((idx + 1) / (float)_totalSlides) * 100f);
+        _completed = (_currentIndex >= _totalSlides - 1);
 
         if (prevButton) prevButton.interactable = idx > 0;
         if (nextButton) nextButton.interactable = idx < _totalSlides - 1;
@@ -812,6 +890,12 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             _videoPlayPending = false;
             vp.Play();
         }
+    }
+
+    void OnVideoFinished(VideoPlayer vp)
+    {
+        _completed = true;
+        _progressPct = 100;
     }
 
     void OnVideoError(VideoPlayer vp, string msg)
