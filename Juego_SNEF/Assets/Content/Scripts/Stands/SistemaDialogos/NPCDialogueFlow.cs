@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events; // para UnityAction y reasignar UnityEvents
 
 public class NPCDialogueFlow : MonoBehaviour,
     Interactor.IInteractable,
@@ -17,7 +18,6 @@ public class NPCDialogueFlow : MonoBehaviour,
 
     [Header("Refs")]
     public QuizManager quizManagerRef;
-
 
     [Header("Diálogos (Initial inline)")]
     [TextArea(2, 4)] public List<string> initialLines = new List<string>();
@@ -95,13 +95,12 @@ public class NPCDialogueFlow : MonoBehaviour,
     public bool disableCinemachineDuringFocus = true;
     public Transform reparentFallback;
 
-    [Header("Entrada mientras hay enfoque")]
-    public bool supportEKeyWhileFocused = true;
-    public KeyCode interactKey = KeyCode.E;
-
     [Header("Auto Freezer")]
     public bool autoFreezeFirstParentController = true;
     private MonoBehaviour _autoFrozenController;
+
+    // Propietario global del foco (evita cruces entre NPCs)
+    private static NPCDialogueFlow _focusOwner;
 
     // Estado enfoque / cámara
     private bool _isFocused = false;
@@ -150,25 +149,38 @@ public class NPCDialogueFlow : MonoBehaviour,
             focusViewpoint = vp;
         }
 
-        if (closeButton)
-        {
-            closeButton.onClick.RemoveAllListeners();
-            closeButton.onClick.AddListener(() => EndConversation());
-            closeButton.gameObject.SetActive(false);
-        }
-
+        // ---- Auto-resolver botones si faltan referencias ----
         if (!nextButton && nextIcon) nextButton = nextIcon.GetComponentInChildren<Button>(true);
         if (!openQuizButton && openQuizIcon) openQuizButton = openQuizIcon.GetComponentInChildren<Button>(true);
         if (!understoodButton && understoodIcon) understoodButton = understoodIcon.GetComponentInChildren<Button>(true);
 
-        if (nextButton) { nextButton.onClick.RemoveAllListeners(); nextButton.onClick.AddListener(OnNextClicked); }
-        if (openQuizButton) { openQuizButton.onClick.RemoveAllListeners(); openQuizButton.onClick.AddListener(OnOpenQuizClicked); }
-        if (understoodButton) { understoodButton.onClick.RemoveAllListeners(); understoodButton.onClick.AddListener(OnUnderstoodClicked); }
+        // Si no asignaste closeButton explícitamente, intenta encontrarlo bajo el diálogo
+        if (!closeButton && dialogueBubble)
+        {
+            Button best = null;
+            foreach (var b in dialogueBubble.GetComponentsInChildren<Button>(true))
+            {
+                if (b.name.ToLower().Contains("close") || b.name.ToLower().Contains("cerrar"))
+                {
+                    best = b; break;
+                }
+                if (!best) best = b;
+            }
+            closeButton = best;
+        }
+
+        // ---- Rewire DURO (borra listeners persistentes y de runtime) ----
+        HookButton(nextButton, OnNextClicked);
+        HookButton(openQuizButton, OnOpenQuizClicked);
+        HookButton(understoodButton, OnUnderstoodClicked);
+        HookButton(closeButton, EndConversation);
+
+        if (closeButton) closeButton.gameObject.SetActive(false);
     }
 
     void Start()
     {
-        // Hidratar fase inicial desde progreso
+        // Si usas progreso local, hidrata fase (no retrocede)
         SyncPhaseWithProgressForwardOnly();
     }
 
@@ -186,9 +198,7 @@ public class NPCDialogueFlow : MonoBehaviour,
                 EndConversation();
         }
 
-        if (_isFocused && _inConversation && supportEKeyWhileFocused && Input.GetKeyDown(interactKey))
-            Interact();
-
+        // Eliminado: interacción con tecla E (solo botones)
         if (_isFocused && allowEscToClose && Input.GetKeyDown(KeyCode.Escape))
             EndConversation();
     }
@@ -215,7 +225,6 @@ public class NPCDialogueFlow : MonoBehaviour,
     void OnDestroy() { ForceReleaseFocusIfStuck(); }
 
     // ---------- progreso → fase ----------
-    // Mapea string → enum
     private bool TryMapPhase(string p, out Phase phase)
     {
         switch (p)
@@ -224,15 +233,14 @@ public class NPCDialogueFlow : MonoBehaviour,
             case "PostScreens": phase = Phase.PostScreens; return true;
             case "Final": phase = Phase.Final; return true;
             case "Initial": phase = Phase.Initial; return true;
-            default: phase = _phase; return false; // null/"" → no tocar
+            default: phase = _phase; return false;
         }
     }
 
-    // Solo avanza si progreso trae una fase "mayor" que la interna actual
     private void SyncPhaseWithProgressForwardOnly()
     {
         var p = ProgressCore.I?.Stand_GetPhase(standId);
-        if (string.IsNullOrEmpty(p)) return; // no sobre-escribir con nada
+        if (string.IsNullOrEmpty(p)) return;
 
         if (TryMapPhase(p, out var phFromProgress))
         {
@@ -241,10 +249,9 @@ public class NPCDialogueFlow : MonoBehaviour,
                                   ph == Phase.PostScreens ? 2 : 3;
 
             if (Rank(phFromProgress) > Rank(_phase))
-                _phase = phFromProgress; // solo avanzar
+                _phase = phFromProgress;
         }
     }
-
 
     // =========================================================
     //     Interactor integration
@@ -286,10 +293,8 @@ public class NPCDialogueFlow : MonoBehaviour,
 
     public void Interact()
     {
-        // ¡mantén fase sincronizada con progreso!
-        // SyncPhaseWithProgress();   // ❌ quítala
-        SyncPhaseWithProgressForwardOnly();     // ✅ usa esta
-
+        // Llamado solo desde botones (no por teclado)
+        SyncPhaseWithProgressForwardOnly();
 
         if (_typingRoutine != null && dialogueText != null)
         {
@@ -315,7 +320,6 @@ public class NPCDialogueFlow : MonoBehaviour,
                 if (HasMore(Phase.Initial, _initialIndex))
                     ShowLine(GetLine(Phase.Initial, _initialIndex++));
 
-                // ¿Se acabó Initial? → pasar a Waiting **y mostrar la 1ª línea ya**
                 if (!HasMore(Phase.Initial, _initialIndex))
                 {
                     TriggerScreensHighlight();
@@ -324,20 +328,11 @@ public class NPCDialogueFlow : MonoBehaviour,
                     _phase = Phase.Waiting;
                     _waitingIndex = 0;
 
-                    // Mostrar inmediatamente el diálogo de Waiting (si existe), para que se note el salto de fase
                     int totalW = GetTotal(Phase.Waiting);
-                    if (totalW > 0)
-                    {
-                        ShowLine(GetLine(Phase.Waiting, _waitingIndex++));
-                    }
-                    else
-                    {
-                        // Fallback si no tienes asset de Waiting
-                        ShowLine("¡Termina de ver el contenido!");
-                    }
+                    if (totalW > 0) ShowLine(GetLine(Phase.Waiting, _waitingIndex++));
+                    else ShowLine("¡Termina de ver el contenido!");
                 }
                 break;
-
 
             case Phase.Waiting:
                 if (!AllScreensViewed())
@@ -348,10 +343,7 @@ public class NPCDialogueFlow : MonoBehaviour,
                         int idx = Mathf.Min(_waitingIndex++, total - 1);
                         ShowLine(GetLine(Phase.Waiting, idx));
                     }
-                    else
-                    {
-                        ShowLine(" ");
-                    }
+                    else ShowLine(" ");
                 }
                 else
                 {
@@ -374,28 +366,14 @@ public class NPCDialogueFlow : MonoBehaviour,
                 break;
 
             case Phase.PostScreens:
-                if (HasMore(Phase.PostScreens, _postIndex))
-                {
-                    ShowLine(GetLine(Phase.PostScreens, _postIndex++));
-                }
-                else
-                {
-                    StartQuiz();
-                }
+                if (HasMore(Phase.PostScreens, _postIndex)) ShowLine(GetLine(Phase.PostScreens, _postIndex++));
+                else StartQuiz();
                 break;
 
             case Phase.Final:
-                if (HasMore(Phase.Final, _finalIndex))
-                {
-                    ShowLine(GetLine(Phase.Final, _finalIndex++));
-                }
-                else
-                {
-                    StartQuiz(); // <-- reabrir siempre
-                }
+                if (HasMore(Phase.Final, _finalIndex)) ShowLine(GetLine(Phase.Final, _finalIndex++));
+                else StartQuiz(); // reabrir si terminas líneas
                 break;
-
-
         }
     }
 
@@ -416,7 +394,6 @@ public class NPCDialogueFlow : MonoBehaviour,
         foreach (var s in screensToHighlight) if (s) s.EnableHighlight();
     }
 
-    // Lógica ORIGINAL
     private bool AllScreensViewed()
     {
         if (screensToHighlight != null && screensToHighlight.Length > 0)
@@ -438,10 +415,8 @@ public class NPCDialogueFlow : MonoBehaviour,
     private void StartQuiz()
     {
         if (quizManagerRef != null) { quizManagerRef.StartQuiz(); return; }
-        // Fallback si quedó sin asignar (evitar romper):
         FindObjectOfType<QuizManager>()?.StartQuiz();
     }
-
 
     /// Llamar desde QuizManager cuando se cierre o termine el quiz
     public void OnQuizFinished()
@@ -467,8 +442,8 @@ public class NPCDialogueFlow : MonoBehaviour,
         if (dialogueBubble) dialogueBubble.SetActive(false);
         HideAllIcons();
 
-        if (_isFocused) ExitFocusMode();
-        ForceReleaseFocusIfStuck();
+        // salida segura siempre
+        HardRestoreFocusNow();
 
         if (enableOutlineOnProximity && outline)
         {
@@ -544,11 +519,16 @@ public class NPCDialogueFlow : MonoBehaviour,
 
             case Phase.Final:
                 if (HasMore(Phase.Final, _finalIndex))
+                {
                     nextIcon?.SetActive(true);
+                }
                 else
-                    openQuizIcon?.SetActive(true); // <-- siempre ofrecer reabrir el quiz
+                {
+                    // Mostrar AMBOS: Abrir Quiz y Entendido (como pediste)
+                    openQuizIcon?.SetActive(true);
+                    understoodIcon?.SetActive(true);
+                }
                 break;
-
 
             case Phase.Waiting:
                 understoodIcon?.SetActive(true);
@@ -573,7 +553,6 @@ public class NPCDialogueFlow : MonoBehaviour,
         if (_phase == Phase.PostScreens || _phase == Phase.Final)
             StartQuiz();
     }
-
     private void OnUnderstoodClicked() => EndConversation();
 
     // =========================================================
@@ -609,6 +588,11 @@ public class NPCDialogueFlow : MonoBehaviour,
         if (!mainCamera) mainCamera = Camera.main;
         if (mainCamera == null || focusViewpoint == null) return;
         if (_isFocused) return;
+
+        // Tomar propiedad global del foco (libera a cualquier otro NPC activo)
+        if (_focusOwner != null && _focusOwner != this)
+            _focusOwner.ForceReleaseFocusIfStuck();
+        _focusOwner = this;
 
         _isFocused = true;
 
@@ -665,8 +649,7 @@ public class NPCDialogueFlow : MonoBehaviour,
     {
         if (mainCamera == null)
         {
-            RestoreControlsAndUI();
-            _isFocused = false;
+            HardRestoreFocusNow();
             return;
         }
 
@@ -687,8 +670,31 @@ public class NPCDialogueFlow : MonoBehaviour,
 
                 RestoreControlsAndUI();
                 _isFocused = false;
+                if (_focusOwner == this) _focusOwner = null;
             }
         );
+    }
+
+    // Restauración inmediata y segura (sin depender de la transición)
+    private void HardRestoreFocusNow()
+    {
+        if (closeButton) closeButton.gameObject.SetActive(false);
+        if (_transitionRoutine != null) { StopCoroutine(_transitionRoutine); _transitionRoutine = null; }
+
+        if (mainCamera != null)
+        {
+            mainCamera.transform.SetPositionAndRotation(_camOrigPos, _camOrigRot);
+
+            if (detachCameraFromParentDuringFocus && mainCamera.transform.parent == null)
+            {
+                Transform targetParent = _camOrigParent != null ? _camOrigParent : reparentFallback;
+                if (targetParent != null) mainCamera.transform.SetParent(targetParent, true);
+            }
+        }
+
+        RestoreControlsAndUI();
+        _isFocused = false;
+        if (_focusOwner == this) _focusOwner = null;
     }
 
     private void RestoreControlsAndUI()
@@ -737,9 +743,11 @@ public class NPCDialogueFlow : MonoBehaviour,
         }
 
         float elapsed = 0f;
-        while (elapsed < cameraTransitionDuration)
+        float dur = Mathf.Max(0.01f, cameraTransitionDuration);
+
+        while (elapsed < dur)
         {
-            float t = Mathf.SmoothStep(0f, 1f, elapsed / cameraTransitionDuration);
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / dur);
             mainCamera.transform.position = Vector3.Lerp(aPos, bPos, t);
             mainCamera.transform.rotation = Quaternion.Slerp(aRot, bRot, t);
             elapsed += Time.deltaTime;
@@ -786,6 +794,7 @@ public class NPCDialogueFlow : MonoBehaviour,
         return data.lines[index];
     }
 
+    // Si algo quedó a medias (otro NPC tomó el foco, etc.), restaura TODO.
     private void ForceReleaseFocusIfStuck()
     {
         bool needRestore = false;
@@ -803,15 +812,16 @@ public class NPCDialogueFlow : MonoBehaviour,
         if (detachCameraFromParentDuringFocus && _camOrigParent && mainCamera && mainCamera.transform.parent == null)
             needRestore = true;
 
-        if (needRestore)
-        {
-            if (detachCameraFromParentDuringFocus && mainCamera && mainCamera.transform.parent == null)
-            {
-                Transform targetParent = _camOrigParent != null ? _camOrigParent : reparentFallback;
-                if (targetParent != null) mainCamera.transform.SetParent(targetParent, true);
-            }
-            RestoreControlsAndUI();
-            _isFocused = false;
-        }
+        if (_isFocused) needRestore = true;
+
+        if (needRestore) HardRestoreFocusNow();
+    }
+
+    // --- Utilidad: reemplaza completamente los onClick (incluye persistentes del inspector)
+    private void HookButton(Button btn, UnityAction cb)
+    {
+        if (!btn) return;
+        btn.onClick = new Button.ButtonClickedEvent();
+        btn.onClick.AddListener(cb);
     }
 }
