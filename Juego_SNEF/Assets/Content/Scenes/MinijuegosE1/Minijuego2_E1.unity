@@ -2453,6 +2453,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &184105618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2719,6 +2727,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &212651353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2772,10 +2788,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 331393135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 82.5, y: -40}
+  m_SizeDelta: {x: 165, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &223752593
 MonoBehaviour:
@@ -11338,6 +11354,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &426041702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13835,7 +13859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &565751644
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14173,6 +14197,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &574664019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14519,6 +14551,9 @@ MonoBehaviour:
   controladoresAInhabilitar:
   - {fileID: 0}
   mostrarMejorMarcaEnUI: 1
+  scoreCountDuration: 0.8
+  scorePrefix: +
+  completadoTexto: COMPLETADO
 --- !u!4 &604573040
 Transform:
   m_ObjectHideFlags: 0
@@ -20920,6 +20955,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &773913624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20973,6 +21016,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &775262322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21894,6 +21945,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &838474443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27733,6 +27792,9 @@ MonoBehaviour:
   holdTime: 2
   popOutTime: 0.24
   riseDistance: 0.25
+  useUnscaledTime: 0
+  billboardToCamera: 1
+  targetCamera: {fileID: 0}
 --- !u!114 &924126840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28811,6 +28873,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &976441645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28943,6 +29013,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &990085836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29080,6 +29158,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1000002923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29421,6 +29507,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1023097400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42795,10 +42889,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 331393135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 257.5, y: -40}
+  m_SizeDelta: {x: 165, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1192347859
 MonoBehaviour:
@@ -45776,6 +45870,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1362519144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46263,6 +46365,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1393450120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52537,6 +52647,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1496542363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52736,6 +52854,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1509216481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58883,6 +59009,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1591044799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64699,6 +64833,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1660993113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71483,6 +71625,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1815419562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72434,6 +72584,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!65 &1870807787
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72716,6 +72874,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1899651728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72779,6 +72945,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &1906846186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79502,6 +79676,14 @@ MonoBehaviour:
   onCollected:
     m_PersistentCalls:
       m_Calls: []
+  usarObjetoEspecial: 0
+  spriteObjetoRenderer: {fileID: 0}
+  spriteObjetoImage: {fileID: 0}
+  nombreObjetoText: {fileID: 0}
+  cantidadText: {fileID: 0}
+  posiblesObjetos: []
+  elegirAlReset: 1
+  indiceFijo: -1
 --- !u!114 &2019553074
 MonoBehaviour:
   m_ObjectHideFlags: 0

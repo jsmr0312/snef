@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 
 [RequireComponent(typeof(Collider))]
@@ -24,11 +26,46 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
 
     [Header("Popup (Canvas hijo)")]
     public bool showPopup = true;
-    public PopupPopAndScale popup;          // <— referencia al script del Canvas
+    public PopupPopAndScale popup;                 // script del popup flotante
     public Vector3 popupWorldOffset = new Vector3(0f, 1.0f, 0f);
 
     [Header("Eventos (Opcional)")]
     public UnityEvent onCollected;
+
+    // ================== OBJETO ESPECIAL (OPCIONAL) ==================
+    [Header("Objeto especial (opcional)")]
+    [Tooltip("Actívalo si este pickup debe elegir un ítem visual aleatorio al aparecer/resetear.")]
+    public bool usarObjetoEspecial = false;
+
+    [Tooltip("SpriteRenderer del hijo 'SpriteObjeto' (si usas sprite 2D en mundo).")]
+    public SpriteRenderer spriteObjetoRenderer;
+
+    [Tooltip("O bien, Image del hijo 'SpriteObjeto' (si es UI en World Space).")]
+    public Image spriteObjetoImage;
+
+    [Tooltip("TMP del hijo 'Canvas/NombreObjeto' para mostrar el nombre en el mundo.")]
+    public TextMeshProUGUI nombreObjetoText;
+
+    [Tooltip("TMP del hijo 'Canvas/Cantidad' (solo para mostrar '+N' fijo en el mundo).")]
+    public TextMeshProUGUI cantidadText;
+
+    [System.Serializable]
+    public class ItemVisual
+    {
+        public string nombre;
+        public Sprite sprite;
+    }
+
+    [Tooltip("Lista de posibles objetos. Se elige uno al azar (o por índice fijo).")]
+    public List<ItemVisual> posiblesObjetos = new List<ItemVisual>();
+
+    [Tooltip("Elegir al azar cada vez que se resetea. Si está en false, solo se elige una vez al inicio.")]
+    public bool elegirAlReset = true;
+
+    [Tooltip("Si >=0 y válido, fuerza seleccionar ese índice en lugar de al azar.")]
+    public int indiceFijo = -1;
+
+    // ================================================================
 
     private Collider _col;
     private RotateAndLevitate _rot;
@@ -37,6 +74,8 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
     private Vector3 _startPos;
     private Quaternion _startRot;
     private Vector3 _startScale;
+
+    private int _chosenIndex = -1;
 
     void Awake()
     {
@@ -47,6 +86,16 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
         _startPos = transform.position;
         _startRot = transform.rotation;
         _startScale = transform.localScale;
+
+        // Inicializa visual del objeto especial (si aplica)
+        if (usarObjetoEspecial)
+        {
+            ElegirYAplicarVisual(inicial: true);
+        }
+
+        // Actualiza el texto de cantidad del hijo Canvas (si lo usas)
+        if (cantidadText)
+            cantidadText.text = string.Format(formatoPuntos, presupuestoGanado);
     }
 
     void OnTriggerEnter(Collider other)
@@ -64,12 +113,14 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
         _col.enabled = false;
         if (_rot) _rot.enabled = false;
 
-        // Lanza popup independiente (NO depende de este GameObject)
+        // Popup independiente
         if (showPopup && popup != null)
         {
             string puntos = string.Format(formatoPuntos, presupuestoGanado);
+            // Usa el nombreObjeto ACTUAL (puede venir del ítem aleatorio)
             popup.Play(nombreObjeto, puntos, transform.position + popupWorldOffset);
         }
+
         StartCoroutine(CollectAnimAndHide());
     }
 
@@ -105,7 +156,6 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
             yield return null;
         }
 
-        // El ítem se apaga sin matar el popup (corre en su propio componente)
         gameObject.SetActive(false);
     }
 
@@ -125,5 +175,58 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
         if (_rot) _rot.enabled = true;
         _col.enabled = true;
         gameObject.SetActive(true);
+
+        // Elegir nuevo visual si así se configuró
+        if (usarObjetoEspecial && elegirAlReset)
+        {
+            ElegirYAplicarVisual(inicial: false);
+        }
+
+        // Refrescar textos visibles en el mundo
+        if (cantidadText)
+            cantidadText.text = string.Format(formatoPuntos, presupuestoGanado);
+        if (nombreObjetoText)
+            nombreObjetoText.text = nombreObjeto;
+    }
+
+    // ------------------- Objeto especial: elegir/aplicar -------------------
+    void ElegirYAplicarVisual(bool inicial)
+    {
+        if (posiblesObjetos == null || posiblesObjetos.Count == 0)
+        {
+            // Sin lista: usa lo que ya esté en 'nombreObjeto' y sprite actual
+            if (nombreObjetoText) nombreObjetoText.text = nombreObjeto;
+            return;
+        }
+
+        // Determina índice
+        if (indiceFijo >= 0 && indiceFijo < posiblesObjetos.Count)
+        {
+            _chosenIndex = indiceFijo;
+        }
+        else if (inicial || elegirAlReset)
+        {
+            _chosenIndex = Random.Range(0, posiblesObjetos.Count);
+        }
+        else if (_chosenIndex < 0 || _chosenIndex >= posiblesObjetos.Count)
+        {
+            // fallback
+            _chosenIndex = 0;
+        }
+
+        var item = posiblesObjetos[_chosenIndex];
+
+        // Actualiza nombre lógico (afecta popup)
+        nombreObjeto = string.IsNullOrEmpty(item.nombre) ? nombreObjeto : item.nombre;
+
+        // Actualiza nombre visible en el mundo
+        if (nombreObjetoText)
+            nombreObjetoText.text = nombreObjeto;
+
+        // Actualiza sprite (SpriteRenderer o UI Image)
+        if (spriteObjetoRenderer)
+            spriteObjetoRenderer.sprite = item.sprite;
+        if (spriteObjetoImage)
+            spriteObjetoImage.sprite = item.sprite;
     }
 }

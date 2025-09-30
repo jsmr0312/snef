@@ -1,4 +1,4 @@
-﻿// CorreYGanaManager.cs (REEMPLAZA por esta versión)
+﻿// CorreYGanaManager.cs (versión ajustada)
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -46,11 +46,10 @@ public class CorreYGanaManager : MonoBehaviour
     [Tooltip("Incremento de pitch por estrella (2a=base+step, 3a=base+2*step).")]
     public float sfxPitchStep = 0.07f;
 
-
     [Header("Umbrales de estrellas (segundos, MENOS es mejor)")]
     public float tiempo3Estrellas = 20f;     // <= 3★
     public float tiempo2Estrellas = 35f;     // <= 2★
-    public float tiempo1Estrella = 50f;     // <= 1★
+    public float tiempo1Estrella = 50f;      // <= 1★
 
     [Header("Puntos TOTALES por estrellas (cumulativos)")]
     [Tooltip("Index 0..3 = total que corresponde a 0,1,2,3 estrellas. El premio de la partida es (totalNuevo - totalPrevio).")]
@@ -72,6 +71,13 @@ public class CorreYGanaManager : MonoBehaviour
     [Tooltip("Si está activo, la UI muestra la MEJOR marca histórica; si se desactiva, muestra las estrellas de la partida actual.")]
     public bool mostrarMejorMarcaEnUI = true;
 
+    [Header("Puntuación (Animación)")]
+    [Tooltip("Duración del conteo animado de la puntuación (en segundos, usando tiempo real).")]
+    public float scoreCountDuration = 0.8f;
+    [Tooltip("Prefijo de la puntuación mostrada (p.ej. '+').")]
+    public string scorePrefix = "+";
+    [Tooltip("Texto a mostrar cuando ya no hay más puntos por ganar (3 estrellas alcanzadas históricamente y premio=0).")]
+    public string completadoTexto = "COMPLETADO";
 
     // ---- estado interno ----
     float _tiempoRestante;
@@ -81,6 +87,10 @@ public class CorreYGanaManager : MonoBehaviour
 
     // Cache de objetos reseteables (monedas, etc.)
     readonly List<ILevelResettable> _reseteables = new List<ILevelResettable>();
+
+    // Corrutinas activas
+    Coroutine _scoreRoutine;
+    Coroutine _starsRoutine;
 
     void Awake()
     {
@@ -127,7 +137,7 @@ public class CorreYGanaManager : MonoBehaviour
         // --- calcular estrellas de la partida ---
         int estrellasPartida = CalcularEstrellas(_tardo);
 
-        // --- registrar progreso y calcular premio (igual que antes) ---
+        // --- registrar progreso y calcular premio ---
         int premio = 0;
         bool improvedStars, improvedTime;
         if (Stats.I != null)
@@ -152,7 +162,32 @@ public class CorreYGanaManager : MonoBehaviour
         MostrarCursor(true);
         Pausar(true);
         if (panelVictoria) panelVictoria.SetActive(true);
-        if (puntuacionText) puntuacionText.text = premio.ToString();
+
+        // Determinar si ya NO es posible ganar más puntos:
+        // condición: premio==0 Y bestStars ya es 3 (máximo histórico alcanzado)
+        bool sinMasPuntosPosibles = false;
+        if (Stats.I != null)
+        {
+            var snap = Stats.I.GetProgress(minijuegoId); // ya actualizado tras RegisterMinigameResult
+            sinMasPuntosPosibles = (premio <= 0) && (snap.bestStars >= 3);
+        }
+
+        // Texto de puntuación
+        if (puntuacionText)
+        {
+            if (sinMasPuntosPosibles)
+            {
+                // Ya no hay forma de ganar más: muestra "completado"
+                if (_scoreRoutine != null) StopCoroutine(_scoreRoutine);
+                puntuacionText.text = completadoTexto;
+            }
+            else
+            {
+                // Aún se puede ganar (o se ganó en esta corrida): mostrar +N con animación
+                if (_scoreRoutine != null) StopCoroutine(_scoreRoutine);
+                _scoreRoutine = StartCoroutine(AnimarPuntuacion(premio));
+            }
+        }
 
         // Usa MEJOR marca para la UI si el toggle está activo
         int estrellasUI = estrellasPartida;
@@ -168,8 +203,8 @@ public class CorreYGanaManager : MonoBehaviour
 
         // Resetea y anima usando estrellasUI (no las de la partida)
         PrepararEstrellas();
-        StartCoroutine(AnimarEstrellas(estrellasUI));
-
+        if (_starsRoutine != null) StopCoroutine(_starsRoutine);
+        _starsRoutine = StartCoroutine(AnimarEstrellas(estrellasUI));
     }
 
     // -------- Derrota --------
@@ -192,6 +227,10 @@ public class CorreYGanaManager : MonoBehaviour
 
         if (panelVictoria) panelVictoria.SetActive(false);
         if (panelDerrota) panelDerrota.SetActive(false);
+
+        // Detener corrutinas de UI si quedaran vivas
+        if (_scoreRoutine != null) { StopCoroutine(_scoreRoutine); _scoreRoutine = null; }
+        if (_starsRoutine != null) { StopCoroutine(_starsRoutine); _starsRoutine = null; }
 
         // Respawn jugador
         if (respawner != null) respawner.Respawn();
@@ -266,14 +305,13 @@ public class CorreYGanaManager : MonoBehaviour
             Color c1 = ganada ? colorEstrellaGanada : colorEstrellaPerdida;
 
             // --- SFX: justo cuando empieza a "aparecer" la estrella ---
-            // (Usa OneShot para que no se corte aunque suenen seguidas)
             if (estrellaSfx && sfxSource && (!sfxSoloSiEstrellaGanada || ganada))
             {
                 sfxSource.pitch = sfxPitchAscendente ? (sfxPitchBase + sfxPitchStep * i) : 1f;
                 sfxSource.PlayOneShot(estrellaSfx, estrellaSfxVolume);
             }
 
-            // --- Animación de pop (no escalada para que funcione con Time.timeScale=0) ---
+            // --- Animación de pop con tiempo real ---
             float t = 0f, dur = 0.28f;
             while (t < 1f)
             {
@@ -286,14 +324,36 @@ public class CorreYGanaManager : MonoBehaviour
             img.transform.localScale = Vector3.one;
             img.color = c1;
 
-            // Pequeño delay entre estrellas (tiempo real)
             yield return new WaitForSecondsRealtime(0.12f);
         }
 
-        // Deja el pitch normal para futuras reproducciones
         if (sfxSource) sfxSource.pitch = 1f;
     }
 
+    // --- Animación del contador de puntuación con prefijo "+" y tiempo real ---
+    IEnumerator AnimarPuntuacion(int premio)
+    {
+        if (puntuacionText == null) yield break;
+
+        float elapsed = 0f;
+        int lastShown = -1;
+        puntuacionText.text = $"{scorePrefix}0";
+
+        while (elapsed < scoreCountDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / scoreCountDuration);
+            int current = Mathf.RoundToInt(Mathf.Lerp(0, premio, t));
+            if (current != lastShown)
+            {
+                puntuacionText.text = $"{scorePrefix}{current}";
+                lastShown = current;
+            }
+            yield return null;
+        }
+
+        puntuacionText.text = $"{scorePrefix}{premio}";
+    }
 
     void Pausar(bool pausa)
     {

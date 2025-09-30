@@ -18,6 +18,13 @@ public class PopupPopAndScale : MonoBehaviour
     public float popOutTime = 0.24f;
     public float riseDistance = 0.25f;
 
+    [Header("Opcional")]
+    [Tooltip("Usa tiempo real (unscaled) para que el popup anime aunque Time.timeScale=0.")]
+    public bool useUnscaledTime = false;
+    [Tooltip("Hace que el popup siempre mire hacia la cámara.")]
+    public bool billboardToCamera = true;
+    public Camera targetCamera; // si está vacío, usa Camera.main
+
     // Estado inicial
     private Transform _origParent;
     private Vector3 _origLocalPos;
@@ -36,6 +43,9 @@ public class PopupPopAndScale : MonoBehaviour
 
         // Mantén el tamaño original, solo lo multiplicaremos con factor 0→1
         transform.localScale = Vector3.zero; // será _origLocalScale * 0
+
+        if (billboardToCamera && targetCamera == null)
+            targetCamera = Camera.main;
     }
 
     public void Play(string nombre, string puntos, Vector3 itemWorldPos)
@@ -60,8 +70,12 @@ public class PopupPopAndScale : MonoBehaviour
         float t = 0f;
         while (t < popInTime)
         {
-            t += Time.deltaTime;
+            t += DT();
             float k = Mathf.Clamp01(t / Mathf.Max(0.0001f, popInTime));
+
+            // billboard opcional
+            if (billboardToCamera && targetCamera)
+                FaceCamera();
 
             // slide up
             float easePos = EaseOutCubic(k);
@@ -79,14 +93,19 @@ public class PopupPopAndScale : MonoBehaviour
         transform.position = endWorld;
         SetRelativeScale(1f);
 
-        yield return new WaitForSeconds(holdTime);
+        if (useUnscaledTime) yield return new WaitForSecondsRealtime(holdTime);
+        else yield return new WaitForSeconds(holdTime);
 
         // salida: 1 → 0 con back-in
         t = 0f;
         while (t < popOutTime)
         {
-            t += Time.deltaTime;
+            t += DT();
             float k = Mathf.Clamp01(t / Mathf.Max(0.0001f, popOutTime));
+
+            if (billboardToCamera && targetCamera)
+                FaceCamera();
+
             float rel = Mathf.LerpUnclamped(1f, 0f, EaseInBack(k));
             SetRelativeScale(Mathf.Max(0f, rel));
             yield return null;
@@ -107,6 +126,19 @@ public class PopupPopAndScale : MonoBehaviour
     private void SetRelativeScale(float factor)
     {
         transform.localScale = _origLocalScale * factor;
+    }
+
+    // --- reemplazo del método abreviado por una versión clásica ---
+    private float DT()
+    {
+        return useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+    }
+
+    private void FaceCamera()
+    {
+        Vector3 dir = transform.position - targetCamera.transform.position;
+        if (dir.sqrMagnitude > 0.0001f)
+            transform.rotation = Quaternion.LookRotation(dir);
     }
 
     private float EaseOutBack(float x, float c = 1.70158f)
