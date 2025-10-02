@@ -95,9 +95,14 @@ public class ShopUIController : MonoBehaviour
         }
 
         // 4) Guardar remoto (manda TODO el JSON)
-        int oldPresupuesto = ProgressCore.I.Data.progress.presupuesto;
-        ProgressCore.I.AddPresupuesto(-_selected.price);
-        ProgressRemote.I.UpdateWalletByChange(oldPresupuesto, ProgressCore.I.Data.progress.presupuesto);
+        // Dentro de BuySelected(), después de cobrar en Stats:
+        int oldPresupuesto = ProgressCore.I.Progress.presupuesto;
+        ProgressCore.I.AddPresupuesto(-_selected.price);                // sincroniza y guarda
+        ProgressRemote.I?.UpdateWalletByChange(oldPresupuesto,          // si lo estás usando
+                                               ProgressCore.I.Progress.presupuesto);
+
+      
+
 
         Feedback("¡Comprado!");
         RefreshBuyState();

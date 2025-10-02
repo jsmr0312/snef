@@ -396,21 +396,27 @@ public class NPCDialogueFlow : MonoBehaviour,
 
     private bool AllScreensViewed()
     {
+        // 1) Si tienes pantallas conectadas en el inspector, usamos su flag Viewed
         if (screensToHighlight != null && screensToHighlight.Length > 0)
         {
             foreach (var s in screensToHighlight) if (s && !s.Viewed) return false;
             return true;
         }
 
-        var list = ProgressCore.I?.Data?.stands;
+        // 2) Si no hay referencias en inspector, lee del progreso (v2)
+        //    ANTES: var list = ProgressCore.I?.Data?.stands;  <-- esto rompía
+        var list = ProgressCore.I?.Progress?.stands;            // <-- FIX
+
         if (list != null)
         {
             var sp = list.Find(x => x.stand_id == standId);
-            if (sp != null) return sp.viewed_screens != null && sp.viewed_screens.Count >= requiredScreens;
+            if (sp != null)
+                return sp.viewed_screens != null && sp.viewed_screens.Count >= requiredScreens;
         }
 
         return false;
     }
+
 
     private void StartQuiz()
     {
@@ -425,6 +431,10 @@ public class NPCDialogueFlow : MonoBehaviour,
         _finalIndex = 0;
 
         ProgressCore.I?.Stand_SetPhase(standId, "Final", standType);
+
+        // ⬇️ NUEVO: persistir desbloqueo del arcade
+        ProgressCore.I?.Stand_UnlockArcade(standId);
+
         ProgressCore.I?.SaveNow("stand_quiz_finished_" + standId);
 
         if (HasMore(Phase.Final, 0))
@@ -433,6 +443,7 @@ public class NPCDialogueFlow : MonoBehaviour,
             _finalIndex = 1;
         }
     }
+
 
     public void EndConversation()
     {

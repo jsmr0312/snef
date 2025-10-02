@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
@@ -16,9 +16,9 @@ public class ArcadeInteractable : MonoBehaviour,
     
 
     [Header("Prompt UI")]
-    [Tooltip("GameObject que indica ìPresiona Eî")]
+    [Tooltip("GameObject que indica ‚ÄúPresiona E‚Äù")]
     public GameObject promptUI;
-    [Tooltip("øDebe el prompt mirar a la c·mara?")]
+    [Tooltip("¬øDebe el prompt mirar a la c√°mara?")]
     public bool lookAtCamera = true;
 
     [Header("Lock UI")]
@@ -26,7 +26,7 @@ public class ArcadeInteractable : MonoBehaviour,
     public Canvas lockCanvas;
     [Tooltip("Texto que aparece al intentar interactuar bloqueado")]
     public TextMeshProUGUI lockMessageText;
-    [Tooltip("DuraciÛn en segundos del mensaje de bloqueo")]
+    [Tooltip("Duraci√≥n en segundos del mensaje de bloqueo")]
     public float lockMessageDuration = 2f;
 
     [Header("Arcade Settings")]
@@ -34,7 +34,7 @@ public class ArcadeInteractable : MonoBehaviour,
     public string arcadeSceneName;
 
     [Header("Lock Settings")]
-    [Tooltip("Si est· activo, la arcade inicia DESBLOQUEADA")]
+    [Tooltip("Si est√° activo, la arcade inicia DESBLOQUEADA")]
     public bool startUnlocked = false;
 
     [Header("Outline (QuickOutline)")]
@@ -52,21 +52,34 @@ public class ArcadeInteractable : MonoBehaviour,
 
     void Start()
     {
-        // Aplicar estado inicial seg˙n el toggle del inspector
+        // Aplicar estado inicial seg√∫n el toggle del inspector
         SetLocked(!startUnlocked);
+
         // Si ya estaba desbloqueada en progreso, reflejarlo
         if (ProgressCore.I != null && ProgressCore.I.Stand_IsArcadeUnlocked(standId))
             SetLocked(false);
 
+        // ‚¨áÔ∏è EXTRA: si la fase ya es Final, aseg√∫rate de que se vea desbloqueada
+        var phase = ProgressCore.I?.Stand_GetPhase(standId);
+        if (phase == "Final")
+        {
+            SetLocked(false);
+            if (ProgressCore.I != null && !ProgressCore.I.Stand_IsArcadeUnlocked(standId))
+            {
+                ProgressCore.I.Stand_UnlockArcade(standId);
+                ProgressCore.I.SaveNow("fix_unlock_arcade_on_start_" + standId);
+            }
+        }
 
         // Ocultar prompt y mensaje
         if (promptUI) promptUI.SetActive(false);
         if (lockMessageText) lockMessageText.gameObject.SetActive(false);
 
-        // Outline: auto-descubrir si no est· asignado y apagarlo
+        // Outline...
         if (outline == null) outline = GetComponent<Outline>() ?? GetComponentInChildren<Outline>();
         if (outline != null) outline.enabled = false;
     }
+
 
     /// <summary>
     /// Cambia el estado de bloqueo y actualiza el UI del candado.
@@ -83,7 +96,11 @@ public class ArcadeInteractable : MonoBehaviour,
     public void UnlockArcade()
     {
         SetLocked(false);
+        // ‚¨áÔ∏è Persistir en progreso
+        ProgressCore.I?.Stand_UnlockArcade(standId);
+        ProgressCore.I?.SaveNow("arcade_unlocked_" + standId);
     }
+
 
     /// <summary>
     /// (Opcional) Por si quieres volver a bloquearla en runtime.
@@ -91,12 +108,12 @@ public class ArcadeInteractable : MonoBehaviour,
     public void LockArcade()
     {
         SetLocked(true);
-        ProgressCore.I?.Stand_UnlockArcade(standId);
-       
+        ProgressCore.I?.Stand_LockArcade(standId);
+
 
     }
 
-    // Atajo ˙til para probar desde el editor (clic derecho en el componente)
+    // Atajo √∫til para probar desde el editor (clic derecho en el componente)
     [ContextMenu("Forzar Desbloqueo (Editor)")]
     private void ContextUnlock() => SetLocked(false);
 
@@ -121,7 +138,7 @@ public class ArcadeInteractable : MonoBehaviour,
         // Prompt off
         if (promptUI) promptUI.SetActive(false);
 
-        // Ocultar mensaje de bloqueo si estaba mostr·ndose
+        // Ocultar mensaje de bloqueo si estaba mostr√°ndose
         if (lockMessageText) lockMessageText.gameObject.SetActive(false);
         if (_hideMsgRoutine != null) StopCoroutine(_hideMsgRoutine);
 
@@ -140,7 +157,7 @@ public class ArcadeInteractable : MonoBehaviour,
             return;
         }
 
-        // Guardar la posiciÛn del jugador antes de cambiar de escena
+        // Guardar la posici√≥n del jugador antes de cambiar de escena
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -193,7 +210,7 @@ public class ArcadeInteractable : MonoBehaviour,
             promptUI.transform.Rotate(0, 180, 0);
         }
 
-        // El candado (si es world-space) tambiÈn mira a c·mara
+        // El candado (si es world-space) tambi√©n mira a c√°mara
         if (lookAtCamera && lockCanvas != null && lockCanvas.gameObject.activeSelf)
         {
             var t = lockCanvas.transform;

@@ -1,4 +1,9 @@
-﻿using System;
+﻿// ProgressCore.cs — Versión unificada (local PlayerPrefs + opcional remoto)
+// - Auto-spawn en todas las escenas (BeforeSceneLoad)
+// - Mantiene tu modelo GameProgressV1 y añade compat con lo nuevo
+// - Guarda LOCAL en cada cambio (Editor) y puede PUT a API si lo deseas
+
+using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,60 +11,53 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.Networking;
 
-/// Attach this to a GameObject named "ProgressCore" in your first scene.
-/// It will persist across scenes (DontDestroyOnLoad).
+[DefaultExecutionOrder(-10000)]
 public class ProgressCore : MonoBehaviour
 {
     public static ProgressCore I { get; private set; }
 
-    [Header("API")]
+    // === API remoto (opcional) ===
+    [Header("API (opcional)")]
     public string baseUrl = "https://api.estudiohera.mx";
     public string progressPath = "/game/progress"; // GET/PUT
     public string tokenPlayerPrefsKey = "snef_token";
 
     [Header("Opciones")]
-    public bool saveLocalOnEachChange = true; // guarda "progress_v1" local cada cambio
-    public bool autoCreateRemoteIfMissing = true; // si GET=404, hace PUT para crearlo
+    public bool saveLocalOnEachChange = true;       // guarda PlayerPrefs cada cambio
+    public bool autoCreateRemoteIfMissing = true;   // si GET=404, hace PUT inicial
     public float requestTimeout = 8f;
 
     [Header("Dev / Pruebas")]
-    [Tooltip("Permite enviar PUT sin token (útil para webhook.site). Si hay token, se envía Authorization igualmente.")]
-    public bool allowSendWithoutToken = true;
-    [Tooltip("Escribe logs del request/response en la consola.")]
+    public bool allowSendWithoutToken = true;       // para pruebas sin token
     public bool verboseLogs = true;
 
-    // === MODELO (tu "archivo único" JSON v1) ===
-    [Serializable]
-    public class GameProgressV1
-    {
-        public int schema_version = 1;
-        public Profile profile = new Profile();
-        public Progress progress = new Progress();
-        public List<string> owned_items = new List<string>();
-        public List<StandProgress> stands = new List<StandProgress>();
+    // === Claves de almacenamiento local ===
+    public const string STORAGE_KEY = "progress-storage"; // compat con bootstrap nuevo
+    const string KEY_LOCAL = "progress_v1";               // tu clave histórica
+    const string KEY_PENDING = "pending_save_v1";
 
-
-        public World world = new World();
-        public List<MissionEntry> missions = new List<MissionEntry>();
-        public List<AchievementEntry> achievements = new List<AchievementEntry>();
-        public List<MinigameEntry> minigames = new List<MinigameEntry>();
-        public Meta meta = new Meta();
-    }
+    // ===== Modelo principal (el tuyo) =====
     [Serializable] public class Profile { public string avatar_id; }
-    [Serializable] public class Progress { public int presupuesto; public int puntaje; }
+
+    // Para evitar choque de nombre con la propiedad Progress, renombramos:
+    [Serializable] public class Wallet { public int presupuesto; public int puntaje; }
 
     [Serializable]
     public class StandProgress
     {
-        public string stand_id;                // slug único del stand (ej. "eco1_banco_master")
-        public string type;                    // "master" | "premier" | "excellence" | "punto"
-        public string phase;                   // "Initial" | "Waiting" | "PostScreens" | "Final"
-        public List<string> viewed_screens = new List<string>();  // ids de pantallas vistas ("screen1"...)
-        public bool quiz_unlocked;             // tras ver todas las pantallas
-        public int quiz_best;                  // mejor puntaje (0..N)
-        public int quiz_last;                  // último puntaje
-        public bool arcade_unlocked;           // para MASTER
-        public string updated_at;              // iso
+        public string stand_id;                // ej. "eco1_banco_master"
+        public string type;                    // master | premier | excellence | punto
+        public string phase;                   // Initial | Waiting | PostScreens | Final
+        public List<string> viewed_screens = new List<string>();
+        public bool quiz_unlocked;
+        public int quiz_best;
+        public int quiz_last;
+        public bool arcade_unlocked;
+        public string updated_at;
+
+        // NUEVO: tiempos e info de visita para métricas/progreso local
+        public int time_spent_s = 0;
+        public string last_visit_iso;
     }
 
     [Serializable] public class World { public string scene; public float x; public float y; public float z; }
@@ -68,12 +66,52 @@ public class ProgressCore : MonoBehaviour
     [Serializable] public class MinigameEntry { public string id; public int best_score; public int stars; public string updated_at; }
     [Serializable] public class Meta { public string updated_at; public string app_version; }
 
+    [Serializable]
+    public class GameProgressV1
+    {
+        public int schema_version = 1;
+        public Profile profile = new Profile();
+        public Wallet progress = new Wallet();
+        public List<string> owned_items = new List<string>();
+        public List<StandProgress> stands = new List<StandProgress>();
+
+        public World world = new World();
+        public List<MissionEntry> missions = new List<MissionEntry>();
+        public List<AchievementEntry> achievements = new List<AchievementEntry>();
+        public List<MinigameEntry> minigames = new List<MinigameEntry>();
+        public Meta meta = new Meta();
+    }
+
+    // ====== Estado en memoria ======
     public GameProgressV1 Data { get; private set; } = new GameProgressV1();
 
-    const string KEY_LOCAL = "progress_v1";
-    const string KEY_PENDING = "pending_save_v1";
+    // --------- Facade de compatibilidad "Progress" ---------
+    // Permite que scripts usen: ProgressCore.I.Progress.presupuesto / .stands / .owned_items / .profile
+    public class ProgressFacade
+    {
+        readonly GameProgressV1 _d;
+        public ProgressFacade(GameProgressV1 d) { _d = d; }
+        public int presupuesto { get => _d.progress.presupuesto; set => _d.progress.presupuesto = Mathf.Max(0, value); }
+        public int puntaje { get => _d.progress.puntaje; set => _d.progress.puntaje = Mathf.Max(0, value); }
+        public List<string> owned_items => _d.owned_items;
+        public List<StandProgress> stands => _d.stands;
+        public Profile profile => _d.profile;
+    }
+    public ProgressFacade Progress => new ProgressFacade(Data);
 
+    // --------- Eventos ---------
     public event Action<GameProgressV1> OnChanged;
+
+    // ===== Ciclo de vida =====
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void EnsureSingleton()
+    {
+        if (I == null)
+        {
+            var go = new GameObject("ProgressCore");
+            go.AddComponent<ProgressCore>();
+        }
+    }
 
     void Awake()
     {
@@ -83,54 +121,30 @@ public class ProgressCore : MonoBehaviour
         LoadLocalOrInit();
     }
 
-    // ------------------ API PÚBLICA (tú llamas esto) ------------------
-
-    public void SetAvatar(string avatarId)
-    {
-        Data.profile.avatar_id = avatarId;
-        Touch();
-    }
+    // ===== API pública: Perfil / Wallet / Items =====
+    public void SetAvatar(string avatarId) { Data.profile.avatar_id = avatarId; Touch(); }
+    public string GetAvatarId() => Data.profile.avatar_id ?? "";
 
     public void AddPresupuesto(int delta) { Data.progress.presupuesto = Mathf.Max(0, Data.progress.presupuesto + delta); Touch(); }
     public void SetPresupuesto(int value) { Data.progress.presupuesto = Mathf.Max(0, value); Touch(); }
     public void AddPuntaje(int delta) { Data.progress.puntaje = Mathf.Max(0, Data.progress.puntaje + delta); Touch(); }
     public void SetPuntaje(int value) { Data.progress.puntaje = Mathf.Max(0, value); Touch(); }
 
-    public void SetPlayerPos(Transform t, string sceneName)
-    {
-        if (t != null)
-        {
-            Data.world.scene = sceneName;
-            Data.world.x = t.position.x;
-            Data.world.y = t.position.y;
-            Data.world.z = t.position.z;
-            Touch();
-        }
-    }
-
-    public bool IsOwned(string itemId)
-    {
-        if (string.IsNullOrEmpty(itemId)) return false;
-        return Data.owned_items.Contains(itemId);
-    }
-
+    public bool IsOwned(string itemId) => !string.IsNullOrEmpty(itemId) && Data.owned_items.Contains(itemId);
     public bool OwnItem(string itemId)
     {
         if (string.IsNullOrEmpty(itemId)) return false;
-        if (Data.owned_items.Contains(itemId)) return false; // ya se tenía
-        Data.owned_items.Add(itemId);
-        Touch(); // marca updated_at y guarda local si corresponde
-        return true;
+        if (Data.owned_items.Contains(itemId)) return false;
+        Data.owned_items.Add(itemId); Touch(); return true;
     }
 
-
+    // ===== API pública: Misiones / Logros / Minijuegos (igual que tu archivo) =====
     public void UpsertMission(string id, string state)
     {
         var now = DateTime.UtcNow.ToString("o");
         var e = Data.missions.Find(m => m.id == id);
         if (e == null) { e = new MissionEntry { id = id }; Data.missions.Add(e); }
-        e.state = state; e.updated_at = now;
-        Touch();
+        e.state = state; e.updated_at = now; Touch();
     }
 
     public void UpsertAchievement(string id, bool unlocked)
@@ -138,8 +152,7 @@ public class ProgressCore : MonoBehaviour
         var now = DateTime.UtcNow.ToString("o");
         var e = Data.achievements.Find(a => a.id == id);
         if (e == null) { e = new AchievementEntry { id = id }; Data.achievements.Add(e); }
-        e.unlocked = unlocked; e.updated_at = now;
-        Touch();
+        e.unlocked = unlocked; e.updated_at = now; Touch();
     }
 
     public void UpsertMinigame(string id, int bestScore, int stars)
@@ -149,11 +162,10 @@ public class ProgressCore : MonoBehaviour
         if (e == null) { e = new MinigameEntry { id = id }; Data.minigames.Add(e); }
         e.best_score = Mathf.Max(e.best_score, bestScore);
         e.stars = Mathf.Max(e.stars, stars);
-        e.updated_at = now;
-        Touch();
+        e.updated_at = now; Touch();
     }
 
-    // ---------- STANDS: CRUD básico en memoria ----------
+    // ===== STANDS: CRUD + compat =====
     StandProgress EnsureStand(string standId, string type = null)
     {
         if (string.IsNullOrEmpty(standId)) return null;
@@ -171,92 +183,66 @@ public class ProgressCore : MonoBehaviour
         return s;
     }
 
+    // — Versión antigua (tuya)
     public void Stand_SetPhase(string standId, string phase, string type = null)
     {
-        var s = EnsureStand(standId, type);
-        if (s == null) return;
-        s.phase = phase;
-        s.updated_at = DateTime.UtcNow.ToString("o");
-        Touch();
+        var s = EnsureStand(standId, type); if (s == null) return;
+        s.phase = phase; s.updated_at = DateTime.UtcNow.ToString("o"); Touch();
+    }
+
+    // — Compat nueva: (standType, newPhase)
+    public void Stand_SetPhase(string standId, string standType, string newPhase, bool onlyForward = false)
+    {
+        var s = EnsureStand(standId, standType); if (s == null) return;
+        if (onlyForward)
+        {
+            int Rank(string p) => p == "Initial" ? 0 : p == "Waiting" ? 1 : p == "PostScreens" ? 2 : 3;
+            if (Rank(newPhase) <= Rank(s.phase ?? "Initial")) return;
+        }
+        s.phase = newPhase; s.updated_at = DateTime.UtcNow.ToString("o"); Touch();
     }
 
     public void Stand_MarkScreenViewed(string standId, string screenId, string type = null)
     {
-        var s = EnsureStand(standId, type);
-        if (s == null || string.IsNullOrEmpty(screenId)) return;
-        if (!s.viewed_screens.Contains(screenId))
-            s.viewed_screens.Add(screenId);
-        s.updated_at = DateTime.UtcNow.ToString("o");
-        Touch();
+        var s = EnsureStand(standId, type); if (s == null || string.IsNullOrEmpty(screenId)) return;
+        if (!s.viewed_screens.Contains(screenId)) s.viewed_screens.Add(screenId);
+        s.updated_at = DateTime.UtcNow.ToString("o"); Touch();
     }
 
-    public void Stand_UnlockQuiz(string standId)
-    {
-        var s = EnsureStand(standId, null);
-        if (s == null) return;
-        s.quiz_unlocked = true;
-        s.updated_at = DateTime.UtcNow.ToString("o");
-        Touch();
-    }
+    // — Compat nueva:
+    public void Stand_AddViewedScreen(string standId, string assetId) => Stand_MarkScreenViewed(standId, assetId);
 
+    public void Stand_UnlockQuiz(string standId) { var s = EnsureStand(standId); if (s == null) return; s.quiz_unlocked = true; s.updated_at = DateTime.UtcNow.ToString("o"); Touch(); }
     public void Stand_RecordQuiz(string standId, int score, int total)
     {
-        var s = EnsureStand(standId, null);
-        if (s == null) return;
-        s.quiz_last = Mathf.Max(0, score);
-        if (score > s.quiz_best) s.quiz_best = score;
-        // si quieres marcar "Final" al pasar, puedes hacerlo aquí o desde el NPC
-        s.updated_at = DateTime.UtcNow.ToString("o");
-        Touch();
+        var s = EnsureStand(standId); if (s == null) return;
+        s.quiz_last = Mathf.Max(0, score); if (score > s.quiz_best) s.quiz_best = score;
+        s.updated_at = DateTime.UtcNow.ToString("o"); Touch();
     }
 
-    public void Stand_UnlockArcade(string standId)
-    {
-        var s = EnsureStand(standId, null);
-        if (s == null) return;
-        s.arcade_unlocked = true;
-        s.updated_at = DateTime.UtcNow.ToString("o");
-        Touch();
-    }
+    public void Stand_UnlockArcade(string standId) { var s = EnsureStand(standId); if (s == null) return; if (!s.arcade_unlocked) { s.arcade_unlocked = true; s.updated_at = DateTime.UtcNow.ToString("o"); Touch(); } }
+    public void Stand_LockArcade(string standId) { var s = EnsureStand(standId); if (s == null) return; if (s.arcade_unlocked) { s.arcade_unlocked = false; s.updated_at = DateTime.UtcNow.ToString("o"); Touch(); } }
 
-    // ---------- Consultas de estado (para hidratar al entrar a escena) ----------
-    public bool Stand_IsArcadeUnlocked(string standId)
-    {
-        var s = Data.stands.Find(x => x.stand_id == standId);
-        return s != null && s.arcade_unlocked;
-    }
-    public bool Stand_IsQuizUnlocked(string standId)
-    {
-        var s = Data.stands.Find(x => x.stand_id == standId);
-        return s != null && s.quiz_unlocked;
-    }
-    public string Stand_GetPhase(string standId)
-    {
-        return Data.stands.Find(x => x.stand_id == standId)?.phase;
-    }
+    // — Compat nueva: tiempos/visita
+    public void Stand_AddTime(string standId, int seconds) { var s = EnsureStand(standId); if (s == null) return; s.time_spent_s += Mathf.Max(0, seconds); s.updated_at = DateTime.UtcNow.ToString("o"); Touch(); }
+    public void Stand_SetLastVisitNow(string standId) { var s = EnsureStand(standId); if (s == null) return; s.last_visit_iso = DateTime.UtcNow.ToString("o"); s.updated_at = s.last_visit_iso; Touch(); }
 
+    // Consultas
+    public bool Stand_IsArcadeUnlocked(string standId) => Data.stands.Find(x => x.stand_id == standId)?.arcade_unlocked == true;
+    public bool Stand_IsQuizUnlocked(string standId) => Data.stands.Find(x => x.stand_id == standId)?.quiz_unlocked == true;
+    public string Stand_GetPhase(string standId) => Data.stands.Find(x => x.stand_id == standId)?.phase;
 
-    /// Llama esto desde tu botón/trigger/menú para ENVIAR el JSON COMPLETO al API.
+    // ===== Guardado / Carga =====
     public void SaveNow(string reason = "")
     {
-        Touch(); // asegura meta.updated_at/app_version
+        // Siempre guardamos LOCAL de inmediato (para Editor y WebGL sin token)
+        Touch(); // asegura meta.updated/app_version y SaveLocal()
+        // PUT remoto opcional
         StartCoroutine(PutAllCoroutine(reason));
     }
 
-    /// Igual que arriba, pero puedes ESPERAR a que termine (para spinners/bloquear UI).
-    public IEnumerator SaveNowRoutine(string reason = "")
-    {
-        Touch(); // asegura meta.actualizada
-        yield return PutAllCoroutine(reason);
-    }
-
-    /// Llama esto tras login (cuando seguro ya hay token) para CARGAR del API.
-    public void FetchFromServer()
-    {
-        StartCoroutine(GetAndMergeCoroutine());
-    }
-
-    // ------------------ Internos: Local & Red ------------------
+    public IEnumerator SaveNowRoutine(string reason = "") { Touch(); yield return PutAllCoroutine(reason); }
+    public void FetchFromServer() { StartCoroutine(GetAndMergeCoroutine()); }
 
     void Touch()
     {
@@ -268,7 +254,11 @@ public class ProgressCore : MonoBehaviour
 
     void LoadLocalOrInit()
     {
+        // 1) Intenta tu clave histórica
         var json = PlayerPrefs.GetString(KEY_LOCAL, "");
+        // 2) Si no hay, intenta la clave de bootstrap nueva (para compat)
+        if (string.IsNullOrEmpty(json)) json = PlayerPrefs.GetString(STORAGE_KEY, "");
+
         if (string.IsNullOrEmpty(json))
         {
             Data = new GameProgressV1();
@@ -284,10 +274,57 @@ public class ProgressCore : MonoBehaviour
 
     void SaveLocal()
     {
-        PlayerPrefs.SetString(KEY_LOCAL, JsonUtility.ToJson(Data));
+        var json = JsonUtility.ToJson(Data);
+        PlayerPrefs.SetString(KEY_LOCAL, json);         // tu clave histórica
+        PlayerPrefs.SetString(STORAGE_KEY, json);       // compat con nuevo bootstrap local
         PlayerPrefs.Save();
+        if (verboseLogs) Debug.Log("[ProgressCore] SaveLocal: " + json);
     }
 
+    // ====== Bootstrap desde JSON estilo { state:{ progress:{...}, stands:[...] } } ======
+    [Serializable] class BootstrapWrapper { public BootstrapState state; public int version; }
+    [Serializable] class BootstrapState { public BootstrapProgress progress; }
+    [Serializable]
+    class BootstrapProgress
+    {
+        public Profile profile;
+        public int puntaje;
+        public int presupuesto;
+        public List<string> owned_items;
+        public List<string> store_items;
+        public List<StandProgress> stands;
+    }
+
+    public void LoadFromBootstrapJson(string json)
+    {
+        try
+        {
+            var b = JsonUtility.FromJson<BootstrapWrapper>(json);
+            if (b?.state?.progress != null)
+            {
+                // adopta campos relevantes
+                Data.profile = b.state.progress.profile ?? new Profile();
+                Data.progress.puntaje = b.state.progress.puntaje;
+                Data.progress.presupuesto = b.state.progress.presupuesto;
+                Data.owned_items = b.state.progress.owned_items ?? new List<string>();
+                Data.stands = b.state.progress.stands ?? new List<StandProgress>();
+                Touch(); // guarda local
+                if (verboseLogs) Debug.Log("[ProgressCore] Bootstrap (envoltura) cargado.");
+                return;
+            }
+        }
+        catch { /* cae al intento plano */ }
+
+        // Si no es el envoltorio, intenta directamente GameProgressV1
+        try
+        {
+            var direct = JsonUtility.FromJson<GameProgressV1>(json);
+            if (direct != null) { Data = direct; Touch(); if (verboseLogs) Debug.Log("[ProgressCore] Bootstrap (v1 directo) cargado."); }
+        }
+        catch { Debug.LogWarning("[ProgressCore] Bootstrap JSON inválido."); }
+    }
+
+    // ====== Red (igual a tu archivo, con mejoras menores) ======
     IEnumerator GetAndMergeCoroutine()
     {
         string token = PlayerPrefs.GetString(tokenPlayerPrefsKey, "");
@@ -319,15 +356,10 @@ public class ProgressCore : MonoBehaviour
                 {
                     if (IsRemoteNewer(remote.meta?.updated_at, Data.meta?.updated_at))
                     {
-                        Data = remote;
-                        SaveLocal();
-                        OnChanged?.Invoke(Data);
+                        Data = remote; SaveLocal(); OnChanged?.Invoke(Data);
                         if (verboseLogs) Debug.Log("[ProgressCore] GET OK → adoptado remoto.");
                     }
-                    else
-                    {
-                        if (verboseLogs) Debug.Log("[ProgressCore] GET OK → mantengo local (es más reciente).");
-                    }
+                    else if (verboseLogs) Debug.Log("[ProgressCore] GET OK → mantengo local (más reciente).");
                 }
             }
             else if ((int)req.responseCode == 404 && autoCreateRemoteIfMissing)
@@ -349,16 +381,15 @@ public class ProgressCore : MonoBehaviour
 
         if (!sendAuth && !allowSendWithoutToken)
         {
-            Debug.LogWarning("[ProgressCore] PUT cancelado: no hay token y allowSendWithoutToken=false.");
+            if (verboseLogs) Debug.LogWarning("[ProgressCore] PUT cancelado: no hay token y allowSendWithoutToken=false.");
             yield break;
         }
 
-        // Si quedó un pendiente de antes, intenta primero
+        // Reintenta pendiente primero
         var pending = PlayerPrefs.GetString(KEY_PENDING, "");
         if (!string.IsNullOrEmpty(pending))
         {
             yield return StartCoroutine(PutRawJson(pending, token, sendAuth, "retry_pending"));
-            // si sale bien, PutRawJson borrará el pending
         }
 
         var json = JsonUtility.ToJson(Data);
@@ -391,6 +422,7 @@ public class ProgressCore : MonoBehaviour
             if (ok)
             {
                 PlayerPrefs.SetString(KEY_LOCAL, json);
+                PlayerPrefs.SetString(STORAGE_KEY, json);
                 PlayerPrefs.DeleteKey(KEY_PENDING);
                 PlayerPrefs.Save();
                 if (verboseLogs) Debug.Log($"[ProgressCore] PUT OK ({reason})");
@@ -398,7 +430,6 @@ public class ProgressCore : MonoBehaviour
             else
             {
                 Debug.LogWarning($"[ProgressCore] PUT falló ({reason}): {req.error} code={req.responseCode}");
-                // guarda pendiente para reintentar en el próximo SaveNow
                 PlayerPrefs.SetString(KEY_PENDING, json);
                 PlayerPrefs.Save();
             }

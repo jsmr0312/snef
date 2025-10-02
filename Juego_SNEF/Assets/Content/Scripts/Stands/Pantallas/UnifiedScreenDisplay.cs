@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Collider), typeof(Renderer))]
 public class UnifiedScreenDisplay : MonoBehaviour,
@@ -15,29 +17,22 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     [Header("Prompt UI")]
     public GameObject promptUI;
     public bool lookAtCamera = true;
-
-    // Botón dentro del prompt para abrir (mouse/touch)
     public Button promptOpenButton;
 
     [Header("Stand (Identidad)")]
-    public string standId;              // ej. eco1_banco_master (uuid/string)
-    public string screenId = "screen1"; // screen1, screen2, ...
-    public string standType = "master"; // master/premier/excellence/punto
+    public string standId;
+    public string screenId = "screen1";
+    public string standType = "master";
 
     [Header("Stand (Métricas)")]
-    [Tooltip("Nombre del ecosistema (Ecosistema 1, 2, etc.)")]
     public string ecosystemName;
-    [Tooltip("ID único del contenido (si lo dejas vacío, usará screenId).")]
+    [Tooltip("Si está vacío, usa screenId")]
     public string assetId;
 
     [Header("Descarga")]
-    [Tooltip("Botón para descargar el contenido (se oculta si no hay URL).")]
     public Button downloadButton;
-    [Tooltip("URL directa al archivo que se quiere descargar.")]
     public string downloadURL;
-    [Tooltip("Si true, el botón se oculta cuando no hay URL; si false, sólo se desactiva.")]
     public bool hideDownloadIfEmpty = true;
-
 
     [Header("Contenido")]
     public ContentType contentType;
@@ -48,13 +43,10 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public Texture2D[] slides;
 
     [Header("Idle Image")]
-    [Tooltip("Imagen estática que se muestra cuando no se está interactuando")]
     public Texture2D idleImage;
 
     [Header("Canvas Targets")]
-    [Tooltip("RawImage para IMAGEN/SLIDES/IDLE")]
     public RawImage imageRawImage;
-    [Tooltip("RawImage para VIDEO")]
     public RawImage videoRawImage;
 
     [Header("Botones de navegación")]
@@ -70,32 +62,23 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public Transform screenViewpoint;
     public float transitionDuration = 0.8f;
 
-    // ——— Avatares múltiples ———
     [Header("Avatares del jugador (multi)")]
-    [Tooltip("Padre que contiene a todos los avatares (p.ej. 'Personajes'). Tomará sus hijos DIRECTOS.")]
     public Transform avatarsParent;
-
-    [Tooltip("Opcional: si prefieres seleccionar avatares uno por uno, úsalos aquí. Si hay al menos uno, se ignora avatarsParent.")]
     public GameObject[] avatarList;
-
-    [Tooltip("Si está activo y hay avatarsParent, también incluirá hijos que estén inicialmente inactivos.")]
     public bool includeInactiveAvatars = false;
-
-    // Estado interno de avatares
-    private readonly System.Collections.Generic.List<GameObject> _avatars = new System.Collections.Generic.List<GameObject>();
-    private readonly System.Collections.Generic.Dictionary<GameObject, bool> _avatarPrevActive = new System.Collections.Generic.Dictionary<GameObject, bool>();
-    private bool _disabledPlayerRoot = false;
 
     [Header("Cursor")]
     public bool unlockCursorDuringView = true;
 
-    [Header("Outline (QuickOutline)")]
-    public Outline outline;                                  // arrastra el componente Outline
-    public bool enableOutlineOnProximity = true;             // activar al acercarse
-    public Outline.Mode outlineModeNear = Outline.Mode.OutlineVisible;
+    [Header("Outline (opcional)")]
+    [Tooltip("Arrastra aquí tu componente Outline (QuickOutline, etc.).")]
+    public Behaviour outline;                          // <- sin dependencia de QuickOutline
+    public bool enableOutlineOnProximity = true;
+    [Tooltip("Nombre del modo de Outline (p.ej. 'OutlineVisible') si tu Outline lo soporta.")]
+    public string outlineModeNear = "OutlineVisible";
     public Color outlineColorNear = Color.cyan;
     [Range(0, 10f)] public float outlineWidthNear = 4f;
-    public bool disableOutlineWhileViewing = true;           // opcional: apagar outline durante la vista
+    public bool disableOutlineWhileViewing = true;
 
     [Header("Configuración del brillo")]
     public Color brilloColor = Color.cyan;
@@ -109,20 +92,15 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public float liftDuration = 0.5f;
 
     [Header("Audio (WebGL-friendly)")]
-    [Tooltip("Iniciar el video muteado para cumplir políticas de autoplay")]
     public bool startMuted = true;
-    [Tooltip("Rutar el audio a un AudioSource (recomendado WebGL)")]
     public bool useAudioSourceForVideo = true;
-    public AudioSource videoAudioSource; // opcional
+    public AudioSource videoAudioSource;
 
     [Header("Fallback local (StreamingAssets)")]
-    [Tooltip("En WebGL, usa un MP4 local del mismo origen (evita CORS).")]
     public bool forceLocalOnWebGL = true;
-    [Tooltip("Nombre del archivo dentro de Assets/StreamingAssets/ (ej. fallback.mp4)")]
     public string localStreamingAssetsFileName = "fallback.mp4";
 
     [Header("RenderTexture (opcional)")]
-    [Tooltip("Si lo asignas, usará ESTE RT (ej. 'Screen') en lugar de crear uno por código.")]
     public RenderTexture overrideRenderTexture;
     public int rtWidth = 1280, rtHeight = 720;
 
@@ -131,14 +109,16 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public Vector3 autoViewLocalOffset = new Vector3(0f, 1.6f, 2.0f);
 
     [Header("Integración Interactor")]
-    [Tooltip("Si está activo, también podrás interactuar por proximidad (legacy). Recomiendo dejarlo en OFF y usar el Interactor unificado.")]
     public bool useProximityTriggers = false;
-    [Tooltip("Sólo tiene efecto si 'useProximityTriggers' está activo. Permite presionar E en proximidad (legacy).")]
     public bool legacyKeyToInteract = false;
 
     #endregion
 
     #region Estado interno
+
+    private readonly List<GameObject> _avatars = new List<GameObject>();
+    private readonly Dictionary<GameObject, bool> _avatarPrevActive = new Dictionary<GameObject, bool>();
+    private bool _disabledPlayerRoot = false;
 
     private bool _isViewing;
     private Vector3 _camOrigPos;
@@ -149,24 +129,20 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     private RenderTexture _videoRT;
     private bool _videoPlayPending = false;
     public bool Viewed { get; private set; }
-    private bool _playerInside = false; // sólo si usas triggers
+    private bool _playerInside = false;
 
-    // Pantalla activa global (sólo una “abierta”)
     private static UnifiedScreenDisplay _active;
 
-    // Brillo
     private MaterialPropertyBlock _brilloProp;
     private Renderer _brilloRend;
     private bool _brilloActivo = false;
 
-    // Lift
     private Vector3 _liftOrigPos;
     private Quaternion _liftOrigRot;
 
-    // Fallback tracking
     private bool _usingLocalFallback = false;
 
-    // ======= Métricas de contenido =======
+    // Métricas de contenido
     private float _viewStart;
     private int _progressPct;
     private bool _completed;
@@ -180,9 +156,30 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     void ApplyOutlineSettings()
     {
         if (outline == null) return;
-        outline.OutlineMode = outlineModeNear;
-        outline.OutlineColor = outlineColorNear;
-        outline.OutlineWidth = outlineWidthNear;
+
+        var t = outline.GetType();
+
+        // OutlineMode (enum) si existe
+        var propMode = t.GetProperty("OutlineMode");
+        if (propMode != null && propMode.PropertyType.IsEnum)
+        {
+            try
+            {
+                var enumVal = Enum.Parse(propMode.PropertyType, outlineModeNear, true);
+                propMode.SetValue(outline, enumVal, null);
+            }
+            catch { /* ignorar si no existe ese valor */ }
+        }
+
+        // OutlineColor si existe
+        var propColor = t.GetProperty("OutlineColor");
+        if (propColor != null && propColor.PropertyType == typeof(Color))
+            propColor.SetValue(outline, outlineColorNear, null);
+
+        // OutlineWidth si existe
+        var propWidth = t.GetProperty("OutlineWidth");
+        if (propWidth != null && (propWidth.PropertyType == typeof(float) || propWidth.PropertyType == typeof(int)))
+            propWidth.SetValue(outline, outlineWidthNear, null);
     }
 
     private void BuildAvatarsList()
@@ -215,14 +212,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     {
         if (string.IsNullOrWhiteSpace(downloadURL)) return;
 
-        // Métrica como click externo con network="download"
-        MetricsClient.I?.TrackClickEnlaceExterno(
-            standId,
-            downloadURL,
-            "download"
-        );
-
-        // Abre el link (en WebGL el navegador gestiona la descarga)
+        MetricsClient.I?.TrackClickEnlaceExterno(standId, downloadURL, "download");
         Application.OpenURL(downloadURL);
     }
 
@@ -242,7 +232,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         if (hasUrl)
             downloadButton.onClick.AddListener(OnDownloadClick);
     }
-
 
     private void ToggleAvatars(bool turnOn)
     {
@@ -272,12 +261,10 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     void Awake()
     {
-        // UI inicial
         promptUI?.SetActive(false);
         navButtonPanel?.SetActive(false);
         closeButton?.gameObject.SetActive(false);
 
-        // Hook del botón del prompt (si no se asigna, lo busca en hijos)
         if (promptOpenButton == null && promptUI != null)
             promptOpenButton = promptUI.GetComponentInChildren<Button>(true);
         if (promptOpenButton != null)
@@ -285,8 +272,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         SetupDownloadUI();
 
-
-        // Brillo
         _brilloRend = GetComponent<Renderer>();
         _brilloProp = new MaterialPropertyBlock();
         _brilloRend.GetPropertyBlock(_brilloProp);
@@ -294,11 +279,16 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         _brilloRend.material.EnableKeyword("_EMISSION");
         _brilloRend.SetPropertyBlock(_brilloProp);
 
-        // Outline (si no fue asignado)
-        if (outline == null) outline = GetComponent<Outline>() ?? GetComponentInChildren<Outline>();
+        // Buscar un componente llamado "Outline" si no fue asignado
+        if (outline == null)
+        {
+            foreach (var b in GetComponentsInChildren<Behaviour>(true))
+            {
+                if (b != null && b.GetType().Name == "Outline") { outline = b; break; }
+            }
+        }
         if (outline != null) outline.enabled = false;
 
-        // RenderTexture para video (UI)
         if (videoPlayer != null)
         {
             if (overrideRenderTexture != null)
@@ -322,24 +312,21 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 #endif
             videoPlayer.errorReceived += OnVideoError;
             videoPlayer.prepareCompleted += OnVideoPrepared;
-            videoPlayer.loopPointReached += OnVideoFinished; // para marcar completed= true
+            videoPlayer.loopPointReached += OnVideoFinished;
         }
 
         _totalSlides = slides?.Length ?? 0;
 
-        // Lift
         if (liftTransform != null)
         {
             _liftOrigPos = liftTransform.position;
             _liftOrigRot = liftTransform.rotation;
         }
 
-        // Botones
         prevButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex - 1));
         nextButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex + 1));
         closeButton?.onClick.AddListener(ExitViewMode);
 
-        // Auto-Viewpoint si está vacío
         if (screenViewpoint == null && autoCreateViewpointIfNull)
         {
             var vp = new GameObject("AutoViewpoint").transform;
@@ -352,7 +339,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             screenViewpoint = vp;
         }
 
-        // Estado visual inicial (priorizar UI)
         SetVideoVisualActive(false);
         SetImageVisualActive(true);
         ShowIdleImage();
@@ -384,7 +370,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     void Update()
     {
-        // Pulso de brillo
         if (_brilloActivo)
         {
             float intensity = Mathf.PingPong(Time.time * pulsoVelocidad, pulsoIntensidadMax);
@@ -395,16 +380,12 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             DynamicGI.SetEmissive(_brilloRend, pulseColor);
         }
 
-        // Entrada de usuario LEGACY (proximidad + tecla)
         if (useProximityTriggers && legacyKeyToInteract)
         {
             if (!_isViewing && _playerInside && promptUI != null && promptUI.activeSelf && Input.GetKeyDown(KeyCode.E))
                 EnterViewMode();
-
-            // No cerrar con ESC (eliminado)
         }
 
-        // Billboarding del prompt
         if (lookAtCamera && promptUI != null && promptUI.activeSelf && mainCamera != null)
         {
             var camT = mainCamera.transform;
@@ -443,9 +424,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             if (!_isViewing)
             {
                 promptUI?.SetActive(false);
-
-                if (outline != null)
-                    outline.enabled = false;
+                if (outline != null) outline.enabled = false;
             }
         }
     }
@@ -493,25 +472,21 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         _isViewing = true;
         promptUI?.SetActive(false);
 
-        // Desactiva brillo y marca como visto
         _brilloActivo = false;
         _brilloProp.SetColor("_EmissionColor", Color.black);
         _brilloRend.SetPropertyBlock(_brilloProp);
         Viewed = true;
 
-        // ==== MÉTRICAS: iniciar temporizador ====
         _viewStart = Time.realtimeSinceStartup;
         _progressPct = 0;
         _completed = false;
 
-        // Guarda cámara y oculta jugador/UI
         if (mainCamera != null)
         {
             _camOrigPos = mainCamera.transform.position;
             _camOrigRot = mainCamera.transform.rotation;
         }
 
-        // Ocultar avatares o playerRoot
         if (_avatars.Count > 0)
         {
             ToggleAvatars(false);
@@ -528,22 +503,18 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         playerUI?.SetActive(false);
 
-        // Apaga outline durante la vista
         if (disableOutlineWhileViewing && outline != null)
             outline.enabled = false;
 
-        // Desactiva control (usa tu controller real si aplica)
         var ctrl = mainCamera ? mainCamera.GetComponentInParent<MonoBehaviour>() : null;
         if (ctrl) ctrl.enabled = false;
 
-        // Cursor
         if (unlockCursorDuringView)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
 
-        // Lift opcional
         if (useLiftAnimation && liftTransform != null && liftTarget != null)
         {
             StopCoroutine(nameof(AnimateTransform));
@@ -556,7 +527,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             ));
         }
 
-        // VIDEO — Setup visuals + Prepare() → Play() en OnVideoPrepared
         if (contentType == ContentType.Video && videoPlayer != null)
         {
             SetupVideoVisualsOnly();
@@ -581,7 +551,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 videoPlayer.clip = videoClip;
             }
 
-            // Audio routing
             if (useAudioSourceForVideo && videoAudioSource != null)
             {
                 videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
@@ -602,7 +571,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             videoPlayer.Prepare();
         }
 
-        // Transición de cámara
         if (mainCamera != null && screenViewpoint != null)
         {
             StartOrRestartTransition(
@@ -629,11 +597,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         {
             case ContentType.Image:
                 ShowImage(singleImage);
-                // imagen se considera completada al visualizar
                 _completed = true; _progressPct = 100;
                 break;
             case ContentType.Video:
-                // Play ocurre en OnVideoPrepared
                 break;
             case ContentType.Presentation:
                 _currentIndex = 0;
@@ -641,8 +607,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 break;
         }
 
-        SetupDownloadUI(); // refresca por si cambiaste la URL en runtime
-
+        SetupDownloadUI();
     }
 
     void ExitViewMode()
@@ -662,7 +627,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         navButtonPanel?.SetActive(false);
         closeButton?.gameObject.SetActive(false);
 
-        // Lift down
         if (useLiftAnimation && liftTransform != null && liftTarget != null)
         {
             StopCoroutine(nameof(AnimateTransform));
@@ -675,7 +639,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             ));
         }
 
-        // Cámara de vuelta
         if (mainCamera != null)
         {
             StartOrRestartTransition(
@@ -713,16 +676,13 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        // Restaurar idle (priorizar UI)
         SetVideoVisualActive(false);
         SetImageVisualActive(true);
         ShowIdleImage();
 
-        // Si sigues dentro del trigger legacy, vuelve a encender outline + prompt
         if (useProximityTriggers && _playerInside)
         {
             promptUI?.SetActive(true);
-
             if (enableOutlineOnProximity && outline != null)
             {
                 ApplyOutlineSettings();
@@ -730,9 +690,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             }
         }
 
-        // ==== MÉTRICAS: enviar contenido_visualizado al salir ====
         int dur = Mathf.Max(0, Mathf.RoundToInt(Time.realtimeSinceStartup - _viewStart));
-        // Si fue video y no marcó completed (loop), calculemos el progreso aproximado
+
         if (contentType == ContentType.Video && videoPlayer != null && videoPlayer.length > 0.01)
         {
             int pct = Mathf.RoundToInt((float)(videoPlayer.time / videoPlayer.length) * 100f);
@@ -741,9 +700,15 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         }
 
         string asset = string.IsNullOrEmpty(assetId) ? screenId : assetId;
+
         MetricsClient.I?.TrackContenidoVisualizado(
             standId, asset, ecosystemName, dur, _completed, _progressPct
         );
+
+        ProgressCore.I?.Stand_AddViewedScreen(standId, asset);
+        ProgressCore.I?.Stand_AddTime(standId, dur);
+        ProgressCore.I?.Stand_SetLastVisitNow(standId);
+        ProgressCore.I?.SaveNow("contenido_visualizado");
 
         if (_active == this) _active = null;
     }
@@ -790,7 +755,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         _currentIndex = idx;
         ShowImage(slides[idx]);
 
-        // progreso
         _progressPct = (_totalSlides <= 1) ? 100 : Mathf.RoundToInt(((idx + 1) / (float)_totalSlides) * 100f);
         _completed = (_currentIndex >= _totalSlides - 1);
 
@@ -878,10 +842,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         }
     }
 
-    string GetLocalStreamingURL()
-    {
-        return Application.streamingAssetsPath + "/" + localStreamingAssetsFileName;
-    }
+    string GetLocalStreamingURL() => Application.streamingAssetsPath + "/" + localStreamingAssetsFileName;
 
     void OnVideoPrepared(VideoPlayer vp)
     {

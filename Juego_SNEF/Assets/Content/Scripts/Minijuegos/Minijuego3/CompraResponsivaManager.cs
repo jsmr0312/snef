@@ -4,11 +4,16 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 
 public class CompraResponsivaManager : MonoBehaviour
 {
     [Header("Identificador de minijuego")]
     public string minijuegoId = "compra_responsiva";
+
+
+
 
     [Header("Tiempo de nivel")]
     public bool usarTiempo = true;
@@ -86,6 +91,7 @@ public class CompraResponsivaManager : MonoBehaviour
 
     [Header("Sprites (clave → sprite)")]
     public List<SpriteCatalogEntry> spriteCatalog = new List<SpriteCatalogEntry>();
+    public Sprite fallbackSprite; // ← si no encuentra la clave, mostrará este
 
     [Header("Banco de preguntas (30)")]
     public List<QuestionDef> bancoPreguntas = new List<QuestionDef>();
@@ -116,6 +122,29 @@ public class CompraResponsivaManager : MonoBehaviour
     Coroutine _scoreRoutine;
     Coroutine _starsRoutine;
 
+    string NormalizeKey(string raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return "";
+        // quita espacios, pasa a mayúsculas, remueve acentos/diacríticos
+        string t = raw.Trim().ToUpperInvariant();
+
+        // Normalizar y filtrar diacríticos (áéíóú, ñ se mantiene como N)
+        var formD = t.Normalize(NormalizationForm.FormD);
+        var sb = new StringBuilder();
+        foreach (var ch in formD)
+        {
+            var uc = CharUnicodeInfo.GetUnicodeCategory(ch);
+            if (uc != UnicodeCategory.NonSpacingMark)
+                sb.Append(ch);
+        }
+        t = sb.ToString().Normalize(NormalizationForm.FormC);
+
+        // elimina espacios internos y caracteres de puntuación comunes
+        t = t.Replace(" ", "").Replace("-", "").Replace("_", "");
+
+        return t;
+    }
+
     void Awake()
     {
         if (feedbackImage) { feedbackImage.gameObject.SetActive(false); }
@@ -130,10 +159,20 @@ public class CompraResponsivaManager : MonoBehaviour
         if (btnAbandonar) btnAbandonar.onClick.AddListener(Abandonar);
 
         // catálogo → diccionario
+        // catálogo → diccionario (normalizado)
         _dictSprites = new Dictionary<string, Sprite>();
         foreach (var e in spriteCatalog)
-            if (!string.IsNullOrEmpty(e.key) && e.sprite && !_dictSprites.ContainsKey(e.key))
-                _dictSprites.Add(e.key, e.sprite);
+        {
+            if (e != null && e.sprite != null && !string.IsNullOrWhiteSpace(e.key))
+            {
+                string nk = NormalizeKey(e.key);
+                if (!_dictSprites.ContainsKey(nk))
+                    _dictSprites.Add(nk, e.sprite);
+                else
+                    Debug.LogWarning($"[CompraResponsiva] Clave duplicada en catálogo: '{e.key}' -> usando la primera.");
+            }
+        }
+
     }
 
     void Start()
@@ -153,6 +192,28 @@ public class CompraResponsivaManager : MonoBehaviour
         ActualizarReloj();
 
         MostrarRonda();
+        // Revisión rápida: lista keys faltantes del banco
+#if UNITY_EDITOR
+        var faltantes = new HashSet<string>();
+        foreach (var q in bancoPreguntas)
+        {
+            void Check(string raw)
+            {
+                string nk = NormalizeKey(raw);
+                if (string.IsNullOrEmpty(nk)) return;
+                if (!_dictSprites.ContainsKey(nk)) faltantes.Add(raw);
+            }
+            Check(q.correctoKey);
+            Check(q.incorrecto1Key);
+            Check(q.incorrecto2Key);
+        }
+        if (faltantes.Count > 0)
+        {
+            Debug.LogWarning("[CompraResponsiva] Sprites NO encontrados para keys: " +
+                             string.Join(", ", faltantes));
+        }
+#endif
+
     }
 
     void Update()
@@ -218,7 +279,9 @@ public class CompraResponsivaManager : MonoBehaviour
                 var slot = optionSlots[i];
                 var data = opciones[i];
 
-                Sprite spr = null; _dictSprites.TryGetValue(data.key, out spr);
+                Sprite spr = null;
+                _dictSprites.TryGetValue(NormalizeKey(data.key), out spr);
+                if (spr == null) spr = fallbackSprite; // opcional
                 string cantidadLbl = data.isCorrect ? $"+{premioCorrecta}" : $"-{penalizacionIncorrecta}";
 
                 slot.gameObject.SetActive(true);
@@ -234,7 +297,9 @@ public class CompraResponsivaManager : MonoBehaviour
                 var sp = spawnPoints[i];
                 var data = opciones[i];
 
-                Sprite spr = null; _dictSprites.TryGetValue(data.key, out spr);
+                Sprite spr = null;
+                _dictSprites.TryGetValue(NormalizeKey(data.key), out spr);
+                if (spr == null) spr = fallbackSprite; // opcional
                 string cantidadLbl = data.isCorrect ? $"+{premioCorrecta}" : $"-{penalizacionIncorrecta}";
 
                 var item = Instantiate(optionPrefab, sp.position, sp.rotation, sp.parent);

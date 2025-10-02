@@ -10970,7 +10970,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1662061183}
-  - component: {fileID: 1662061182}
   - component: {fileID: 1662061184}
   m_Layer: 0
   m_Name: Progress
@@ -10978,28 +10977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1662061182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662061181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03c42f212b929d842ac6bb74c9e118a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  profilePath: 
-  walletPath: /game/progress/presupuesto
-  scorePath: /game/progress/puntaje
-  checkpointPath: /game/world/checkpoint
-  standPathTemplate: /game/stands/{stand_id}
-  standScreenAddPath: /game/stands/{stand_id}/screens
-  quizResultPath: /game/minigames/{id}/result
-  walletUsesDelta: 1
-  scoreUsesDelta: 1
+  m_IsActive: 1
 --- !u!4 &1662061183
 Transform:
   m_ObjectHideFlags: 0
@@ -11022,19 +11000,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662061181}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7db9f3ed6e2a2e459d9af774a25968e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseUrl: https://api.estudiohera.mx
-  progressPath: /game/progress
-  tokenPlayerPrefsKey: snef_token
-  saveLocalOnEachChange: 1
-  autoCreateRemoteIfMissing: 1
-  requestTimeout: 8
-  allowSendWithoutToken: 1
-  verboseLogs: 1
 --- !u!1 &1676618844
 GameObject:
   m_ObjectHideFlags: 0
