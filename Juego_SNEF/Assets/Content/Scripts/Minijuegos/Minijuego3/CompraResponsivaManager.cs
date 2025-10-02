@@ -15,6 +15,23 @@ public class CompraResponsivaManager : MonoBehaviour
     public float tiempoNivel = 60f;
     public TextMeshProUGUI tiempoText;  // mm:ss en cabecera
 
+    [Header("Feedback visual de respuesta")]
+    public Image feedbackImage;              // arrástrale una Image en canvas
+    public Sprite feedbackCorrecto;          // sprite "bien/hecho"
+    public Sprite feedbackIncorrecto;        // sprite "arriesgado"
+    public float fbPopIn = 0.12f;            // seg
+    public float fbHold = 0.40f;            // seg
+    public float fbFade = 0.22f;            // seg
+    public float fbPopScale = 1.1f;          // escala del rebote
+
+    [Header("Animación opciones")]
+    public float opcionIntroTime = 0.22f;     // duración de cada pop
+    public float opcionOvershoot = 1.08f;     // 1.0 = sin rebote
+    public float opcionStagger = 0.06f;       // retraso entre opciones
+    public float postFeedbackDelay = 0.12f;   // pausa tras el feedback
+
+
+
     [Header("Derrota (por tiempo)")]
     public GameObject panelDerrota;
     public Button btnReintentarDerrota;
@@ -101,6 +118,8 @@ public class CompraResponsivaManager : MonoBehaviour
 
     void Awake()
     {
+        if (feedbackImage) { feedbackImage.gameObject.SetActive(false); }
+
         if (panelVictoria) panelVictoria.SetActive(false);
         if (panelDerrota) panelDerrota.SetActive(false);
         if (panelPregunta) panelPregunta.SetActive(true);
@@ -223,6 +242,9 @@ public class CompraResponsivaManager : MonoBehaviour
                 _instanciadas.Add(item);
             }
         }
+        // …tras crear y llenar _instanciadas:
+        StartCoroutine(AnimarOpcionesEntrada());
+
     }
 
     public void OnOptionChosen(OptionItem chosen)
@@ -245,10 +267,65 @@ public class CompraResponsivaManager : MonoBehaviour
         StartCoroutine(ResolverYContinuar(chosen, ok));
     }
 
+    IEnumerator AnimarOpcionesEntrada()
+    {
+        // Deshabilita mientras entran
+        foreach (var it in _instanciadas) it.SetInteractable(false);
+
+        // Guardar escalas y poner a 0 para el pop
+        var bases = new Dictionary<Transform, Vector3>(_instanciadas.Count);
+        foreach (var it in _instanciadas)
+        {
+            if (!it) continue;
+            var t = it.transform;
+            bases[t] = t.localScale;
+            t.localScale = Vector3.zero;
+            it.gameObject.SetActive(true); // por si algún slot estaba apagado
+        }
+
+        // Pop con “stagger”
+        for (int i = 0; i < _instanciadas.Count; i++)
+        {
+            var it = _instanciadas[i];
+            if (!it) continue;
+
+            StartCoroutine(PopIn(it.transform, bases[it.transform], opcionIntroTime, opcionOvershoot));
+            if (opcionStagger > 0f) yield return new WaitForSecondsRealtime(opcionStagger);
+        }
+
+        // Espera a que termine el último pop
+        yield return new WaitForSecondsRealtime(opcionIntroTime + 0.02f);
+
+        // Rehabilita interacción
+        foreach (var it in _instanciadas) it.SetInteractable(true);
+    }
+
+    // Pop con back/ease out
+    IEnumerator PopIn(Transform t, Vector3 baseScale, float dur, float overshoot)
+    {
+        float t0 = 0f;
+        while (t0 < dur)
+        {
+            t0 += Time.unscaledDeltaTime;
+            float k = Mathf.Clamp01(t0 / Mathf.Max(0.0001f, dur));
+            // EaseOutBack (c = overshoot factor aproximado)
+            float c = 1.70158f * Mathf.Clamp(overshoot - 1f, 0f, 1f); // 0 → sin back, >0 con rebote
+            float kk = 1f - Mathf.Pow(1f - k, 3f);                    // easeOutCubic base
+                                                                      // pequeño back usando c
+            float back = 1f + c * Mathf.Sin(k * Mathf.PI * 0.5f);
+            t.localScale = baseScale * Mathf.Lerp(0f, 1f * back, kk);
+            yield return null;
+        }
+        t.localScale = baseScale;
+    }
+
+
     IEnumerator ResolverYContinuar(OptionItem chosen, bool ok)
     {
+        // anim de la tarjeta elegida
         yield return chosen.PlayCollectAnimAndHide(ok ? $"+{premioCorrecta}" : $"-{penalizacionIncorrecta}");
 
+        // apagar/limpiar las otras
         foreach (var it in _instanciadas)
         {
             if (it && it != chosen)
@@ -259,10 +336,73 @@ public class CompraResponsivaManager : MonoBehaviour
         }
         _instanciadas.Clear();
 
+        // feedback "bien/hecho" vs "arriesgado"
+        yield return MostrarFeedback(ok);
+
+        // >>> pequeña espera extra para que se lea bien el feedback <<<
+        if (postFeedbackDelay > 0f)
+            yield return new WaitForSecondsRealtime(postFeedbackDelay);
+
+        // siguiente ronda
         _rondaActual++;
-        yield return new WaitForSeconds(0.2f);
         MostrarRonda();
     }
+
+
+    IEnumerator MostrarFeedback(bool correcto)
+    {
+        if (!feedbackImage)
+        {
+            yield return new WaitForSeconds(0.25f);
+            yield break;
+        }
+
+        // elegir sprite
+        feedbackImage.sprite = correcto ? feedbackCorrecto : feedbackIncorrecto;
+        feedbackImage.gameObject.SetActive(true);
+
+        // estado inicial
+        var rt = feedbackImage.rectTransform;
+        Color c = feedbackImage.color;
+        c.a = 0f; feedbackImage.color = c;
+        Vector3 s0 = Vector3.one * 0.85f;
+        Vector3 s1 = Vector3.one * fbPopScale;
+        rt.localScale = s0;
+
+        // pop-in (alfa 0→1, escala s0→s1)
+        float t = 0f;
+        while (t < fbPopIn)
+        {
+            t += Time.unscaledDeltaTime;
+            float k = Mathf.Clamp01(t / Mathf.Max(0.0001f, fbPopIn));
+            float ease = 1f - Mathf.Pow(1f - k, 3f); // easeOutCubic
+            rt.localScale = Vector3.Lerp(s0, s1, ease);
+            c.a = Mathf.Lerp(0f, 1f, ease);
+            feedbackImage.color = c;
+            yield return null;
+        }
+        rt.localScale = s1;
+        c.a = 1f; feedbackImage.color = c;
+
+        // hold
+        yield return new WaitForSecondsRealtime(fbHold);
+
+        // fade-out (alfa 1→0, escala s1→1)
+        t = 0f;
+        while (t < fbFade)
+        {
+            t += Time.unscaledDeltaTime;
+            float k = Mathf.Clamp01(t / Mathf.Max(0.0001f, fbFade));
+            rt.localScale = Vector3.Lerp(s1, Vector3.one, k);
+            c.a = Mathf.Lerp(1f, 0f, k);
+            feedbackImage.color = c;
+            yield return null;
+        }
+
+        feedbackImage.gameObject.SetActive(false);
+    }
+
+
 
     // --------------- VICTORIA / FIN ---------------
     void TerminarJuego()

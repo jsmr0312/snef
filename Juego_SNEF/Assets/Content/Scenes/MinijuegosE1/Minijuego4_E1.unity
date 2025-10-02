@@ -11020,6 +11020,81 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b11914487302400459c19c4113a4f3ef, type: 3}
+--- !u!1 &491654543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 491654544}
+  - component: {fileID: 491654545}
+  - component: {fileID: 491654546}
+  m_Layer: 5
+  m_Name: ImageAcierto
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &491654544
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491654543}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1060102739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 366.7184, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &491654545
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491654543}
+  m_CullTransparentMesh: 1
+--- !u!114 &491654546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491654543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 37f9e883dc9999e4e9749812f9252a66, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!4 &492661753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5572646227856895756, guid: 17c75a56d593af942a86b327fb972ba0, type: 3}
@@ -18265,6 +18340,8 @@ RectTransform:
   m_Children:
   - {fileID: 1143365078}
   - {fileID: 175096496}
+  - {fileID: 491654544}
+  - {fileID: 1759252904}
   m_Father: {fileID: 1078621485}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -18583,6 +18660,17 @@ MonoBehaviour:
   usarTiempo: 1
   tiempoNivel: 90
   tiempoText: {fileID: 672278296}
+  feedbackImage: {fileID: 491654546}
+  feedbackCorrecto: {fileID: 21300000, guid: 37f9e883dc9999e4e9749812f9252a66, type: 3}
+  feedbackIncorrecto: {fileID: 21300000, guid: 9840b45bc3fd2dd4caaef6d9d91daafe, type: 3}
+  fbPopIn: 0.12
+  fbHold: 0.8
+  fbFade: 0.5
+  fbPopScale: 1.1
+  opcionIntroTime: 0.22
+  opcionOvershoot: 1.08
+  opcionStagger: 0.06
+  postFeedbackDelay: 0.12
   panelDerrota: {fileID: 379026518}
   btnReintentarDerrota: {fileID: 1363474258}
   btnAbandonar: {fileID: 1900014508}
@@ -18612,11 +18700,11 @@ MonoBehaviour:
   puntosPorTotalEstrellas: 0000000064000000c80000002c010000
   acreditarEnPresupuesto: 1
   acreditarEnPuntaje: 1
-  rondasTotales: 2
+  rondasTotales: 10
   premioCorrecta: 20
   penalizacionIncorrecta: 10
   preguntaText: {fileID: 853323479}
-  contadorText: {fileID: 672278296}
+  contadorText: {fileID: 1096226644}
   panelPregunta: {fileID: 175096495}
   spriteCatalog:
   - key: Lavadora
@@ -18637,23 +18725,147 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: ed0e4ab282dd9ad46a9802993e7af228, type: 3}
   - key: Laptop
     sprite: {fileID: 21300000, guid: 9a842a54b5466d341a9da965b95822b5, type: 3}
+  - key: Lavadora
+    sprite: {fileID: 21300000, guid: f67e95be3bdd995429004c3484df7024, type: 3}
+  - key: Libro
+    sprite: {fileID: 21300000, guid: 09c67ec799195e44fbac09951e1ac302, type: 3}
+  - key: Mochila
+    sprite: {fileID: 21300000, guid: ced971a3ee771c84789fda7d4922c436, type: 3}
+  - key: Mueble
+    sprite: {fileID: 21300000, guid: 9812d45b66048ae4d9bb16371272b388, type: 3}
+  - key: Oro
+    sprite: {fileID: 21300000, guid: 8bf1b21f54e78ac42b16bc2f2117f114, type: 3}
+  - key: Panel solar
+    sprite: {fileID: 21300000, guid: 4c42a4cdcf2fdcd4e8d855e3c6325d18, type: 3}
+  - key: Pantalon
+    sprite: {fileID: 21300000, guid: 78d99305b4f928640a7e936ac72ea64d, type: 3}
+  - key: Refrigerador
+    sprite: {fileID: 21300000, guid: 6e1fa06ba391129408f511deca7c5bad, type: 3}
+  - key: Sarten
+    sprite: {fileID: 21300000, guid: 271b9827b42481346bf55ea9c23665a9, type: 3}
+  - key: Silla
+    sprite: {fileID: 21300000, guid: 2155c47f1ac8bfe4f8db152d3861229a, type: 3}
+  - key: Sombrilla
+    sprite: {fileID: 21300000, guid: dff74feac94b40c4f9c0419a66985546, type: 3}
+  - key: Audifonos
+    sprite: {fileID: 21300000, guid: 6f79e430baefe4e498eac7dcf9a8b63b, type: 3}
+  - key: Bebida energetica
+    sprite: {fileID: 21300000, guid: 6b1c1f4a60ccd7846b3fc32949b8ef37, type: 3}
+  - key: Bolso
+    sprite: {fileID: 21300000, guid: 64e987a3205923444a0a70c36836ec57, type: 3}
+  - key: Carro
+    sprite: {fileID: 21300000, guid: e796a97300cef0a45990e5bff2ba87f0, type: 3}
+  - key: Celular
+    sprite: {fileID: 21300000, guid: 5736fcf7a6e69af48b84d70ea2ae71e7, type: 3}
+  - key: Dulces
+    sprite: {fileID: 21300000, guid: 6b542c2cb3ab56d4c9672b2e092a570b, type: 3}
+  - key: Hamburguesa
+    sprite: {fileID: 21300000, guid: 7035b04e80b89a144ab3565f96457c78, type: 3}
+  - key: Juguete
+    sprite: {fileID: 21300000, guid: 5d4f26976c56bbf45b9cec34a3cd2759, type: 3}
+  - key: Lampara de lava
+    sprite: {fileID: 21300000, guid: 7a36dc97ff8d4bd47834c2805e64597f, type: 3}
+  - key: Moto
+    sprite: {fileID: 21300000, guid: b464003c6852c9143a8396138fea1309, type: 3}
+  - key: Pantalla
+    sprite: {fileID: 21300000, guid: 3cba2d413419b8f4eb88aebc8050fd48, type: 3}
+  - key: Peluche
+    sprite: {fileID: 21300000, guid: 3aa73f98ee7eca74fa2dd249ed187d3f, type: 3}
+  - key: Perfume caro
+    sprite: {fileID: 21300000, guid: 64022c63c62e68149a4e51a523df0717, type: 3}
+  - key: Pizza
+    sprite: {fileID: 21300000, guid: 68965b83b5bf1a74786f0b95e3a137c8, type: 3}
+  - key: Refresco
+    sprite: {fileID: 21300000, guid: 687cb7838ccbac546b94d24f9c2b19e4, type: 3}
+  - key: Reloj
+    sprite: {fileID: 21300000, guid: fc869756e5ace33438dcf31ccc1e17ae, type: 3}
+  - key: Ropa de moda
+    sprite: {fileID: 21300000, guid: 7d29dba6a3071d543a7bb9f9754a98a4, type: 3}
+  - key: Silla gamer
+    sprite: {fileID: 21300000, guid: 76f9912dea37e7b47aba84e3386a088d, type: 3}
+  - key: Zapato de moda
+    sprite: {fileID: 21300000, guid: 5dd2f191171b0db4a8ef1d200be606d0, type: 3}
+  - key: Consola de videojuegos
+    sprite: {fileID: 21300000, guid: 559742ce67d601a4485ffa4b6b395015, type: 3}
   bancoPreguntas:
   - pregunta: Vas a iniciar trabajo remoto con presupuesto limitado; prioriza lo
       que te permita generar ingresos desde casa
     correctoKey: Laptop
-    incorrecto1Key: Agua
-    incorrecto2Key: Fruta
+    incorrecto1Key: Silla gamer
+    incorrecto2Key: Consola de videojuegos
     correctoNombre: Laptop
-    incorrecto1Nombre: Agua
-    incorrecto2Nombre: Fruta
+    incorrecto1Nombre: Silla gamer
+    incorrecto2Nombre: Consola de videojuegos
   - pregunta: Te mudas cerca del trabajo (5 km) y quieres reducir gastos mensuales
       de transporte y gasolina.
     correctoKey: Bicicleta
-    incorrecto1Key: Lampara
-    incorrecto2Key: Colchon
+    incorrecto1Key: Moto
+    incorrecto2Key: Carro
     correctoNombre: Bicicleta
-    incorrecto1Nombre: Lampara
-    incorrecto2Nombre: "Colch\xF3n"
+    incorrecto1Nombre: Moto
+    incorrecto2Nombre: Carro
+  - pregunta: "Quieres mejorar tu alimentaci\xF3n diaria sin aumentar el gasto y
+      reducir compras de antojos."
+    correctoKey: Fruta
+    incorrecto1Key: Refresco
+    incorrecto2Key: Dulces
+    correctoNombre: Fruta
+    incorrecto1Nombre: Refresco
+    incorrecto2Nombre: Dulces
+  - pregunta: Necesitas mantener alimentos frescos para cocinar en casa y evitar
+      pedir comida.
+    correctoKey: Refrigerador
+    incorrecto1Key: Pantalla
+    incorrecto2Key: Perfume caro
+    correctoNombre: Refrigerador
+    incorrecto1Nombre: Pantalla
+    incorrecto2Nombre: Perfume caro
+  - pregunta: "Preparar\xE1s comida todos los d\xEDas; busca lo m\xE1s \xFAtil y
+      vers\xE1til con buen costo-beneficio."
+    correctoKey: Estufa
+    incorrecto1Key: Freidora de aire
+    incorrecto2Key: Hamburguesa
+    correctoNombre: Estufa
+    incorrecto1Nombre: Freidora de aire
+    incorrecto2Nombre: Hamburguesa
+  - pregunta: Estudias de noche y quieres iluminar sin subir demasiado la luz.
+    correctoKey: Lampara
+    incorrecto1Key: Lampara de lava
+    incorrecto2Key: Pantalla
+    correctoNombre: Lampara
+    incorrecto1Nombre: Lampara de lava
+    incorrecto2Nombre: Pantalla
+  - pregunta: 'Inicio de semestre con presupuesto corto: prioriza transportar materiales
+      con seguridad.'
+    correctoKey: Mochila
+    incorrecto1Key: Bolso
+    incorrecto2Key: Zapato de moda
+    correctoNombre: Mochila
+    incorrecto1Nombre: Bolso
+    incorrecto2Nombre: Zapato de moda
+  - pregunta: "Dormir bien impacta tu rendimiento; tu cuarto est\xE1 vac\xEDo y puedes
+      comprar una sola cosa."
+    correctoKey: Colchon
+    incorrecto1Key: Mueble
+    incorrecto2Key: Lampara de lava
+    correctoNombre: "Colch\xF3n"
+    incorrecto1Nombre: Mueble
+    incorrecto2Nombre: "L\xE1mpara de lava"
+  - pregunta: "La lavander\xEDa te cobra caro por carga; en un a\xF1o gastar\xEDas
+      m\xE1s que comprando\u2026"
+    correctoKey: Lavadora
+    incorrecto1Key: Ropa de moda
+    incorrecto2Key: Perfume caro
+    correctoNombre: Lavadora
+    incorrecto1Nombre: Ropa de moda
+    incorrecto2Nombre: Perfume caro
+  - pregunta: Emprendes ventas en redes; necesitas comunicarte, fotografiar y publicar.
+    correctoKey: Celular
+    incorrecto1Key: Reloj
+    incorrecto2Key: Peluche
+    correctoNombre: Celular
+    incorrecto1Nombre: Reloj
+    incorrecto2Nombre: Peluche
   usarSlotsDeEscena: 1
   optionSlots:
   - {fileID: 1046007704}
@@ -36249,6 +36461,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7592947078336269087, guid: 5ad1f85298652b94b9ffddef0efae8bb, type: 3}
   m_PrefabInstance: {fileID: 1754400034}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1759252903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1759252904}
+  - component: {fileID: 1759252906}
+  - component: {fileID: 1759252905}
+  m_Layer: 5
+  m_Name: ImageError
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1759252904
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759252903}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1060102739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 366.7184, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1759252905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759252903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9840b45bc3fd2dd4caaef6d9d91daafe, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1759252906
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759252903}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1761581212
 PrefabInstance:
   m_ObjectHideFlags: 0

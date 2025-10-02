@@ -1133,7 +1133,7 @@ MonoBehaviour:
   cameraTransitionDuration: 0.6
   controllersToFreeze: []
   playerUI: {fileID: 1636483350}
-  playerRoot: {fileID: 1371243753}
+  playerRoot: {fileID: 1771018163}
   disablePlayerRootDuringFocus: 1
   closeButton: {fileID: 0}
   allowEscToClose: 0
@@ -2588,6 +2588,17 @@ PrefabInstance:
       addedObject: {fileID: 1360631727}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &44135294 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 44135293}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416307897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &44708469
 GameObject:
   m_ObjectHideFlags: 0
@@ -6558,7 +6569,7 @@ MonoBehaviour:
   cameraTransitionDuration: 0.6
   controllersToFreeze: []
   playerUI: {fileID: 1636483350}
-  playerRoot: {fileID: 1371243753}
+  playerRoot: {fileID: 1771018163}
   disablePlayerRootDuringFocus: 1
   closeButton: {fileID: 1329459576}
   allowEscToClose: 0
@@ -14701,7 +14712,7 @@ MonoBehaviour:
   cameraTransitionDuration: 0.6
   controllersToFreeze: []
   playerUI: {fileID: 1636483350}
-  playerRoot: {fileID: 1371243753}
+  playerRoot: {fileID: 1771018163}
   disablePlayerRootDuringFocus: 1
   closeButton: {fileID: 1329459576}
   allowEscToClose: 0
@@ -15184,7 +15195,7 @@ MonoBehaviour:
   cameraTransitionDuration: 0.6
   controllersToFreeze: []
   playerUI: {fileID: 1636483350}
-  playerRoot: {fileID: 1371243753}
+  playerRoot: {fileID: 1771018163}
   disablePlayerRootDuringFocus: 1
   closeButton: {fileID: 1329459576}
   allowEscToClose: 0
@@ -23861,7 +23872,7 @@ Transform:
   m_GameObject: {fileID: 534161806}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -46.7, y: 7.3, z: 13.7}
+  m_LocalPosition: {x: -64, y: 7.3, z: 13.7}
   m_LocalScale: {x: 105.73809, y: 45.51442, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24271,9 +24282,61 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: pauseKey
+      value: 122
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: controllersToFreeze.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1371243758}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1350223828}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2040675002}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1689570161}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[4]'
+      value: 
+      objectReference: {fileID: 44135294}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[5]'
+      value: 
+      objectReference: {fileID: 911921253}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[6]'
+      value: 
+      objectReference: {fileID: 1770052669}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[7]'
+      value: 
+      objectReference: {fileID: 1566061937}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[8]'
+      value: 
+      objectReference: {fileID: 897797118}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[9]'
+      value: 
+      objectReference: {fileID: 2004710713}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[10]'
+      value: 
+      objectReference: {fileID: 1032604126}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: 'controllersToFreeze.Array.data[11]'
+      value: 
+      objectReference: {fileID: 633605508}
     - target: {fileID: 5348085437579487285, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: m_Name
       value: PauseComponent
@@ -27812,6 +27875,17 @@ PrefabInstance:
       addedObject: {fileID: 1337181723}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &633605508 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 633605507}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389910061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &634209180
 GameObject:
   m_ObjectHideFlags: 0
@@ -36847,6 +36921,17 @@ PrefabInstance:
       addedObject: {fileID: 9741786}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &897797118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 897797117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239134393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &899296049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37432,6 +37517,17 @@ PrefabInstance:
       addedObject: {fileID: 520382266}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &911921253 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 911921252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289517251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &911939837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40218,7 +40314,7 @@ MonoBehaviour:
   cameraTransitionDuration: 0.6
   controllersToFreeze: []
   playerUI: {fileID: 1636483350}
-  playerRoot: {fileID: 1371243753}
+  playerRoot: {fileID: 1771018163}
   disablePlayerRootDuringFocus: 1
   closeButton: {fileID: 0}
   allowEscToClose: 0
@@ -43200,6 +43296,17 @@ PrefabInstance:
       addedObject: {fileID: 156147513}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &1032604126 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 1032604125}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097423440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1033165279 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 420546, guid: a45f923de9555884cbe160883ce87a74, type: 3}
@@ -56641,6 +56748,17 @@ PrefabInstance:
       addedObject: {fileID: 541814206}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &1350223828 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 1350223827}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477183389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1350310710
 GameObject:
   m_ObjectHideFlags: 0
@@ -59502,7 +59620,7 @@ MonoBehaviour:
   cameraTransitionDuration: 0.6
   controllersToFreeze: []
   playerUI: {fileID: 1636483350}
-  playerRoot: {fileID: 1371243753}
+  playerRoot: {fileID: 1771018163}
   disablePlayerRootDuringFocus: 1
   closeButton: {fileID: 1329459576}
   allowEscToClose: 0
@@ -66587,6 +66705,17 @@ PrefabInstance:
       addedObject: {fileID: 1499962313}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &1566061937 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 1566061936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165849358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1568992056
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70897,6 +71026,17 @@ PrefabInstance:
       addedObject: {fileID: 830366934}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &1689570161 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 1689570160}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102166011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1690977518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73845,6 +73985,17 @@ PrefabInstance:
       addedObject: {fileID: 2034890523}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &1770052669 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 1770052668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344102771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1771018163
 GameObject:
   m_ObjectHideFlags: 0
@@ -77807,7 +77958,7 @@ MonoBehaviour:
   cameraTransitionDuration: 0.6
   controllersToFreeze: []
   playerUI: {fileID: 1636483350}
-  playerRoot: {fileID: 1371243753}
+  playerRoot: {fileID: 1771018163}
   disablePlayerRootDuringFocus: 1
   closeButton: {fileID: 1329459576}
   allowEscToClose: 0
@@ -83201,6 +83352,17 @@ PrefabInstance:
       addedObject: {fileID: 357854852}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &2004710713 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 2004710712}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009020762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2008252925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83940,7 +84102,7 @@ MonoBehaviour:
   cameraTransitionDuration: 0.6
   controllersToFreeze: []
   playerUI: {fileID: 1636483350}
-  playerRoot: {fileID: 1371243753}
+  playerRoot: {fileID: 1771018163}
   disablePlayerRootDuringFocus: 1
   closeButton: {fileID: 1329459576}
   allowEscToClose: 0
@@ -84963,6 +85125,17 @@ PrefabInstance:
       addedObject: {fileID: 2140200833}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+--- !u!114 &2040675002 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2211598806654212542, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
+  m_PrefabInstance: {fileID: 2040675001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781459091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2041389421
 PrefabInstance:
   m_ObjectHideFlags: 0
