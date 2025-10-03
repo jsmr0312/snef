@@ -10,7 +10,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     Interactor.IInteractable,
     Interactor.IInteractableFeedback
 {
-    public enum ContentType { Image, Video, Presentation }
+    public enum ContentType { Image, Video, Presentation, TallImageScrollable } // ← NUEVO
+
 
     #region Inspector
 
@@ -48,6 +49,15 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     [Header("Canvas Targets")]
     public RawImage imageRawImage;
     public RawImage videoRawImage;
+
+    [Header("Tall Image Scroll (nuevo)")]
+    public CanvasGroup tallScrollRoot;      // contenedor raíz del modo scroll
+    public ScrollRect tallScrollRect;       // ScrollRect (vertical)
+    public RectTransform tallViewport;      // Viewport del ScrollRect
+    public RawImage tallImage;              // RawImage dentro del Content (la imagen larga)
+    public Slider tallSlider;               // Slider vertical decorativo/opcional
+    public bool invertTallSlider = true;    // si quieres que arriba sea valor 1
+
 
     [Header("Botones de navegación")]
     public GameObject navButtonPanel;
@@ -130,6 +140,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     private bool _videoPlayPending = false;
     public bool Viewed { get; private set; }
     private bool _playerInside = false;
+
+    private bool _tallActive = false;
+
 
     private static UnifiedScreenDisplay _active;
 
@@ -315,6 +328,20 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             videoPlayer.loopPointReached += OnVideoFinished;
         }
 
+        if (tallScrollRoot) tallScrollRoot.gameObject.SetActive(false);
+        if (tallSlider)
+        {
+            tallSlider.minValue = 0f;
+            tallSlider.maxValue = 1f;
+            tallSlider.onValueChanged.RemoveAllListeners();
+            tallSlider.onValueChanged.AddListener(v => {
+                if (!tallScrollRect) return;
+                float p = invertTallSlider ? 1f - v : v;
+                tallScrollRect.verticalNormalizedPosition = Mathf.Clamp01(p);
+            });
+        }
+
+
         _totalSlides = slides?.Length ?? 0;
 
         if (liftTransform != null)
@@ -392,6 +419,12 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             promptUI.transform.LookAt(camT);
             promptUI.transform.Rotate(0, 180, 0);
         }
+        if (_isViewing && _tallActive && tallScrollRect && tallSlider && tallSlider.gameObject.activeSelf)
+        {
+            float v = tallScrollRect.verticalNormalizedPosition;
+            tallSlider.SetValueWithoutNotify(invertTallSlider ? 1f - v : v);
+        }
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -605,6 +638,11 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 _currentIndex = 0;
                 ShowPresentationItem(0);
                 break;
+
+            case ContentType.TallImageScrollable:       // ← NUEVO
+                ShowTallImageScrollable();
+                _completed = true; _progressPct = 100;   // ver no requiere “progreso”
+                break;
         }
 
         SetupDownloadUI();
@@ -612,6 +650,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     void ExitViewMode()
     {
+        SetTallScrollActive(false);
+
         _isViewing = false;
         promptUI?.SetActive(false);
 
@@ -901,6 +941,66 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         _videoPlayPending = true;
         videoPlayer.Prepare();
     }
+
+    private void SetTallScrollActive(bool on)
+    {
+        _tallActive = on;
+        if (tallScrollRoot) tallScrollRoot.gameObject.SetActive(on);
+    }
+
+    private void ShowTallImageScrollable()
+    {
+        // apaga otros
+        SetImageVisualActive(false);
+        SetVideoVisualActive(false);
+
+        // enciende scroll
+        SetTallScrollActive(true);
+
+        if (tallImage) tallImage.texture = singleImage;
+
+        // espera un frame para que el Rect tenga tamaño real y calcula layout
+        StartCoroutine(SetupTallLayoutNextFrame());
+    }
+
+    private IEnumerator SetupTallLayoutNextFrame()
+    {
+        yield return null; // deja que el layout se calcule
+        RecalculateTallImageLayout();
+        // empieza “arriba”
+        if (tallScrollRect) tallScrollRect.verticalNormalizedPosition = 1f;
+        if (tallSlider) tallSlider.SetValueWithoutNotify(invertTallSlider ? 0f : 1f);
+    }
+
+    private void RecalculateTallImageLayout()
+    {
+        if (!tallViewport || !tallImage || !tallImage.texture) return;
+
+        // ajustar la imagen al ancho del viewport manteniendo proporción
+        var vp = tallViewport.rect;
+        float texW = tallImage.texture.width;
+        float texH = tallImage.texture.height;
+
+        float targetW = Mathf.Max(1f, vp.width);
+        float targetH = targetW * (texH / Mathf.Max(1f, texW));
+
+        var rt = tallImage.rectTransform;
+        // anclar arriba-centro para que el scroll empiece “arriba”
+        rt.pivot = new Vector2(0.5f, 1f);
+        rt.anchorMin = new Vector2(0.5f, 1f);
+        rt.anchorMax = new Vector2(0.5f, 1f);
+        rt.sizeDelta = new Vector2(targetW, targetH);
+        rt.anchoredPosition = Vector2.zero;
+
+        bool needScroll = targetH > vp.height + 1f;
+        if (tallScrollRect)
+        {
+            tallScrollRect.vertical = needScroll;
+            tallScrollRect.enabled = needScroll;
+        }
+        if (tallSlider) tallSlider.gameObject.SetActive(needScroll);
+    }
+
 
     private void SetImageVisualActive(bool on)
     {

@@ -1440,6 +1440,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 145548d931bdd69469bce4efdd155220, type: 3}
   imageRawImage: {fileID: 1796263925}
   videoRawImage: {fileID: 1327991875}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -3368,6 +3374,42 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b02e0615c6b6a0541a5eda1d1a88e283, type: 3}
+--- !u!1 &66581230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 66581231}
+  m_Layer: 5
+  m_Name: Content
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &66581231
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66581230}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 837073383}
+  m_Father: {fileID: 1768470572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.0040174746, y: 0}
+  m_SizeDelta: {x: 0, y: 901.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!1001 &66632146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5651,6 +5693,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2a01a6be7fdd5124bbc0fa386247ac21, type: 3}
   imageRawImage: {fileID: 951719077}
   videoRawImage: {fileID: 686428850}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -7007,6 +7055,129 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7282922235929469691, guid: 54a57b5c78080bb4fbd56526cc0d25c3, type: 3}
   m_PrefabInstance: {fileID: 1116546900}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &161572126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 161572127}
+  - component: {fileID: 161572130}
+  - component: {fileID: 161572129}
+  - component: {fileID: 161572131}
+  - component: {fileID: 161572128}
+  m_Layer: 5
+  m_Name: Scroll View
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &161572127
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161572126}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1768470572}
+  - {fileID: 1516308451}
+  m_Father: {fileID: 1514224219}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.7, y: -0}
+  m_SizeDelta: {x: 1603.6, y: 905.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &161572128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161572126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
+--- !u!114 &161572129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161572126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &161572130
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161572126}
+  m_CullTransparentMesh: 1
+--- !u!114 &161572131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161572126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Content: {fileID: 837073383}
+  m_Horizontal: 0
+  m_Vertical: 1
+  m_MovementType: 2
+  m_Elasticity: 0.1
+  m_Inertia: 1
+  m_DecelerationRate: 0.135
+  m_ScrollSensitivity: 1
+  m_Viewport: {fileID: 1768470572}
+  m_HorizontalScrollbar: {fileID: 0}
+  m_VerticalScrollbar: {fileID: 1516308452}
+  m_HorizontalScrollbarVisibility: 2
+  m_VerticalScrollbarVisibility: 2
+  m_HorizontalScrollbarSpacing: -3
+  m_VerticalScrollbarSpacing: -3
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &161948095
 GameObject:
   m_ObjectHideFlags: 0
@@ -10537,6 +10708,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -11659,6 +11836,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2a01a6be7fdd5124bbc0fa386247ac21, type: 3}
   imageRawImage: {fileID: 849427471}
   videoRawImage: {fileID: 1240421843}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -15316,6 +15499,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 145548d931bdd69469bce4efdd155220, type: 3}
   imageRawImage: {fileID: 1768786758}
   videoRawImage: {fileID: 276915133}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -16071,6 +16260,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 3fae75525522e5449a1b3a707e431024, type: 3}
   imageRawImage: {fileID: 1583163107}
   videoRawImage: {fileID: 155511704}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -17023,6 +17218,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -25737,6 +25938,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 3fae75525522e5449a1b3a707e431024, type: 3}
   imageRawImage: {fileID: 865199725}
   videoRawImage: {fileID: 1351817124}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -29651,6 +29858,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 145548d931bdd69469bce4efdd155220, type: 3}
   imageRawImage: {fileID: 1744163971}
   videoRawImage: {fileID: 856725598}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -36014,6 +36227,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 138407978737412187, guid: d5014bfe7ac15954988f8522217d0e04, type: 3}
   m_PrefabInstance: {fileID: 835692162}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &837073380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 837073383}
+  - component: {fileID: 837073382}
+  - component: {fileID: 837073381}
+  m_Layer: 5
+  m_Name: TallImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &837073381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837073380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &837073382
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837073380}
+  m_CullTransparentMesh: 1
+--- !u!224 &837073383
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837073380}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10.995366}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 66581231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 9.190133, y: -8.091858}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &837216960
 GameObject:
   m_ObjectHideFlags: 0
@@ -36070,6 +36355,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -38085,6 +38376,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 145548d931bdd69469bce4efdd155220, type: 3}
   imageRawImage: {fileID: 883629031}
   videoRawImage: {fileID: 1294665442}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -39898,6 +40195,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: e7ef97d5e47397c4ab0e116f4b1d404a, type: 3}
   imageRawImage: {fileID: 1327864055}
   videoRawImage: {fileID: 1363540207}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -42259,7 +42562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &932815802
 RectTransform:
   m_ObjectHideFlags: 0
@@ -46419,6 +46722,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2a01a6be7fdd5124bbc0fa386247ac21, type: 3}
   imageRawImage: {fileID: 960304806}
   videoRawImage: {fileID: 2007983573}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -48794,6 +49103,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2a01a6be7fdd5124bbc0fa386247ac21, type: 3}
   imageRawImage: {fileID: 1739242906}
   videoRawImage: {fileID: 1496056057}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -49051,6 +49366,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: e7ef97d5e47397c4ab0e116f4b1d404a, type: 3}
   imageRawImage: {fileID: 421226088}
   videoRawImage: {fileID: 2132219947}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -50066,6 +50387,7 @@ RectTransform:
   m_LocalScale: {x: 0.0007337934, y: 0.00079513923, z: 0.0006080314}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1514224219}
   - {fileID: 157370874}
   - {fileID: 304760839}
   m_Father: {fileID: 1612602894}
@@ -50293,6 +50615,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2a01a6be7fdd5124bbc0fa386247ac21, type: 3}
   imageRawImage: {fileID: 1519498809}
   videoRawImage: {fileID: 1878139355}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -55662,6 +55990,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2a01a6be7fdd5124bbc0fa386247ac21, type: 3}
   imageRawImage: {fileID: 1295727052}
   videoRawImage: {fileID: 868701758}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -58394,6 +58728,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 145548d931bdd69469bce4efdd155220, type: 3}
   imageRawImage: {fileID: 1671564308}
   videoRawImage: {fileID: 208087316}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -63693,6 +64033,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: e7ef97d5e47397c4ab0e116f4b1d404a, type: 3}
   imageRawImage: {fileID: 2026742822}
   videoRawImage: {fileID: 1307147035}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -70721,6 +71067,181 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
   m_PrefabInstance: {fileID: 1513872886}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1514224218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1514224219}
+  - component: {fileID: 1514224220}
+  m_Layer: 5
+  m_Name: TallScrollRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1514224219
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514224218}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.9997129, y: 0.99971306, z: 0.999713}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 161572127}
+  m_Father: {fileID: 1054085058}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1514224220
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514224218}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!1 &1516308450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1516308451}
+  - component: {fileID: 1516308454}
+  - component: {fileID: 1516308453}
+  - component: {fileID: 1516308452}
+  m_Layer: 5
+  m_Name: Scrollbar Vertical
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1516308451
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516308450}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1715337546}
+  m_Father: {fileID: 161572127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -14, y: 0}
+  m_SizeDelta: {x: 20, y: -17}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &1516308452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516308450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4db7a114972834c8e4117be1d82ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1921140070}
+  m_HandleRect: {fileID: 1921140069}
+  m_Direction: 2
+  m_Value: 0.5349075
+  m_Size: 0.83842576
+  m_NumberOfSteps: 0
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1516308453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516308450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1516308454
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516308450}
+  m_CullTransparentMesh: 1
 --- !u!1 &1518147116
 GameObject:
   m_ObjectHideFlags: 0
@@ -71572,7 +72093,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1535818425
 RectTransform:
   m_ObjectHideFlags: 0
@@ -75856,7 +76377,7 @@ MonoBehaviour:
   downloadButton: {fileID: 902908539}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/d2be7818-af0a-4779-a4ed-ce865f9354c5/stands/f10774c8-0b12-4749-afa4-5066d9570604/assets/image/c8af0861-9a71-457b-a7f4-6147bfa4c230.png
   hideDownloadIfEmpty: 1
-  contentType: 0
+  contentType: 3
   singleImage: {fileID: 2800000, guid: b8aee53d29cedf447a112d41daf83a80, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
   videoClip: {fileID: 0}
@@ -75865,6 +76386,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2a01a6be7fdd5124bbc0fa386247ac21, type: 3}
   imageRawImage: {fileID: 304760841}
   videoRawImage: {fileID: 157370872}
+  tallScrollRoot: {fileID: 1514224220}
+  tallScrollRect: {fileID: 161572131}
+  tallViewport: {fileID: 1768470572}
+  tallImage: {fileID: 837073381}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -80340,6 +80867,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8200299610680665298, guid: e71f95e6c115ed642909718749e65e4c, type: 3}
   m_PrefabInstance: {fileID: 1714619324}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1715337545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1715337546}
+  m_Layer: 5
+  m_Name: Sliding Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1715337546
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715337545}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1921140069}
+  m_Father: {fileID: 1516308451}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -20, y: -20}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1716081371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80773,6 +81336,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -81315,6 +81884,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: e7ef97d5e47397c4ab0e116f4b1d404a, type: 3}
   imageRawImage: {fileID: 1513082892}
   videoRawImage: {fileID: 1617661463}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -83609,6 +84184,96 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 138407978737412187, guid: d5014bfe7ac15954988f8522217d0e04, type: 3}
   m_PrefabInstance: {fileID: 1767912411}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1768470571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1768470572}
+  - component: {fileID: 1768470575}
+  - component: {fileID: 1768470574}
+  - component: {fileID: 1768470573}
+  m_Layer: 5
+  m_Name: Viewport
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1768470572
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768470571}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 66581231}
+  m_Father: {fileID: 161572127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1768470573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768470571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 0
+--- !u!114 &1768470574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768470571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1768470575
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768470571}
+  m_CullTransparentMesh: 1
 --- !u!1 &1768786755
 GameObject:
   m_ObjectHideFlags: 0
@@ -83845,6 +84510,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 3fae75525522e5449a1b3a707e431024, type: 3}
   imageRawImage: {fileID: 1563207693}
   videoRawImage: {fileID: 452441463}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -88203,6 +88874,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -88810,6 +89487,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 145548d931bdd69469bce4efdd155220, type: 3}
   imageRawImage: {fileID: 1599539315}
   videoRawImage: {fileID: 355739851}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -89382,6 +90065,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -89601,6 +90290,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2a01a6be7fdd5124bbc0fa386247ac21, type: 3}
   imageRawImage: {fileID: 1762304608}
   videoRawImage: {fileID: 1262238182}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -91692,6 +92387,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919318761}
   m_CullTransparentMesh: 1
+--- !u!1 &1921140068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1921140069}
+  - component: {fileID: 1921140071}
+  - component: {fileID: 1921140070}
+  m_Layer: 5
+  m_Name: Handle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1921140069
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921140068}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1715337546}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1921140070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921140068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.41568628, g: 0.7058824, b: 0.21176471, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1921140071
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921140068}
+  m_CullTransparentMesh: 1
 --- !u!1 &1922739727
 GameObject:
   m_ObjectHideFlags: 0
@@ -92353,6 +93123,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 145548d931bdd69469bce4efdd155220, type: 3}
   imageRawImage: {fileID: 601629765}
   videoRawImage: {fileID: 159706190}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
@@ -92573,6 +93349,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -94199,6 +94981,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 5a0bcdc970cc52d489defc47acbb8453, type: 3}
   imageRawImage: {fileID: 0}
   videoRawImage: {fileID: 0}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 0}
   prevButton: {fileID: 0}
   nextButton: {fileID: 0}
@@ -100735,6 +101523,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 145548d931bdd69469bce4efdd155220, type: 3}
   imageRawImage: {fileID: 1855719579}
   videoRawImage: {fileID: 83297119}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 1565317716}
   prevButton: {fileID: 1201849315}
   nextButton: {fileID: 2103716326}
