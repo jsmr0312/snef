@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Uala
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQue son las finanzas personales?"
+    options:
+    - Es la forma en que una persona administra su dinero o bienes.
+    - Una forma de hackear al sistema
+    - Una forma de gastar mas el dinero.
+    - Ninguna de las anteriores
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - 
+    - 
+    - 
+  - question: "\xBFCual de estas no es un tipo de Finanza?"
+    options:
+    - Finanzas personales
+    - Finanzas corporativas
+    - 'Finanzas espaciales '
+    - "Finanzas p\xFAblicas"
+    correctIndex: 2
+    optionJustifications: []
+  - question: "\xBFQu\xE9 es la econom\xEDa?"
+    options:
+    - Ciencia social que estudia como asignar los recursos escasos para producir
+      , distribuir y consumir bienes y servicios.
+    - Ciencia que estudia el dinero.
+    - Ciencia que estudia como hacer dinero para que las personas puedan gastarlo
+      el lo que quieran.
+    - Ninguna d elas anteriores.
+    correctIndex: 0
+    optionJustifications: []

@@ -20,7 +20,14 @@ MonoBehaviour:
     - Ahorrar lo que sobre
     - Anotar deudas sin ingresos
     correctIndex: 0
-    optionJustifications: []
+    optionJustifications:
+    - 
+    - "Es incorrecto porque gastar antes de medir puede llevar a excederse; no se
+      tiene claridad de los l\xEDmites financieros."
+    - "Es incorrecto porque rara vez \u201Csobra\u201D dinero si no se registra;
+      el ahorro se logra cuando se planea desde el inicio."
+    - Es incorrecto porque no refleja la capacidad real de pago; necesitas registrar
+      ingresos para comparar contra deudas.
   - question: "\xBFPor qu\xE9 es \xFAtil separar gastos fijos y variables?"
     options:
     - Facilita ajustar el consumo
@@ -28,7 +35,13 @@ MonoBehaviour:
     - Garantiza ahorro inmediato
     - Permite gastar sin control
     correctIndex: 0
-    optionJustifications: []
+    optionJustifications:
+    - 
+    - "Es incorrecto porque la clasificaci\xF3n fijo/variable no tiene relaci\xF3n
+      con obligaciones fiscales."
+    - "Es incorrecto porque separar gastos ayuda al control, pero el ahorro requiere
+      decisi\xF3n y disciplina."
+    - "Es incorrecto porque ocurre lo contrario: esta separaci\xF3n da orden y visibilidad."
   - question: "\xBFQu\xE9 hacer antes de usar cr\xE9dito en compras grandes?"
     options:
     - "Pedir pr\xE9stamo personal"
@@ -36,7 +49,14 @@ MonoBehaviour:
     - Comparar precios
     - Comprar sin planear
     correctIndex: 2
-    optionJustifications: []
+    optionJustifications:
+    - "Es incorrecto porque recurrir al cr\xE9dito sin analizar puede ser m\xE1s
+      costoso; primero se deben comparar opciones."
+    - Es incorrecto porque justo lo recomendable es evaluar varias alternativas antes
+      de decidir.
+    - 
+    - "Es incorrecto porque es una decisi\xF3n impulsiva que puede generar deudas
+      innecesarias."
   - question: "\xBFC\xF3mo identificar una compra inteligente?"
     options:
     - "Elegir siempre lo m\xE1s barato"
@@ -44,7 +64,12 @@ MonoBehaviour:
     - Gastar sin revisar
     - Ver si encaja en tu presupuesto
     correctIndex: 1
-    optionJustifications: []
+    optionJustifications:
+    - "Es incorrecto porque lo m\xE1s barato puede salir caro si la calidad es deficiente."
+    - 
+    - Es incorrecto porque gastar sin analizar eleva el riesgo de errores y desperdicio.
+    - "Es incorrecto porque aunque es importante, no garantiza que el producto sea
+      una buena compra en t\xE9rminos de valor."
   - question: "\xBFCu\xE1l es un buen h\xE1bito para el ahorro?"
     options:
     - Evitar registrar gastos
@@ -52,4 +77,11 @@ MonoBehaviour:
     - Ahorrar al recibir ingresos
     - Guardar dinero en casa
     correctIndex: 2
-    optionJustifications: []
+    optionJustifications:
+    - Es incorrecto porque sin registro no hay control ni oportunidades claras para
+      ahorrar.
+    - "Es incorrecto porque casi nunca sobra dinero si se gasta sin plan; no asegura
+      h\xE1bito de ahorro."
+    - 
+    - Es incorrecto porque es inseguro y el dinero no genera rendimiento; mejor usar
+      medios formales.
