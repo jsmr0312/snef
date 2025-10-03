@@ -16171,6 +16171,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 816548256694593236, guid: 990a82e105ef90041aa65c6230025aee, type: 3}
   m_PrefabInstance: {fileID: 1480065014}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &924869360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 924869362}
+  - component: {fileID: 924869361}
+  m_Layer: 0
+  m_Name: cursorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &924869361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924869360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 741fb40ae31c08a4dbd459d2c137ea2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  makeVisible: 1
+  persistAcrossScenes: 0
+--- !u!4 &924869362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924869360}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 384.83194, y: 24.615997, z: 476.32843}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &926371215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35981,7 +36027,11 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 8add0600c6e473448ac2c8cfea6cdbd2, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3787598179467244843, guid: 17c75a56d593af942a86b327fb972ba0, type: 3}
+    - {fileID: 2943880185497674571, guid: 17c75a56d593af942a86b327fb972ba0, type: 3}
+    - {fileID: 413162848704234010, guid: 17c75a56d593af942a86b327fb972ba0, type: 3}
+    - {fileID: 3300950152602111202, guid: 17c75a56d593af942a86b327fb972ba0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -39790,3 +39840,4 @@ SceneRoots:
   - {fileID: 405926687}
   - {fileID: 434266474}
   - {fileID: 1045254584}
+  - {fileID: 924869362}

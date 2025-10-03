@@ -13,6 +13,10 @@ public class PointerLockManager : MonoBehaviour
     // Si estamos esperando el primer click para poder bloquear (WebGL exige interacción)
     private bool pendingLockOnClick = false;
 
+    // NUEVO: permite liberar con ESC y esperar nuevo click para relock
+    [Tooltip("Si está activo, presionar Esc libera el cursor hasta el próximo click (cuando NO hay UI abierta).")]
+    public bool escToUnlock = true;
+
 #if UNITY_WEBGL && !UNITY_EDITOR
     void Awake()
     {
@@ -40,6 +44,15 @@ public class PointerLockManager : MonoBehaviour
     {
         // Si no tenemos foco, no hacemos nada.
         if (!Application.isFocused) return;
+
+        // NUEVO: liberar con Esc solo cuando NO hay UI abierta
+        if (escToUnlock && !uiOpen && Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Libera y muestra el cursor, y queda esperando el próximo click válido para relock
+            UnlockAndShow();
+            RequestLockOnNextClick();
+            return; // nada más este frame
+        }
 
         // Si la UI está abierta, mantenemos el cursor visible y no intentamos lock.
         if (uiOpen)

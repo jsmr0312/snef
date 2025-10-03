@@ -663,7 +663,7 @@ public class CompraResponsivaManager : MonoBehaviour
     public void Reintentar()
     {
         Pausar(false);
-        MostrarCursor(false);
+       
 
         if (panelVictoria) panelVictoria.SetActive(false);
         if (panelDerrota) panelDerrota.SetActive(false);
@@ -694,7 +694,7 @@ public class CompraResponsivaManager : MonoBehaviour
         }
 
         Pausar(false);
-        MostrarCursor(false);
+       
         if (!string.IsNullOrEmpty(escenaContinuar))
             SceneManager.LoadScene(escenaContinuar);
     }
@@ -724,7 +724,7 @@ public class CompraResponsivaManager : MonoBehaviour
     void MostrarCursor(bool visible)
     {
         Cursor.visible = visible;
-        Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void LimpiarOpciones()
