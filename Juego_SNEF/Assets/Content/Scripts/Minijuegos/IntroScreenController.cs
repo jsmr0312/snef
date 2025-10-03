@@ -25,11 +25,17 @@ public class IntroScreenController : MonoBehaviour
     [Tooltip("Duración de la animación de entrada/salida (s)")]
     public float animDuration = 0.5f;
 
+    [Header("Cursor")]
+    [Tooltip("Si está activo, al salir se oculta y bloquea el cursor. Si está desactivado, no se modifica el estado del cursor.")]
+    public bool lockAndHideCursorOnExit = true;
+
     // Posiciones / escalas originales
     private Vector2 _spriteStartPos;
     private Vector2 _spriteEndPos;
     private Vector3 _bgStartScale;
     private Vector3 _bgEndScale = Vector3.one;
+
+    public static bool skipNextIntro = false; // <-- NUEVO
 
     void Awake()
     {
@@ -47,10 +53,32 @@ public class IntroScreenController : MonoBehaviour
         dusefSprite.anchoredPosition = _spriteStartPos;
     }
 
+    void OnEnable()
+    {
+        // Asegurar una única suscripción
+        if (btnEntendido != null)
+        {
+            btnEntendido.onClick.RemoveListener(HideIntro);
+            btnEntendido.onClick.AddListener(HideIntro);
+        }
+    }
+
+    void OnDisable()
+    {
+        if (btnEntendido != null)
+        {
+            btnEntendido.onClick.RemoveListener(HideIntro);
+        }
+    }
+
     void Start()
     {
-        // Lanzar la secuencia sin bloquear Update cuando timeScale=0
-        StartCoroutine(ShowIntroCoroutine());
+        if (skipNextIntro)
+        {                 // <-- NUEVO
+            skipNextIntro = false;           // consumir el “skip”
+            return;                          // no muestres la intro
+        }
+        StartCoroutine(ShowIntroCoroutine()); // comportamiento actual
     }
 
     private IEnumerator ShowIntroCoroutine()
@@ -73,9 +101,6 @@ public class IntroScreenController : MonoBehaviour
         // Ani entrada
         StartCoroutine(AnimateScale(bgIntroduccion, _bgStartScale, _bgEndScale));
         StartCoroutine(AnimatePosition(dusefSprite, _spriteStartPos, _spriteEndPos));
-
-        // Botón
-        btnEntendido.onClick.AddListener(HideIntro);
     }
 
     private void HideIntro()
@@ -100,9 +125,13 @@ public class IntroScreenController : MonoBehaviour
         // Ocultar completamente
         bienvenidaGroup.alpha = 0f;
 
-        // Ocultar cursor y bloquear
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        // Opcional: bloquear/ocultar cursor al salir
+        if (lockAndHideCursorOnExit)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        // Si está desactivado, no tocamos el estado actual del cursor.
 
         // Reanudar juego
         Time.timeScale = 1f;

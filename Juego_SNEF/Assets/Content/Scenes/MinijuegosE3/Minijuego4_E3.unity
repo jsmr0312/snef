@@ -11297,6 +11297,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
+      propertyPath: pauseKey
+      value: 122
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: lobbySceneName
       value: Bosque
       objectReference: {fileID: 0}
@@ -22098,6 +22102,7 @@ MonoBehaviour:
   btnEntendido: {fileID: 1904432962}
   delayBeforeShow: 2
   animDuration: 0.2
+  lockAndHideCursorOnExit: 0
 --- !u!114 &1604709820
 MonoBehaviour:
   m_ObjectHideFlags: 0

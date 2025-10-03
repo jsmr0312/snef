@@ -8451,7 +8451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6751388636123340836, guid: 2f7f3dde7ae722a4aafffe20691ad702, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8890774966862588244, guid: 2f7f3dde7ae722a4aafffe20691ad702, type: 3}
       propertyPath: playerInput
@@ -11850,7 +11850,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &259600973
 Transform:
   m_ObjectHideFlags: 0
@@ -27948,6 +27948,7 @@ MonoBehaviour:
   standNumber: 11
   ecosystemName: Ecosistema 4
   miniGameId: b69711f6-177b-49c5-b3b0-ae6664154ef6
+  minigameDisplayName: 
   promptUI: {fileID: 1747595517}
   lookAtCamera: 0
   lockCanvas: {fileID: 1956141563}
@@ -45910,6 +45911,7 @@ MonoBehaviour:
   standNumber: 3
   ecosystemName: Ecosistema 4
   miniGameId: b69711f6-177b-49c5-b3b0-ae6664154ef6
+  minigameDisplayName: 
   promptUI: {fileID: 1747595517}
   lookAtCamera: 0
   lockCanvas: {fileID: 94452775}
@@ -50472,7 +50474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1054803934
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52929,6 +52931,7 @@ MonoBehaviour:
   standNumber: 12
   ecosystemName: Ecosistema 4
   miniGameId: 5ea90f04-d4b6-43a0-b587-9be0cf69d09e
+  minigameDisplayName: 
   promptUI: {fileID: 1747595517}
   lookAtCamera: 0
   lockCanvas: {fileID: 606822314}
@@ -80250,6 +80253,7 @@ MonoBehaviour:
   standNumber: 12
   ecosystemName: Ecosistema 4
   miniGameId: 5ea90f04-d4b6-43a0-b587-9be0cf69d09e
+  minigameDisplayName: 
   promptUI: {fileID: 1747595517}
   lookAtCamera: 0
   lockCanvas: {fileID: 1986759958}
@@ -83371,6 +83375,52 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.9
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1763780886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1763780888}
+  - component: {fileID: 1763780887}
+  m_Layer: 0
+  m_Name: ComenzarCOnCursorDesbloqueado
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1763780887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763780886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1e0cd8c2ec1f946b46f16fc99fe7db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relockOnFocus: 1
+  uiOpen: 0
+--- !u!4 &1763780888
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763780886}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.8883011, y: 0.28481528, z: -3.529799}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1763862431
 GameObject:
   m_ObjectHideFlags: 0
@@ -87617,6 +87667,7 @@ MonoBehaviour:
   standNumber: 3
   ecosystemName: Ecosistema 4
   miniGameId: b69711f6-177b-49c5-b3b0-ae6664154ef6
+  minigameDisplayName: 
   promptUI: {fileID: 1747595517}
   lookAtCamera: 0
   lockCanvas: {fileID: 717438931}
@@ -99376,7 +99427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2094170420
 Transform:
   m_ObjectHideFlags: 0
@@ -102143,3 +102194,4 @@ SceneRoots:
   - {fileID: 324995197}
   - {fileID: 1645336679}
   - {fileID: 389465616}
+  - {fileID: 1763780888}

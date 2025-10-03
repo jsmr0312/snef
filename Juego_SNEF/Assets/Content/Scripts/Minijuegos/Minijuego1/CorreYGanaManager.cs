@@ -85,6 +85,12 @@ public class CorreYGanaManager : MonoBehaviour
     bool _terminado;
     float _tardo;
 
+    // === Métricas / sesión minijuego ===
+    float _sessionStart;
+    bool _victoriaMostrada;
+    int _premioPartida;          // para enviar monedas en salida
+    int _estrellasPartida;       // score para minijuego_finalizado
+
     // Cache de objetos reseteables (monedas, etc.)
     readonly List<ILevelResettable> _reseteables = new List<ILevelResettable>();
 
@@ -94,6 +100,23 @@ public class CorreYGanaManager : MonoBehaviour
 
     void Awake()
     {
+
+        // === Scope del id (stand::minijuego) y entrada ===
+        {
+            string baseId = string.IsNullOrWhiteSpace(minijuegoId)
+                ? UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+                : minijuegoId;
+            minijuegoId = MinigameScope.ScopedId(baseId);
+
+            _sessionStart = Time.unscaledTime;
+            _victoriaMostrada = false;
+            _premioPartida = 0;
+            _estrellasPartida = 0;
+
+            // ENTRADA A MINIJUEGO (al entrar a la escena)
+            if (MinigameScope.I)
+                MetricsClient.I?.TrackEntradaMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName);
+        }
         if (panelVictoria) panelVictoria.SetActive(false);
         if (panelDerrota) panelDerrota.SetActive(false);
 
@@ -110,6 +133,8 @@ public class CorreYGanaManager : MonoBehaviour
 
         CacheReseteables();
         ResetearNivel(true);
+       
+
     }
 
     void Update()
@@ -163,6 +188,21 @@ public class CorreYGanaManager : MonoBehaviour
         Pausar(true);
         if (panelVictoria) panelVictoria.SetActive(true);
 
+        // ... ya calculaste estrellasPartida, premio, mostraste panel, etc.
+
+        _estrellasPartida = estrellasPartida;
+        _premioPartida = Mathf.Max(0, premio);
+
+        // TIEMPO EN MINIJUEGO (cuando se muestra la pantalla de victoria)
+        if (!_victoriaMostrada)
+        {
+            _victoriaMostrada = true;
+            int dur = Mathf.RoundToInt(Time.unscaledTime - _sessionStart);
+            if (MinigameScope.I)
+                MetricsClient.I?.TrackTiempoEnMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName, dur, true);
+        }
+
+
         // Determinar si ya NO es posible ganar más puntos:
         // condición: premio==0 Y bestStars ya es 3 (máximo histórico alcanzado)
         bool sinMasPuntosPosibles = false;
@@ -214,6 +254,10 @@ public class CorreYGanaManager : MonoBehaviour
         _terminado = true;
         _corriendo = false;
 
+        // (opcional) si quieres mandar tiempo aun en derrota, omite completed o mándalo false.
+        // El usuario pidió tiempo al mostrar victoria, así que aquí NO lo mandamos.
+
+
         MostrarCursor(true);
         Pausar(true);
         if (panelDerrota) panelDerrota.SetActive(true);
@@ -243,6 +287,18 @@ public class CorreYGanaManager : MonoBehaviour
 
     public void Abandonar()
     {
+        {
+            // SALIDA (finalizado) como LOSE (no hay premio)
+            if (MinigameScope.I)
+            {
+                MetricsClient.I?.TrackMinijuegoFinalizado(
+                    MinigameScope.I.standId,
+                    MinigameScope.I.minigameName,
+                    0, "lose", 0, 0
+                );
+            }
+        }
+
         Pausar(false);
         MostrarCursor(false);
         SceneManager.LoadScene(escenaAbandonar);
@@ -250,6 +306,24 @@ public class CorreYGanaManager : MonoBehaviour
 
     public void Continuar()
     {
+
+        {
+            // SALIDA (finalizado) como WIN + monedas
+            if (MinigameScope.I)
+            {
+                MetricsClient.I?.TrackMinijuegoFinalizado(
+                    MinigameScope.I.standId,
+                    MinigameScope.I.minigameName,
+                    _estrellasPartida,
+                    "win",
+                    Mathf.Max(0, _premioPartida),
+                    0
+                );
+                if (_premioPartida > 0)
+                    MetricsClient.I?.TrackMonedasObtenidas(_premioPartida, "minijuego", MinigameScope.I.standId, MinigameScope.I.ecosystemName);
+            }
+        }
+
         Pausar(false);
         MostrarCursor(false);
         SceneManager.LoadScene(escenaContinuar);

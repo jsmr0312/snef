@@ -155,6 +155,21 @@ public class ProgressCore : MonoBehaviour
         e.unlocked = unlocked; e.updated_at = now; Touch();
     }
 
+    // === Helpers de clave compuesta (stand::minigame) ===
+    public static string MinigameKey(string standId, string minigameId)
+    {
+        if (string.IsNullOrEmpty(standId)) return minigameId ?? "minigame";
+        if (string.IsNullOrEmpty(minigameId)) return standId + "::minigame";
+        return standId + "::" + minigameId;
+    }
+
+    public void UpsertMinigameScoped(string standId, string minigameId, int bestScore, int stars)
+    {
+        var key = MinigameKey(standId, minigameId);
+        UpsertMinigame(key, bestScore, stars); // usa tu método existente
+    }
+
+
     public void UpsertMinigame(string id, int bestScore, int stars)
     {
         var now = DateTime.UtcNow.ToString("o");

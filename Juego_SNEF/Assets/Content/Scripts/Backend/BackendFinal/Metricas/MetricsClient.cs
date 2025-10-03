@@ -36,7 +36,7 @@ public class MetricsClient : MonoBehaviour
         public string event_time; // ISO-8601 UTC
     }
 
-    // ====== PAYLOADS ======
+    // ====== PAYLOADS EXISTENTES ======
     [Serializable] class AvatarSeleccionadoPayload : CanonicalBase { public string avatar_name; }
     [Serializable] class EcosystemEntryPayload : CanonicalBase { public string ecosystem_name; }
 
@@ -85,6 +85,36 @@ public class MetricsClient : MonoBehaviour
         public int tiempo_segundos; public int aciertos; public int errores;
     }
 
+    // ====== NUEVOS PAYLOADS: MINIJUEGOS + PRESUPUESTO ======
+    // Según tus canónicos: entrada_minijuego al entrar a la escena del minijuego,
+    // tiempo_en_minijuego al mostrar pantalla de VICTORIA (completed=true),
+    // minijuego_finalizado al dar clic en Continuar (victoria) o Abandonar (derrota/pausa),
+    // y monedas_obtenidas como tu stat de presupuesto (motivo="minijuego").
+    [Serializable]
+    class EntradaMinijuegoPayload : CanonicalBase
+    {
+        public string stand_id; public string minigame_name;
+    }
+    [Serializable]
+    class TiempoEnMinijuegoPayload : CanonicalBase
+    {
+        public string stand_id; public string minigame_name;
+        public int duracion_segundos; public bool completed;
+    }
+    [Serializable]
+    class MinijuegoFinalizadoPayload : CanonicalBase
+    {
+        public string stand_id; public string minigame_name;
+        public int score; public string outcome;  // "win|lose|quit"
+        public int coins; public int xp;
+    }
+    [Serializable]
+    class MonedasObtenidasPayload : CanonicalBase
+    {
+        public int amount; public string motivo;  // "minijuego"
+        public string stand_id; public string ecosystem_name;
+    }
+
     void Awake()
     {
         if (I != null && I != this) { Destroy(gameObject); return; }
@@ -116,8 +146,7 @@ public class MetricsClient : MonoBehaviour
 #endif
     }
 
-    // ====== API pública ======
-
+    // ====== API pública EXISTENTE ======
     public void TrackAvatarSeleccionado(string avatarName)
     {
         var p = NewCanonical<AvatarSeleccionadoPayload>(); p.avatar_name = avatarName;
@@ -181,6 +210,44 @@ public class MetricsClient : MonoBehaviour
         p.stand_id = standId; p.trivia_id = triviaId; p.attempt_index = Mathf.Max(1, attemptIndex);
         p.tiempo_segundos = Mathf.Max(0, tiempoSeg); p.aciertos = aciertos; p.errores = errores;
         PostEvent("intento_quiz", p);
+    }
+
+    // ====== API pública NUEVA: Minijuegos + Presupuesto ======
+    public void TrackEntradaMinijuego(string standId, string minigameName)
+    {
+        var p = NewCanonical<EntradaMinijuegoPayload>();
+        p.stand_id = standId; p.minigame_name = minigameName;
+        PostEvent("entrada_minijuego", p);
+    }
+
+    public void TrackTiempoEnMinijuego(string standId, string minigameName, int durSeg, bool completed)
+    {
+        var p = NewCanonical<TiempoEnMinijuegoPayload>();
+        p.stand_id = standId; p.minigame_name = minigameName;
+        p.duracion_segundos = Mathf.Max(0, durSeg);
+        p.completed = completed;
+        PostEvent("tiempo_en_minijuego", p);
+    }
+
+    public void TrackMinijuegoFinalizado(string standId, string minigameName, int score, string outcome, int coins, int xp)
+    {
+        var p = NewCanonical<MinijuegoFinalizadoPayload>();
+        p.stand_id = standId; p.minigame_name = minigameName;
+        p.score = Mathf.Max(0, score);
+        p.outcome = string.IsNullOrEmpty(outcome) ? "win" : outcome;
+        p.coins = Mathf.Max(0, coins);
+        p.xp = Mathf.Max(0, xp);
+        PostEvent("minijuego_finalizado", p);
+    }
+
+    public void TrackMonedasObtenidas(int amount, string motivo, string standId, string ecosystemName)
+    {
+        var p = NewCanonical<MonedasObtenidasPayload>();
+        p.amount = amount;
+        p.motivo = string.IsNullOrEmpty(motivo) ? "minijuego" : motivo;
+        p.stand_id = standId;
+        p.ecosystem_name = ecosystemName;
+        PostEvent("monedas_obtenidas", p);
     }
 
     // ====== Helpers ======

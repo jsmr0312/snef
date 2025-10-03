@@ -114,6 +114,13 @@ public class LluviaObjetosManager : MonoBehaviour
     bool _corriendo;
     bool _terminado;
 
+    // === Métricas / sesión minijuego ===
+    float _sessionStart;
+    bool _victoriaMostrada;
+    int _premioPartida;
+    int _estrellasPartida;
+
+
     int _atrapadosBuenos;
     int _bloquesAcreditados; // cuántos pagos de N aciertos ya hemos dado
 
@@ -132,6 +139,21 @@ public class LluviaObjetosManager : MonoBehaviour
 
     void Awake()
     {
+        // === Scope id y ENTRADA ===
+        {
+            string baseId = string.IsNullOrWhiteSpace(minijuegoId)
+                ? UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+                : minijuegoId;
+            minijuegoId = MinigameScope.ScopedId(baseId);
+
+            _sessionStart = Time.unscaledTime;
+            _victoriaMostrada = false;
+            _premioPartida = 0;
+            _estrellasPartida = 0;
+
+            if (MinigameScope.I)
+                MetricsClient.I?.TrackEntradaMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName);
+        }
         if (panelDerrota) panelDerrota.SetActive(false);
         if (panelVictoria) panelVictoria.SetActive(false);
 
@@ -178,6 +200,8 @@ public class LluviaObjetosManager : MonoBehaviour
 
         MostrarCursor(false);
         Pausar(false);
+      
+
     }
 
     void Update()
@@ -366,6 +390,19 @@ public class LluviaObjetosManager : MonoBehaviour
         PrepararEstrellas();
         if (_starsRoutine != null) StopCoroutine(_starsRoutine);
         _starsRoutine = StartCoroutine(AnimarEstrellas(estrellasUI));
+
+        _estrellasPartida = estrellasPartida;
+        _premioPartida = Mathf.Max(0, premio);
+
+        // TIEMPO EN MINIJUEGO (al mostrar pantalla de victoria)
+        if (!_victoriaMostrada)
+        {
+            _victoriaMostrada = true;
+            int dur = Mathf.RoundToInt(Time.unscaledTime - _sessionStart);
+            if (MinigameScope.I)
+                MetricsClient.I?.TrackTiempoEnMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName, dur, true);
+        }
+
     }
 
     void PerderPorTiempo()
@@ -470,15 +507,37 @@ public class LluviaObjetosManager : MonoBehaviour
     public void Reintentar()
     {
         Pausar(false); MostrarCursor(false);
+        IntroScreenController.skipNextIntro = true; // <-- NUEVO
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void Continuar()
     {
+        {
+            if (MinigameScope.I)
+            {
+                MetricsClient.I?.TrackMinijuegoFinalizado(
+                    MinigameScope.I.standId,
+                    MinigameScope.I.minigameName,
+                    _estrellasPartida,
+                    "win",
+                    Mathf.Max(0, _premioPartida),
+                    0
+                );
+                if (_premioPartida > 0)
+                    MetricsClient.I?.TrackMonedasObtenidas(_premioPartida, "minijuego", MinigameScope.I.standId, MinigameScope.I.ecosystemName);
+            }
+        }
+
         Pausar(false); MostrarCursor(false);
         if (!string.IsNullOrEmpty(escenaContinuar)) SceneManager.LoadScene(escenaContinuar);
     }
     public void Abandonar()
     {
+        {
+            if (MinigameScope.I)
+                MetricsClient.I?.TrackMinijuegoFinalizado(MinigameScope.I.standId, MinigameScope.I.minigameName, 0, "lose", 0, 0);
+        }
+
         Pausar(false); MostrarCursor(false);
         if (!string.IsNullOrEmpty(escenaAbandonar)) SceneManager.LoadScene(escenaAbandonar);
     }

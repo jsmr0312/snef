@@ -5,13 +5,16 @@ using StarterAssets; // Para ThirdPersonController
 
 public class PauseMenuManagerMinigame : MonoBehaviour
 {
-    [Header("UI Elements")]
+    [Header("UI")]
     public GameObject pauseMenuUI;
     public Button continueButton;
     public Button returnToEcosistemaButton;
     public Button exitButton;
 
     [Header("Escenas")]
+    [Tooltip("Nombre de la escena fija a la que se regresará (debe estar en Build Settings).")]
+    public string fixedReturnSceneName = "Ecosistema";
+    [Tooltip("Nombre de la escena del menú principal para el botón Salir.")]
     public string mainMenuSceneName = "MainMenu";
 
     [Header("Pausa")]
@@ -28,8 +31,12 @@ public class PauseMenuManagerMinigame : MonoBehaviour
             pauseMenuUI.SetActive(false);
 
         if (continueButton != null) continueButton.onClick.AddListener(Resume);
-        if (returnToEcosistemaButton != null) returnToEcosistemaButton.onClick.AddListener(ReturnToPreviousScene);
+        if (returnToEcosistemaButton != null) returnToEcosistemaButton.onClick.AddListener(ReturnToFixedScene);
         if (exitButton != null) exitButton.onClick.AddListener(QuitToMainMenu);
+
+        // Estado inicial del cursor (ajústalo si tu juego lo requiere distinto)
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -49,10 +56,14 @@ public class PauseMenuManagerMinigame : MonoBehaviour
         Time.timeScale = 0f;
         isPaused = true;
 
-        foreach (var ctrl in controllersToFreeze)
+        if (controllersToFreeze != null)
         {
-            ctrl.FreezeMovement = true;
-            ctrl.LockCameraPosition = true;
+            foreach (var ctrl in controllersToFreeze)
+            {
+                if (ctrl == null) continue;
+                ctrl.FreezeMovement = true;
+                ctrl.LockCameraPosition = true;
+            }
         }
 
         Cursor.visible = true;
@@ -67,28 +78,33 @@ public class PauseMenuManagerMinigame : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
 
-        foreach (var ctrl in controllersToFreeze)
+        if (controllersToFreeze != null)
         {
-            ctrl.FreezeMovement = false;
-            ctrl.LockCameraPosition = false;
+            foreach (var ctrl in controllersToFreeze)
+            {
+                if (ctrl == null) continue;
+                ctrl.FreezeMovement = false;
+                ctrl.LockCameraPosition = false;
+            }
         }
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    public void ReturnToPreviousScene()
+    // <<< Ahora regresa a una escena fija definida en el Inspector >>>
+    public void ReturnToFixedScene()
     {
         Time.timeScale = 1f;
 
-        if (PlayerPrefs.HasKey("ReturnTo"))
+        if (!string.IsNullOrEmpty(fixedReturnSceneName))
         {
-            string previousScene = PlayerPrefs.GetString("ReturnTo");
-            SceneManager.LoadScene(previousScene);
+            // Cargamos por nombre. Asegúrate de que la escena esté en File > Build Settings.
+            SceneManager.LoadScene(fixedReturnSceneName);
         }
         else
         {
-            Debug.LogWarning("No se encontró una escena previa guardada.");
+            Debug.LogWarning("No se asignó una escena fija en el Inspector (fixedReturnSceneName).");
         }
     }
 
@@ -101,7 +117,7 @@ public class PauseMenuManagerMinigame : MonoBehaviour
     void OnDestroy()
     {
         if (continueButton != null) continueButton.onClick.RemoveListener(Resume);
-        if (returnToEcosistemaButton != null) returnToEcosistemaButton.onClick.RemoveListener(ReturnToPreviousScene);
+        if (returnToEcosistemaButton != null) returnToEcosistemaButton.onClick.RemoveListener(ReturnToFixedScene);
         if (exitButton != null) exitButton.onClick.RemoveListener(QuitToMainMenu);
     }
 }
