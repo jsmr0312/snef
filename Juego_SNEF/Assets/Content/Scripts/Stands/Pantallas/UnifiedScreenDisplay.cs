@@ -10,8 +10,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     Interactor.IInteractable,
     Interactor.IInteractableFeedback
 {
-    public enum ContentType { Image, Video, Presentation, TallImageScrollable } // ← NUEVO
-
+    public enum ContentType { Image, Video, Presentation, TallImageScrollable }
 
     #region Inspector
 
@@ -51,13 +50,12 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public RawImage videoRawImage;
 
     [Header("Tall Image Scroll (nuevo)")]
-    public CanvasGroup tallScrollRoot;      // contenedor raíz del modo scroll
-    public ScrollRect tallScrollRect;       // ScrollRect (vertical)
-    public RectTransform tallViewport;      // Viewport del ScrollRect
-    public RawImage tallImage;              // RawImage dentro del Content (la imagen larga)
-    public Slider tallSlider;               // Slider vertical decorativo/opcional
-    public bool invertTallSlider = true;    // si quieres que arriba sea valor 1
-
+    public CanvasGroup tallScrollRoot;
+    public ScrollRect tallScrollRect;
+    public RectTransform tallViewport;
+    public RawImage tallImage;
+    public Slider tallSlider;
+    public bool invertTallSlider = true;
 
     [Header("Botones de navegación")]
     public GameObject navButtonPanel;
@@ -82,7 +80,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     [Header("Outline (opcional)")]
     [Tooltip("Arrastra aquí tu componente Outline (QuickOutline, etc.).")]
-    public Behaviour outline;                          // <- sin dependencia de QuickOutline
+    public Behaviour outline;
     public bool enableOutlineOnProximity = true;
     [Tooltip("Nombre del modo de Outline (p.ej. 'OutlineVisible') si tu Outline lo soporta.")]
     public string outlineModeNear = "OutlineVisible";
@@ -105,10 +103,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public bool startMuted = true;
     public bool useAudioSourceForVideo = true;
     public AudioSource videoAudioSource;
-
-    [Header("Fallback local (StreamingAssets)")]
-    public bool forceLocalOnWebGL = true;
-    public string localStreamingAssetsFileName = "fallback.mp4";
 
     [Header("RenderTexture (opcional)")]
     public RenderTexture overrideRenderTexture;
@@ -143,7 +137,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     private bool _tallActive = false;
 
-
     private static UnifiedScreenDisplay _active;
 
     private MaterialPropertyBlock _brilloProp;
@@ -152,8 +145,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     private Vector3 _liftOrigPos;
     private Quaternion _liftOrigRot;
-
-    private bool _usingLocalFallback = false;
 
     // Métricas de contenido
     private float _viewStart;
@@ -169,10 +160,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     void ApplyOutlineSettings()
     {
         if (outline == null) return;
-
         var t = outline.GetType();
 
-        // OutlineMode (enum) si existe
         var propMode = t.GetProperty("OutlineMode");
         if (propMode != null && propMode.PropertyType.IsEnum)
         {
@@ -181,15 +170,13 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 var enumVal = Enum.Parse(propMode.PropertyType, outlineModeNear, true);
                 propMode.SetValue(outline, enumVal, null);
             }
-            catch { /* ignorar si no existe ese valor */ }
+            catch { }
         }
 
-        // OutlineColor si existe
         var propColor = t.GetProperty("OutlineColor");
         if (propColor != null && propColor.PropertyType == typeof(Color))
             propColor.SetValue(outline, outlineColorNear, null);
 
-        // OutlineWidth si existe
         var propWidth = t.GetProperty("OutlineWidth");
         if (propWidth != null && (propWidth.PropertyType == typeof(float) || propWidth.PropertyType == typeof(int)))
             propWidth.SetValue(outline, outlineWidthNear, null);
@@ -224,7 +211,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public void OnDownloadClick()
     {
         if (string.IsNullOrWhiteSpace(downloadURL)) return;
-
         MetricsClient.I?.TrackClickEnlaceExterno(standId, downloadURL, "download");
         Application.OpenURL(downloadURL);
     }
@@ -232,11 +218,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     void SetupDownloadUI()
     {
         if (downloadButton == null) return;
-
         downloadButton.onClick.RemoveAllListeners();
 
         bool hasUrl = !string.IsNullOrWhiteSpace(downloadURL);
-
         if (hideDownloadIfEmpty)
             downloadButton.gameObject.SetActive(hasUrl);
         else
@@ -292,7 +276,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         _brilloRend.material.EnableKeyword("_EMISSION");
         _brilloRend.SetPropertyBlock(_brilloProp);
 
-        // Buscar un componente llamado "Outline" si no fue asignado
         if (outline == null)
         {
             foreach (var b in GetComponentsInChildren<Behaviour>(true))
@@ -340,7 +323,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 tallScrollRect.verticalNormalizedPosition = Mathf.Clamp01(p);
             });
         }
-
 
         _totalSlides = slides?.Length ?? 0;
 
@@ -393,7 +375,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     #endregion
 
-    #region Update & Triggers (legacy opcional)
+    #region Update & Triggers
 
     void Update()
     {
@@ -424,7 +406,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             float v = tallScrollRect.verticalNormalizedPosition;
             tallSlider.SetValueWithoutNotify(invertTallSlider ? 1f - v : v);
         }
-
     }
 
     void OnTriggerEnter(Collider other)
@@ -464,7 +445,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     #endregion
 
-    #region Interactor integration (UNIFICADO)
+    #region Interactor integration
 
     public void Interact()
     {
@@ -564,26 +545,12 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         {
             SetupVideoVisualsOnly();
 
-            bool useLocal =
-                forceLocalOnWebGL &&
-                Application.platform == RuntimePlatform.WebGLPlayer &&
-                !string.IsNullOrEmpty(localStreamingAssetsFileName);
+            // Fuente de video: URL si se proporcionó, si no, VideoClip
+            videoPlayer.source = !string.IsNullOrEmpty(videoURL) ? VideoSource.Url : VideoSource.VideoClip;
+            videoPlayer.url = videoURL;
+            videoPlayer.clip = videoClip;
 
-            _usingLocalFallback = false;
-
-            if (useLocal)
-            {
-                videoPlayer.source = VideoSource.Url;
-                videoPlayer.url = GetLocalStreamingURL();
-                _usingLocalFallback = true;
-            }
-            else
-            {
-                videoPlayer.source = !string.IsNullOrEmpty(videoURL) ? VideoSource.Url : VideoSource.VideoClip;
-                videoPlayer.url = videoURL;
-                videoPlayer.clip = videoClip;
-            }
-
+            // Audio
             if (useAudioSourceForVideo && videoAudioSource != null)
             {
                 videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
@@ -638,10 +605,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 _currentIndex = 0;
                 ShowPresentationItem(0);
                 break;
-
-            case ContentType.TallImageScrollable:       // ← NUEVO
+            case ContentType.TallImageScrollable:
                 ShowTallImageScrollable();
-                _completed = true; _progressPct = 100;   // ver no requiere “progreso”
+                _completed = true; _progressPct = 100;
                 break;
         }
 
@@ -882,8 +848,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         }
     }
 
-    string GetLocalStreamingURL() => Application.streamingAssetsPath + "/" + localStreamingAssetsFileName;
-
     void OnVideoPrepared(VideoPlayer vp)
     {
         if (_videoPlayPending)
@@ -901,45 +865,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     void OnVideoError(VideoPlayer vp, string msg)
     {
-        Debug.LogError("[UnifiedScreenDisplay] Error de VideoPlayer: " + msg + " | URL: " + vp.url);
-
-        if (!_usingLocalFallback &&
-            Application.platform == RuntimePlatform.WebGLPlayer &&
-            !string.IsNullOrEmpty(localStreamingAssetsFileName))
-        {
-            PlayFallbackFromStreamingAssets();
-        }
-    }
-
-    void PlayFallbackFromStreamingAssets()
-    {
-        if (videoPlayer == null) return;
-
-        string localUrl = GetLocalStreamingURL();
-        videoPlayer.source = VideoSource.Url;
-        videoPlayer.url = localUrl;
-        videoPlayer.isLooping = true;
-
-        if (useAudioSourceForVideo && videoAudioSource != null)
-        {
-            videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
-            videoPlayer.EnableAudioTrack(0, true);
-            videoPlayer.SetTargetAudioSource(0, videoAudioSource);
-            videoAudioSource.mute = startMuted;
-        }
-        else
-        {
-            videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
-            videoPlayer.EnableAudioTrack(0, true);
-            videoPlayer.SetDirectAudioMute(0, true);
-        }
-
-        _usingLocalFallback = true;
-
-        Debug.Log("[UnifiedScreenDisplay] Reintentando con StreamingAssets: " + localUrl);
-
-        _videoPlayPending = true;
-        videoPlayer.Prepare();
+        Debug.LogError("[UnifiedScreenDisplay] Video error: " + msg + " | URL: " + vp.url);
     }
 
     private void SetTallScrollActive(bool on)
@@ -950,24 +876,18 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     private void ShowTallImageScrollable()
     {
-        // apaga otros
         SetImageVisualActive(false);
         SetVideoVisualActive(false);
-
-        // enciende scroll
         SetTallScrollActive(true);
 
         if (tallImage) tallImage.texture = singleImage;
-
-        // espera un frame para que el Rect tenga tamaño real y calcula layout
         StartCoroutine(SetupTallLayoutNextFrame());
     }
 
     private IEnumerator SetupTallLayoutNextFrame()
     {
-        yield return null; // deja que el layout se calcule
+        yield return null;
         RecalculateTallImageLayout();
-        // empieza “arriba”
         if (tallScrollRect) tallScrollRect.verticalNormalizedPosition = 1f;
         if (tallSlider) tallSlider.SetValueWithoutNotify(invertTallSlider ? 0f : 1f);
     }
@@ -976,7 +896,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     {
         if (!tallViewport || !tallImage || !tallImage.texture) return;
 
-        // ajustar la imagen al ancho del viewport manteniendo proporción
         var vp = tallViewport.rect;
         float texW = tallImage.texture.width;
         float texH = tallImage.texture.height;
@@ -985,7 +904,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         float targetH = targetW * (texH / Mathf.Max(1f, texW));
 
         var rt = tallImage.rectTransform;
-        // anclar arriba-centro para que el scroll empiece “arriba”
         rt.pivot = new Vector2(0.5f, 1f);
         rt.anchorMin = new Vector2(0.5f, 1f);
         rt.anchorMax = new Vector2(0.5f, 1f);
@@ -1001,7 +919,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         if (tallSlider) tallSlider.gameObject.SetActive(needScroll);
     }
 
-
     private void SetImageVisualActive(bool on)
     {
         if (imageRawImage != null) imageRawImage.gameObject.SetActive(on);
@@ -1014,3 +931,4 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     #endregion
 }
+

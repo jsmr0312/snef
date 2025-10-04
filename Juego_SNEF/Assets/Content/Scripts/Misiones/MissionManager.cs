@@ -59,7 +59,7 @@ public class MissionManager : MonoBehaviour
         if (string.IsNullOrWhiteSpace(ecosystemName) || string.IsNullOrWhiteSpace(standId)) return;
         var st = GetEco(ecosystemName);
 
-        if (string.Equals(standType, "experience", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(standType, "Punto de Experiencia", StringComparison.OrdinalIgnoreCase))
         {
             if (!st.experienceCompleted)
             {
