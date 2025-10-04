@@ -22,21 +22,38 @@ MonoBehaviour:
     correctIndex: 0
     optionJustifications:
     - 
-    - 
-    - 
-    - 
+    - "No todos los gastos ni prioridades tienen la misma importancia. Por ejemplo,
+      la renta o hipoteca no se puede tratar con el mismo peso que entretenimiento.
+      Un presupuesto efectivo se basa en categor\xEDas reales (fijos, variables,
+      ahorro, inversi\xF3n), no en dividir todo por igual sin considerar necesidades."
+    - "Esta opci\xF3n ser\xEDa correcta solo si todas las respuestas fueran v\xE1lidas,
+      pero en este caso las dem\xE1s respuestas no son m\xE9todos efectivos. Al marcar
+      \u201Ctodas las anteriores\u201D se validan pr\xE1cticas equivocadas y se pierde
+      el objetivo de la planeaci\xF3n financiera."
+    - "Este m\xE9todo invierte la l\xF3gica sana de las finanzas. Si se prioriza
+      gastar primero, normalmente nunca \u201Csobra\u201D lo suficiente para ahorrar.
+      Lo recomendable es ahorrar o apartar un porcentaje fijo desde el inicio (ejemplo:
+      20%) y despu\xE9s organizar el resto para gastos."
   - question: "\xBFCu\xE1l es una buena forma de ahorrar constantemente?"
     options:
     - Ahorrar cuando te acuerdes
     - "Guardar el cambio en una alcanc\xEDa"
     - "Programar ahorro autom\xE1tico"
     - Ninguna de las anteriores
-    correctIndex: 1
+    correctIndex: 2
     optionJustifications:
+    - "El ahorro debe ser un h\xE1bito constante, no algo espor\xE1dico. Ahorrar
+      solo cuando uno \u201Cse acuerda\u201D es inconstante, genera montos irregulares
+      y no garantiza que se logren metas financieras."
+    - "Aunque puede ayudar como un h\xE1bito complementario, no es una estrategia
+      efectiva para un ahorro constante y significativo. El cambio suele ser poco,
+      lo que limita el crecimiento del ahorro. Adem\xE1s, carece de planeaci\xF3n
+      y de metas espec\xEDficas."
     - 
-    - 
-    - 
-    - 
+    - "Esta opci\xF3n ser\xEDa v\xE1lida si todas las dem\xE1s fueran incorrectas,
+      pero en este caso s\xED existen formas correctas de ahorrar constantemente
+      (ejemplo: apartar un porcentaje fijo de ingresos, domiciliar un ahorro autom\xE1tico,
+      etc.). Por lo tanto, \u201Cninguna de las anteriores\u201D no es v\xE1lida."
   - question: "\xBFQu\xE9 ejemplo muestra un uso responsable del cr\xE9dito?"
     options:
     - "Comprar y pagar s\xF3lo el m\xEDnimo"
@@ -45,10 +62,16 @@ MonoBehaviour:
     - Respuesta A y B
     correctIndex: 1
     optionJustifications:
+    - "Pagar \xFAnicamente el m\xEDnimo genera intereses muy altos, extiende la deuda
+      por mucho tiempo y hace que el cr\xE9dito sea m\xE1s caro. No es un uso responsable
+      porque se paga m\xE1s de lo que realmente se debe y se pierde control financiero."
     - 
-    - 
-    - 
-    - 
+    - "El retiro de efectivo con tarjeta de cr\xE9dito suele tener comisiones elevadas
+      y genera intereses desde el primer d\xEDa (sin periodo de gracia). Esto convierte
+      al cr\xE9dito en una opci\xF3n muy cara y riesgosa, por lo que no es responsable"
+    - "Ambas alternativas (pagar solo el m\xEDnimo y retirar efectivo) ya son malas
+      pr\xE1cticas por separado, por lo que elegir \u201CA y B\u201D solo refuerza
+      un uso inadecuado del cr\xE9dito"
   - question: "\xBFQu\xE9 hacer si recibes un mensaje sospechoso del \u201Cbanco\u201D?"
     options:
     - "Llamar al n\xFAmero oficial del banco"
@@ -58,9 +81,15 @@ MonoBehaviour:
     correctIndex: 0
     optionJustifications:
     - 
-    - 
-    - 
-    - 
+    - "Los mensajes sospechosos suelen contener enlaces fraudulentos (phishing) que
+      roban datos o instalan malware. Hacer clic expone tu informaci\xF3n financiera
+      y tu dispositivo."
+    - "Ning\xFAn banco leg\xEDtimo solicita informaci\xF3n confidencial (como contrase\xF1as,
+      NIP o tokens) por mensaje. Responder con datos personales entrega la informaci\xF3n
+      directamente a los delincuentes"
+    - "Esta opci\xF3n es a\xFAn peor, porque valida y combina dos conductas de riesgo
+      extremo. Contestar con datos y confiar en enlaces sospechosos aumenta la probabilidad
+      de fraude financiero."
   - question: "\xBFC\xF3mo puedes proteger tus finanzas digitales?"
     options:
     - "Reutilizar contrase\xF1as"
@@ -69,7 +98,14 @@ MonoBehaviour:
     - Todas las anteriores
     correctIndex: 1
     optionJustifications:
+    - "Usar la misma contrase\xF1a en varios servicios aumenta el riesgo: si un sitio
+      es vulnerado, todos los dem\xE1s quedan expuestos. Una buena pr\xE1ctica es
+      tener contrase\xF1as \xFAnicas, seguras y actualizarlas regularmente."
     - 
-    - 
-    - 
-    - 
+    - "El NIP es personal e intransferible. Compartirlo, aunque sea con alguien de
+      confianza o \u201Cpor urgencia\u201D, abre la puerta a fraudes y mal uso de
+      tu cuenta. Una vez comprometido, es casi imposible rastrear un mal uso como
+      ajeno a ti."
+    - "Esta opci\xF3n implicar\xEDa que las pr\xE1cticas anteriores son correctas,
+      cuando en realidad son conductas de alto riesgo. Por lo tanto, \u201Ctodas
+      las anteriores\u201D solo valida errores que comprometen la seguridad digital."
