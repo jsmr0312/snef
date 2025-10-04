@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -16,7 +16,7 @@ public class ShopUIController : MonoBehaviour
     public Color precioOK = Color.white;
     public Color precioNoAlcanza = new Color(0.9f, 0.2f, 0.2f);
 
-    [Header("Selección inicial (opcional)")]
+    [Header("SelecciÃ³n inicial (opcional)")]
     public ShopItemData defaultItem;
 
     private ShopItemData _selected;
@@ -62,7 +62,7 @@ public class ShopUIController : MonoBehaviour
     {
         if (_selected == null || Stats.I == null || ProgressCore.I == null) return;
 
-        // ¿Ya lo tiene?
+        // Â¿Ya lo tiene?
         if (ProgressCore.I.IsOwned(_selected.id))
         {
             Feedback("Ya lo tienes.");
@@ -70,7 +70,7 @@ public class ShopUIController : MonoBehaviour
             return;
         }
 
-        // ¿Alcanza el presupuesto?
+        // Â¿Alcanza el presupuesto?
         if (Stats.I.Presupuesto < _selected.price)
         {
             Feedback("Presupuesto insuficiente.");
@@ -78,35 +78,33 @@ public class ShopUIController : MonoBehaviour
             return;
         }
 
-        // 1) Cobrar en el sistema actual del juego (Stats)
+        // 1) Cobrar en Stats
         Stats.I.AddPresupuesto(-_selected.price);
 
-        // 2) Reflejar ese presupuesto en el JSON único
+        // 2) Sincronizar ProgressCore con el nuevo total de Stats
+        int oldBudget = ProgressCore.I.Progress.presupuesto; // capturar ANTES de setear
         ProgressCore.I.SetPresupuesto(Stats.I.Presupuesto);
 
-        // 3) Marcar propiedad en el JSON único
+        // 3) Guardado remoto (old â†’ new)
+        ProgressRemote.I?.UpdateWalletByChange(oldBudget, ProgressCore.I.Progress.presupuesto);
+
+        // 4) Marcar propiedad
         bool added = ProgressCore.I.OwnItem(_selected.id);
-        if (!added)
-        {
-            // si llegó aquí y no se agregó, ya estaba; evita estados raros
-            Feedback("Ya lo tenías.");
-            RefreshBuyState();
-            return;
-        }
+        if (!added) { Feedback("Ya lo tenÃ­as."); RefreshBuyState(); return; }
 
-        // 4) Guardar remoto (manda TODO el JSON)
-        // Dentro de BuySelected(), después de cobrar en Stats:
-        int oldPresupuesto = ProgressCore.I.Progress.presupuesto;
-        ProgressCore.I.AddPresupuesto(-_selected.price);                // sincroniza y guarda
-        ProgressRemote.I?.UpdateWalletByChange(oldPresupuesto,          // si lo estás usando
-                                               ProgressCore.I.Progress.presupuesto);
+        // 5) Logro "Coleccionista"
+        int ownedCount = (ProgressCore.I?.Progress?.owned_items != null)
+            ? ProgressCore.I.Progress.owned_items.Count
+            : 0;
+        AchievementsManager.I?.OnInventoryChanged(ownedCount);
 
-      
+        // 6) Logro "Ahorrador"
+        AchievementsManager.I?.NotifyBudgetChanged(Stats.I.Presupuesto);
 
-
-        Feedback("¡Comprado!");
+        Feedback("Â¡Comprado!");
         RefreshBuyState();
     }
+
 
     private void RefreshBuyState()
     {

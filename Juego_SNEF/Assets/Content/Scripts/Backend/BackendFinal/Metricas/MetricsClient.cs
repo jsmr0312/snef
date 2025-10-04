@@ -115,6 +115,38 @@ public class MetricsClient : MonoBehaviour
         public string stand_id; public string ecosystem_name;
     }
 
+    // === Payloads nuevos (colócalos junto a los demás [Serializable]) ===
+    [Serializable]
+    class MisionCompletadaPayload : CanonicalBase
+    {
+        public string ecosystem_name; public string mision_name;
+    }
+    [Serializable]
+    class LogroDesbloqueadoPayload : CanonicalBase
+    {
+        public string achievement_id; public string name; public string categoria; public int puntos;
+    }
+
+    // === Trackers nuevos (en la sección de métodos públicos) ===
+    public void TrackMisionCompletada(string ecosystemName, string misionName)
+    {
+        var p = NewCanonical<MisionCompletadaPayload>();
+        p.ecosystem_name = ecosystemName;
+        p.mision_name = misionName;
+        PostEvent("mision_completada", p);
+    }
+
+    public void TrackLogroDesbloqueado(string achievementId, string name, string categoria, int puntos)
+    {
+        var p = NewCanonical<LogroDesbloqueadoPayload>();
+        p.achievement_id = achievementId;
+        p.name = name;
+        p.categoria = string.IsNullOrEmpty(categoria) ? "progreso" : categoria;
+        p.puntos = Mathf.Max(0, puntos);
+        PostEvent("logro_desbloqueado", p);
+    }
+
+
     void Awake()
     {
         if (I != null && I != this) { Destroy(gameObject); return; }

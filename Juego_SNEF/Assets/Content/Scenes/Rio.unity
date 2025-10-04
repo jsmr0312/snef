@@ -24819,7 +24819,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &412534255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25296,7 +25296,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.190133, y: -89.309326}
+  m_AnchoredPosition: {x: 9.190133, y: -89.23413}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &417981729 stripped
@@ -62757,7 +62757,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.190133, y: 4.109619}
+  m_AnchoredPosition: {x: 9.190133, y: 4.10968}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &990486824
@@ -76821,8 +76821,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1022965148}
   m_HandleRect: {fileID: 1022965147}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99995273
+  m_Value: 1
+  m_Size: 0.9999773
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -97788,7 +97788,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1543437991
 RectTransform:
   m_ObjectHideFlags: 0
@@ -110473,7 +110473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1730632962
 RectTransform:
   m_ObjectHideFlags: 0
@@ -117960,8 +117960,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668e85f72f0863b42a3fa72c2b4fb0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standsToVisit: 3
-  quizzesToComplete: 1
+  ecosystems:
+  - ecosystemName: Ecosistema 1
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 2
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 3
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 4
+    requiredStandCompletions: 4
 --- !u!4 &1843279841
 Transform:
   m_ObjectHideFlags: 0

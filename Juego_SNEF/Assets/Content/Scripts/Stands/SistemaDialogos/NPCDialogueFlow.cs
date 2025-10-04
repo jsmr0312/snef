@@ -347,7 +347,7 @@ public class NPCDialogueFlow : MonoBehaviour,
                 }
                 else
                 {
-                    MissionManager.I?.NotifyEvent(MissionManager.MissionType.VisitStand);
+                  
 
                     ProgressCore.I?.Stand_SetPhase(standId, "PostScreens", standType);
                     ProgressCore.I?.Stand_UnlockQuiz(standId);
@@ -427,6 +427,10 @@ public class NPCDialogueFlow : MonoBehaviour,
     /// Llamar desde QuizManager cuando se cierre o termine el quiz
     public void OnQuizFinished()
     {
+        // Misiones: marca stand completado (usa StandContext para conocer el ecosistema activo)
+        var ecoName = StandContext.I != null ? StandContext.I.ecosystemName : "";
+        MissionManager.I?.NotifyStandCompleted(ecoName, standId, standType);
+
         _phase = Phase.Final;
         _finalIndex = 0;
 
