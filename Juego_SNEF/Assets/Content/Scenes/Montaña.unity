@@ -971,14 +971,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 08de6b97-c0a1-4bc0-ad94-94a0ab11a15e
+  standId: 8907a5d1-bc00-4cbd-968a-feade7ce2345
   standType: Stand Excellence
   requiredScreens: 1
   quizManagerRef: {fileID: 104971542}
   initialLines:
-  - "\xA1Te damos la bienvenida, prep\xE1rate para vivir la experiencia Kapital!"
-  - Kapital ha preparado contenido para ti, te invitamos a revisar el contenido en
-    la pantalla de este mismo stand
+  - "\xA1Te damos la bienvenida, prep\xE1rate para vivir la experiencia Kapital Bank!"
+  - Kapital Bank ha preparado contenido para ti, te invitamos a revisar el contenido
+    en la pantalla de este mismo stand
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: c505c6f63349bb945bf69b5847f777d7, type: 2}
@@ -1755,19 +1755,25 @@ MonoBehaviour:
   screenId: Contenido 3
   standType: Stand Master
   ecosystemName: Ecosistema 2
-  assetId: 604a8366-5ca6-4a2a-aceb-a92825933569
+  assetId: 0bd20687-8721-47d0-8395-bc744c7a8d40
   downloadButton: {fileID: 179221059}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/43095614-a0af-47b2-88da-513a2139a88c/stands/fdb0ca54-f9c5-4ceb-b518-2ea362c51f69/assets/image/f04882de-9e37-49d3-a9a0-507b7b412aa9.jpg
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/147ac589-4862-4725-badd-c55872de48af/stands/21bcc2ab-f8c3-4a91-888f-ad6e4f5bc3c5/assets/video/b689e6e2-24b9-41fb-9881-d3ce8ef35cf4.mp4
   hideDownloadIfEmpty: 1
-  contentType: 0
+  contentType: 1
   singleImage: {fileID: 2800000, guid: 7d473f5860f188145bad521d4a4b1e13, type: 3}
-  videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
+  videoURL: https://s3.estudiohera.mx/snefgame/sponsors/147ac589-4862-4725-badd-c55872de48af/stands/21bcc2ab-f8c3-4a91-888f-ad6e4f5bc3c5/assets/video/b689e6e2-24b9-41fb-9881-d3ce8ef35cf4.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1779720738}
   slides: []
   idleImage: {fileID: 2800000, guid: 2ea69f111477ee04b945b3f5e2fd1cfd, type: 3}
   imageRawImage: {fileID: 331752833}
   videoRawImage: {fileID: 1456670838}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -1806,11 +1812,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -1818,6 +1824,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &28963859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2082,6 +2089,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 16668076}
   videoRawImage: {fileID: 1209657548}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -2120,11 +2133,11 @@ MonoBehaviour:
   liftTransform: {fileID: 2001949759}
   liftTarget: {fileID: 151222051}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 1
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 1
-  localStreamingAssetsFileName: fallback.mp4
   overrideRenderTexture: {fileID: 0}
   rtWidth: 1280
   rtHeight: 720
@@ -2132,6 +2145,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!4 &36371385
 Transform:
   m_ObjectHideFlags: 0
@@ -2791,6 +2805,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: faa96d74dcd28bd478fdee32c3510701, type: 3}
   imageRawImage: {fileID: 1739051926}
   videoRawImage: {fileID: 944278333}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -2829,11 +2849,11 @@ MonoBehaviour:
   liftTransform: {fileID: 657690105}
   liftTarget: {fileID: 1410601328}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 1
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 1
-  localStreamingAssetsFileName: fallback.mp4
   overrideRenderTexture: {fileID: 0}
   rtWidth: 1280
   rtHeight: 720
@@ -2841,6 +2861,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!4 &45919359
 Transform:
   m_ObjectHideFlags: 0
@@ -3311,6 +3332,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: faa96d74dcd28bd478fdee32c3510701, type: 3}
   imageRawImage: {fileID: 1772077006}
   videoRawImage: {fileID: 884151095}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -3349,11 +3376,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -3361,6 +3388,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &56251075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5438,8 +5466,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e53f32c99fade94483603fbf7b659f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 08de6b97-c0a1-4bc0-ad94-94a0ab11a15e
-  triviaId: 987811fe-d11d-44dd-95f4-d034e1a2f07b
+  standId: 8907a5d1-bc00-4cbd-968a-feade7ce2345
+  triviaId: a71ac28f-d54f-4dfb-afb6-e808b727f4b2
   coinsPerCorrect: 0
   standType: Stand Excellence
   linkedArcade: {fileID: 0}
@@ -5475,11 +5503,11 @@ MonoBehaviour:
   xButton: {fileID: 1029397848}
   linkedinButton: {fileID: 1605686889}
   sitioWebButton: {fileID: 996466938}
-  instagramURL: https://www.instagram.com/finsusapp
-  facebookURL: https://www.facebook.com/profile.php?id=61558559890538&mibextid=LQQJ4d
-  xURL: https://x.com/FinsusApp
-  linkedinURL: https://www.linkedin.com/company/finsus/
-  sitioWebURL: https://finsus.mx/
+  instagramURL: https://www.instagram.com/kapital.latam/
+  facebookURL: https://www.facebook.com/Kapital.Latam
+  xURL: https://x.com/kapital_latam
+  linkedinURL: https://www.linkedin.com/company/65288028/admin/dashboard/
+  sitioWebURL: https://kapital.com/
   playerController: {fileID: 1371243758}
   cameraController: {fileID: 973701842}
   manageControllers: 1
@@ -6186,8 +6214,8 @@ MonoBehaviour:
   requiredScreens: 4
   quizManagerRef: {fileID: 239280878}
   initialLines:
-  - "\xA1Te damos la bienvenida, prep\xE1rate  para vivir la experiencia Condusef!"
-  - Condusef ha preparado contenido para ti, te invitamos a revisar el contenido
+  - "\xA1Te damos la bienvenida, prep\xE1rate  para vivir la experiencia CONDUSEF!"
+  - CONDUSEF ha preparado contenido para ti, te invitamos a revisar el contenido
     en las pantallas de este mismo stand
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
@@ -10942,6 +10970,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: ca853576f6ad06347926dfb971ee5384, type: 3}
   imageRawImage: {fileID: 1182248828}
   videoRawImage: {fileID: 1743320835}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -10980,11 +11014,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -10992,6 +11026,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!135 &213151888
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11027,7 +11062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 417424, guid: 65da5bb2d6e288b41baa018d8fec58f3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -112.92
+      value: -116.13
       objectReference: {fileID: 0}
     - target: {fileID: 417424, guid: 65da5bb2d6e288b41baa018d8fec58f3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11035,7 +11070,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 417424, guid: 65da5bb2d6e288b41baa018d8fec58f3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 22.16
+      value: 23.79
       objectReference: {fileID: 0}
     - target: {fileID: 417424, guid: 65da5bb2d6e288b41baa018d8fec58f3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11324,6 +11359,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 199452280}
   videoRawImage: {fileID: 748980802}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -11362,11 +11403,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -11374,6 +11415,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &218624273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12253,8 +12295,8 @@ MonoBehaviour:
   sitioWebButton: {fileID: 996466938}
   instagramURL: https://www.instagram.com/condusefoficial/?hl=es
   facebookURL: https://www.facebook.com/condusefoficial/?locale=es_LA
-  xURL: https://x.com/condusefMX
-  linkedinURL: https://mx.linkedin.com/company/condusef
+  xURL: 
+  linkedinURL: 
   sitioWebURL: https://www.condusef.gob.mx/
   playerController: {fileID: 1371243758}
   cameraController: {fileID: 973701842}
@@ -18707,7 +18749,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4803738778478240511, guid: 7170e3d87deb2164fb7c4f827f4d0a3e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -112.02
+      value: -117.57
       objectReference: {fileID: 0}
     - target: {fileID: 4803738778478240511, guid: 7170e3d87deb2164fb7c4f827f4d0a3e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19518,12 +19560,12 @@ MonoBehaviour:
   screenId: contenido 4
   standType: master
   ecosystemName: Ecosistema 2
-  assetId: 67ba5807-f09b-428c-a55d-49695abca934
+  assetId: 604a8366-5ca6-4a2a-aceb-a92825933569
   downloadButton: {fileID: 179221059}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/43095614-a0af-47b2-88da-513a2139a88c/stands/fdb0ca54-f9c5-4ceb-b518-2ea362c51f69/assets/image/4aa57f20-44cd-4c0e-8cac-1e5163aff9c2.jpg
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/147ac589-4862-4725-badd-c55872de48af/stands/21bcc2ab-f8c3-4a91-888f-ad6e4f5bc3c5/assets/pdf/e1680428-078b-4419-8528-9b2df725891b.pdf
   hideDownloadIfEmpty: 1
   contentType: 0
-  singleImage: {fileID: 2800000, guid: 2ea69f111477ee04b945b3f5e2fd1cfd, type: 3}
+  singleImage: {fileID: 2800000, guid: 7d473f5860f188145bad521d4a4b1e13, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1779720738}
@@ -19531,6 +19573,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 2ea69f111477ee04b945b3f5e2fd1cfd, type: 3}
   imageRawImage: {fileID: 1229509266}
   videoRawImage: {fileID: 909176266}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -19569,11 +19617,11 @@ MonoBehaviour:
   liftTransform: {fileID: 608085269}
   liftTarget: {fileID: 1418747055}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 1
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 1
-  localStreamingAssetsFileName: fallback.mp4
   overrideRenderTexture: {fileID: 0}
   rtWidth: 1280
   rtHeight: 720
@@ -19581,6 +19629,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!4 &444750299
 Transform:
   m_ObjectHideFlags: 0
@@ -20139,7 +20188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 459600299}
   m_Layer: 0
-  m_Name: Stand6_Master (1)
+  m_Name: 'Stand8_Master '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20593,6 +20642,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 1276716521}
   videoRawImage: {fileID: 1453054827}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -20631,11 +20686,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -20643,6 +20698,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &470831351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20944,11 +21000,11 @@ MonoBehaviour:
   xButton: {fileID: 1029397848}
   linkedinButton: {fileID: 1605686889}
   sitioWebButton: {fileID: 996466938}
-  instagramURL: https://www.instagram.com/condusefoficial/
-  facebookURL: https://www.facebook.com/condusefoficial
-  xURL: https://x.com/condusefMX
-  linkedinURL: https://mx.linkedin.com/company/condusef
-  sitioWebURL: https://www.condusef.gob.mx/
+  instagramURL: 
+  facebookURL: 
+  xURL: 
+  linkedinURL: 
+  sitioWebURL: 
   playerController: {fileID: 1371243758}
   cameraController: {fileID: 973701842}
   manageControllers: 1
@@ -21117,10 +21173,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1914375062}
   - {fileID: 1860307979}
   - {fileID: 277940456}
   - {fileID: 1559553370}
+  - {fileID: 1914375062}
   - {fileID: 333730134}
   - {fileID: 459600299}
   - {fileID: 1298040292}
@@ -24118,8 +24174,8 @@ Transform:
   m_GameObject: {fileID: 538211868}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.89, y: 13.48, z: 1.64}
-  m_LocalScale: {x: 1, y: 3.1188, z: 2.2756}
+  m_LocalPosition: {x: -9.99, y: 1.715, z: 1.83}
+  m_LocalScale: {x: 1, y: 3.6405752, z: 2.332945}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1298040292}
@@ -25072,6 +25128,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: ca853576f6ad06347926dfb971ee5384, type: 3}
   imageRawImage: {fileID: 247326742}
   videoRawImage: {fileID: 903935254}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -25110,11 +25172,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -25122,6 +25184,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!135 &556946758
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -27295,6 +27358,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 1509111031}
   videoRawImage: {fileID: 2092694626}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -27333,11 +27402,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -27345,6 +27414,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &610695686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28827,6 +28897,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: d9dc1efa01f9ecb48b7ac876014ada4f, type: 3}
   imageRawImage: {fileID: 1580947392}
   videoRawImage: {fileID: 1937928240}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -28865,11 +28941,11 @@ MonoBehaviour:
   liftTransform: {fileID: 1112812009}
   liftTarget: {fileID: 810872510}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 1
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 1
-  localStreamingAssetsFileName: fallback.mp4
   overrideRenderTexture: {fileID: 0}
   rtWidth: 1280
   rtHeight: 720
@@ -28877,6 +28953,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!4 &641010513
 Transform:
   m_ObjectHideFlags: 0
@@ -29474,6 +29551,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: faa96d74dcd28bd478fdee32c3510701, type: 3}
   imageRawImage: {fileID: 1492214067}
   videoRawImage: {fileID: 698327565}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -29512,11 +29595,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -29524,6 +29607,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &648353426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33227,6 +33311,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 1358230507}
   videoRawImage: {fileID: 1619876096}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -33265,11 +33355,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -33277,6 +33367,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &737173064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35124,7 +35215,7 @@ PrefabInstance:
     - target: {fileID: 5700872605525297142, guid: bf22854124951f04ba66f467ed8c8969, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 64afaa8d76d40f94e8ef476bdececbb3, type: 2}
+      objectReference: {fileID: 2100000, guid: b281eaab73ffb8b4a858eaa30220897d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -37073,6 +37164,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: d9dc1efa01f9ecb48b7ac876014ada4f, type: 3}
   imageRawImage: {fileID: 1990771679}
   videoRawImage: {fileID: 5064830}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -37111,11 +37208,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -37123,6 +37220,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &839006546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41673,6 +41771,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: faa96d74dcd28bd478fdee32c3510701, type: 3}
   imageRawImage: {fileID: 1419602129}
   videoRawImage: {fileID: 1385002834}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -41711,11 +41815,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -41723,6 +41827,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &970460404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43118,7 +43223,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 996466941}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -43315,6 +43420,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 1292805786}
   videoRawImage: {fileID: 616963655}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -43353,11 +43464,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -43365,6 +43476,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &996705151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43985,6 +44097,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 1867126096}
   videoRawImage: {fileID: 1755413415}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -44023,11 +44141,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -44035,6 +44153,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &1012269787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44624,6 +44743,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 368215465}
   videoRawImage: {fileID: 187899289}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -44662,11 +44787,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -44674,6 +44799,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &1027194558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52804,13 +52930,19 @@ MonoBehaviour:
   hideDownloadIfEmpty: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 9e3180fb8297c0c4091a1d9d3de29e37, type: 3}
-  videoURL: https://s3.estudiohera.mx/snefgame/sponsors/147ac589-4862-4725-badd-c55872de48af/stands/21bcc2ab-f8c3-4a91-888f-ad6e4f5bc3c5/assets/video/61b2627b-d8a2-4b95-a4ef-6158826da23b.mp4
+  videoURL: https://unity.acadyne.com/assets/61b2627b-d8a2-4b95-a4ef-6158826da23b.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1779720738}
   slides: []
   idleImage: {fileID: 2800000, guid: 2ea69f111477ee04b945b3f5e2fd1cfd, type: 3}
   imageRawImage: {fileID: 1139547655}
   videoRawImage: {fileID: 430049449}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -52849,11 +52981,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -52861,6 +52993,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &1199662148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56319,7 +56452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1298040292}
   m_Layer: 0
-  m_Name: Stand6_Master (2)
+  m_Name: Stand10_Master
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56334,7 +56467,7 @@ Transform:
   m_GameObject: {fileID: 1298040291}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -46.68097, y: 4.9144897, z: 33.950897}
+  m_LocalPosition: {x: -46.68097, y: 4.9144897, z: 32.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -58279,11 +58412,11 @@ MonoBehaviour:
   xButton: {fileID: 1029397848}
   linkedinButton: {fileID: 1605686889}
   sitioWebButton: {fileID: 996466938}
-  instagramURL: https://www.instagram.com/banco_de_mexico/?hl=es
-  facebookURL: https://www.facebook.com/BanxicoOficial/?locale=es_LA
-  xURL: https://x.com/Banxico?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor
-  linkedinURL: https://www.fintechmexico.org/
-  sitioWebURL: https://www.banxico.org.mx/
+  instagramURL: https://www.instagram.com/hdisegurosmex/
+  facebookURL: https://www.facebook.com/HDISegurosMexico/
+  xURL: https://x.com/hdisegurosmex?lang=es
+  linkedinURL: https://www.linkedin.com/company/hdi-seguros-m%C3%A9xico/?originalSubdomain=mx
+  sitioWebURL: https://www.hdi.com.mx/
   playerController: {fileID: 1371243758}
   cameraController: {fileID: 973701842}
   manageControllers: 1
@@ -58806,7 +58939,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7617512945216028114, guid: dccbe7dd555d7a848b8d48f3dbfe58e2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -110.46059
+      value: -115.23
       objectReference: {fileID: 0}
     - target: {fileID: 7617512945216028114, guid: dccbe7dd555d7a848b8d48f3dbfe58e2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -58814,7 +58947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7617512945216028114, guid: dccbe7dd555d7a848b8d48f3dbfe58e2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.470314
+      value: 17.49
       objectReference: {fileID: 0}
     - target: {fileID: 7617512945216028114, guid: dccbe7dd555d7a848b8d48f3dbfe58e2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -64161,24 +64294,25 @@ MonoBehaviour:
   screenId: Contenido 2
   standType: Stand Master
   ecosystemName: Ecosistema 2
-  assetId: e7d98ccf-1690-4e25-93c4-b95222a60f49
+  assetId: acdb4342-7d07-4d6f-a358-309b5d98e6ba
   downloadButton: {fileID: 179221059}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/43095614-a0af-47b2-88da-513a2139a88c/stands/fdb0ca54-f9c5-4ceb-b518-2ea362c51f69/assets/image/5aeba8bb-6aa2-4332-a4ce-3fad3a3f5131.jpg
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/147ac589-4862-4725-badd-c55872de48af/stands/21bcc2ab-f8c3-4a91-888f-ad6e4f5bc3c5/assets/video/d60ed322-f951-4def-9844-af95d949129b.mp4
   hideDownloadIfEmpty: 1
-  contentType: 2
+  contentType: 1
   singleImage: {fileID: 2800000, guid: 9e3180fb8297c0c4091a1d9d3de29e37, type: 3}
-  videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
+  videoURL: https://s3.estudiohera.mx/snefgame/sponsors/147ac589-4862-4725-badd-c55872de48af/stands/21bcc2ab-f8c3-4a91-888f-ad6e4f5bc3c5/assets/video/d60ed322-f951-4def-9844-af95d949129b.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1779720738}
-  slides:
-  - {fileID: 2800000, guid: b84ee814edeab94458d77f8fa812749a, type: 3}
-  - {fileID: 2800000, guid: fbd3224abbd870748969d3a065e30595, type: 3}
-  - {fileID: 2800000, guid: 69fd5d9741b438443a6c05c5e0e039d8, type: 3}
-  - {fileID: 2800000, guid: d4956094b46f55e4c97d440792a7ab8a, type: 3}
-  - {fileID: 2800000, guid: d63f9b5d2d93133449e212580548138a, type: 3}
+  slides: []
   idleImage: {fileID: 2800000, guid: 2ea69f111477ee04b945b3f5e2fd1cfd, type: 3}
   imageRawImage: {fileID: 223282721}
   videoRawImage: {fileID: 1399734462}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -64217,11 +64351,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -64229,6 +64363,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &1457304860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66334,23 +66469,29 @@ MonoBehaviour:
   promptUI: {fileID: 535581309}
   lookAtCamera: 0
   promptOpenButton: {fileID: 535581311}
-  standId: 08de6b97-c0a1-4bc0-ad94-94a0ab11a15e
+  standId: 8907a5d1-bc00-4cbd-968a-feade7ce2345
   screenId: Contenido 1
   standType: Stand Excellence
   ecosystemName: Ecosistema 2
-  assetId: ef02daae-8f0f-42b0-a3b1-772417d9ff65
+  assetId: 17444fdb-bab0-4105-bd89-c853a9e0ba58
   downloadButton: {fileID: 179221059}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/10449ea2-3249-422a-a1f2-0017df97dbd3/stands/b4adba79-c2c1-4961-a6b3-e613ae3d7643/assets/video/46227b19-59b9-48a6-8ef4-d27d27a49ba1.mp4
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/0f5e10ea-f35e-4fc6-a90e-55ba20a43772/stands/8907a5d1-bc00-4cbd-968a-feade7ce2345/assets/video/e4bdf25b-9e10-4ab6-9a07-c399a2778247.mp4
   hideDownloadIfEmpty: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: caffe2b2b8595c8459ea912b18a4660d, type: 3}
-  videoURL: https://s3.estudiohera.mx/snefgame/sponsors/10449ea2-3249-422a-a1f2-0017df97dbd3/stands/b4adba79-c2c1-4961-a6b3-e613ae3d7643/assets/video/46227b19-59b9-48a6-8ef4-d27d27a49ba1.mp4
+  videoURL: https://unity.acadyne.com/assets/e4bdf25b-9e10-4ab6-9a07-c399a2778247.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1779720738}
   slides: []
   idleImage: {fileID: 2800000, guid: caffe2b2b8595c8459ea912b18a4660d, type: 3}
   imageRawImage: {fileID: 1638629565}
   videoRawImage: {fileID: 774674896}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -66389,11 +66530,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -66401,6 +66542,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &1498684406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66950,6 +67092,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: 7a693d6a55d68c746b34969b0f7ebb2f, type: 3}
   imageRawImage: {fileID: 1273814832}
   videoRawImage: {fileID: 2017950337}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -66988,11 +67136,11 @@ MonoBehaviour:
   liftTransform: {fileID: 884226464}
   liftTarget: {fileID: 1322431086}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 1
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 1
-  localStreamingAssetsFileName: fallback.mp4
   overrideRenderTexture: {fileID: 0}
   rtWidth: 1280
   rtHeight: 720
@@ -67000,6 +67148,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!4 &1515950152
 Transform:
   m_ObjectHideFlags: 0
@@ -68450,13 +68599,19 @@ MonoBehaviour:
   hideDownloadIfEmpty: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 9e3180fb8297c0c4091a1d9d3de29e37, type: 3}
-  videoURL: https://s3.estudiohera.mx/snefgame/sponsors/43095614-a0af-47b2-88da-513a2139a88c/stands/fdb0ca54-f9c5-4ceb-b518-2ea362c51f69/assets/video/4a66a363-bfe5-4415-993a-42725cd65cc6.mp4
+  videoURL: https://unity.acadyne.com/assets/4a66a363-bfe5-4415-993a-42725cd65cc6.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1779720738}
   slides: []
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 487248051}
   videoRawImage: {fileID: 1536234261}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -68495,11 +68650,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -68507,6 +68662,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &1555306068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68864,7 +69020,7 @@ Transform:
   m_GameObject: {fileID: 1559553369}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -90.71759, y: 9.305061, z: 20.679314}
+  m_LocalPosition: {x: -93.94, y: 9.305061, z: 15.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69548,14 +69704,14 @@ MonoBehaviour:
   standId: 21bcc2ab-f8c3-4a91-888f-ad6e4f5bc3c5
   standNumber: 8
   ecosystemName: Ecosistema 2
-  miniGameId: d1a6627a-3f09-442a-aebb-8ec280f09b6b
+  miniGameId: 0480ebbf-667a-4ff7-a103-e6d4d1d45faa
   minigameDisplayName: 
   promptUI: {fileID: 535581309}
   lookAtCamera: 0
   lockCanvas: {fileID: 1745191016}
   lockMessageText: {fileID: 1487623477}
   lockMessageDuration: 2
-  arcadeSceneName: Minijuego2_E2
+  arcadeSceneName: Minijuego1_E2
   startUnlocked: 0
   outline: {fileID: 0}
   enableOutlineOnProximity: 1
@@ -69945,8 +70101,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668e85f72f0863b42a3fa72c2b4fb0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standsToVisit: 3
-  quizzesToComplete: 1
+  ecosystems:
+  - ecosystemName: Ecosistema 1
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 2
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 3
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 4
+    requiredStandCompletions: 4
 --- !u!4 &1583874239
 Transform:
   m_ObjectHideFlags: 0
@@ -71837,7 +72000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 020a905276dc8f6418f55ba7a08fe6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 08de6b97-c0a1-4bc0-ad94-94a0ab11a15e
+  standId: 8907a5d1-bc00-4cbd-968a-feade7ce2345
   standNumber: 5
   ecosystemName: Ecosistema 2
 --- !u!65 &1632658710
@@ -72695,6 +72858,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: d9dc1efa01f9ecb48b7ac876014ada4f, type: 3}
   imageRawImage: {fileID: 30031584}
   videoRawImage: {fileID: 371892901}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -72733,11 +72902,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -72745,6 +72914,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &1652290526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74540,13 +74710,19 @@ MonoBehaviour:
   hideDownloadIfEmpty: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 2cf7a45d6b54a2a42ada0fa3ccdaf989, type: 3}
-  videoURL: https://s3.estudiohera.mx/snefgame/sponsors/10449ea2-3249-422a-a1f2-0017df97dbd3/stands/b4adba79-c2c1-4961-a6b3-e613ae3d7643/assets/video/46227b19-59b9-48a6-8ef4-d27d27a49ba1.mp4
+  videoURL: 'https://unity.acadyne.com/assets/46227b19-59b9-48a6-8ef4-d27d27a49ba1.mp4    '
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1779720738}
   slides: []
   idleImage: {fileID: 2800000, guid: 7a693d6a55d68c746b34969b0f7ebb2f, type: 3}
   imageRawImage: {fileID: 677462757}
   videoRawImage: {fileID: 1434238428}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -74585,11 +74761,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -74597,6 +74773,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &1696484387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82322,7 +82499,7 @@ Transform:
   m_GameObject: {fileID: 1860307978}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -105.81097, y: 5.4044876, z: 36.890892}
+  m_LocalPosition: {x: -105.81097, y: 4.89, z: 32.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -84398,7 +84575,7 @@ Transform:
   m_GameObject: {fileID: 1914375061}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -63.06759, y: 7.871, z: 19.249313}
+  m_LocalPosition: {x: -63.06759, y: 7.871, z: 14.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -84408,7 +84585,6 @@ Transform:
   - {fileID: 104971541}
   - {fileID: 2134090380}
   - {fileID: 592418134}
-  - {fileID: 2073356467}
   m_Father: {fileID: 481513904}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1915010366
@@ -87243,6 +87419,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 193183300}
   videoRawImage: {fileID: 1421610228}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -87281,11 +87463,11 @@ MonoBehaviour:
   liftTransform: {fileID: 1426881497}
   liftTarget: {fileID: 386240733}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 1
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 1
-  localStreamingAssetsFileName: fallback.mp4
   overrideRenderTexture: {fileID: 0}
   rtWidth: 1280
   rtHeight: 720
@@ -87293,6 +87475,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!4 &1996808600
 Transform:
   m_ObjectHideFlags: 0
@@ -88017,7 +88200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d55c6b9d767304bbcb0c09af0dd24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entryPrefab: {fileID: 2762887383353232928, guid: d559b4c5495393e4a91ec04fd32e1645, type: 3}
 --- !u!114 &2023060036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88653,6 +88835,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: d9dc1efa01f9ecb48b7ac876014ada4f, type: 3}
   imageRawImage: {fileID: 1264234282}
   videoRawImage: {fileID: 924863624}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -88691,11 +88879,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -88703,6 +88891,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &2034797253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88936,8 +89125,8 @@ Transform:
   m_GameObject: {fileID: 2039308474}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.89, y: 7.68, z: 1.64}
-  m_LocalScale: {x: 1, y: 3.1188, z: 2.2756}
+  m_LocalPosition: {x: -10, y: 1.76, z: 1.73}
+  m_LocalScale: {x: 1.1237, y: 3.5045955, z: 2.5570917}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1704745006}
@@ -90318,114 +90507,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &2073356466
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2073356467}
-  - component: {fileID: 2073356470}
-  - component: {fileID: 2073356469}
-  - component: {fileID: 2073356468}
-  m_Layer: 0
-  m_Name: Cube (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2073356467
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2073356466}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 8.03, y: 1.725, z: 6.96}
-  m_LocalScale: {x: 0.12931818, y: 0.9210266, z: 0.67201746}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1914375062}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2073356468
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2073356466}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &2073356469
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2073356466}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8cc0055d3198230449a0b19e8f7e2d7e, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2073356470
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2073356466}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &2074496267 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6e65f395b27e7414b8b84ec90021b4e9, type: 3}
@@ -91032,6 +91113,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 1134396881}
   videoRawImage: {fileID: 1457080946}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -91070,11 +91157,11 @@ MonoBehaviour:
   liftTransform: {fileID: 0}
   liftTarget: {fileID: 0}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 0
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 0
-  localStreamingAssetsFileName: 
   overrideRenderTexture: {fileID: 8400000, guid: dd61208a38561a44e99fc0faa29d5ed7, type: 2}
   rtWidth: 1280
   rtHeight: 720
@@ -91082,6 +91169,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!114 &2083472370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93822,6 +93910,12 @@ MonoBehaviour:
   idleImage: {fileID: 2800000, guid: efcd010a2c75dcd448efa3afd8796b9d, type: 3}
   imageRawImage: {fileID: 588433985}
   videoRawImage: {fileID: 640845761}
+  tallScrollRoot: {fileID: 0}
+  tallScrollRect: {fileID: 0}
+  tallViewport: {fileID: 0}
+  tallImage: {fileID: 0}
+  tallSlider: {fileID: 0}
+  invertTallSlider: 1
   navButtonPanel: {fileID: 513265145}
   prevButton: {fileID: 1094521560}
   nextButton: {fileID: 1079256571}
@@ -93860,11 +93954,11 @@ MonoBehaviour:
   liftTransform: {fileID: 2023434175}
   liftTarget: {fileID: 1600651741}
   liftDuration: 0.5
+  videoCanvas: {fileID: 0}
+  videoSurfaceOffset: 0.01
   startMuted: 1
   useAudioSourceForVideo: 1
   videoAudioSource: {fileID: 0}
-  forceLocalOnWebGL: 1
-  localStreamingAssetsFileName: fallback.mp4
   overrideRenderTexture: {fileID: 0}
   rtWidth: 1280
   rtHeight: 720
@@ -93872,6 +93966,7 @@ MonoBehaviour:
   autoViewLocalOffset: {x: 0, y: 1.6, z: 2}
   useProximityTriggers: 0
   legacyKeyToInteract: 0
+  nearClipPadding: 0.05
 --- !u!4 &2135957727
 Transform:
   m_ObjectHideFlags: 0

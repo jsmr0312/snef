@@ -13,20 +13,34 @@ MonoBehaviour:
   m_Name: Kapital
   m_EditorClassIdentifier: 
   questions:
-  - question: "\xBFQu\xE9 significa \\\"una cosa es una cosa y otra cosa es otra
-      cosa\\\"?"
+  - question: "\xBFQu\xE9 error com\xFAn puede frenar el crecimiento de tu negocio?"
     options:
-    - Comprar sin pensar
-    - Tener cuentas separadas para casa y negocio
-    - "No prestar atenci\xF3n al flujo"
-    - No saber de que se esta hablando
+    - a) Pedir ayuda
+    - " b) Tomar del negocio \u201Csolo tantito\u201D"
+    - c) Ahorrar demasiado
+    - "d) Gastar m\xE1s de lo que entra"
     correctIndex: 1
     optionJustifications:
+    - "Pedir ayuda es generalmente una acci\xF3n positiva, no un error. Reconocer
+      las propias limitaciones y buscar asesoramiento (mentores, contadores, expertos)
+      o delegar tareas es crucial para crecer y evitar problemas. Un empresario que
+      intenta hacerlo todo solo s\xED frena el crecimiento, por lo que \"pedir ayuda\"
+      es la ant\xEDtesis de ese error."
     - 
-    - 
-    - 
-    - 
-  - question: "\xBFQu\xE9 regla te ayuda a presupuestar con libertad?"
+    - "Si bien una austeridad extrema puede volverse un problema, en la mayor\xEDa
+      de los casos de peque\xF1os negocios, el error com\xFAn es justamente el contrario:
+      no ahorrar lo suficiente para las inversiones futuras o para cubrir imprevistos.
+      \"Ahorrar demasiado\" no se considera un error com\xFAn que frene el crecimiento;
+      de hecho, la disciplina del ahorro es una virtud financiera clave. El problema
+      real suele ser la falta de reinversi\xF3n en el negocio, lo que es diferente
+      a \"ahorrar demasiado\"."
+    - "Esta opci\xF3n describe un problema de flujo de caja, que sin duda es perjudicial.
+      Sin embargo, es m\xE1s una consecuencia grave de otros errores (como una mala
+      planificaci\xF3n, falta de presupuesto o el error de la opci\xF3n b) que la
+      causa ra\xEDz m\xE1s com\xFAn. Llegar a este punto es un s\xEDntoma de que
+      el negocio ya est\xE1 en crisis, no el error inicial que suele frenar el crecimiento
+      desde etapas m\xE1s tempranas."
+  - question: " \xBFQu\xE9 regla te ayuda a presupuestar con libertad?"
     options:
     - 70/10/20
     - 60/40
@@ -50,24 +64,12 @@ MonoBehaviour:
     - 
     - 
     - 
-  - question: "\xBFQu\xE9 representa una mujer que usa el dinero con inteligencia?"
+  - question: " \xBFQu\xE9 representa una mujer que usa el dinero con inteligencia?"
     options:
-    - Una empresaria improvisada
-    - Un nuevo modelo a seguir
-    - Alguien con mucha suerte
-    - Una persona con libertad financiera
-    correctIndex: 1
-    optionJustifications:
-    - 
-    - 
-    - 
-    - 
-  - question: "\xBFQu\xE9 error com\xFAn puede frenar el crecimiento de tu negocio?"
-    options:
-    - Pedir ayuda
-    - "Tomar del negocio \u201Csolo tantito"
-    - Ahorrar demasiado
-    - Tener socios
+    - ' a) Una empresaria improvisada'
+    - ' b) Un nuevo modelo a seguir'
+    - c) Alguien con mucha suerte
+    - d) Una mujer que gasta mucho
     correctIndex: 1
     optionJustifications:
     - 
