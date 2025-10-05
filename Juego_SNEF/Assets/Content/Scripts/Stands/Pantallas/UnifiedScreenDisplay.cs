@@ -99,6 +99,21 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public Transform liftTarget;
     public float liftDuration = 0.5f;
 
+    [Header("WorldSpace Canvas (opcional)")]
+    public Canvas videoCanvas;
+    public float videoSurfaceOffset = 0.01f; // 1 cm
+
+    void NudgeVideoTowardCamera()
+    {
+        if (!videoRawImage || !mainCamera) return;
+        var t = videoRawImage.rectTransform;
+        var dir = (mainCamera.transform.position - t.position).normalized;
+        t.position += dir * videoSurfaceOffset;
+    }
+  
+
+
+
     [Header("Audio (WebGL-friendly)")]
     public bool startMuted = true;
     public bool useAudioSourceForVideo = true;
@@ -532,14 +547,23 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         if (useLiftAnimation && liftTransform != null && liftTarget != null)
         {
             StopCoroutine(nameof(AnimateTransform));
+
+            // Evita empezar ya dentro del near clip de la cámara
+            ClampAgainstNearClip(liftTransform);
+
             StartCoroutine(AnimateTransform(
                 liftTransform,
                 _liftOrigPos, liftTarget.position,
                 _liftOrigRot, liftTarget.rotation,
                 liftDuration,
-                null
+                () =>
+                {
+                    // Al terminar el lift, vuelve a asegurar la distancia mínima
+                    ClampAgainstNearClip(liftTransform);
+                }
             ));
         }
+
 
         if (contentType == ContentType.Video && videoPlayer != null)
         {
@@ -600,6 +624,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 _completed = true; _progressPct = 100;
                 break;
             case ContentType.Video:
+                BoostCanvasSorting();
                 break;
             case ContentType.Presentation:
                 _currentIndex = 0;
@@ -641,9 +666,14 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 liftTransform.position, _liftOrigPos,
                 liftTransform.rotation, _liftOrigRot,
                 liftDuration,
-                null
+                () =>
+                {
+                    // Por si la cámara quedó cerca al volver
+                    ClampAgainstNearClip(liftTransform);
+                }
             ));
         }
+
 
         if (mainCamera != null)
         {
@@ -751,6 +781,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             SetVideoVisualActive(true);
             videoRawImage.texture = _videoRT;
         }
+
+        NudgeVideoTowardCamera();
     }
 
     void ShowPresentationItem(int idx)
@@ -855,6 +887,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             _videoPlayPending = false;
             vp.Play();
         }
+        ForceRebindVideoTexture();
     }
 
     void OnVideoFinished(VideoPlayer vp)
@@ -866,6 +899,35 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     void OnVideoError(VideoPlayer vp, string msg)
     {
         Debug.LogError("[UnifiedScreenDisplay] Video error: " + msg + " | URL: " + vp.url);
+    }
+
+    void BoostCanvasSorting()
+    {
+        if (!videoCanvas) return;
+        videoCanvas.overrideSorting = true;
+        videoCanvas.sortingLayerName = "UI";
+        videoCanvas.sortingOrder = 5000;
+    }
+
+    public float nearClipPadding = 0.05f; // 5 cm
+
+    void ClampAgainstNearClip(Transform t)
+    {
+        if (!mainCamera || !t) return;
+        float minD = mainCamera.nearClipPlane + nearClipPadding;
+        // Proyección de t sobre el forward de la cámara
+        float d = Vector3.Dot(mainCamera.transform.forward, t.position - mainCamera.transform.position);
+        if (d < minD)
+            t.position = mainCamera.transform.position + mainCamera.transform.forward * minD;
+    }
+
+    void ForceRebindVideoTexture()
+    {
+        if (videoRawImage && _videoRT)
+        {
+            videoRawImage.texture = null;
+            videoRawImage.texture = _videoRT;
+        }
     }
 
     private void SetTallScrollActive(bool on)

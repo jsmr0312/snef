@@ -3584,7 +3584,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: aa6d6bc67a1f04a4c90bb3f41a027ccd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 37cd9a136d819ed49aba98fc4e151253, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -15755,8 +15755,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -3.1085815, y: 4.0434}
-  m_SizeDelta: {x: -136.129, y: 178.042}
+  m_AnchoredPosition: {x: -3.1085815, y: 2.4165}
+  m_SizeDelta: {x: -136.129, y: 213.8335}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1410004567
 MonoBehaviour:
@@ -15808,9 +15808,9 @@ MonoBehaviour:
   m_fontSize: 46
   m_fontSizeBase: 46
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 36
+  m_fontSizeMax: 46
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -16143,11 +16143,11 @@ Transform:
   m_GameObject: {fileID: 1435174970}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1150.2234, y: 590.9338, z: 5.6939583}
+  m_LocalPosition: {x: 1155.5878, y: 577.7592, z: -52.551647}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1517802614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1435174973
 MonoBehaviour:
@@ -16208,6 +16208,9 @@ MonoBehaviour:
   - {fileID: 1793979392}
   - {fileID: 862743306}
   - {fileID: 2037706336}
+  activarProgreso: 1
+  ecosistemaId: Lobby
+  marcarComoVistoAlEmpezar: 1
 --- !u!1 &1436288962
 GameObject:
   m_ObjectHideFlags: 0
@@ -17306,6 +17309,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1435174971}
   - {fileID: 912358723}
   - {fileID: 746629983}
   m_Father: {fileID: 0}
@@ -21608,7 +21612,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ddad8a90c27921045af2ec56d44c2af3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b4036f9e400158c4d934658f20dac35e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -23665,7 +23669,6 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1435174971}
   - {fileID: 2105945413}
   - {fileID: 209580060}
   - {fileID: 190659020}
