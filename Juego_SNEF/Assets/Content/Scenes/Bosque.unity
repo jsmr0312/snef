@@ -14757,114 +14757,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 361371482}
   m_LocalEulerAnglesHint: {x: 63.202, y: 38.496, z: 32.736}
---- !u!1 &318620977
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 318620978}
-  - component: {fileID: 318620981}
-  - component: {fileID: 318620980}
-  - component: {fileID: 318620979}
-  m_Layer: 0
-  m_Name: Cube (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &318620978
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 318620977}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9993773, z: -0, w: 0.03528453}
-  m_LocalPosition: {x: 11.93, y: 3.81, z: -58.95}
-  m_LocalScale: {x: 0.62877005, y: 1.9610078, z: 1.430829}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1199769509}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &318620979
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 318620977}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &318620980
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 318620977}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8cc0055d3198230449a0b19e8f7e2d7e, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &318620981
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 318620977}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &320110450
 GameObject:
   m_ObjectHideFlags: 0
@@ -24810,7 +24702,7 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 302f053d-21e8-44d0-abf3-6b300b82b4f7
+  standId: d775e6f6-d687-4264-b0b6-e7ab42e88471
   screenId: contenido 4
   standType: master
   ecosystemName: Ecosistema 3
@@ -24823,10 +24715,7 @@ MonoBehaviour:
   videoURL: https://files.catbox.moe/i3wsr0.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
-  slides:
-  - {fileID: 2800000, guid: 82e7801292b53274f889eddd98689843, type: 3}
-  - {fileID: 2800000, guid: f17b0f9d202ede644a0812a050767978, type: 3}
-  - {fileID: 2800000, guid: 788be1483de05174398d4f51ac1efdf6, type: 3}
+  slides: []
   idleImage: {fileID: 2800000, guid: 3fae75525522e5449a1b3a707e431024, type: 3}
   imageRawImage: {fileID: 437165237}
   videoRawImage: {fileID: 73822095}
@@ -34081,7 +33970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 302f053d-21e8-44d0-abf3-6b300b82b4f7
+  standId: d775e6f6-d687-4264-b0b6-e7ab42e88471
   standType: Stand Premier
   requiredScreens: 2
   quizManagerRef: {fileID: 1252937113}
@@ -34611,7 +34500,7 @@ PrefabInstance:
     - target: {fileID: 5700872605525297142, guid: bf22854124951f04ba66f467ed8c8969, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 64afaa8d76d40f94e8ef476bdececbb3, type: 2}
+      objectReference: {fileID: 2100000, guid: 6707838889e0ad2478a17d68813c12e1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -35568,13 +35457,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 805220804}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 955015901}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -35600,7 +35489,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dc289112830efca4294238d118ed044a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2b2e89e51bee8a6419157f7989ac8cbe, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -47148,7 +47037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
       propertyPath: m_LocalScale.z
-      value: 91.38122
+      value: 74.88691
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -47156,7 +47045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.1933897
+      value: -3.215
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
       propertyPath: m_LocalPosition.z
@@ -47190,6 +47079,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 304.03
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3004207ae1bb6f14e9bc03c8d465a1fd, type: 2}
     - target: {fileID: 919132149155446097, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
       propertyPath: m_Name
       value: "Se\xF1al 3 (3)"
@@ -54722,7 +54615,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1941624798}
-  - {fileID: 318620978}
   m_Father: {fileID: 547472687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1207395939
@@ -56348,7 +56240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e53f32c99fade94483603fbf7b659f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 302f053d-21e8-44d0-abf3-6b300b82b4f7
+  standId: d775e6f6-d687-4264-b0b6-e7ab42e88471
   triviaId: cdbf2aea-ed7f-4e44-9943-136f72ec0086
   coinsPerCorrect: 0
   standType: Stand Premier
@@ -60410,8 +60302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 020a905276dc8f6418f55ba7a08fe6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 302f053d-21e8-44d0-abf3-6b300b82b4f7
-  standNumber: 3
+  standId: d775e6f6-d687-4264-b0b6-e7ab42e88471
+  standNumber: 2
   ecosystemName: Ecosistema 3
 --- !u!65 &1343816842
 BoxCollider:
@@ -89027,7 +88919,7 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 302f053d-21e8-44d0-abf3-6b300b82b4f7
+  standId: d775e6f6-d687-4264-b0b6-e7ab42e88471
   screenId: Contenido 1
   standType: Stand Excellence
   ecosystemName: Ecosistema 3
