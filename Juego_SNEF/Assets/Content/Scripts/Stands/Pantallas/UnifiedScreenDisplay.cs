@@ -135,6 +135,10 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     #region Estado interno
 
+    // Añade este campo (si te sirve activar/desactivar logs)
+    public bool verboseDebug = false;
+
+
     private readonly List<GameObject> _avatars = new List<GameObject>();
     private readonly Dictionary<GameObject, bool> _avatarPrevActive = new Dictionary<GameObject, bool>();
     private bool _disabledPlayerRoot = false;
@@ -160,6 +164,11 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     private Vector3 _liftOrigPos;
     private Quaternion _liftOrigRot;
+
+    // === LIFT LOCAL ===
+    private Vector3 _liftOrigLocalPos;
+    private Quaternion _liftOrigLocalRot;
+
 
     // Métricas de contenido
     private float _viewStart;
@@ -343,9 +352,10 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         if (liftTransform != null)
         {
-            _liftOrigPos = liftTransform.position;
-            _liftOrigRot = liftTransform.rotation;
+            _liftOrigLocalPos = liftTransform.localPosition;
+            _liftOrigLocalRot = liftTransform.localRotation;
         }
+
 
         prevButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex - 1));
         nextButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex + 1));
@@ -368,7 +378,86 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         ShowIdleImage();
 
         BuildAvatarsList();
+        // Auto-find por si olvidaste arrastrar refs en el Inspector
+        if (!videoRawImage) videoRawImage = GetComponentInChildren<RawImage>(true);
+        if (!videoPlayer)
+        {
+            videoPlayer = GetComponentInChildren<VideoPlayer>(true);
+            if (!videoPlayer && videoRawImage) videoPlayer = videoRawImage.GetComponent<VideoPlayer>();
+        }
+
+        if (videoPlayer != null)
+        {
+            // Asegura modo y RT compartido
+            videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+            if (overrideRenderTexture != null)
+                _videoRT = overrideRenderTexture;           // usa el asset si lo diste
+            else if (_videoRT == null)
+            {
+                _videoRT = new RenderTexture(rtWidth, rtHeight, 0, RenderTextureFormat.ARGB32);
+                _videoRT.name = "UnifiedScreen_RT";
+                _videoRT.Create();
+            }
+
+            videoPlayer.targetTexture = _videoRT;
+            if (videoRawImage) videoRawImage.texture = _videoRT;
+        }
+        else if (verboseDebug)
+        {
+            Debug.LogWarning($"[{name}] No hay VideoPlayer asignado/encontrado; el video no podrá mostrarse.");
+        }
+
     }
+    private void GetLiftTargetLocal(out Vector3 localPos, out Quaternion localRot)
+    {
+        localPos = _liftOrigLocalPos;
+        localRot = _liftOrigLocalRot;
+
+        if (liftTransform == null || liftTarget == null) return;
+
+        var parent = liftTransform.parent;
+        if (parent == null)
+        {
+            // Sin padre: usar world directo
+            localPos = liftTarget.position;
+            localRot = liftTarget.rotation;
+            return;
+        }
+
+        // Si comparten padre usa local directo; si no, convierte desde world
+        if (liftTarget.parent == parent)
+        {
+            localPos = liftTarget.localPosition;
+            localRot = liftTarget.localRotation;
+        }
+        else
+        {
+            localPos = parent.InverseTransformPoint(liftTarget.position);
+            // Convertir rotación mundial a local del padre
+            localRot = Quaternion.Inverse(parent.rotation) * liftTarget.rotation;
+        }
+    }
+    private IEnumerator AnimateTransformLocal(
+    Transform t,
+    Vector3 startPosLocal, Vector3 endPosLocal,
+    Quaternion startRotLocal, Quaternion endRotLocal,
+    float duration,
+    System.Action onComplete)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float f = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            t.localPosition = Vector3.Lerp(startPosLocal, endPosLocal, f);
+            t.localRotation = Quaternion.Slerp(startRotLocal, endRotLocal, f);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        t.localPosition = endPosLocal;
+        t.localRotation = endRotLocal;
+        onComplete?.Invoke();
+    }
+
 
     void OnDestroy()
     {
@@ -546,23 +635,27 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         if (useLiftAnimation && liftTransform != null && liftTarget != null)
         {
-            StopCoroutine(nameof(AnimateTransform));
+            StopCoroutine(nameof(AnimateTransformLocal));
+            GetLiftTargetLocal(out var tgtLocalPos, out var tgtLocalRot);
 
-            // Evita empezar ya dentro del near clip de la cámara
-            ClampAgainstNearClip(liftTransform);
-
-            StartCoroutine(AnimateTransform(
+            StartCoroutine(AnimateTransformLocal(
                 liftTransform,
-                _liftOrigPos, liftTarget.position,
-                _liftOrigRot, liftTarget.rotation,
+                liftTransform.localPosition, tgtLocalPos,
+                liftTransform.localRotation, tgtLocalRot,
                 liftDuration,
-                () =>
-                {
-                    // Al terminar el lift, vuelve a asegurar la distancia mínima
-                    ClampAgainstNearClip(liftTransform);
-                }
+                null // nada extra al terminar
             ));
         }
+
+        // Self-heal: por si algo cambió entre escenas/instancias
+        if (videoPlayer)
+        {
+            videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+            if (videoPlayer.targetTexture != _videoRT) videoPlayer.targetTexture = _videoRT;
+        }
+        if (videoRawImage && videoRawImage.texture != _videoRT) videoRawImage.texture = _videoRT;
+
+
 
 
         if (contentType == ContentType.Video && videoPlayer != null)
@@ -658,21 +751,18 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         navButtonPanel?.SetActive(false);
         closeButton?.gameObject.SetActive(false);
 
-        if (useLiftAnimation && liftTransform != null && liftTarget != null)
+        if (useLiftAnimation && liftTransform != null)
         {
-            StopCoroutine(nameof(AnimateTransform));
-            StartCoroutine(AnimateTransform(
+            StopCoroutine(nameof(AnimateTransformLocal));
+            StartCoroutine(AnimateTransformLocal(
                 liftTransform,
-                liftTransform.position, _liftOrigPos,
-                liftTransform.rotation, _liftOrigRot,
+                liftTransform.localPosition, _liftOrigLocalPos,
+                liftTransform.localRotation, _liftOrigLocalRot,
                 liftDuration,
-                () =>
-                {
-                    // Por si la cámara quedó cerca al volver
-                    ClampAgainstNearClip(liftTransform);
-                }
+                null
             ));
         }
+
 
 
         if (mainCamera != null)

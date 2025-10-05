@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"/>
+  <title>{{{ PRODUCT_NAME }}}</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="unity-body">
+
+  <!-- Overlay para bloquear en vertical -->
+  <div id="rotate-overlay">
+    <div class="overlay-card">
+      <div class="rotate-icon">↻</div>
+      <div>Para jugar mejor, gira tu dispositivo.</div>
+      <div>Mantén el teléfono en horizontal.</div>
+    </div>
+  </div>
+
+  <div id="unity-container" class="unity-mobile">
+    <canvas id="unity-canvas"></canvas>
+
+    <!-- Loader simple con tu logo arriba -->
+    <div id="unity-loading-bar">
+      <img id="loader-brand" src="logoCargaDusef.png" alt="Logo SNEF"/>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+
+    <!-- Footer con botón de fullscreen -->
+    <div id="unity-footer">
+      <button id="unity-fullscreen-button" title="Pantalla completa">⛶</button>
+    </div>
+  </div>
+
+  <script>
+    // Ajuste de DPR para rendimiento móvil
+    const MAX_DPR = 1.5;
+
+    // Medida fiable del viewport visible en móvil
+    const canvas = document.getElementById('unity-canvas');
+    const container = document.getElementById('unity-container');
+
+    function resizeCanvasToViewport() {
+      const vw = Math.max(window.visualViewport ? window.visualViewport.width  : window.innerWidth,  1);
+      const vh = Math.max(window.visualViewport ? window.visualViewport.height : window.innerHeight, 1);
+
+      canvas.style.width  = vw + 'px';
+      canvas.style.height = vh + 'px';
+
+      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      canvas.width  = Math.floor(vw * dpr);
+      canvas.height = Math.floor(vh * dpr);
+    }
+
+    window.addEventListener('resize', resizeCanvasToViewport);
+    window.addEventListener('orientationchange', () => setTimeout(resizeCanvasToViewport, 150));
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', resizeCanvasToViewport);
+    }
+    resizeCanvasToViewport();
+
+    // Config estándar de Unity con tokens del template
+    var buildUrl  = "Build";
+    var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+
+    var config = {
+      dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+      frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+      codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "{{{ COMPANY_NAME }}}",
+      productName: "{{{ PRODUCT_NAME }}}",
+      productVersion: "{{{ PRODUCT_VERSION }}}",
+      matchWebGLToCanvasSize: true,
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, MAX_DPR)
+    };
+
+    // Loader de progreso (simple)
+    const progressEmpty = document.getElementById("unity-progress-bar-empty");
+    const progressFull  = document.getElementById("unity-progress-bar-full");
+    function onProgress(p) {
+      progressEmpty.style.display = "block";
+      progressFull.style.width = (100 * p) + "%";
+      if (p >= 1) {
+        setTimeout(() => document.getElementById("unity-loading-bar").style.display = "none", 200);
+      }
+    }
+
+    // Cargar el loader de Unity y crear la instancia
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(canvas, config, onProgress).then((unityInstance) => {
+        // Botón de Fullscreen + intentar paisaje
+        const fsBtn = document.getElementById("unity-fullscreen-button");
+        async function requestLandscape() {
+          try {
+            if (screen.orientation && screen.orientation.lock) {
+              await screen.orientation.lock('landscape');
+            }
+          } catch(e) { /* iOS no soporta lock; ignorar */ }
+        }
+        fsBtn.addEventListener('click', async () => {
+          await requestLandscape();
+          unityInstance.SetFullscreen(1);
+        });
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
