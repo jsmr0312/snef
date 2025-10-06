@@ -1,18 +1,16 @@
 mergeInto(LibraryManager.library, {
-  IsMobileBrowser: function() {
-    try {
-      var ua = navigator.userAgent || navigator.vendor || window.opera || "";
-      var isMobileUA =
-        /android|iphone|ipad|ipod|iemobile|blackberry|opera mini|mobile/i.test(ua);
+  IsMobile: function () {
+    var ua = "";
+    try { ua = (navigator.userAgent || navigator.vendor || window.opera || "").toLowerCase(); } catch (e) {}
+    var looksMobile = /android|iphone|ipad|ipod|windows phone|iemobile|mobile/.test(ua);
+    return looksMobile ? 1 : 0;
+  },
 
-      var hasTouch = (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
-
-      var coarse = false;
-      try { coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches; } catch(e){}
-
-      return (isMobileUA || hasTouch || coarse) ? 1 : 0;
-    } catch(e) {
-      return 0;
-    }
+  // Alias para compatibilidad con otros scripts
+  IsMobileBrowser: function () {
+    var ua = "";
+    try { ua = (navigator.userAgent || navigator.vendor || window.opera || "").toLowerCase(); } catch (e) {}
+    var looksMobile = /android|iphone|ipad|ipod|windows phone|iemobile|mobile/.test(ua);
+    return looksMobile ? 1 : 0;
   }
 });

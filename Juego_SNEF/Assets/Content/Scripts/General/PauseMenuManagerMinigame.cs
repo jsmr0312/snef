@@ -18,10 +18,16 @@ public class PauseMenuManagerMinigame : MonoBehaviour
     public string mainMenuSceneName = "MainMenu";
 
     [Header("Pausa")]
+    [Tooltip("Tecla para alternar pausa (ponla en Z si así pausas en teclado).")]
     public KeyCode pauseKey = KeyCode.Escape;
 
     [Header("Controladores a congelar")]
     public ThirdPersonController[] controllersToFreeze;
+
+    // --- NUEVO: botón opcional para pausar desde UI ---
+    [Header("Pausa por botón (opcional)")]
+    [Tooltip("Arrastra aquí un botón de la UI si quieres que haga Toggle de la pausa.")]
+    public Button pauseToggleButton; // opcional
 
     private bool isPaused = false;
 
@@ -34,6 +40,10 @@ public class PauseMenuManagerMinigame : MonoBehaviour
         if (returnToEcosistemaButton != null) returnToEcosistemaButton.onClick.AddListener(ReturnToFixedScene);
         if (exitButton != null) exitButton.onClick.AddListener(QuitToMainMenu);
 
+        // Enlaza el botón opcional para alternar pausa
+        if (pauseToggleButton != null)
+            pauseToggleButton.onClick.AddListener(TogglePause);
+
         // Estado inicial del cursor (ajústalo si tu juego lo requiere distinto)
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -43,9 +53,15 @@ public class PauseMenuManagerMinigame : MonoBehaviour
     {
         if (Input.GetKeyDown(pauseKey))
         {
-            if (isPaused) Resume();
-            else Pause();
+            TogglePause();
         }
+    }
+
+    // --- NUEVO: lo mismo que presionar la tecla de pausa ---
+    public void TogglePause()
+    {
+        if (isPaused) Resume();
+        else Pause();
     }
 
     public void Pause()
@@ -119,5 +135,6 @@ public class PauseMenuManagerMinigame : MonoBehaviour
         if (continueButton != null) continueButton.onClick.RemoveListener(Resume);
         if (returnToEcosistemaButton != null) returnToEcosistemaButton.onClick.RemoveListener(ReturnToFixedScene);
         if (exitButton != null) exitButton.onClick.RemoveListener(QuitToMainMenu);
+        if (pauseToggleButton != null) pauseToggleButton.onClick.RemoveListener(TogglePause);
     }
 }

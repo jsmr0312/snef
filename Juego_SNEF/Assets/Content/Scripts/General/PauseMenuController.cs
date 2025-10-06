@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using StarterAssets; // Para ThirdPersonController
@@ -6,88 +6,91 @@ using StarterAssets; // Para ThirdPersonController
 public class PauseMenuController : MonoBehaviour
 {
     [Header("UI Elements")]
-    [Tooltip("El panel que contiene el men˙ de pausa")]
     public GameObject pauseMenuUI;
-    [Tooltip("BotÛn para continuar el juego")]
     public Button continueButton;
-    [Tooltip("BotÛn para regresar al lobby")]
     public Button lobbyButton;
-    [Tooltip("BotÛn para abandonar al men˙ principal")]
     public Button exitButton;
 
     [Header("Escenas")]
-    [Tooltip("Nombre de la escena de Lobby")]
     public string lobbySceneName = "Lobby";
-    [Tooltip("Nombre de la escena de Men˙ Principal")]
     public string mainMenuSceneName = "MainMenu";
 
     [Header("Opciones de pausa")]
-    [Tooltip("Tecla para alternar pausa")]
-    public KeyCode pauseKey = KeyCode.Escape;
+    public KeyCode pauseKey = KeyCode.Escape; // ‚Üê en el Inspector ponlo en Z si quieres
 
-    [Header("Freeze Controllers (movimiento + c·mara)")]
-    [Tooltip("Los ThirdPersonController a congelar durante la pausa")]
+    [Header("Freeze Controllers (movimiento + c√°mara)")]
     public ThirdPersonController[] controllersToFreeze;
+
+    // --- NUEVO: bot√≥n opcional para pausar desde UI ---
+    [Header("Pausa por bot√≥n (opcional)")]
+    public Button pauseToggleButton; // arr√°stralo en el Inspector
 
     bool isPaused = false;
 
     void Awake()
     {
-        // Asegura que el men˙ inicie oculto
-        if (pauseMenuUI != null)
-            pauseMenuUI.SetActive(false);
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
 
-        // Conectar los botones
         if (continueButton != null) continueButton.onClick.AddListener(Resume);
         if (lobbyButton != null) lobbyButton.onClick.AddListener(ReturnToLobby);
         if (exitButton != null) exitButton.onClick.AddListener(QuitToMainMenu);
+
+        // Enlaza el bot√≥n opcional para pausar/reanudar
+        if (pauseToggleButton != null)
+            pauseToggleButton.onClick.AddListener(TogglePause);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(pauseKey))
         {
-            if (isPaused) Resume();
-            else Pause();
+            TogglePause();
         }
+    }
+
+    // --- NUEVO: lo mismo que presionar la tecla de pausa (Z si as√≠ lo pones) ---
+    public void TogglePause()
+    {
+        if (isPaused) Resume();
+        else Pause();
     }
 
     public void Pause()
     {
-        if (pauseMenuUI != null)
-            pauseMenuUI.SetActive(true);
-
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
 
-        // Bloquear movimiento y c·mara
-        foreach (var ctrl in controllersToFreeze)
+        if (controllersToFreeze != null)
         {
-            ctrl.FreezeMovement = true;
-            ctrl.LockCameraPosition = true;
+            foreach (var ctrl in controllersToFreeze)
+            {
+                if (ctrl == null) continue;
+                ctrl.FreezeMovement = true;
+                ctrl.LockCameraPosition = true;
+            }
         }
 
-        // Mostrar cursor
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
 
     public void Resume()
     {
-        if (pauseMenuUI != null)
-            pauseMenuUI.SetActive(false);
-
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
 
-        // Desbloquear movimiento y c·mara
-        foreach (var ctrl in controllersToFreeze)
+        if (controllersToFreeze != null)
         {
-            ctrl.FreezeMovement = false;
-            ctrl.LockCameraPosition = false;
+            foreach (var ctrl in controllersToFreeze)
+            {
+                if (ctrl == null) continue;
+                ctrl.FreezeMovement = false;
+                ctrl.LockCameraPosition = false;
+            }
         }
 
-        // Ocultar cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -106,9 +109,9 @@ public class PauseMenuController : MonoBehaviour
 
     void OnDestroy()
     {
-        // Limpiar listeners
         if (continueButton != null) continueButton.onClick.RemoveListener(Resume);
         if (lobbyButton != null) lobbyButton.onClick.RemoveListener(ReturnToLobby);
         if (exitButton != null) exitButton.onClick.RemoveListener(QuitToMainMenu);
+        if (pauseToggleButton != null) pauseToggleButton.onClick.RemoveListener(TogglePause);
     }
 }

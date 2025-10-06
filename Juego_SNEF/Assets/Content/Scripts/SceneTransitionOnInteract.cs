@@ -1,14 +1,16 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;  // para LoadScene
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;   // ← NUEVO
 
 [RequireComponent(typeof(Collider))]
 public class SceneTransitionOnInteract : MonoBehaviour
 {
     [Header("UI Prompt")]
     [SerializeField] private GameObject promptUI;
+    [SerializeField] private Button promptButton; // ← NUEVO (asigna el botón del panel)
 
     [Header("Escena destino")]
-    [Tooltip("Pon aquí el nombre EXACTO de la escena tal como está en Build Settings")]
+    [Tooltip("Pon el nombre EXACTO como está en Build Settings")]
     [SerializeField] private string sceneName;
 
     private bool playerInRange = false;
@@ -16,6 +18,8 @@ public class SceneTransitionOnInteract : MonoBehaviour
     void Start()
     {
         if (promptUI) promptUI.SetActive(false);
+        // No dejamos onClicks colgados por si el prefab apuntaba a otro portal
+        if (promptButton) promptButton.onClick.RemoveAllListeners();
     }
 
     void OnTriggerEnter(Collider other)
@@ -24,6 +28,12 @@ public class SceneTransitionOnInteract : MonoBehaviour
         {
             playerInRange = true;
             if (promptUI) promptUI.SetActive(true);
+
+            if (promptButton)
+            {
+                promptButton.onClick.RemoveAllListeners();
+                promptButton.onClick.AddListener(DoSceneTransition); // ← se ata a ESTE portal
+            }
         }
     }
 
@@ -33,29 +43,22 @@ public class SceneTransitionOnInteract : MonoBehaviour
         {
             playerInRange = false;
             if (promptUI) promptUI.SetActive(false);
+            if (promptButton) promptButton.onClick.RemoveAllListeners();
         }
     }
 
     void Update()
     {
         if (!playerInRange) return;
-
-        // Método para PC (tecla E)
-        if (Input.GetKeyDown(KeyCode.E))
-        {
+        if (Input.GetKeyDown(KeyCode.E)) // PC/teclado
             DoSceneTransition();
-        }
     }
 
-    // Método público para llamar desde un botón UI en móvil
     public void DoSceneTransition()
     {
         if (!string.IsNullOrEmpty(sceneName))
         {
-            // Opcional: aquí podrías reproducir un sonido o animación antes del cambio
             SceneManager.LoadScene(sceneName);
-
-            // Ocultar el prompt por seguridad
             if (promptUI) promptUI.SetActive(false);
         }
     }

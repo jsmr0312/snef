@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;            // ← NUEVO
 using TMPro;
 using System.Collections;
 
@@ -18,10 +19,14 @@ public class ArcadeInteractable : MonoBehaviour,
     public string minigameDisplayName;
 
     [Header("Prompt UI")]
-    [Tooltip("GameObject que indica “Presiona E”")]
+    [Tooltip("GameObject que indica “Presiona E / Tap”")]
     public GameObject promptUI;
     [Tooltip("¿Debe el prompt mirar a la cámara?")]
     public bool lookAtCamera = true;
+
+    // ← NUEVO: botón dentro del prompt que inicia la interacción
+    [Tooltip("Botón del prompt que debe lanzar Interact()")]
+    [SerializeField] private Button promptOpenButton;
 
     [Header("Lock UI")]
     [Tooltip("Canvas con el icono de candado (se muestra hasta desbloquear)")]
@@ -80,6 +85,19 @@ public class ArcadeInteractable : MonoBehaviour,
         // Outline...
         if (outline == null) outline = GetComponent<Outline>() ?? GetComponentInChildren<Outline>();
         if (outline != null) outline.enabled = false;
+
+        // ← NUEVO: auto-resolver el botón dentro del prompt si no se asignó
+        if (!promptOpenButton && promptUI)
+            promptOpenButton = promptUI.GetComponentInChildren<Button>(true);
+
+        // Asegurar que no queden listeners “pegados” desde el prefab
+        if (promptOpenButton) promptOpenButton.onClick.RemoveAllListeners();
+    }
+
+    void OnDisable()
+    {
+        // Seguridad extra: soltar el botón si este objeto se desactiva
+        BindPromptButton(false);
     }
 
     /// <summary>
@@ -124,6 +142,9 @@ public class ArcadeInteractable : MonoBehaviour,
             ApplyOutlineSettings();
             outline.enabled = true;
         }
+
+        // ← NUEVO: mientras este arcade está en foco, el botón del prompt dispara ESTE Interact()
+        BindPromptButton(true);
     }
 
     public void OnGazeExit()
@@ -132,6 +153,9 @@ public class ArcadeInteractable : MonoBehaviour,
         if (lockMessageText) lockMessageText.gameObject.SetActive(false);
         if (_hideMsgRoutine != null) StopCoroutine(_hideMsgRoutine);
         if (outline) outline.enabled = false;
+
+        // ← NUEVO: soltar el botón al perder foco
+        BindPromptButton(false);
     }
 
     // ============================
@@ -182,6 +206,9 @@ public class ArcadeInteractable : MonoBehaviour,
             Debug.LogWarning("ArcadeInteractable: arcadeSceneName no asignado.");
     }
 
+    // ============================
+    //          Helpers
+    // ============================
     private void ShowLockMessage()
     {
         if (lockMessageText == null) return;
@@ -217,14 +244,19 @@ public class ArcadeInteractable : MonoBehaviour,
         }
     }
 
-    // ============================
-    //          Helpers
-    // ============================
     private void ApplyOutlineSettings()
     {
         if (!outline) return;
         outline.OutlineMode = outlineModeNear;
         outline.OutlineColor = outlineColorNear;
         outline.OutlineWidth = outlineWidthNear;
+    }
+
+    // ← NUEVO: (des)enlaza el botón del prompt a este interactuable
+    private void BindPromptButton(bool bind)
+    {
+        if (!promptOpenButton) return;
+        promptOpenButton.onClick.RemoveAllListeners();
+        if (bind) promptOpenButton.onClick.AddListener(Interact);
     }
 }

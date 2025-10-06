@@ -7690,7 +7690,6 @@ GameObject:
   - component: {fileID: 858415412}
   - component: {fileID: 858415416}
   - component: {fileID: 858415418}
-  - component: {fileID: 858415419}
   m_Layer: 5
   m_Name: OnboArdingCanvas
   m_TagString: Untagged
@@ -7828,21 +7827,6 @@ MonoBehaviour:
   useSceneNameAsId: 1
   alwaysShowForTesting: 0
   markSeenOnOpen: 1
---- !u!114 &858415419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858415411}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bdd56456ee543946b0f4e8ec289027b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openButton: {fileID: 0}
-  onboardingRoot: {fileID: 858415411}
-  hideOnStart: 1
 --- !u!1 &862121876
 GameObject:
   m_ObjectHideFlags: 0

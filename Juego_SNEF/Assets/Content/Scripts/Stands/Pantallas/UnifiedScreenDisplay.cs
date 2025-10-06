@@ -280,6 +280,14 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         }
     }
 
+    void BindPromptButton(bool bind)
+    {
+        if (!promptOpenButton) return;
+        promptOpenButton.onClick.RemoveAllListeners();
+        if (bind) promptOpenButton.onClick.AddListener(Interact);
+    }
+
+
     void Awake()
     {
         promptUI?.SetActive(false);
@@ -288,8 +296,10 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         if (promptOpenButton == null && promptUI != null)
             promptOpenButton = promptUI.GetComponentInChildren<Button>(true);
+        // Después:
         if (promptOpenButton != null)
-            promptOpenButton.onClick.AddListener(() => Interact());
+            promptOpenButton.onClick.RemoveAllListeners(); // no lo enlaces aquí
+
 
         SetupDownloadUI();
 
@@ -530,6 +540,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 }
             }
         }
+        BindPromptButton(true);
+
     }
 
     void OnTriggerExit(Collider other)
@@ -545,6 +557,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 if (outline != null) outline.enabled = false;
             }
         }
+        BindPromptButton(false);
+
     }
 
     #endregion
@@ -566,6 +580,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             outline.enabled = true;
         }
         if (promptUI) promptUI.SetActive(true);
+        BindPromptButton(true);
+
     }
 
     public void OnGazeExit()
@@ -574,6 +590,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         if (promptUI) promptUI.SetActive(false);
         if (outline != null) outline.enabled = false;
+        BindPromptButton(false);
+
     }
 
     #endregion
@@ -777,6 +795,8 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         {
             OnExitedViewMode();
         }
+        BindPromptButton(false);
+
     }
 
     void OnExitedViewMode()

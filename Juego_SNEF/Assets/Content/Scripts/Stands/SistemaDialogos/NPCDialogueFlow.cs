@@ -37,6 +37,8 @@ public class NPCDialogueFlow : MonoBehaviour,
     [Header("Prompt UI")]
     public GameObject promptUI;
     public bool lookAtCamera = true;
+    [Tooltip("Botón dentro del prompt que inicia la conversación")]
+    public Button promptOpenButton;
 
     [Header("Outline (QuickOutline)")]
     public Outline outline;
@@ -149,6 +151,13 @@ public class NPCDialogueFlow : MonoBehaviour,
             focusViewpoint = vp;
         }
 
+        // ---- Auto-resolver botón del PROMPT (tap para iniciar) ----
+        if (!promptOpenButton && promptUI)
+            promptOpenButton = promptUI.GetComponentInChildren<Button>(true);
+
+        // No enlazar aquí para evitar oyentes acumulados entre NPCs
+        if (promptOpenButton) promptOpenButton.onClick.RemoveAllListeners();
+
         // ---- Auto-resolver botones si faltan referencias ----
         if (!nextButton && nextIcon) nextButton = nextIcon.GetComponentInChildren<Button>(true);
         if (!openQuizButton && openQuizIcon) openQuizButton = openQuizIcon.GetComponentInChildren<Button>(true);
@@ -160,10 +169,8 @@ public class NPCDialogueFlow : MonoBehaviour,
             Button best = null;
             foreach (var b in dialogueBubble.GetComponentsInChildren<Button>(true))
             {
-                if (b.name.ToLower().Contains("close") || b.name.ToLower().Contains("cerrar"))
-                {
-                    best = b; break;
-                }
+                var n = b.name.ToLower();
+                if (n.Contains("close") || n.Contains("cerrar")) { best = b; break; }
                 if (!best) best = b;
             }
             closeButton = best;
@@ -177,6 +184,15 @@ public class NPCDialogueFlow : MonoBehaviour,
 
         if (closeButton) closeButton.gameObject.SetActive(false);
     }
+
+
+    void BindPromptOpen(bool bind)
+    {
+        if (!promptOpenButton) return;
+        promptOpenButton.onClick.RemoveAllListeners();
+        if (bind) promptOpenButton.onClick.AddListener(Interact);
+    }
+
 
     void Start()
     {
@@ -269,10 +285,14 @@ public class NPCDialogueFlow : MonoBehaviour,
             }
             if (promptUI) promptUI.SetActive(true);
         }
+        BindPromptOpen(true);
+
     }
 
     public void OnGazeExit()
     {
+        BindPromptOpen(false);
+
         if (_isFocused) return;
 
         if (promptUI) promptUI.SetActive(false);
@@ -290,6 +310,8 @@ public class NPCDialogueFlow : MonoBehaviour,
         _lostGaze = true;
         _gazeLostAt = Time.time;
     }
+
+
 
     public void Interact()
     {
@@ -466,6 +488,8 @@ public class NPCDialogueFlow : MonoBehaviour,
             outline.enabled = true;
         }
         if (promptUI) promptUI.SetActive(true);
+        BindPromptOpen(true);
+
     }
 
     private void ResetCurrentPhase()
