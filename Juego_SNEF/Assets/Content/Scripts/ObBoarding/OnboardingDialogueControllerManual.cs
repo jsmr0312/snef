@@ -1,11 +1,13 @@
-// OnboardingDialogueController.cs — InteractZone ahora puede mostrar 1 línea aleatoria
+// OnboardingDialogueController.cs — versión con modo InteractZone (proximidad + E/botón)
+// Basado en tu controlador existente (añade 3er modo de activación) y el patrón de prompt con botón/E.
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using StarterAssets;
 
-public class OnboardingDialogueController : MonoBehaviour
+public class OnboardingDialogueControllerManual : MonoBehaviour
 {
     public enum ActivationMode { TimeDelay, TriggerZone, InteractZone }
 
@@ -66,14 +68,6 @@ public class OnboardingDialogueController : MonoBehaviour
     [Tooltip("Marca como visto apenas inicia el onboarding (recomendado). Si lo desactivas, marca al cerrar.")]
     public bool marcarComoVistoAlEmpezar = true;
 
-    // === InteractZone: línea aleatoria ===
-    [Header("InteractZone - línea aleatoria")]
-    [Tooltip("Si está activo, al interactuar se muestra SOLO 1 línea aleatoria y directo el botón Entendido.")]
-    public bool interactRandomSingleLine = true;
-
-    [Tooltip("Evitar repetir el último diálogo aleatorio mostrado.")]
-    public bool avoidRepeatLastRandom = true;
-
     #endregion
 
     // --- Estado interno ---
@@ -83,11 +77,6 @@ public class OnboardingDialogueController : MonoBehaviour
 
     RectTransform _dusefRT, _bubbleRT;
     Vector3 _startScaleSprite, _startScaleBubble;
-
-    // Random single-line helpers
-    bool _useRandomSingleLineStep = false;
-    Step _singleStep = null;
-    int _lastRandomIndex = -1;
 
     // ===== Helpers de progreso =====
     string ProgressKey => $"onboard::{ecosistemaId}";
@@ -221,33 +210,11 @@ public class OnboardingDialogueController : MonoBehaviour
 
         if (marcarComoVistoAlEmpezar) MarkSeen("onboarding_seen_on_start");
 
-        // === NUEVO: si estamos en InteractZone y está activo el modo aleatorio, forzar 1 línea ===
-        _useRandomSingleLineStep = (activation == ActivationMode.InteractZone && interactRandomSingleLine);
-        if (_useRandomSingleLineStep)
-        {
-            int r = Random.Range(0, steps.Length);
-            if (avoidRepeatLastRandom && steps.Length > 1 && r == _lastRandomIndex)
-                r = (r + 1) % steps.Length;
-
-            _lastRandomIndex = r;
-            _singleStep = steps[r];
-        }
-
         NextStep();
     }
 
     void NextStep()
     {
-        // Modo 1-línea aleatoria: siempre muestra solo esa y pone "Entendido"
-        if (_useRandomSingleLineStep && _singleStep != null)
-        {
-            ShowStep(_singleStep, isLast: true);
-            // Se muestra una sola vez por apertura
-            _useRandomSingleLineStep = false;
-            return;
-        }
-
-        // Comportamiento normal (multilínea)
         _index++;
         if (_index >= steps.Length)
         {
@@ -256,15 +223,11 @@ public class OnboardingDialogueController : MonoBehaviour
         }
 
         var step = steps[_index];
-        bool isLast = (_index == steps.Length - 1);
-        ShowStep(step, isLast);
-    }
 
-    void ShowStep(Step step, bool isLast)
-    {
         if (dialogueText) dialogueText.text = step.line ?? "";
         if (dusefSprite && step.pose != null) dusefSprite.sprite = step.pose;
 
+        bool isLast = (_index == steps.Length - 1);
         if (nextButton) nextButton.gameObject.SetActive(!isLast);
         if (entendidoButton) entendidoButton.gameObject.SetActive(isLast);
 

@@ -3624,6 +3624,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5023827496289240853, guid: a79279818571b6848a9ccb8dcb36dd2c, type: 3}
   m_PrefabInstance: {fileID: 2094167372}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &233551254 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2853717635267549195, guid: 8179992685bc27c42b1130c2e99dab96, type: 3}
+  m_PrefabInstance: {fileID: 1596818016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &235165967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7735,6 +7740,108 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cd9663f0245f2746b4094f8cabfb82a, type: 3}
+--- !u!1 &650553535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 650553539}
+  - component: {fileID: 650553538}
+  - component: {fileID: 650553537}
+  - component: {fileID: 650553536}
+  m_Layer: 5
+  m_Name: InterfazDusef
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &650553536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650553535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &650553537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650553535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &650553538
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650553535}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &650553539
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650553535}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 793101474}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!4 &652118895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 417424, guid: 65da5bb2d6e288b41baa018d8fec58f3, type: 3}
@@ -9763,6 +9870,155 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792414386}
+  m_CullTransparentMesh: 1
+--- !u!1 &793101473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 793101474}
+  - component: {fileID: 793101478}
+  - component: {fileID: 793101477}
+  - component: {fileID: 793101476}
+  - component: {fileID: 793101475}
+  m_Layer: 5
+  m_Name: BotonInteractuar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &793101474
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793101473}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 650553539}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 100}
+  m_SizeDelta: {x: 300, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &793101475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793101473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a043686546d25e4790f8120e15116bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 793101477}
+  desktopSprite: {fileID: 21300000, guid: eb24a7534ca9c8746a2f07f51caa6ef5, type: 3}
+  mobileSprite: {fileID: 21300000, guid: c262325e8fa997e4d8bd911d68082b23, type: 3}
+  setNativeSize: 0
+--- !u!114 &793101476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793101473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 793101477}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1334435606}
+        m_TargetAssemblyTypeName: SceneTransitionOnInteract, Assembly-CSharp
+        m_MethodName: DoSceneTransition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &793101477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793101473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: eb24a7534ca9c8746a2f07f51caa6ef5, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &793101478
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793101473}
   m_CullTransparentMesh: 1
 --- !u!1001 &795431703
 PrefabInstance:
@@ -11912,6 +12168,119 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87b04a6b131597e4db952f9810390439, type: 3}
+--- !u!1 &1039310502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1039310503}
+  - component: {fileID: 1039310504}
+  m_Layer: 0
+  m_Name: DusefController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1039310503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039310502}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7191625, z: -0, w: 0.694842}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6.1601014, y: 6.160103, z: 6.1601014}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 233551254}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1039310504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039310502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 378494230aeb9094ca27c3bad72b7209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activation: 2
+  delayOnStart: 2
+  triggerZoneCenter: {fileID: 233551254}
+  triggerRadius: 3
+  playerTransform: {fileID: 2144199842}
+  autoFindPlayer: 1
+  promptUI: {fileID: 793101473}
+  promptButton: {fileID: 793101476}
+  interactKey: 101
+  steps:
+  - line: "\xA1Puedes recorrer los ecosistemas en el orden que prefieras! \nCada
+      uno te ense\xF1a una habilidad diferente para fortalecer tu bienestar financiero."
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: "En cada stand encontrar\xE1s informaci\xF3n, trivias y consejos pr\xE1cticos.
+      \n\xA1Vis\xEDtalos todos!"
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: "\xA1Aprender sobre finanzas tambi\xE9n puede ser una experiencia divertida!
+      \nExplora, lee y pon a prueba lo que sabes."
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: "Cada ecosistema representa una habilidad que te ayudar\xE1 a mejorar tu
+      relaci\xF3n con el dinero."
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: "Si algo no te queda claro, vuelve a los stands. \n\xA1Siempre hay algo
+      nuevo por descubrir!"
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: "La CONDUSEF est\xE1 contigo para ayudarte a tomar decisiones financieras
+      m\xE1s informadas."
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: "Mant\xE9n el equilibrio: disfruta mientras aprendes y aplica lo que descubras
+      en tu vida diaria."
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: 'Recuerda revisar todos los espacios de aprendizaje, cada uno tiene algo
+      valioso para ti. '
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: "\xA1Explora con curiosidad!  Las mejores decisiones financieras nacen
+      del conocimiento. "
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  - line: "El bienestar financiero se construye paso a paso. \n\xA1Cada avance aqu\xED
+      cuenta para tu futuro!"
+    pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
+  showDefaultIfEmpty: 1
+  rootObject: {fileID: 746629982}
+  dusefSprite: {fileID: 792414388}
+  burbujaDialogImage: {fileID: 1312458790}
+  dialogueText: {fileID: 1410004567}
+  nextButton: {fileID: 1954059668}
+  entendidoButton: {fileID: 273170324}
+  popDuration: 0.25
+  popOvershoot: 0.1
+  unlockCursorWhileShowing: 1
+  relockCursorOnClose: 1
+  controllersToFreeze:
+  - {fileID: 2144199850}
+  - {fileID: 1358148574}
+  - {fileID: 1781421495}
+  - {fileID: 806006709}
+  - {fileID: 1764974340}
+  - {fileID: 2142976317}
+  - {fileID: 1719223206}
+  - {fileID: 365838640}
+  - {fileID: 1899869392}
+  - {fileID: 1793979392}
+  - {fileID: 862743306}
+  - {fileID: 2037706336}
+  activarProgreso: 0
+  ecosistemaId: Lobby
+  marcarComoVistoAlEmpezar: 1
+  interactRandomSingleLine: 1
+  avoidRepeatLastRandom: 1
 --- !u!1001 &1043428123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17522,6 +17891,9 @@ MonoBehaviour:
   triggerRadius: 3
   playerTransform: {fileID: 683010829}
   autoFindPlayer: 1
+  promptUI: {fileID: 0}
+  promptButton: {fileID: 0}
+  interactKey: 101
   steps:
   - line: "\xA1Qu\xE9 gusto tenerte aqu\xED! \nEst\xE1s por ingresar a la Plataforma
       Virtual de la Semana Nacional de Educaci\xF3n Financiera 2025."
@@ -17566,6 +17938,8 @@ MonoBehaviour:
   activarProgreso: 1
   ecosistemaId: Lobby
   marcarComoVistoAlEmpezar: 1
+  interactRandomSingleLine: 1
+  avoidRepeatLastRandom: 1
 --- !u!1 &1436288962
 GameObject:
   m_ObjectHideFlags: 0
@@ -19748,10 +20122,15 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6815589762763862078, guid: 8179992685bc27c42b1130c2e99dab96, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1698804958074454627, guid: 8179992685bc27c42b1130c2e99dab96, type: 3}
-    m_AddedGameObjects: []
+    - {fileID: 8312858976019095207, guid: 8179992685bc27c42b1130c2e99dab96, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2853717635267549195, guid: 8179992685bc27c42b1130c2e99dab96, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 1039310503}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8179992685bc27c42b1130c2e99dab96, type: 3}
 --- !u!4 &1598835254 stripped
@@ -25104,6 +25483,7 @@ SceneRoots:
   - {fileID: 212223101}
   - {fileID: 54915866}
   - {fileID: 1513582625}
+  - {fileID: 650553539}
   - {fileID: 164731303}
   - {fileID: 1369233979}
   - {fileID: 4588854}
