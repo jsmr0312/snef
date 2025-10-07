@@ -73,9 +73,21 @@ html, body {
 /* Footer y botón de Fullscreen */
 #unity-footer {
   position: fixed;
-  right: 12px; bottom: 12px;
+  left: 12px;                 /* ← ahora arriba a la izquierda */
+  top: 12px;
+  right: auto;
+  bottom: auto;
   z-index: 50;
 }
+
+/* Respetar notch y barras (iOS/Android) */
+@supports (padding: env(safe-area-inset-top)) {
+  #unity-footer {
+    top:  calc(12px + env(safe-area-inset-top));
+    left: calc(12px + env(safe-area-inset-left));
+  }
+}
+
 #unity-fullscreen-button {
   appearance: none; border: 0;
   font: 700 18px/1 system-ui, sans-serif;
