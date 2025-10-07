@@ -30,6 +30,15 @@ public class ShopUIController : MonoBehaviour
 
         if (defaultItem != null) SelectItem(defaultItem);
         else ClearPreview();
+        // Re-evaluar coleccionables al abrir la tienda (útil si cargas progreso)
+        int ownedCount = (ProgressCore.I?.Progress?.owned_items != null)
+            ? ProgressCore.I.Progress.owned_items.Count
+            : 0;
+        AchievementsManager.I?.OnInventoryChanged(ownedCount);
+
+        // (opcional) si quieres setear el total automáticamente cuando esté en 0:
+        AchievementsManager.I?.RecheckFromGameState();
+
 
         RefreshBuyState();
     }
@@ -102,6 +111,7 @@ public class ShopUIController : MonoBehaviour
         AchievementsManager.I?.NotifyBudgetChanged(Stats.I.Presupuesto);
 
         Feedback("¡Comprado!");
+
         RefreshBuyState();
     }
 

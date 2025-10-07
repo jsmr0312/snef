@@ -388,11 +388,11 @@ public class LluviaObjetosManager : MonoBehaviour
 
         // Misiones por ecosistema (3★ en cualquier minijuego)
         if (MinigameScope.I)
-            MissionManager.I?.NotifyMinigameResult(MinigameScope.I.ecosystemName, estrellasPartida);
+            MissionManager.I?.NotifyMinigameResultByStand(MinigameScope.I.standId, estrellasPartida);
 
-        // Logro "Gamer": marcar tipo/base del minijuego como completado si ganó (>=1★)
         if (MinigameScope.I && estrellasPartida > 0)
             AchievementsManager.I?.NotifyMinigameCompletedType(MinigameScope.I.minigameId);
+
 
 
         if (recordText) recordText.text = $"Atrapados: {_atrapadosBuenos}";

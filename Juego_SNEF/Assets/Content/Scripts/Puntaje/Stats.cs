@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Stats : MonoBehaviour
 {
+    public event System.Action<int> OnBudgetChanged;
     public static Stats I { get; private set; }
 
     [Header("Valores")]
@@ -39,6 +40,8 @@ public class Stats : MonoBehaviour
         ForceRefresh();
     }
 
+
+
     // ---------- Presupuesto / Puntaje ----------
     public void AddPresupuesto(int cantidad)
     {
@@ -47,6 +50,8 @@ public class Stats : MonoBehaviour
         if (presupuesto < 0) presupuesto = 0;
         Debug.Log($"[Stats] AddPresupuesto({cantidad}) => {presupuesto}");
         OnPresupuestoChanged?.Invoke(presupuesto);
+        AchievementsManager.I?.NotifyBudgetChanged(Presupuesto);
+
     }
 
     public void AddPuntaje(int cantidad)

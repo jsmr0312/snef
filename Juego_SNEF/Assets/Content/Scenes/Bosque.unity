@@ -4040,10 +4040,10 @@ RectTransform:
   - {fileID: 2051202823}
   m_Father: {fileID: 2131477176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 789.7291, y: -614.5083}
+  m_SizeDelta: {x: 950, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &85540587
 MonoBehaviour:
@@ -18452,10 +18452,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 288759803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -25}
+  m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &358918833
 MonoBehaviour:
@@ -26447,10 +26447,10 @@ RectTransform:
   - {fileID: 1283898853}
   m_Father: {fileID: 2131477176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1769.7291, y: -614.5083}
+  m_SizeDelta: {x: 950, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537276783
 MonoBehaviour:
@@ -31571,6 +31571,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &650093727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 650093729}
+  - component: {fileID: 650093728}
+  m_Layer: 0
+  m_Name: EcosistemaBoots
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &650093728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650093727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb04c101aa8f06f4bbe7e05763d32579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ecosystemName: Ecosistema 3
+  overrideIfAlreadySet: 1
+  tryDeriveFromSceneName: 1
+--- !u!4 &650093729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650093727}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.33, y: 27.96, z: 105.94}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &651974913
 GameObject:
   m_ObjectHideFlags: 0
@@ -34743,8 +34790,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!1 &715240644
 GameObject:
@@ -44587,10 +44634,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 288759803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 175, y: -25}
+  m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &910616962
 MonoBehaviour:
@@ -49906,6 +49953,9 @@ MonoBehaviour:
   triggerRadius: 3
   playerTransform: {fileID: 698422291}
   autoFindPlayer: 1
+  promptUI: {fileID: 0}
+  promptButton: {fileID: 0}
+  interactKey: 101
   steps:
   - line: Te encuentras en el Bosque del Control Financiero.
     pose: {fileID: 21300000, guid: 67fc9250481d059499b3f085f8a06e4e, type: 3}
@@ -49953,6 +50003,8 @@ MonoBehaviour:
   activarProgreso: 1
   ecosistemaId: Ecosistema 3
   marcarComoVistoAlEmpezar: 1
+  interactRandomSingleLine: 1
+  avoidRepeatLastRandom: 1
 --- !u!1 &999072629 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6753231561116546029, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
@@ -49979,8 +50031,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &999072634 stripped
 MonoBehaviour:
@@ -51838,7 +51890,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1036754269
 RectTransform:
   m_ObjectHideFlags: 0
@@ -56808,83 +56860,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138182548}
   m_CullTransparentMesh: 1
---- !u!1 &1138301921
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1138301923}
-  - component: {fileID: 1138301922}
-  - component: {fileID: 1138301924}
-  m_Layer: 0
-  m_Name: MisionManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1138301922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138301921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 668e85f72f0863b42a3fa72c2b4fb0a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ecosystems:
-  - ecosystemName: Ecosistema 1
-    requiredStandCompletions: 4
-  - ecosystemName: Ecosistema 2
-    requiredStandCompletions: 4
-  - ecosystemName: Ecosistema 3
-    requiredStandCompletions: 1
-  - ecosystemName: Ecosistema 4
-    requiredStandCompletions: 4
---- !u!4 &1138301923
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138301921}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.017853, y: 5.8139954, z: -27.67}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1138301924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138301921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22766205b39046349816592a2204d7f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ach_Gamer_Id: ach_gamer
-  ach_Collector_Id: ach_collector
-  ach_Saver_Id: ach_saver
-  ach_Expert_Id: ach_expert
-  points_Gamer: 50
-  points_Collector: 50
-  points_Saver: 50
-  points_Expert: 100
-  gamerRequiredTypes: 2
-  totalCollectibles: 0
-  saverTarget: 10000
 --- !u!1 &1141055830
 GameObject:
   m_ObjectHideFlags: 0
@@ -60839,7 +60814,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1230948456
 RectTransform:
   m_ObjectHideFlags: 0
@@ -60856,10 +60831,10 @@ RectTransform:
   - {fileID: 1888753992}
   m_Father: {fileID: 1665880456}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 547.789, y: -500}
-  m_SizeDelta: {x: 1075.578, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1230948457
 MonoBehaviour:
@@ -63340,8 +63315,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &1278425530 stripped
 MonoBehaviour:
@@ -64720,10 +64695,10 @@ RectTransform:
   - {fileID: 29575630}
   m_Father: {fileID: 2131477176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 789.7291, y: -304.5083}
+  m_SizeDelta: {x: 950, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1298256236
 MonoBehaviour:
@@ -73196,8 +73171,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &1470173777 stripped
 MonoBehaviour:
@@ -75490,8 +75465,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &1530693104 stripped
 MonoBehaviour:
@@ -75915,8 +75890,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &1532224624 stripped
 MonoBehaviour:
@@ -84608,8 +84583,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &1753412877 stripped
 MonoBehaviour:
@@ -87895,10 +87870,10 @@ RectTransform:
   - {fileID: 2089409076}
   m_Father: {fileID: 2131477176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1769.7291, y: -304.5083}
+  m_SizeDelta: {x: 950, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1838481816
 MonoBehaviour:
@@ -90518,8 +90493,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &1881290477 stripped
 MonoBehaviour:
@@ -93570,8 +93545,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &1926065989 stripped
 MonoBehaviour:
@@ -95356,8 +95331,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &1954064702 stripped
 MonoBehaviour:
@@ -96082,10 +96057,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 288759803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 425, y: -25}
+  m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1969103130
 MonoBehaviour:
@@ -97775,8 +97750,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &2009456861 stripped
 MonoBehaviour:
@@ -99008,8 +98983,8 @@ MonoBehaviour:
   lookJoystickToDisable: {fileID: 0}
   onlyOnMobile: 1
   pixelsToUnits: 0.02
-  sensitivityX: 5
-  sensitivityY: 5
+  sensitivityX: 7
+  sensitivityY: 7
   invertY: 1
 --- !u!114 &2032405929 stripped
 MonoBehaviour:
@@ -104054,10 +104029,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 288759803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 300, y: -25}
+  m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2129997062
 MonoBehaviour:
@@ -105486,7 +105461,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1948788447}
-  - {fileID: 1138301923}
   - {fileID: 141781041}
   - {fileID: 2073704302}
   - {fileID: 355376203}
@@ -105504,3 +105478,4 @@ SceneRoots:
   - {fileID: 1944026681}
   - {fileID: 1823994068}
   - {fileID: 1641168060}
+  - {fileID: 650093729}

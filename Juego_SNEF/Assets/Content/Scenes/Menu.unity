@@ -2384,7 +2384,6 @@ GameObject:
   m_Component:
   - component: {fileID: 487830053}
   - component: {fileID: 487830052}
-  - component: {fileID: 487830054}
   m_Layer: 0
   m_Name: Funciones
   m_TagString: Untagged
@@ -2421,21 +2420,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &487830054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 487830051}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4cc40afb48b58c438df27fd3c74d3ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  changeSceneButton: {fileID: 713221972}
-  sceneName: Lobby
-  ecosystemName: Lobby
 --- !u!1 &490632474
 GameObject:
   m_ObjectHideFlags: 0
@@ -3699,8 +3683,9 @@ GameObject:
   - component: {fileID: 641175626}
   - component: {fileID: 641175628}
   - component: {fileID: 641175627}
+  - component: {fileID: 641175629}
   m_Layer: 5
-  m_Name: CardLogroAhorrador
+  m_Name: CardLogroExpeerto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3765,6 +3750,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 641175625}
   m_CullTransparentMesh: 1
+--- !u!114 &641175629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641175625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dacb7824d438540b1facab1a8dc642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 1127222568}
+  lockedSprite: {fileID: 21300000, guid: 3b59644758f724d478020a3c02423194, type: 3}
+  unlockedSprite: {fileID: 21300000, guid: e604c955ac2aac3428d395da28754b88, type: 3}
+  popDuration: 0.25
 --- !u!1 &653468906
 GameObject:
   m_ObjectHideFlags: 0
@@ -3896,7 +3897,7 @@ GameObject:
   - component: {fileID: 658231408}
   - component: {fileID: 658231411}
   - component: {fileID: 658231410}
-  - component: {fileID: 658231409}
+  - component: {fileID: 658231412}
   m_Layer: 5
   m_Name: PanelLogros
   m_TagString: Untagged
@@ -3925,27 +3926,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: -100, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &658231409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658231407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35a4ad3be6d286a4e914006523ec77fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  previewImage: {fileID: 0}
-  nombreText: {fileID: 0}
-  precioText: {fileID: 0}
-  descripcionText: {fileID: 0}
-  comprarButton: {fileID: 0}
-  comprarButtonLabel: {fileID: 0}
-  precioOK: {r: 1, g: 1, b: 1, a: 1}
-  precioNoAlcanza: {r: 0.9, g: 0.2, b: 0.2, a: 1}
-  defaultItem: {fileID: 11400000, guid: 06e2c551994c2b14f96d11a7e0ed20e6, type: 2}
 --- !u!114 &658231410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3984,6 +3964,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658231407}
   m_CullTransparentMesh: 1
+--- !u!114 &658231412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658231407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22766205b39046349816592a2204d7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ach_Gamer_Id: ach_gamer
+  ach_Collector_Id: ach_collector
+  ach_Saver_Id: ach_saver
+  ach_Expert_Id: ach_expert
+  points_Gamer: 50
+  points_Collector: 50
+  points_Saver: 50
+  points_Expert: 100
+  gamerRequiredTypes: 3
+  totalCollectibles: 0
+  saverTarget: 10000
 --- !u!1 &659627408
 GameObject:
   m_ObjectHideFlags: 0
@@ -4710,7 +4713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &750701858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5031,6 +5034,7 @@ GameObject:
   - component: {fileID: 773072885}
   - component: {fileID: 773072887}
   - component: {fileID: 773072886}
+  - component: {fileID: 773072888}
   m_Layer: 5
   m_Name: CardLogroColeccionista
   m_TagString: Untagged
@@ -5097,6 +5101,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773072884}
   m_CullTransparentMesh: 1
+--- !u!114 &773072888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773072884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dacb7824d438540b1facab1a8dc642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 876301540}
+  lockedSprite: {fileID: 21300000, guid: 3b59644758f724d478020a3c02423194, type: 3}
+  unlockedSprite: {fileID: 21300000, guid: 5da441f1b20a4e044899e48778c52f43, type: 3}
+  popDuration: 0.25
 --- !u!1 &777534726
 GameObject:
   m_ObjectHideFlags: 0
@@ -9137,6 +9157,7 @@ GameObject:
   - component: {fileID: 1169664693}
   - component: {fileID: 1169664695}
   - component: {fileID: 1169664694}
+  - component: {fileID: 1169664696}
   m_Layer: 5
   m_Name: CardLogroGamer
   m_TagString: Untagged
@@ -9203,6 +9224,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169664692}
   m_CullTransparentMesh: 1
+--- !u!114 &1169664696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169664692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dacb7824d438540b1facab1a8dc642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 834540347}
+  lockedSprite: {fileID: 21300000, guid: 3b59644758f724d478020a3c02423194, type: 3}
+  unlockedSprite: {fileID: 21300000, guid: afc70de161f87a8478b220b70f684fbc, type: 3}
+  popDuration: 0.25
 --- !u!4 &1169719945 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4595866695721337667, guid: 8fde6167771b0dd429ee96887e83f07f, type: 3}
@@ -9563,6 +9600,7 @@ GameObject:
   - component: {fileID: 1255671516}
   - component: {fileID: 1255671518}
   - component: {fileID: 1255671517}
+  - component: {fileID: 1255671519}
   m_Layer: 5
   m_Name: CardLogroAhorrador
   m_TagString: Untagged
@@ -9629,6 +9667,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1255671515}
   m_CullTransparentMesh: 1
+--- !u!114 &1255671519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255671515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dacb7824d438540b1facab1a8dc642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 610931434}
+  lockedSprite: {fileID: 21300000, guid: 3b59644758f724d478020a3c02423194, type: 3}
+  unlockedSprite: {fileID: 21300000, guid: eb00d013151863a429ee8e08a12906f1, type: 3}
+  popDuration: 0.25
+--- !u!1 &1267694771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1267694772}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1267694772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267694771}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 618.68884, y: 389.9785, z: 6.8254943}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1292718593
 GameObject:
   m_ObjectHideFlags: 0
@@ -12419,6 +12504,7 @@ GameObject:
   - component: {fileID: 1871729465}
   - component: {fileID: 1871729464}
   - component: {fileID: 1871729463}
+  - component: {fileID: 1871729466}
   m_Layer: 5
   m_Name: Logros
   m_TagString: Untagged
@@ -12511,6 +12597,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871729461}
   m_CullTransparentMesh: 1
+--- !u!114 &1871729466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871729461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e108a49f2d0ff17429d520e198688d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardGamer: {fileID: 1169664696}
+  cardSaver: {fileID: 1255671519}
+  cardCollector: {fileID: 773072888}
+  cardExpert: {fileID: 641175629}
+  gamerProgressText: {fileID: 0}
 --- !u!1 &1889818098
 GameObject:
   m_ObjectHideFlags: 0
@@ -18664,3 +18767,4 @@ SceneRoots:
   - {fileID: 213655063}
   - {fileID: 777534728}
   - {fileID: 750701863}
+  - {fileID: 1267694772}

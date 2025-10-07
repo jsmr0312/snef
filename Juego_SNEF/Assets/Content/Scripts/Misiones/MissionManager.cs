@@ -105,22 +105,29 @@ public class MissionManager : MonoBehaviour
     }
 
     /// Llamar cuando termina un minijuego y ya tenemos estrellas (0..3).
-    public void NotifyMinigameResult(string ecosystemName, int stars)
+    /// Marca la misión de “3★ en minijuego” resolviendo el ecosistema por standId.
+    public void NotifyMinigameResultByStand(string standId, int stars)
     {
-        if (stars < 3) return;
+        if (stars < 3) return; // la misión exige 3 estrellas
 
-        ecosystemName = NormalizeEcoName(ResolveEcoByIdOrName(ecosystemName, ""));
-        if (string.IsNullOrEmpty(ecosystemName)) return;
+        var eco = ResolveEcoByIdOrName("", standId); // usa StandCatalog para hallar el eco
+        if (string.IsNullOrEmpty(eco))
+        {
+            Debug.LogWarning($"[Mission] No se pudo resolver ecosistema para standId={standId} (3★). Revisa StandCatalog.");
+            return;
+        }
 
-        var st = GetEco(ecosystemName);
+        var st = GetEco(eco);
         if (!st.anyMinigame3Stars)
         {
             st.anyMinigame3Stars = true;
-            Debug.Log($"[Mission] ({ecosystemName}) Misión: 3★ en minijuego COMPLETADA.");
-            Save(); Push(ecosystemName);
-            MetricsClient.I?.TrackMisionCompletada(ecosystemName, "3 estrellas en minijuego");
+            Debug.Log($"[Mission] ({eco}) Misión: 3★ en minijuego COMPLETADA.");
+            Save();
+            Push(eco);
+            MetricsClient.I?.TrackMisionCompletada(eco, "3 estrellas en minijuego");
         }
     }
+
 
     /// Snapshot del ecosistema (para UI)
     public EcoState GetEcoState(string ecosystemName) => GetEco(NormalizeEcoName(ecosystemName));

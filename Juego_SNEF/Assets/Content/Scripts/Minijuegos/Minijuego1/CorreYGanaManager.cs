@@ -245,6 +245,15 @@ public class CorreYGanaManager : MonoBehaviour
         PrepararEstrellas();
         if (_starsRoutine != null) StopCoroutine(_starsRoutine);
         _starsRoutine = StartCoroutine(AnimarEstrellas(estrellasUI));
+
+        // Misión: 3★ en cualquier minijuego del ecosistema
+        if (MinigameScope.I)
+            MissionManager.I?.NotifyMinigameResultByStand(MinigameScope.I.standId, estrellasPartida);
+
+        // Logro "Gamer": marcar tipo/base del minijuego como completado si ganó (>=1★)
+        if (MinigameScope.I && estrellasPartida > 0)
+            AchievementsManager.I?.NotifyMinigameCompletedType(MinigameScope.I.minigameId);
+
     }
 
     // -------- Derrota --------
