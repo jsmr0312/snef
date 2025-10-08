@@ -14966,37 +14966,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b11914487302400459c19c4113a4f3ef, type: 3}
---- !u!1 &833756481
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 833756482}
-  m_Layer: 0
-  m_Name: Letrero
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &833756482
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 833756481}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 405, y: 108.7, z: 334.7}
-  m_LocalScale: {x: 2.059423, y: 2.059423, z: 2.059423}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &834689303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27961,37 +27930,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3713378710899269492, guid: a58bd93b578d02b468424e10362c3ca4, type: 3}
   m_PrefabInstance: {fileID: 1295644491}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1467105643
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1467105644}
-  m_Layer: 0
-  m_Name: Letrero (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1467105644
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1467105643}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 374.9, y: 66.4, z: 535.3}
-  m_LocalScale: {x: 2.059423, y: 2.059423, z: 2.059423}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1469666118 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4688694320177892502, guid: b11914487302400459c19c4113a4f3ef, type: 3}
@@ -36485,7 +36423,7 @@ PrefabInstance:
     - target: {fileID: 8021096726762327596, guid: 17c75a56d593af942a86b327fb972ba0, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 8add0600c6e473448ac2c8cfea6cdbd2, type: 2}
+      objectReference: {fileID: 2100000, guid: e7e9a530af812704e83cd926912824b8, type: 2}
     m_RemovedComponents:
     - {fileID: 3787598179467244843, guid: 17c75a56d593af942a86b327fb972ba0, type: 3}
     - {fileID: 2943880185497674571, guid: 17c75a56d593af942a86b327fb972ba0, type: 3}
@@ -40412,8 +40350,6 @@ SceneRoots:
   - {fileID: 717675816}
   - {fileID: 586903338}
   - {fileID: 780294717}
-  - {fileID: 833756482}
-  - {fileID: 1467105644}
   - {fileID: 45822650}
   - {fileID: 157247357}
   - {fileID: 405926687}
