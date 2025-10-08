@@ -7,6 +7,7 @@ public class EcosystemEntryOnStart : MonoBehaviour
 
     void Start()
     {
+        EcosystemTimer.I?.NotifyEnter(ecosystemName);
         MetricsClient.I?.TrackEntradaEcosistema(ecosystemName);
     }
 }

@@ -127,7 +127,40 @@ public class MetricsClient : MonoBehaviour
         public string achievement_id; public string name; public string categoria; public int puntos;
     }
 
+    [Serializable]
+    class TiempoEnEcosistemaPayload : CanonicalBase
+    {
+        public string ecosystem_name;
+        public int duracion_segundos;
+        public bool completed;
+    }
+
+    [Serializable]
+    class SalidaEcosistemaPayload : CanonicalBase
+    {
+        public string ecosystem_name;
+        public string reason; // exit|skip|error
+    }
+
+
     // === Trackers nuevos (en la sección de métodos públicos) ===
+
+    public void TrackTiempoEnEcosistema(string ecosystemName, int durSeg, bool completed)
+    {
+        var p = NewCanonical<TiempoEnEcosistemaPayload>();
+        p.ecosystem_name = ecosystemName;
+        p.duracion_segundos = Mathf.Max(0, durSeg);
+        p.completed = completed;
+        PostEvent("tiempo_en_ecosistema", p);
+    }
+
+    public void TrackSalidaEcosistema(string ecosystemName, string reason = "exit")
+    {
+        var p = NewCanonical<SalidaEcosistemaPayload>();
+        p.ecosystem_name = ecosystemName;
+        p.reason = string.IsNullOrEmpty(reason) ? "exit" : reason;
+        PostEvent("salida_ecosistema", p);
+    }
     public void TrackMisionCompletada(string ecosystemName, string misionName)
     {
         var p = NewCanonical<MisionCompletadaPayload>();
