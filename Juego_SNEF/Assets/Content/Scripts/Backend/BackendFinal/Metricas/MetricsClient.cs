@@ -142,6 +142,23 @@ public class MetricsClient : MonoBehaviour
         public string reason; // exit|skip|error
     }
 
+    [Serializable]
+    class PresupuestoPayload : CanonicalBase
+    {
+        public int amount;
+        public string motivo;        // "trivia|minijuego|mision|otro"
+        public string stand_id;      // opcional
+        public string ecosystem_name;// opcional
+    }
+
+    [Serializable]
+    class PuntajeJugadorPayload : CanonicalBase
+    {
+        public int total;
+        public int delta;
+    }
+
+
 
     // === Trackers nuevos (en la sección de métodos públicos) ===
 
@@ -305,15 +322,27 @@ public class MetricsClient : MonoBehaviour
         PostEvent("minijuego_finalizado", p);
     }
 
-    public void TrackMonedasObtenidas(int amount, string motivo, string standId, string ecosystemName)
+
+    public void TrackPuntajeGeneralJugador(int total, int delta)
     {
-        var p = NewCanonical<MonedasObtenidasPayload>();
-        p.amount = amount;
-        p.motivo = string.IsNullOrEmpty(motivo) ? "minijuego" : motivo;
-        p.stand_id = standId;
-        p.ecosystem_name = ecosystemName;
-        PostEvent("monedas_obtenidas", p);
+        var p = NewCanonical<PuntajeJugadorPayload>();
+        p.total = Mathf.Max(0, total);
+        p.delta = delta;
+        PostEvent("puntaje_general_jugador", p);
     }
+    public void TrackPresupuesto(int amount, string motivo, string standId = null, string ecosystemName = null)
+    {
+        var p = NewCanonical<PresupuestoPayload>();
+        p.amount = amount;
+        p.motivo = string.IsNullOrEmpty(motivo) ? "otro" : motivo;
+        p.stand_id = standId ?? "";
+        p.ecosystem_name = ecosystemName ?? "";
+        PostEvent("presupuesto", p);
+    }
+
+    // Retrocompat: redirige al nuevo nombre
+    public void TrackMonedasObtenidas(int amount, string motivo, string standId = null, string ecosystemName = null)
+        => TrackPresupuesto(amount, motivo, standId, ecosystemName);
 
     // ====== Helpers ======
     T NewCanonical<T>() where T : CanonicalBase, new()

@@ -106,6 +106,7 @@ public class CoinPickup : MonoBehaviour, ILevelResettable
 
         if (Stats.I) Stats.I.AddPresupuesto(presupuestoGanado);
         onCollected?.Invoke();
+        CorreYGanaManager.ReportPickup(presupuestoGanado);
 
         if (sfx) sfx.Play();
         if (particles) particles.Play();

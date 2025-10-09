@@ -98,8 +98,13 @@ public class CorreYGanaManager : MonoBehaviour
     Coroutine _scoreRoutine;
     Coroutine _starsRoutine;
 
+    public static CorreYGanaManager I { get; private set; }
+    int _presupuestoPickups = 0;
+
     void Awake()
     {
+        I = this;
+        _presupuestoPickups = 0;
 
         // === Scope del id (stand::minijuego) y entrada ===
         {
@@ -124,6 +129,13 @@ public class CorreYGanaManager : MonoBehaviour
         if (btnAbandonar) btnAbandonar.onClick.AddListener(Abandonar);
         if (btnJugarOtraVez) btnJugarOtraVez.onClick.AddListener(Reintentar);
         if (btnContinuar) btnContinuar.onClick.AddListener(Continuar);
+    }
+
+    void OnDestroy() { if (I == this) I = null; }
+
+    public static void ReportPickup(int delta)
+    {
+        if (I != null && delta != 0) I._presupuestoPickups += delta;
     }
 
     void Start()
@@ -293,17 +305,32 @@ public class CorreYGanaManager : MonoBehaviour
 
         ResetearNivel(false);
     }
-
     public void Abandonar()
     {
+        // Monedas recogidas en la corrida (no hay premio por estrellas al abandonar)
+        int coinsFromPickups = Mathf.Max(0, _presupuestoPickups);
+        int coinsTotal = coinsFromPickups;
+
+        // SALIDA (finalizado) como LOSE
+        if (MinigameScope.I)
         {
-            // SALIDA (finalizado) como LOSE (no hay premio)
-            if (MinigameScope.I)
+            MetricsClient.I?.TrackMinijuegoFinalizado(
+                MinigameScope.I.standId,
+                MinigameScope.I.minigameName,
+                0,                 // score (sin estrellas al abandonar)
+                "lose",            // outcome
+                coinsTotal,        // coins = solo lo recogido
+                0                  // xp (si aplica)
+            );
+
+            // Registrar presupuesto por lo recogido (si hubo)
+            if (coinsFromPickups > 0)
             {
-                MetricsClient.I?.TrackMinijuegoFinalizado(
+                MetricsClient.I?.TrackPresupuesto(
+                    coinsFromPickups,
+                    "minijuego",
                     MinigameScope.I.standId,
-                    MinigameScope.I.minigameName,
-                    0, "lose", 0, 0
+                    MinigameScope.I.ecosystemName
                 );
             }
         }
@@ -315,21 +342,41 @@ public class CorreYGanaManager : MonoBehaviour
 
     public void Continuar()
     {
+        // Monedas por estrellas + monedas recogidas en el nivel
+        int coinsFromPrize = Mathf.Max(0, _premioPartida);
+        int coinsFromPickups = Mathf.Max(0, _presupuestoPickups);
+        int coinsTotal = coinsFromPrize + coinsFromPickups;
 
+        // SALIDA (finalizado) como WIN
+        if (MinigameScope.I)
         {
-            // SALIDA (finalizado) como WIN + monedas
-            if (MinigameScope.I)
+            MetricsClient.I?.TrackMinijuegoFinalizado(
+                MinigameScope.I.standId,
+                MinigameScope.I.minigameName,
+                _estrellasPartida, // score (estrellas obtenidas)
+                "win",             // outcome
+                coinsTotal,        // coins = premio + recogidas
+                0                  // xp (si aplica)
+            );
+
+            // Registrar presupuesto desglosado (para auditoría)
+            if (coinsFromPickups > 0)
             {
-                MetricsClient.I?.TrackMinijuegoFinalizado(
+                MetricsClient.I?.TrackPresupuesto(
+                    coinsFromPickups,
+                    "minijuego",
                     MinigameScope.I.standId,
-                    MinigameScope.I.minigameName,
-                    _estrellasPartida,
-                    "win",
-                    Mathf.Max(0, _premioPartida),
-                    0
+                    MinigameScope.I.ecosystemName
                 );
-                if (_premioPartida > 0)
-                    MetricsClient.I?.TrackMonedasObtenidas(_premioPartida, "minijuego", MinigameScope.I.standId, MinigameScope.I.ecosystemName);
+            }
+            if (coinsFromPrize > 0)
+            {
+                MetricsClient.I?.TrackPresupuesto(
+                    coinsFromPrize,
+                    "minijuego",
+                    MinigameScope.I.standId,
+                    MinigameScope.I.ecosystemName
+                );
             }
         }
 
@@ -337,6 +384,7 @@ public class CorreYGanaManager : MonoBehaviour
         MostrarCursor(false);
         SceneManager.LoadScene(escenaContinuar);
     }
+
 
     // -------- Helpers --------
     void ResetearNivel(bool primeraVez)

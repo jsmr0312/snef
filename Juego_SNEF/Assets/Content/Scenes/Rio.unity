@@ -5807,6 +5807,8 @@ MonoBehaviour:
   standId: 136d1d5c-2626-4923-becc-4c3bf482d68c
   standNumber: 10
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &95759792
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8167,6 +8169,8 @@ MonoBehaviour:
   standId: 94478e37-8481-4dae-a747-c6510fe6ee9f
   standNumber: 4
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &128061047
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12662,6 +12666,8 @@ MonoBehaviour:
   standId: 09273eac-8029-4e11-a43c-8dbd641b8478
   standNumber: 7
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &205576658
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14956,11 +14962,11 @@ PrefabInstance:
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[1]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 1304180612}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[2]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 132928593}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[3]'
       value: 
@@ -14968,35 +14974,35 @@ PrefabInstance:
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[4]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 1998557230}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[5]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 274153467}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[6]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 1133148381}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[7]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 1490493790}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[8]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 1461627708}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[9]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 2023244936}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[10]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 754808363}
     - target: {fileID: 4728827825460106178, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: 'controllersToFreeze.Array.data[11]'
       value: 
-      objectReference: {fileID: 1613260839}
+      objectReference: {fileID: 345035572}
     - target: {fileID: 5348085437579487285, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: m_Name
       value: PauseComponent
@@ -17239,6 +17245,8 @@ MonoBehaviour:
   standId: 302f053d-21e8-44d0-abf3-6b300b82b4f7
   standNumber: 3
   ecosystemName: Ecosistema 3
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &296581526
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26101,7 +26109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.190133, y: -89.23328}
+  m_AnchoredPosition: {x: 9.190133, y: -89.23352}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &417981729 stripped
@@ -32484,6 +32492,8 @@ MonoBehaviour:
   standId: 4bc8c140-997c-4b9d-816f-59584b744fd5
   standNumber: 2
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &496019387
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33781,7 +33791,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0eefc5bcbb5c8a49a99e280396e16c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1207210502}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0eefc5bcbb5c8a49a99e280396e16c7, type: 3}
       insertIndex: -1
@@ -45066,7 +45079,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1714667332}
   m_Direction: 2
   m_Value: 0.000014985015
-  m_Size: 0.000015030681
+  m_Size: 0.000014631637
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -47314,6 +47327,8 @@ MonoBehaviour:
   standId: d5b5330b-9803-4b7f-9154-7f8b68834c42
   standNumber: 9
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &721291115
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50850,6 +50865,8 @@ MonoBehaviour:
   standId: 05b1369b-bf80-436b-a2c3-8d584c553e34
   standNumber: 5
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &790196122
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -58375,6 +58392,8 @@ MonoBehaviour:
   standId: 58c24dc3-58b4-4661-974d-903c1c4689d7
   standNumber: 1
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &895808571
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61535,87 +61554,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1776547554113361376, guid: 1d288f34c208e3a4b9a2585615e70344, type: 3}
   m_PrefabInstance: {fileID: 941975706}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &942898146
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 942898148}
-  - component: {fileID: 942898147}
-  m_Layer: 0
-  m_Name: StandsCatalogo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &942898147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 942898146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 973a4669650444945baf78f59f00754a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entries:
-  - standId: 58c24dc3-58b4-4661-974d-903c1c4689d7
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 1
-  - standId: 4bc8c140-997c-4b9d-816f-59584b744fd5
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 2
-  - standId: 4cf7d0d0-e10f-4872-a077-93c23f73277a
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 3
-  - standId: 94478e37-8481-4dae-a747-c6510fe6ee9f
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 4
-  - standId: 05b1369b-bf80-436b-a2c3-8d584c553e34
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 5
-  - standId: 09273eac-8029-4e11-a43c-8dbd641b8478
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 7
-  - standId: 109ac3f2-130c-4a04-9be1-66f60e41273e
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 8
-  - standId: d5b5330b-9803-4b7f-9154-7f8b68834c42
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 9
-  - standId: d5b5330b-9803-4b7f-9154-7f8b68834c42
-    ecosystemName: Ecosistema 1
-    kind: 0
-    displayName: Stand 9
---- !u!4 &942898148
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 942898146}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 303.71408, y: 9.3497095, z: 254.25896}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &943440293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64488,7 +64426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.190133, y: 4.10968}
+  m_AnchoredPosition: {x: 9.190133, y: 4.109375}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &990486824
@@ -76700,6 +76638,93 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1207210501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1207210502}
+  - component: {fileID: 1207210503}
+  m_Layer: 0
+  m_Name: Group 45619 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1207210502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207210501}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.50365096, y: -0.49632215, z: -0.49632215, w: -0.50365096}
+  m_LocalPosition: {x: -12.34, y: 0.1, z: 2.13}
+  m_LocalScale: {x: 1.1856, y: 1.1856, z: 1.1856002}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 512542268}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1207210503
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207210501}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 93cbbef4e16bcc64e9a90a6f05e87351, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 7.03, y: 1.92}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1001 &1208307783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78687,8 +78712,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1022965148}
   m_HandleRect: {fileID: 1022965147}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999773
+  m_Value: 0
+  m_Size: 0.99992985
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -93792,6 +93817,8 @@ MonoBehaviour:
   standId: 58c24dc3-58b4-4661-974d-903c1c4689d7
   standNumber: 1
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &1455065623
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -111848,6 +111875,8 @@ MonoBehaviour:
   standId: 109ac3f2-130c-4a04-9be1-66f60e41273e
   standNumber: 8
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &1704571999
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -129354,6 +129383,8 @@ MonoBehaviour:
   standId: 4cf7d0d0-e10f-4872-a077-93c23f73277a
   standNumber: 2
   ecosystemName: Ecosistema 1
+  guardAgainstMultipleEnters: 1
+  reenterCooldownSeconds: 0.75
 --- !u!65 &1981217293
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -140139,7 +140170,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 942898148}
   - {fileID: 412534255}
   - {fileID: 744033183}
   - {fileID: 2063372051}

@@ -61,6 +61,9 @@ public class Stats : MonoBehaviour
         if (puntaje < 0) puntaje = 0;
         Debug.Log($"[Stats] AddPuntaje({cantidad}) => {puntaje}");
         OnPuntajeChanged?.Invoke(puntaje);
+        // dentro de Stats.AddPuntaje(int cantidad), después de actualizar 'puntaje':
+        MetricsClient.I?.TrackPuntajeGeneralJugador(puntaje, cantidad);
+
     }
 
     public void ForceRefresh()

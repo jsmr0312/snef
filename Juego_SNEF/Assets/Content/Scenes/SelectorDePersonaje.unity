@@ -6150,7 +6150,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1979330285}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.32077256
+  m_Size: 0.32086468
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14777,6 +14777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7db9f3ed6e2a2e459d9af774a25968e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  remoteSyncEnabled: 0
   baseUrl: https://api.estudiohera.mx
   progressPath: /game/progress
   tokenPlayerPrefsKey: snef_token
@@ -15132,7 +15133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.4392157}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.90588236}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -15530,7 +15531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 131f91e0c2e2d4745aacdae37ad7b14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseUrl: https://api.estudiohera.mx
+  baseUrl: http://localhost:8000
   metricsPath: /metricas/metricas
   requestTimeout: 4
   verboseLogs: 1

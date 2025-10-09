@@ -16,11 +16,13 @@ public class ProgressCore : MonoBehaviour
 {
     public static ProgressCore I { get; private set; }
 
-    // === API remoto (opcional) ===
-    [Header("API (opcional)")]
-    public string baseUrl = "https://api.estudiohera.mx";
-    public string progressPath = "/game/progress"; // GET/PUT
+    // en ProgressCore.cs (arriba, junto a las opciones)
+    [Header("API remoto (opcional)")]
+    public bool remoteSyncEnabled = false; // ← nuevo (por defecto apagado)
+    public string baseUrl = "https://api.estudiohera.mx";   // ya no se usan si remoteSyncEnabled=false
+    public string progressPath = "/game/progress";
     public string tokenPlayerPrefsKey = "snef_token";
+
 
     [Header("Opciones")]
     public bool saveLocalOnEachChange = true;       // guarda PlayerPrefs cada cambio
@@ -28,8 +30,11 @@ public class ProgressCore : MonoBehaviour
     public float requestTimeout = 8f;
 
     [Header("Dev / Pruebas")]
-    public bool allowSendWithoutToken = true;       // para pruebas sin token
+    public bool allowSendWithoutToken = false; // antes true
+                                               // para pruebas sin token
     public bool verboseLogs = true;
+
+
 
     // === Claves de almacenamiento local ===
     public const string STORAGE_KEY = "progress-storage"; // compat con bootstrap nuevo
@@ -250,14 +255,23 @@ public class ProgressCore : MonoBehaviour
     // ===== Guardado / Carga =====
     public void SaveNow(string reason = "")
     {
-        // Siempre guardamos LOCAL de inmediato (para Editor y WebGL sin token)
-        Touch(); // asegura meta.updated/app_version y SaveLocal()
-        // PUT remoto opcional
-        StartCoroutine(PutAllCoroutine(reason));
+        Touch();                       // sigue guardando en PlayerPrefs
+        if (remoteSyncEnabled)         // solo si lo reactivas
+            StartCoroutine(PutAllCoroutine(reason));
     }
 
-    public IEnumerator SaveNowRoutine(string reason = "") { Touch(); yield return PutAllCoroutine(reason); }
-    public void FetchFromServer() { StartCoroutine(GetAndMergeCoroutine()); }
+
+    public IEnumerator SaveNowRoutine(string reason = "")
+    {
+        Touch();
+        if (remoteSyncEnabled)
+            yield return PutAllCoroutine(reason);
+    }
+    public void FetchFromServer()
+    {
+        if (remoteSyncEnabled)
+            StartCoroutine(GetAndMergeCoroutine());
+    }
 
     void Touch()
     {

@@ -136,6 +136,13 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     #region Estado interno
 
     // Añade este campo (si te sirve activar/desactivar logs)
+
+    // --- Anti-doble envío / anti-race ---
+    bool _exitReported;        // ya se reportó esta vista
+    bool _closing;             // ya estamos cerrando (evita más cierres)
+    Coroutine _transitionCo;   // para cancelar transiciones duplicadas
+    float _viewEnterRealtime;  // when entered (para calcular duración)
+
     public bool verboseDebug = false;
 
 
@@ -480,11 +487,13 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         if (promptOpenButton != null)
             promptOpenButton.onClick.RemoveAllListeners();
         if (_active == this) _active = null;
+        if (_isViewing || _closing) TryReportExitOnce();
     }
 
     void OnDisable()
     {
         if (_active == this) _active = null;
+        if (_isViewing || _closing) TryReportExitOnce();
     }
 
     #endregion
@@ -600,12 +609,17 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     void EnterViewMode()
     {
+        // Cierra cualquier otra pantalla activa primero
         if (_active != null && _active != this)
             _active.ExitViewMode();
 
         _active = this;
 
+        // Reset guards por vista
         _isViewing = true;
+        _closing = false;
+        _exitReported = false;
+
         promptUI?.SetActive(false);
 
         _brilloActivo = false;
@@ -661,11 +675,11 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 liftTransform.localPosition, tgtLocalPos,
                 liftTransform.localRotation, tgtLocalRot,
                 liftDuration,
-                null // nada extra al terminar
+                null
             ));
         }
 
-        // Self-heal: por si algo cambió entre escenas/instancias
+        // Self-heal de video/RT
         if (videoPlayer)
         {
             videoPlayer.renderMode = VideoRenderMode.RenderTexture;
@@ -673,19 +687,14 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         }
         if (videoRawImage && videoRawImage.texture != _videoRT) videoRawImage.texture = _videoRT;
 
-
-
-
         if (contentType == ContentType.Video && videoPlayer != null)
         {
             SetupVideoVisualsOnly();
 
-            // Fuente de video: URL si se proporcionó, si no, VideoClip
             videoPlayer.source = !string.IsNullOrEmpty(videoURL) ? VideoSource.Url : VideoSource.VideoClip;
             videoPlayer.url = videoURL;
             videoPlayer.clip = videoClip;
 
-            // Audio
             if (useAudioSourceForVideo && videoAudioSource != null)
             {
                 videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
@@ -701,10 +710,26 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             }
 
             videoPlayer.isLooping = true;
-
             _videoPlayPending = true;
             videoPlayer.Prepare();
         }
+
+        // ✅ Rehabilitar y volver a enlazar el botón Cerrar
+        if (closeButton)
+        {
+            closeButton.gameObject.SetActive(true);  // ← antes podía quedar oculto del contenido previo
+            closeButton.interactable = true;         // ← lo dejamos clickeable otra vez
+            closeButton.onClick.RemoveAllListeners();
+            closeButton.onClick.AddListener(() =>
+            {
+                if (_closing) return;                // por si llega doble click
+                closeButton.interactable = false;    // corta spam
+                ExitViewMode();                      // _closing se setea adentro
+            });
+        }
+
+        // (si usas panel de navegación, renuévelo aquí)
+        if (navButtonPanel) navButtonPanel.SetActive(true);
 
         if (mainCamera != null && screenViewpoint != null)
         {
@@ -719,6 +744,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             OnEnteredViewMode();
         }
     }
+
+
+
 
     void OnEnteredViewMode()
     {
@@ -752,13 +780,21 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     void ExitViewMode()
     {
+        // Guard reentrante: sólo un cierre
+        if (!_isViewing) return;
+        if (_closing) return;
+        _closing = true;
+
         SetTallScrollActive(false);
 
         _isViewing = false;
         promptUI?.SetActive(false);
 
         if (_transitionRoutine != null)
+        {
             StopCoroutine(_transitionRoutine);
+            _transitionRoutine = null;
+        }
 
         if (videoPlayer != null)
         {
@@ -766,8 +802,13 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             videoPlayer.Stop();
         }
 
-        navButtonPanel?.SetActive(false);
-        closeButton?.gameObject.SetActive(false);
+        // Oculta controles durante la salida
+        if (navButtonPanel) navButtonPanel.SetActive(false);
+        if (closeButton)
+        {
+            closeButton.interactable = false;        // evita toques tardíos
+            closeButton.gameObject.SetActive(false); // se volverá a activar en Enter
+        }
 
         if (useLiftAnimation && liftTransform != null)
         {
@@ -781,8 +822,6 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             ));
         }
 
-
-
         if (mainCamera != null)
         {
             StartOrRestartTransition(
@@ -795,9 +834,12 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         {
             OnExitedViewMode();
         }
-        BindPromptButton(false);
 
+        BindPromptButton(false);
     }
+
+
+
 
     void OnExitedViewMode()
     {
@@ -847,9 +889,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         string asset = string.IsNullOrEmpty(assetId) ? screenId : assetId;
 
-        MetricsClient.I?.TrackContenidoVisualizado(
-            standId, asset, ecosystemName, dur, _completed, _progressPct
-        );
+        // Al terminar la animación de salida:
+        TryReportExitOnce();
+        _transitionCo = null;
 
         ProgressCore.I?.Stand_AddViewedScreen(standId, asset);
         ProgressCore.I?.Stand_AddTime(standId, dur);
@@ -858,6 +900,29 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
         if (_active == this) _active = null;
     }
+
+    void TryReportExitOnce()
+    {
+        if (_exitReported) return;          // <-- idempotente
+        _exitReported = true;
+        _isViewing = false;
+
+        // Calcula duración real (descontando si usas pausas, si no, directo)
+        int dur = Mathf.Max(0, Mathf.RoundToInt(Time.realtimeSinceStartup - _viewStart));
+
+
+        // Determina el asset a reportar (como ya haces hoy)
+        string asset = string.IsNullOrEmpty(assetId) ? screenId : assetId;
+
+        // Manda UNA sola métrica
+        MetricsClient.I?.TrackContenidoVisualizado(
+            standId, asset, ecosystemName, dur, _completed, _progressPct
+        );
+
+        // Aquí, si actualizas progreso (ej. agregar a viewed_screens), hazlo UNA vez
+        // ProgressCore.I?.MarkViewed(asset); // ejemplo si ya lo tienes
+    }
+
 
     #endregion
 
