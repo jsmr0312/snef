@@ -12,4 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
   m_Name: Revolut
   m_EditorClassIdentifier: 
-  questions: []
+  questions:
+  - question: "\xBFPor qu\xE9 es clave llevar un control de tus gastos?"
+    options:
+    - Para evitar tener un presupuesto.
+    - Para gestionar tu dinero y evitar deudas innecesarias.
+    - "Para gastar m\xE1s dinero."
+    - Para complicar tus finanzas.
+    correctIndex: 1
+    optionJustifications: []
+  - question: "\xBFCu\xE1l de los siguientes NO es un consejo para gestionar tu presupuesto
+      como un pro?"
+    options:
+    - Identificar tus ingresos y gastos.
+    - "Asignar l\xEDmites de gasto."
+    - Comprar todo lo que quieras sin pensar.
+    - Categorizar tus gastos.
+    correctIndex: 2
+    optionJustifications: []
+  - question: "\xBFQu\xE9 debes hacer para reducir tus gastos de forma inteligente?"
+    options:
+    - Evitar analizar tus gastos.
+    - Crear deudas.
+    - Comparar precios y crear un fondo de emergencia.
+    - No elaborar un presupuesto mensual.
+    correctIndex: 2
+    optionJustifications: []
+  - question: "\xBFCu\xE1l de los siguientes es un consejo clave para el control
+      de gastos?"
+    options:
+    - No usar apps de control financiero.
+    - Elaborar un presupuesto mensual detallado.
+    - Evitar identificar tus ingresos.
+    - "Gastar sin l\xEDmites."
+    correctIndex: 1
+    optionJustifications: []
