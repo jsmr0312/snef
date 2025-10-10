@@ -1,4 +1,4 @@
-// OnboardingDialogueController.cs — InteractZone ahora puede mostrar 1 línea aleatoria
+ï»¿// OnboardingDialogueController.cs â€” con Candado Global de InteracciÃ³n
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,44 +9,42 @@ public class OnboardingDialogueController : MonoBehaviour
 {
     public enum ActivationMode { TimeDelay, TriggerZone, InteractZone }
 
-    #region Inspector
+    // ===== CANDADO GLOBAL =====
+    // Otros interactuables (portales, arcades, etc.) deben consultar este flag antes de actuar.
+    public static bool InteractionBlocked => _blockCount > 0;
+    static int _blockCount = 0;
+    static void PushBlock() { _blockCount++; }
+    static void PopBlock() { _blockCount = Mathf.Max(0, _blockCount - 1); }
 
-    [Header("Activación")]
+    [Header("ActivaciÃ³n")]
     public ActivationMode activation = ActivationMode.InteractZone;
     public float delayOnStart = 2f;
 
-    [Tooltip("Centro para medir la distancia (usa el transform del NPC o un empty).")]
     public Transform triggerZoneCenter;
     public float triggerRadius = 3f;
 
-    [Tooltip("Transform del jugador; si está vacío y autoFindPlayer=true, se busca por tag 'Player'.")]
     public Transform playerTransform;
     public bool autoFindPlayer = true;
 
-    [Header("Prompt de Interacción (para InteractZone)")]
-    [Tooltip("Panel/objeto raíz del prompt. Se ocultará/mostrará automáticamente.")]
+    [Header("Prompt de InteracciÃ³n (solo visual)")]
     public GameObject promptUI;
-    [Tooltip("Botón del mismo sprite del prompt; debe tener componente Button.")]
-    public Button promptButton;
-    [Tooltip("Tecla para interactuar en escritorio.")]
     public KeyCode interactKey = KeyCode.E;
 
-    [System.Serializable]
-    public class Step { [TextArea(2, 4)] public string line; public Sprite pose; }
+    [System.Serializable] public class Step { [TextArea(2, 4)] public string line; public Sprite pose; }
 
-    [Header("Datos de diálogo (inspector)")]
+    [Header("Datos de diÃ¡logo")]
     public Step[] steps;
     public bool showDefaultIfEmpty = true;
 
     [Header("UI")]
     public GameObject rootObject;
-    public Image dusefSprite;           // DusefSprite
-    public Image burbujaDialogImage;    // BurbujaDialogImage
+    public Image dusefSprite;
+    public Image burbujaDialogImage;
     public TextMeshProUGUI dialogueText;
     public Button nextButton;
     public Button entendidoButton;
 
-    [Header("Animación pop (bouncy)")]
+    [Header("AnimaciÃ³n pop (bouncy)")]
     public float popDuration = 0.25f;
     public float popOvershoot = 1.1f;
 
@@ -55,71 +53,58 @@ public class OnboardingDialogueController : MonoBehaviour
     public bool relockCursorOnClose = true;
     public ThirdPersonController[] controllersToFreeze;
 
-    // === Progreso ===
     [Header("Progreso (opcional)")]
-    [Tooltip("Si está activo, el onboarding solo aparece la primera vez que se ve en este ecosistema.")]
     public bool activarProgreso = true;
-
-    [Tooltip("Identificador único del ecosistema (ej. 'seguridad', 'resiliencia', 'control', 'libertad').")]
     public string ecosistemaId = "ecosistema_demo";
-
-    [Tooltip("Marca como visto apenas inicia el onboarding (recomendado). Si lo desactivas, marca al cerrar.")]
     public bool marcarComoVistoAlEmpezar = true;
 
-    // === InteractZone: línea aleatoria ===
-    [Header("InteractZone - línea aleatoria")]
-    [Tooltip("Si está activo, al interactuar se muestra SOLO 1 línea aleatoria y directo el botón Entendido.")]
+    [Header("InteractZone - lÃ­nea aleatoria")]
     public bool interactRandomSingleLine = true;
-
-    [Tooltip("Evitar repetir el último diálogo aleatorio mostrado.")]
     public bool avoidRepeatLastRandom = true;
 
-    #endregion
+    [Header("HUD (Touch)")]
+    public Button hudInteractButton;
+    public bool useHudButton = true;
 
     // --- Estado interno ---
     int _index = -1;
     bool _running = false;
-    bool _playerInside = false; // solo para InteractZone
+    bool _playerInside = false;
+    bool _hudWired = false;
+    bool _reserveBlockWhileInside = true; // reserva el candado mientras estÃ©s dentro del radio (antes de abrir)
 
     RectTransform _dusefRT, _bubbleRT;
     Vector3 _startScaleSprite, _startScaleBubble;
 
-    // Random single-line helpers
     bool _useRandomSingleLineStep = false;
     Step _singleStep = null;
     int _lastRandomIndex = -1;
 
-    // ===== Helpers de progreso =====
     string ProgressKey => $"onboard::{ecosistemaId}";
     bool HasProgressCore => ProgressCore.I != null;
-
     bool WasSeen()
     {
-        if (!activarProgreso || string.IsNullOrEmpty(ecosistemaId)) return false;
-        if (!HasProgressCore) return false;
-
+        if (!activarProgreso || string.IsNullOrEmpty(ecosistemaId) || !HasProgressCore) return false;
         var list = ProgressCore.I.Data?.achievements;
         if (list == null) return false;
         return list.Exists(a => a != null && a.id == ProgressKey && a.unlocked);
     }
-
-    void MarkSeen(string reason = "onboarding_seen")
+    void MarkSeen()
     {
         if (!activarProgreso || string.IsNullOrEmpty(ecosistemaId) || !HasProgressCore) return;
         ProgressCore.I.UpsertAchievement(ProgressKey, true);
-        // ProgressCore.I.SaveNow(reason); // si quieres empujar remoto de inmediato
     }
 
     void Awake()
     {
         if (autoFindPlayer && playerTransform == null)
         {
-            var player = GameObject.FindGameObjectWithTag("Player");
-            if (player) playerTransform = player.transform;
+            var p = GameObject.FindGameObjectWithTag("Player");
+            if (p) playerTransform = p.transform;
         }
 
-        if (rootObject != null) rootObject.SetActive(false);
-        if (promptUI != null) promptUI.SetActive(false);
+        if (rootObject) rootObject.SetActive(false);
+        if (promptUI) promptUI.SetActive(false);
 
         _dusefRT = dusefSprite ? dusefSprite.rectTransform : null;
         _bubbleRT = burbujaDialogImage ? burbujaDialogImage.rectTransform : null;
@@ -129,13 +114,6 @@ public class OnboardingDialogueController : MonoBehaviour
 
         if (nextButton) nextButton.onClick.AddListener(NextStep);
         if (entendidoButton) entendidoButton.onClick.AddListener(CloseSequence);
-
-        // Hook del botón del prompt (mismo sprite).
-        if (promptButton)
-        {
-            promptButton.onClick.RemoveAllListeners();
-            promptButton.onClick.AddListener(TryStartSequence);
-        }
 
         if ((steps == null || steps.Length == 0) && showDefaultIfEmpty)
             steps = new Step[] { new Step { line = "Hola mundo", pose = dusefSprite ? dusefSprite.sprite : null } };
@@ -157,17 +135,14 @@ public class OnboardingDialogueController : MonoBehaviour
     {
         if (_running) return;
 
-        // TriggerZone antiguo (auto al entrar)
         if (activation == ActivationMode.TriggerZone)
         {
             if (!triggerZoneCenter || !playerTransform) return;
             float d2 = (playerTransform.position - triggerZoneCenter.position).sqrMagnitude;
-            if (d2 <= triggerRadius * triggerRadius)
-                TryStartSequence();
+            if (d2 <= triggerRadius * triggerRadius) TryStartSequence();
             return;
         }
 
-        // InteractZone (muestra prompt + requiere E o botón)
         if (activation == ActivationMode.InteractZone)
         {
             if (!triggerZoneCenter || !playerTransform) return;
@@ -177,60 +152,82 @@ public class OnboardingDialogueController : MonoBehaviour
 
             if (activarProgreso && WasSeen())
             {
-                // Ya visto -> no mostrar prompt ni iniciar
                 if (promptUI && promptUI.activeSelf) promptUI.SetActive(false);
+                ReserveBlock(false);
                 _playerInside = false;
+                WireHud(false);
                 return;
             }
 
-            // Mostrar/ocultar prompt
             if (promptUI && inside != _playerInside)
                 promptUI.SetActive(inside);
 
             _playerInside = inside;
 
-            // Interacción por teclado/escritorio
+            // Reserva el candado mientras estÃ¡s dentro del radio (antes de abrir)
+            ReserveBlock(_playerInside && !_running && _reserveBlockWhileInside);
+
+            if (useHudButton) WireHud(_playerInside && !_running);
+
             if (_playerInside && Input.GetKeyDown(interactKey))
                 TryStartSequence();
-
-            return;
         }
     }
 
+    void ReserveBlock(bool enable)
+    {
+        // Evita duplicados: si ya estÃ¡ reservado por este controller, no vuelvas a push
+        if (enable && !_reserved) { PushBlock(); _reserved = true; }
+        else if (!enable && _reserved) { PopBlock(); _reserved = false; }
+    }
+    bool _reserved = false;
+
+    void WireHud(bool enable)
+    {
+        if (!useHudButton || hudInteractButton == null) return;
+
+        if (enable && !_hudWired)
+        {
+            // ðŸ‘‡ðŸ¼ LÃ­nea clave: me adueÃ±o del botÃ³n HUD (imposible que dispare otra cosa)
+            hudInteractButton.onClick.RemoveAllListeners();
+            hudInteractButton.onClick.AddListener(TryStartSequence);
+            _hudWired = true;
+        }
+        else if (!enable && _hudWired)
+        {
+            hudInteractButton.onClick.RemoveListener(TryStartSequence);
+            _hudWired = false;
+        }
+    }
+
+
     void TryStartSequence()
     {
-        // Bloqueo por progreso
         if (activarProgreso && WasSeen()) return;
-
         if (_running || steps == null || steps.Length == 0) return;
 
         _running = true;
         _index = -1;
 
-        // Oculta prompt al iniciar
         if (promptUI) promptUI.SetActive(false);
+        WireHud(false);
+
+        // BLOQUEO mientras estÃ¡ abierto
+        PushBlock();
 
         if (rootObject) rootObject.SetActive(true);
 
         SetFrozen(true);
-        if (unlockCursorWhileShowing)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
+        if (unlockCursorWhileShowing) { Cursor.visible = true; Cursor.lockState = CursorLockMode.None; }
 
-        if (marcarComoVistoAlEmpezar) MarkSeen("onboarding_seen_on_start");
+        if (marcarComoVistoAlEmpezar) MarkSeen();
 
-        // === NUEVO: si estamos en InteractZone y está activo el modo aleatorio, forzar 1 línea ===
         _useRandomSingleLineStep = (activation == ActivationMode.InteractZone && interactRandomSingleLine);
         if (_useRandomSingleLineStep)
         {
             int r = Random.Range(0, steps.Length);
-            if (avoidRepeatLastRandom && steps.Length > 1 && r == _lastRandomIndex)
-                r = (r + 1) % steps.Length;
-
-            _lastRandomIndex = r;
-            _singleStep = steps[r];
+            if (avoidRepeatLastRandom && steps.Length > 1 && r == _lastRandomIndex) r = (r + 1) % steps.Length;
+            _lastRandomIndex = r; _singleStep = steps[r];
         }
 
         NextStep();
@@ -238,22 +235,15 @@ public class OnboardingDialogueController : MonoBehaviour
 
     void NextStep()
     {
-        // Modo 1-línea aleatoria: siempre muestra solo esa y pone "Entendido"
         if (_useRandomSingleLineStep && _singleStep != null)
         {
-            ShowStep(_singleStep, isLast: true);
-            // Se muestra una sola vez por apertura
+            ShowStep(_singleStep, true);
             _useRandomSingleLineStep = false;
             return;
         }
 
-        // Comportamiento normal (multilínea)
         _index++;
-        if (_index >= steps.Length)
-        {
-            _index = steps.Length - 1;
-            return;
-        }
+        if (_index >= steps.Length) { _index = steps.Length - 1; return; }
 
         var step = steps[_index];
         bool isLast = (_index == steps.Length - 1);
@@ -264,22 +254,17 @@ public class OnboardingDialogueController : MonoBehaviour
     {
         if (dialogueText) dialogueText.text = step.line ?? "";
         if (dusefSprite && step.pose != null) dusefSprite.sprite = step.pose;
-
         if (nextButton) nextButton.gameObject.SetActive(!isLast);
         if (entendidoButton) entendidoButton.gameObject.SetActive(isLast);
 
         if (_dusefRT) StartCoroutine(Pop(_dusefRT, _startScaleSprite));
         if (_bubbleRT) StartCoroutine(Pop(_bubbleRT, _startScaleBubble));
-        if (isLast && entendidoButton)
-            StartCoroutine(Pop((RectTransform)entendidoButton.transform, Vector3.one));
-        else if (!isLast && nextButton)
-            StartCoroutine(Pop((RectTransform)nextButton.transform, Vector3.one));
     }
 
     void CloseSequence()
     {
         if (!_running) return;
-        if (activarProgreso && !marcarComoVistoAlEmpezar) MarkSeen("onboarding_seen_on_close");
+        if (activarProgreso && !marcarComoVistoAlEmpezar) MarkSeen();
         StartCoroutine(CloseCoroutine());
     }
 
@@ -290,7 +275,6 @@ public class OnboardingDialogueController : MonoBehaviour
         {
             Vector3 s0 = _dusefRT ? _dusefRT.localScale : Vector3.one;
             Vector3 s1 = _bubbleRT ? _bubbleRT.localScale : Vector3.one;
-
             while (t < 1f)
             {
                 t += Time.deltaTime / dur;
@@ -305,74 +289,45 @@ public class OnboardingDialogueController : MonoBehaviour
         if (_bubbleRT) _bubbleRT.localScale = _startScaleBubble;
 
         SetFrozen(false);
-        if (relockCursorOnClose)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        if (relockCursorOnClose) { Cursor.visible = false; Cursor.lockState = CursorLockMode.Locked; }
 
         _running = false;
 
-        // Si seguimos dentro del radio y NO está marcado como visto, vuelve a mostrar prompt
-        if (activation == ActivationMode.InteractZone && promptUI && (!activarProgreso || !WasSeen()) && _playerInside)
-            promptUI.SetActive(true);
+        // Libera el candado al cerrar; si sigues dentro y tienes reserva, la reserva lo reactivarÃ¡ en Update
+        PopBlock();
+
+        // Reactiva prompt/HUD si procede
+        if (activation == ActivationMode.InteractZone && (!activarProgreso || !WasSeen()) && _playerInside)
+        {
+            if (promptUI) promptUI.SetActive(true);
+            WireHud(true);
+        }
     }
 
     IEnumerator Pop(RectTransform rt, Vector3 baseScale)
     {
         if (rt == null) yield break;
-        Vector3 start = baseScale * 0.9f;
-        Vector3 over = baseScale * popOvershoot;
-        Vector3 end = baseScale;
-
-        float half = popDuration * 0.55f;
-        float t = 0f;
-
-        while (t < half)
-        {
-            t += Time.deltaTime;
-            rt.localScale = Vector3.Lerp(start, over, Mathf.SmoothStep(0f, 1f, t / half));
-            yield return null;
-        }
-
+        Vector3 start = baseScale * 0.9f, over = baseScale * popOvershoot, end = baseScale;
+        float half = popDuration * 0.55f, t = 0f;
+        while (t < half) { t += Time.deltaTime; rt.localScale = Vector3.Lerp(start, over, Mathf.SmoothStep(0, 1, t / half)); yield return null; }
         t = 0f;
-        while (t < popDuration - half)
-        {
-            t += Time.deltaTime;
-            rt.localScale = Vector3.Lerp(over, end, Mathf.SmoothStep(0f, 1f, t / (popDuration - half)));
-            yield return null;
-        }
-
+        while (t < popDuration - half) { t += Time.deltaTime; rt.localScale = Vector3.Lerp(over, end, Mathf.SmoothStep(0, 1, t / (popDuration - half))); yield return null; }
         rt.localScale = end;
     }
 
     void SetFrozen(bool value)
     {
         if (controllersToFreeze == null) return;
-        foreach (var c in controllersToFreeze)
-        {
-            if (c == null) continue;
-            c.FreezeMovement = value;
-            c.LockCameraPosition = value;
-        }
+        foreach (var c in controllersToFreeze) { if (c == null) continue; c.FreezeMovement = value; c.LockCameraPosition = value; }
     }
+
+    void OnDisable() { WireHud(false); ReserveBlock(false); if (_running) { _running = false; PopBlock(); } }
+    void OnDestroy() { WireHud(false); ReserveBlock(false); if (_running) { _running = false; PopBlock(); } }
 
     void OnDrawGizmosSelected()
     {
         if (triggerZoneCenter == null) return;
         Gizmos.color = (activation == ActivationMode.InteractZone) ? Color.green : Color.cyan;
         Gizmos.DrawWireSphere(triggerZoneCenter.position, triggerRadius);
-    }
-
-    // ===== Utilidades QA =====
-    [ContextMenu("QA: Borrar progreso SOLO de este onboarding")]
-    void QA_ClearThisOnboardingProgress()
-    {
-        if (!HasProgressCore) return;
-        var list = ProgressCore.I.Data?.achievements;
-        if (list == null) return;
-        list.RemoveAll(a => a != null && a.id == ProgressKey);
-        ProgressCore.I.SaveNow("onboarding_clear_flag");
-        Debug.Log($"[Onboarding] Borrado flag de {ProgressKey}");
     }
 }

@@ -22,37 +22,34 @@ public class SceneTransitionOnInteract : MonoBehaviour
         if (promptButton) promptButton.onClick.RemoveAllListeners();
     }
 
+    // Dentro de SceneTransitionOnInteract
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+        playerInRange = true;
+        if (promptUI) promptUI.SetActive(true);
+        // Si NO hay botón asignado, no nos suscribimos a nada (solo E)
+        if (promptButton)
         {
-            playerInRange = true;
-            if (promptUI) promptUI.SetActive(true);
-
-            if (promptButton)
-            {
-                promptButton.onClick.RemoveAllListeners();
-                promptButton.onClick.AddListener(DoSceneTransition); // ← se ata a ESTE portal
-            }
+            promptButton.onClick.RemoveListener(DoSceneTransition);
+            promptButton.onClick.AddListener(DoSceneTransition);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = false;
-            if (promptUI) promptUI.SetActive(false);
-            if (promptButton) promptButton.onClick.RemoveAllListeners();
-        }
+        if (!other.CompareTag("Player")) return;
+        playerInRange = false;
+        if (promptUI) promptUI.SetActive(false);
+        if (promptButton) promptButton.onClick.RemoveListener(DoSceneTransition);
     }
 
     void Update()
     {
         if (!playerInRange) return;
-        if (Input.GetKeyDown(KeyCode.E)) // PC/teclado
-            DoSceneTransition();
+        if (Input.GetKeyDown(KeyCode.E)) DoSceneTransition(); // ← solo E
     }
+
 
     public void DoSceneTransition()
     {
