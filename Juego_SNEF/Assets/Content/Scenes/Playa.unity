@@ -11527,7 +11527,6 @@ MonoBehaviour:
   playerTransform: {fileID: 1310300356}
   autoFindPlayer: 1
   promptUI: {fileID: 0}
-  promptButton: {fileID: 0}
   interactKey: 101
   steps:
   - line: 'Has llegado a la Playa de la Libertad Financiera.
@@ -11577,6 +11576,8 @@ MonoBehaviour:
   marcarComoVistoAlEmpezar: 0
   interactRandomSingleLine: 1
   avoidRepeatLastRandom: 1
+  hudInteractButton: {fileID: 0}
+  useHudButton: 1
 --- !u!1001 &283479703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34941,7 +34942,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.190133, y: 85.24945}
+  m_AnchoredPosition: {x: 9.190133, y: 85.24994}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &837657163
@@ -56518,7 +56519,7 @@ MonoBehaviour:
   hideDownloadIfEmpty: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: e6c5ecf33aa813e4b97eb8cbb4aeec18, type: 3}
-  videoURL: https://s3.estudiohera.mx/snefgame/sponsors/7122f32a-72f1-4e7a-9d1f-cbb7024f6376/stands/040dcb9b-2349-4334-8f6e-1c8592fa0d1f/assets/video/47789d81-2d29-4749-9108-6f000abb2de7.mp4
+  videoURL: https://unity.acadyne.com/assets/47789d81-2d29-4749-9108-6f000abb2de7.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 907628081}
   slides: []
@@ -71051,8 +71052,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1921140070}
   m_HandleRect: {fileID: 1921140069}
   m_Direction: 2
-  m_Value: 0.0000013990847
-  m_Size: 0.83842576
+  m_Value: -0.0000031479406
+  m_Size: 0.0000012433085
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
