@@ -7,6 +7,7 @@ public class StandZone : MonoBehaviour
     public string standId;        // uuid
     public string standNumber;    // "E1-03" etc.
     public string ecosystemName;  // "Ecosistema 1"...
+    public string standType = "master";  // master|excellence|premier|xp|punto_experiencia
 
     [Header("Anti-rebote")]
     [Tooltip("Evita re-disparos por reaparición del collider del Player o múltiples colliders.")]
@@ -19,7 +20,13 @@ public class StandZone : MonoBehaviour
     bool _inside;
     float _lastEnterSentTime = -999f;
 
-    // Acepta collider del Player en el propio objeto, su rigidbody o en la raíz
+    bool IsXpPoint()
+    {
+        var t = (standType ?? "").ToLowerInvariant().Replace(" ", "_");
+        return t == "xp" || t == "punto_de_experiencia" || t == "punto_experiencia"
+            || t.Contains("xp") || t.Contains("experien");
+    }
+
     bool IsPlayerCollider(Collider other)
     {
         if (other.CompareTag("Player")) return true;
@@ -34,10 +41,7 @@ public class StandZone : MonoBehaviour
 
         float now = Time.realtimeSinceStartup;
 
-        // ⛔️ Ya estábamos "dentro" (por ejemplo, se ocultó y reapareció el player dentro del stand)
         if (guardAgainstMultipleEnters && _inside) return;
-
-        // ⛔️ Re-entrada muy rápida (rebote por múltiples colliders/habilitar-deshabilitar)
         if (reenterCooldownSeconds > 0f && now - _lastEnterSentTime < reenterCooldownSeconds) return;
 
         _inside = true;
@@ -45,7 +49,12 @@ public class StandZone : MonoBehaviour
         _lastEnterSentTime = now;
 
         StandContext.I?.SetCurrentStand(standId, standNumber, ecosystemName);
-        MetricsClient.I?.TrackSponsorVisitado(standId, standNumber, ecosystemName);
+
+        // IMPORTANTE:
+        // - Stands normales: sponsor_visitado
+        // - Punto de experiencia: NO mandamos sponsor_visitado (sólo medimos tiempo XP)
+        if (!IsXpPoint())
+            MetricsClient.I?.TrackSponsorVisitado(standId, standNumber, ecosystemName);
     }
 
     void OnTriggerExit(Collider other)
@@ -56,7 +65,6 @@ public class StandZone : MonoBehaviour
 
     void OnDisable()
     {
-        // Si el stand se desactiva mientras el player estaba dentro, cierra la medición
         if (_inside) FlushTime();
     }
 
@@ -64,6 +72,10 @@ public class StandZone : MonoBehaviour
     {
         _inside = false;
         int dur = Mathf.Max(0, Mathf.RoundToInt(Time.realtimeSinceStartup - _enterRealtime));
-        MetricsClient.I?.TrackTiempoEnStand(standId, dur);
+
+        if (IsXpPoint())
+            MetricsClient.I?.TrackTiempoEnPuntoExperiencia(standId, ecosystemName, dur);
+        else
+            MetricsClient.I?.TrackTiempoEnStand(standId, dur);
     }
 }

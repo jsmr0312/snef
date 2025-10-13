@@ -159,6 +159,38 @@ public class MetricsClient : MonoBehaviour
     }
 
 
+    // ===== Nuevo payload =====
+    [Serializable]
+    class ContenidoDescargadoPayload : CanonicalBase
+    {
+        public bool is_sponsored;
+        public string stand_id;
+        public string asset_id;
+        public string asset_type;   // pdf|video|image|zip|ppt|other
+        public int bytes;           // si no se conoce, 0
+        public string source;       // internal|external
+        public string url;
+        public bool success;        // si se abrió el enlace: true
+    }
+
+    // ====== XP: tiempo_en_punto_experiencia ======
+    [Serializable]
+    class TiempoEnPuntoExperienciaPayload : CanonicalBase
+    {
+        public string xp_point_id;        // uuid del punto (usa standId del XP)
+        public string ecosystem_name;
+        public int duracion_segundos;
+    }
+
+    [Serializable]
+    class ContenidoRevisadoXpPayload : CanonicalBase
+    {
+        public string xp_point_id;        // uuid del punto (usa standId del XP)
+        public string asset_id;           // uuid de la pieza
+    }
+
+
+
 
     // === Trackers nuevos (en la sección de métodos públicos) ===
 
@@ -294,6 +326,23 @@ public class MetricsClient : MonoBehaviour
         PostEvent("intento_quiz", p);
     }
 
+    public void TrackContenidoDescargado(
+    bool isSponsored, string standId, string assetId, string assetType,
+    int bytes, string source, string url, bool success
+)
+    {
+        var p = NewCanonical<ContenidoDescargadoPayload>();
+        p.is_sponsored = isSponsored;
+        p.stand_id = standId ?? "";
+        p.asset_id = assetId ?? "";
+        p.asset_type = string.IsNullOrEmpty(assetType) ? "other" : assetType.ToLowerInvariant();
+        p.bytes = Mathf.Max(0, bytes);
+        p.source = string.IsNullOrEmpty(source) ? "external" : source.ToLowerInvariant();
+        p.url = url ?? "";
+        p.success = success;
+        PostEvent("contenido_descargado", p);
+    }
+
     // ====== API pública NUEVA: Minijuegos + Presupuesto ======
     public void TrackEntradaMinijuego(string standId, string minigameName)
     {
@@ -340,6 +389,23 @@ public class MetricsClient : MonoBehaviour
         PostEvent("presupuesto", p);
     }
 
+    public void TrackTiempoEnPuntoExperiencia(string xpPointId, string ecosystemName, int seconds)
+    {
+        var p = NewCanonical<TiempoEnPuntoExperienciaPayload>();
+        p.xp_point_id = xpPointId ?? "";
+        p.ecosystem_name = ecosystemName ?? "";
+        p.duracion_segundos = Mathf.Max(0, seconds);
+        PostEvent("tiempo_en_punto_experiencia", p);
+    }
+
+    public void TrackContenidoRevisadoXP(string xpPointId, string assetId)
+    {
+        var p = NewCanonical<ContenidoRevisadoXpPayload>();
+        p.xp_point_id = xpPointId ?? "";
+        p.asset_id = assetId ?? "";
+        PostEvent("contenido_revisado_xp", p);
+    }
+
     // Retrocompat: redirige al nuevo nombre
     public void TrackMonedasObtenidas(int amount, string motivo, string standId = null, string ecosystemName = null)
         => TrackPresupuesto(amount, motivo, standId, ecosystemName);
@@ -363,17 +429,29 @@ public class MetricsClient : MonoBehaviour
         StartCoroutine(PostJson(json, name));
     }
 
+    // MetricsClient.cs — reemplaza tu IEnumerator PostJson(...) por esta versión
     IEnumerator PostJson(string json, string reason)
     {
+        // 0) Si el backend NO permite anónimos y no hay token, espera a que exista/sea válido
+#if UNITY_WEBGL && !UNITY_EDITOR
+    if (!allowSendWithoutToken)
+        yield return TokenLifecycle.I?.WaitUntilTokenValid();
+#endif
+
+        // 1) Reintento máx. 1 vez tras refresh si 401
+        int attempts = 0;
+    Retry:
+        attempts++;
+
         var token = GetToken();
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-        if (string.IsNullOrEmpty(token) && !allowSendWithoutToken)
-        {
-            if (verboseLogs) Debug.Log($"[Metrics] Aún sin token. Bufferizando: {reason}");
-            _preTokenBuffer.Add(json);
-            yield break;
-        }
+    if (string.IsNullOrEmpty(token) && !allowSendWithoutToken)
+    {
+        if (verboseLogs) Debug.Log($"[Metrics] Aún sin token. Bufferizando: {reason}");
+        _preTokenBuffer.Add(json);
+        yield break;
+    }
 #endif
 
         string url = baseUrl.TrimEnd('/') + metricsPath;
@@ -391,6 +469,17 @@ public class MetricsClient : MonoBehaviour
         if (!ok)
         {
             long code = req.responseCode;
+
+            // --- NUEVO: si 401, intenta refrescar y reintenta 1 vez ---
+            if (code == 401 && attempts == 1)
+            {
+                if (verboseLogs) Debug.LogWarning("[Metrics] 401 Unauthorized. Intentando refresh y reintento…");
+#if UNITY_WEBGL && !UNITY_EDITOR
+            yield return TokenLifecycle.I?.RequestRefreshAndWait();
+#endif
+                goto Retry;
+            }
+
             if (code >= 400 && code < 500)
                 Debug.LogError($"[Metrics] {code} :: {req.downloadHandler.text} (no reintenta)");
             else
@@ -400,6 +489,7 @@ public class MetricsClient : MonoBehaviour
 
         if (verboseLogs) Debug.Log("[Metrics OK] " + reason);
     }
+
 
     string GetToken()
     {

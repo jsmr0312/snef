@@ -36,6 +36,16 @@ mergeInto(LibraryManager.library, {
     }
   },
 
+  __RequestTokenRefresh: function () {
+  try {
+    if (window.parent) {
+      // Pide al host (tu app React) que haga el refresh
+      window.parent.postMessage({ type: 'token.refresh.request' }, '*');
+    }
+  } catch (e) {}
+},
+
+
   // ---------- sessionStorage ----------
   __GetSessionStorageItem: function (keyPtr) {
     try {

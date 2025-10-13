@@ -33,6 +33,7 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public Button downloadButton;
     public string downloadURL;
     public bool hideDownloadIfEmpty = true;
+    public bool isSponsoredContent = true;
 
     [Header("Contenido")]
     public ContentType contentType;
@@ -213,6 +214,14 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             propWidth.SetValue(outline, outlineWidthNear, null);
     }
 
+    bool IsExperiencePointStand()
+    {
+        var t = (standType ?? "").ToLowerInvariant().Replace(" ", "_");
+        return t == "xp" || t == "punto_de_experiencia" || t == "punto_experiencia"
+            || t.Contains("xp") || t.Contains("experien");
+    }
+
+
     private void BuildAvatarsList()
     {
         _avatars.Clear();
@@ -242,9 +251,28 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     public void OnDownloadClick()
     {
         if (string.IsNullOrWhiteSpace(downloadURL)) return;
-        MetricsClient.I?.TrackClickEnlaceExterno(standId, downloadURL, "download");
+
+        // Derivar asset y tipo
+        string asset = string.IsNullOrEmpty(assetId) ? screenId : assetId;
+        string assetType = InferAssetType(downloadURL, contentType);
+        string source = InferSource(downloadURL);
+
+        // Métrica canónica
+        MetricsClient.I?.TrackContenidoDescargado(
+            isSponsoredContent,         // is_sponsored
+            standId,                    // stand_id
+            asset,                      // asset_id
+            assetType,                  // asset_type
+            0,                          // bytes (desconocido)
+            source,                     // source
+            downloadURL,                // url
+            true                        // success (se abrió el enlace)
+        );
+
+        // Abrir el link
         Application.OpenURL(downloadURL);
     }
+
 
     void SetupDownloadUI()
     {
@@ -260,6 +288,36 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         if (hasUrl)
             downloadButton.onClick.AddListener(OnDownloadClick);
     }
+
+    static string InferSource(string url)
+    {
+        if (string.IsNullOrEmpty(url)) return "internal";
+        string u = url.Trim().ToLowerInvariant();
+        return (u.StartsWith("http://") || u.StartsWith("https://")) ? "external" : "internal";
+    }
+
+    static string InferAssetType(string url, ContentType fallbackByContent)
+    {
+        if (!string.IsNullOrEmpty(url))
+        {
+            string u = url.ToLowerInvariant();
+            if (u.EndsWith(".pdf")) return "pdf";
+            if (u.EndsWith(".zip")) return "zip";
+            if (u.EndsWith(".ppt") || u.EndsWith(".pptx") || u.EndsWith(".key")) return "ppt";
+            if (u.EndsWith(".mp4") || u.EndsWith(".webm") || u.EndsWith(".mov")) return "video";
+            if (u.EndsWith(".png") || u.EndsWith(".jpg") || u.EndsWith(".jpeg") || u.EndsWith(".webp")) return "image";
+        }
+        // Fallback por tipo de contenido mostrado en la pantalla
+        switch (fallbackByContent)
+        {
+            case ContentType.Video: return "video";
+            case ContentType.Image: return "image";
+            case ContentType.TallImageScrollable: return "image";
+            case ContentType.Presentation: return "ppt";
+            default: return "other";
+        }
+    }
+
 
     private void ToggleAvatars(bool turnOn)
     {
@@ -903,25 +961,27 @@ public class UnifiedScreenDisplay : MonoBehaviour,
 
     void TryReportExitOnce()
     {
-        if (_exitReported) return;          // <-- idempotente
+        if (_exitReported) return;
         _exitReported = true;
         _isViewing = false;
 
-        // Calcula duración real (descontando si usas pausas, si no, directo)
         int dur = Mathf.Max(0, Mathf.RoundToInt(Time.realtimeSinceStartup - _viewStart));
-
-
-        // Determina el asset a reportar (como ya haces hoy)
         string asset = string.IsNullOrEmpty(assetId) ? screenId : assetId;
 
-        // Manda UNA sola métrica
-        MetricsClient.I?.TrackContenidoVisualizado(
-            standId, asset, ecosystemName, dur, _completed, _progressPct
-        );
-
-        // Aquí, si actualizas progreso (ej. agregar a viewed_screens), hazlo UNA vez
-        // ProgressCore.I?.MarkViewed(asset); // ejemplo si ya lo tienes
+        if (IsExperiencePointStand())
+        {
+            // XP: se registra pieza revisada (sin duración aquí)
+            MetricsClient.I?.TrackContenidoRevisadoXP(standId, asset);
+        }
+        else
+        {
+            // Stands normales: visualización con duración/progreso
+            MetricsClient.I?.TrackContenidoVisualizado(
+                standId, asset, ecosystemName, dur, _completed, _progressPct
+            );
+        }
     }
+
 
 
     #endregion

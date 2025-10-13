@@ -188,4 +188,20 @@ public class WebGLBridge : MonoBehaviour
         }
         return null;
     }
+
+    // WebGLBridge.cs — añade esto dentro de la clase
+#if UNITY_WEBGL && !UNITY_EDITOR
+[System.Runtime.InteropServices.DllImport("__Internal")] private static extern void __RequestTokenRefresh();
+#endif
+
+
+    public void RequestTokenRefresh()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+    try { __RequestTokenRefresh(); } catch {}
+#else
+        if (verbose) Debug.Log("[WebGLBridge] Editor: RequestTokenRefresh() (simulado)");
+#endif
+    }
+
 }

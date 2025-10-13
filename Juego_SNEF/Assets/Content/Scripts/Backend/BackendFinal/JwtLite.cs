@@ -1,10 +1,12 @@
+// JwtLite.cs — añade helpers para exp (unix) y verificación de caducidad
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
 public static class JwtLite
 {
-    // Devuelve el valor string de un claim dentro del JWT (sin validar firma).
+    // (EXISTENTE) — GetClaim(...) y GetUserId(...)
+
     public static string GetClaim(string jwt, string claimKey)
     {
         if (string.IsNullOrWhiteSpace(jwt)) return null;
@@ -18,14 +20,12 @@ public static class JwtLite
         try { json = Encoding.UTF8.GetString(Convert.FromBase64String(payload)); }
         catch { return null; }
 
-        // Busca "claimKey":"valor"
         try
         {
             var rx = new Regex($"\"{Regex.Escape(claimKey)}\"\\s*:\\s*\"([^\"]+)\"");
             var m = rx.Match(json);
             if (m.Success) return m.Groups[1].Value;
 
-            // alternativo: id numérico -> lo devolvemos como string
             rx = new Regex($"\"{Regex.Escape(claimKey)}\"\\s*:\\s*([0-9]+)");
             m = rx.Match(json);
             if (m.Success) return m.Groups[1].Value;
@@ -34,12 +34,37 @@ public static class JwtLite
         return null;
     }
 
-    // Atajo común: algunos JWT usan "sub", otros "user_id".
     public static string GetUserId(string jwt)
     {
         var v = GetClaim(jwt, "user_id");
         if (!string.IsNullOrEmpty(v)) return v;
         v = GetClaim(jwt, "sub");
         return v;
+    }
+
+    // --- NUEVO: lectura de exp (segundos UNIX) + utilidades ---
+    public static long GetExpiryUnix(string jwt)
+    {
+        var raw = GetClaim(jwt, "exp");
+        return long.TryParse(raw, out var unix) ? unix : 0L;
+    }
+
+    public static int SecondsToExpiry(string jwt, int clockSkewSeconds = 0)
+    {
+        if (string.IsNullOrWhiteSpace(jwt)) return int.MinValue;
+        var expUnix = GetExpiryUnix(jwt);
+        if (expUnix <= 0) return int.MaxValue; // sin exp => trátalo como no expirable
+        var nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        return (int)(expUnix - nowUnix - clockSkewSeconds);
+    }
+
+    public static bool IsExpired(string jwt, int clockSkewSeconds = 30)
+    {
+        return SecondsToExpiry(jwt, clockSkewSeconds) <= 0;
+    }
+
+    public static bool WillExpireSoon(string jwt, int thresholdSeconds = 60)
+    {
+        return SecondsToExpiry(jwt) <= thresholdSeconds;
     }
 }
