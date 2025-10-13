@@ -5807,6 +5807,7 @@ MonoBehaviour:
   standId: 136d1d5c-2626-4923-becc-4c3bf482d68c
   standNumber: 10
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &95759792
@@ -8169,6 +8170,7 @@ MonoBehaviour:
   standId: 94478e37-8481-4dae-a747-c6510fe6ee9f
   standNumber: 4
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &128061047
@@ -12368,11 +12370,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 816548256694593236, guid: 990a82e105ef90041aa65c6230025aee, type: 3}
   m_PrefabInstance: {fileID: 197157134}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &198687927 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-  m_PrefabInstance: {fileID: 1384051175}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &200351466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12666,6 +12663,7 @@ MonoBehaviour:
   standId: 09273eac-8029-4e11-a43c-8dbd641b8478
   standNumber: 7
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &205576658
@@ -13426,6 +13424,93 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 217646821}
   m_CullTransparentMesh: 1
+--- !u!1 &217694548
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 217694550}
+  - component: {fileID: 217694549}
+  m_Layer: 0
+  m_Name: Rio (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &217694549
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217694548}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 216c109949a34054ab4b103446c5d622, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 11.14, y: 15.82}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &217694550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217694548}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7025908, z: -0, w: 0.71159416}
+  m_LocalPosition: {x: 272.99, y: 12.78, z: 262.83398}
+  m_LocalScale: {x: 0.81439, y: 0.8049866, z: 0.81439}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -89.27, z: 0}
 --- !u!1001 &217738425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14161,6 +14246,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/bf260f76-4db0-4c14-80f9-7aed9faf7c1d/stands/09273eac-8029-4e11-a43c-8dbd641b8478/assets/powerpoint/7a36474c-953c-43d1-bbe8-2a311cc63505.pptx
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 37e206dc2dbe60f468e60945ef7abe95, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/image/62ff6623-288b-4ed6-b466-c72b2006b679.mp4
@@ -17245,6 +17331,7 @@ MonoBehaviour:
   standId: 302f053d-21e8-44d0-abf3-6b300b82b4f7
   standNumber: 3
   ecosystemName: Ecosistema 3
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &296581526
@@ -17720,6 +17807,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/image/62ff6623-288b-4ed6-b466-c72b2006b679.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://unity.acadyne.com/assets/62ff6623-288b-4ed6-b466-c72b2006b679.mp4
@@ -25611,6 +25699,93 @@ Transform:
   m_Children: []
   m_Father: {fileID: 685932000}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &412284231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412284233}
+  - component: {fileID: 412284232}
+  m_Layer: 0
+  m_Name: CONDUSEF
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &412284232
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412284231}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 636eb449b6e508342913c1639c5e5daa, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 7.76, y: 7.76}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &412284233
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412284231}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 374.728, y: 9.07, z: 334.09}
+  m_LocalScale: {x: 0.23251168, y: 0.23251168, z: 0.23251168}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &412534254
 GameObject:
   m_ObjectHideFlags: 0
@@ -26109,7 +26284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.190133, y: -89.23352}
+  m_AnchoredPosition: {x: 9.190133, y: -89.23413}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &417981729 stripped
@@ -27565,6 +27740,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/43095614-a0af-47b2-88da-513a2139a88c/stands/d5b5330b-9803-4b7f-9154-7f8b68834c42/assets/image/4af42831-0288-4d2f-80ec-e770d5b08ccd.JPG
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: e094c96f47829d34eb5603e8409f0034, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/video/9db9c095-0b0f-411e-8a3e-2e18f0290202.mp4
@@ -29109,11 +29285,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1870827081}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &453516116 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1824566559804860378, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
-  m_PrefabInstance: {fileID: 1873256047}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &454068263
 GameObject:
   m_ObjectHideFlags: 0
@@ -32492,6 +32663,7 @@ MonoBehaviour:
   standId: 4bc8c140-997c-4b9d-816f-59584b744fd5
   standNumber: 2
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &496019387
@@ -35483,6 +35655,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/image/62ff6623-288b-4ed6-b466-c72b2006b679.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/image/62ff6623-288b-4ed6-b466-c72b2006b679.mp4
@@ -36012,6 +36185,7 @@ MonoBehaviour:
   downloadButton: {fileID: 0}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/eaefc924-4181-42f6-a524-7fe4815b060c/stands/302f053d-21e8-44d0-abf3-6b300b82b4f7/assets/powerpoint/0f62c758-24d5-453a-8579-6ceb5375687a.pptx
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 2
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
@@ -38557,6 +38731,7 @@ MonoBehaviour:
   downloadButton: {fileID: 0}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/eaefc924-4181-42f6-a524-7fe4815b060c/stands/302f053d-21e8-44d0-abf3-6b300b82b4f7/assets/powerpoint/0f62c758-24d5-453a-8579-6ceb5375687a.pptx
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 2
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
@@ -44877,6 +45052,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/bf260f76-4db0-4c14-80f9-7aed9faf7c1d/stands/09273eac-8029-4e11-a43c-8dbd641b8478/assets/powerpoint/7a36474c-953c-43d1-bbe8-2a311cc63505.pptx
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 624428a8f2f096e4890373ae0ad18f9c, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/video/9db9c095-0b0f-411e-8a3e-2e18f0290202.mp4
@@ -45079,7 +45255,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1714667332}
   m_Direction: 2
   m_Value: 0.000014985015
-  m_Size: 0.000014631637
+  m_Size: 0.9866852
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -47327,6 +47503,7 @@ MonoBehaviour:
   standId: d5b5330b-9803-4b7f-9154-7f8b68834c42
   standNumber: 9
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &721291115
@@ -48264,6 +48441,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/43095614-a0af-47b2-88da-513a2139a88c/stands/d5b5330b-9803-4b7f-9154-7f8b68834c42/assets/image/6757727a-cdc9-4a76-b109-321fb2f7b3e9.jpg
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 6e5441745d0551b47a821ae5bcd017ea, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/powerpoint/5f603243-d7f6-417d-8202-812ec6904759.pptx
@@ -49855,6 +50033,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/43095614-a0af-47b2-88da-513a2139a88c/stands/d5b5330b-9803-4b7f-9154-7f8b68834c42/assets/image/e092f5e1-fb97-4e39-bd5d-bd754cd8a364.jpg
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: fe7c67b88237fad458a82e67888caa6d, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -50865,6 +51044,7 @@ MonoBehaviour:
   standId: 05b1369b-bf80-436b-a2c3-8d584c553e34
   standNumber: 5
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &790196122
@@ -52994,6 +53174,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/bf260f76-4db0-4c14-80f9-7aed9faf7c1d/stands/09273eac-8029-4e11-a43c-8dbd641b8478/assets/powerpoint/7a36474c-953c-43d1-bbe8-2a311cc63505.pptx
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: b6e442102aa17b64d96e28bb8a4e3881, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/powerpoint/5f603243-d7f6-417d-8202-812ec6904759.pptx
@@ -56919,7 +57100,7 @@ Transform:
   m_GameObject: {fileID: 876340550}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.71136457, z: -0, w: 0.7028232}
-  m_LocalPosition: {x: 271.80997, y: 12.86, z: 262.83398}
+  m_LocalPosition: {x: 271.80997, y: 12.78, z: 262.83398}
   m_LocalScale: {x: 0.81439, y: 0.8049866, z: 0.81439}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -58392,6 +58573,7 @@ MonoBehaviour:
   standId: 58c24dc3-58b4-4661-974d-903c1c4689d7
   standNumber: 1
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &895808571
@@ -62720,6 +62902,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/pdf/9de713ea-7269-4c37-834a-3801b6355a09.pdf
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 3
   singleImage: {fileID: 2800000, guid: c8c5702783e0f9244a71fd4d28200f0d, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/image/62ff6623-288b-4ed6-b466-c72b2006b679.mp4
@@ -64937,6 +65120,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/3ed07b7d-f92e-40eb-b9f0-118980f07c46/stands/05b1369b-bf80-436b-a2c3-8d584c553e34/assets/image/b2c70fb3-a03a-4120-b703-2c1d18053d99.png
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 1934fc66c6f4e394a939b8a200cbe95c, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/image/62ff6623-288b-4ed6-b466-c72b2006b679.mp4
@@ -71431,6 +71615,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/powerpoint/5f603243-d7f6-417d-8202-812ec6904759.pptx
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 2
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/powerpoint/5f603243-d7f6-417d-8202-812ec6904759.pptx
@@ -74635,6 +74820,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/image/ea3aca87-e9ae-4070-97ef-579029cddc69.png
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: df9791e2538c41047b857185f72a4148, type: 3}
   videoURL: https://unity.acadyne.com/assets/dcafebe9-6f60-4cbf-8ed6-acb89b129e28.mp4
@@ -77932,7 +78118,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4888695252918921769, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 198687927}
+      addedObject: {fileID: 1382670155}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6753231561116546029, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
       insertIndex: -1
@@ -77973,6 +78159,151 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 816548256694593236, guid: 990a82e105ef90041aa65c6230025aee, type: 3}
   m_PrefabInstance: {fileID: 215019020}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1226005811
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 754808358}
+    m_Modifications:
+    - target: {fileID: 542686091615186618, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.132
+      objectReference: {fileID: 0}
+    - target: {fileID: 542686091615186618, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.277
+      objectReference: {fileID: 0}
+    - target: {fileID: 542686091615186618, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.821
+      objectReference: {fileID: 0}
+    - target: {fileID: 542686091615186618, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.007082992
+      objectReference: {fileID: 0}
+    - target: {fileID: 542686091615186618, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542686091615186618, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9999749
+      objectReference: {fileID: 0}
+    - target: {fileID: 542686091615186618, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 542686091615186618, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180.812
+      objectReference: {fileID: 0}
+    - target: {fileID: 974652056603638429, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a79505e28cd3634f8ec59e3dce1300c, type: 2}
+    - target: {fileID: 1002079802242222234, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a79505e28cd3634f8ec59e3dce1300c, type: 2}
+    - target: {fileID: 2147593102159422516, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_Name
+      value: Character 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2209143947852818124, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -6826589388656528632, guid: f919bdfb2b2b2554094ac6a63d8785c7, type: 3}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.838
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.2806137
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879931273784707542, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a79505e28cd3634f8ec59e3dce1300c, type: 2}
+    - target: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8885132684290053232, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a79505e28cd3634f8ec59e3dce1300c, type: 2}
+    - target: {fileID: 8910747036783495159, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9a79505e28cd3634f8ec59e3dce1300c, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
 --- !u!1001 &1226513338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78712,8 +79043,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1022965148}
   m_HandleRect: {fileID: 1022965147}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99992985
+  m_Value: 1
+  m_Size: 0.9999773
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -88685,6 +89016,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/bc2fbcc3-5704-4e97-b81f-c878f3dcc8b2/stands/4cf7d0d0-e10f-4872-a077-93c23f73277a/assets/image/f97ca686-560c-4263-aece-29c2ff8c872e.jpg
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: 6aea4cc3a2a9de14d84d459cc86ec023, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/bc2fbcc3-5704-4e97-b81f-c878f3dcc8b2/stands/4cf7d0d0-e10f-4872-a077-93c23f73277a/assets/image/f97ca686-560c-4263-aece-29c2ff8c872e.jpg
@@ -89174,79 +89506,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379708720}
   m_CullTransparentMesh: 1
---- !u!1001 &1384051175
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 754808358}
-    m_Modifications:
-    - target: {fileID: 1627443986536259788, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2147593102159422516, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_Name
-      value: Avatar11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3712365634423525605, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8287942757048447798, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8910747036783495159, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 9a79505e28cd3634f8ec59e3dce1300c, type: 2}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+--- !u!4 &1382670155 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+  m_PrefabInstance: {fileID: 1226005811}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1384998677 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3685704714741571370, guid: 372d50667ed4fe4489e01bfe828b4372, type: 3}
@@ -90227,6 +90491,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/video/66b64038-f54f-40e6-9c02-652f454149a9.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/video/66b64038-f54f-40e6-9c02-652f454149a9.mp4
@@ -90865,9 +91130,10 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/f7245b10-5fb4-42c8-aa4a-ab3fea8859a4/stands/94478e37-8481-4dae-a747-c6510fe6ee9f/assets/video/bf6b0029-df83-4411-ad20-aa3807022f39.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 6aea4cc3a2a9de14d84d459cc86ec023, type: 3}
-  videoURL: https://s3.estudiohera.mx/snefgame/sponsors/f7245b10-5fb4-42c8-aa4a-ab3fea8859a4/stands/94478e37-8481-4dae-a747-c6510fe6ee9f/assets/video/bf6b0029-df83-4411-ad20-aa3807022f39.mp4
+  videoURL: https://unity.acadyne.com/assets/bf6b0029-df83-4411-ad20-aa3807022f39.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1974395195}
   slides: []
@@ -93817,6 +94083,7 @@ MonoBehaviour:
   standId: 58c24dc3-58b4-4661-974d-903c1c4689d7
   standNumber: 1
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &1455065623
@@ -94650,6 +94917,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/pdf/6f1fa552-49f5-4786-925f-f52330daaa8f.pdf
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 3
   singleImage: {fileID: 2800000, guid: 20f4f91db8e0bd24eae62a66c6944fff, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/powerpoint/5f603243-d7f6-417d-8202-812ec6904759.pptx
@@ -95109,9 +95377,10 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/43095614-a0af-47b2-88da-513a2139a88c/stands/d5b5330b-9803-4b7f-9154-7f8b68834c42/assets/video/e2550a67-aed7-4db5-ac7f-fcd885b3f473.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
-  videoURL: https://unity.acadyne.com/assets/e2550a67-aed7-4db5-ac7f-fcd885b3f473.mp4
+  videoURL: https://unity.acadyne.com/assets/5693369a-5829-456d-bbc7-ae4afaf79032.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 1974395195}
   slides: []
@@ -99637,6 +99906,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/3a25f591-da1a-42c7-88a8-982c6debffcc/stands/4bc8c140-997c-4b9d-816f-59584b744fd5/assets/video/c5a08e21-19b7-438b-973d-f64c4c395b14.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://unity.acadyne.com/assets/c5a08e21-19b7-438b-973d-f64c4c395b14.mp4
@@ -102413,7 +102683,6 @@ MonoBehaviour:
   playerTransform: {fileID: 2142853924}
   autoFindPlayer: 1
   promptUI: {fileID: 0}
-  promptButton: {fileID: 0}
   interactKey: 101
   steps:
   - line: "\xA1Has llegado a los R\xE1pidos de la Seguridad Financiera!"
@@ -102459,6 +102728,8 @@ MonoBehaviour:
   marcarComoVistoAlEmpezar: 1
   interactRandomSingleLine: 1
   avoidRepeatLastRandom: 1
+  hudInteractButton: {fileID: 0}
+  useHudButton: 1
 --- !u!1001 &1588101845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103757,6 +104028,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/3a25f591-da1a-42c7-88a8-982c6debffcc/stands/4bc8c140-997c-4b9d-816f-59584b744fd5/assets/video/dcafebe9-6f60-4cbf-8ed6-acb89b129e28.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: e6c5ecf33aa813e4b97eb8cbb4aeec18, type: 3}
   videoURL: https://unity.acadyne.com/assets/dcafebe9-6f60-4cbf-8ed6-acb89b129e28.mp4
@@ -105158,6 +105430,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/bf260f76-4db0-4c14-80f9-7aed9faf7c1d/stands/09273eac-8029-4e11-a43c-8dbd641b8478/assets/powerpoint/7a36474c-953c-43d1-bbe8-2a311cc63505.pptx
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: f2aba9658001ce042a082d97561fa7a6, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -106966,6 +107239,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/powerpoint/5f603243-d7f6-417d-8202-812ec6904759.pptx
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 2
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/powerpoint/5f603243-d7f6-417d-8202-812ec6904759.pptx
@@ -110692,6 +110966,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: 
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 0
   singleImage: {fileID: 2800000, guid: df9791e2538c41047b857185f72a4148, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -111875,6 +112150,7 @@ MonoBehaviour:
   standId: 109ac3f2-130c-4a04-9be1-66f60e41273e
   standNumber: 8
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &1704571999
@@ -113589,6 +113865,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/pdf/85d6160c-9494-4fcc-9aaa-30087ed21ae7.pdf
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 3
   singleImage: {fileID: 2800000, guid: 6fa301d6ef6e1864db83649918bd5b3e, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
@@ -116336,6 +116613,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/be2b2401-8415-4ee6-8bec-9157a9a0606f/stands/109ac3f2-130c-4a04-9be1-66f60e41273e/assets/video/9db9c095-0b0f-411e-8a3e-2e18f0290202.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://unity.acadyne.com/assets/9db9c095-0b0f-411e-8a3e-2e18f0290202.mp4
@@ -119796,6 +120074,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1827745537}
   m_CullTransparentMesh: 1
+--- !u!1001 &1829020214
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 372.57
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 335.86
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.93637776
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.3509938
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -41.096
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3994937558055266805, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2e4c43882013ae649bdd753a68e8b962, type: 2}
+    - target: {fileID: 919132149155446097, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: m_Name
+      value: "Se\xF1alRio (8)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3109620044835985884, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2e4c43882013ae649bdd753a68e8b962, type: 2}
+    - target: {fileID: 4701494811503726381, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2e4c43882013ae649bdd753a68e8b962, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c590d2629bae6ef4c9b78b9afc39efc9, type: 3}
 --- !u!1001 &1829452835
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120605,7 +120952,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4888695252918921769, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 453516116}
+      addedObject: {fileID: 1873256048}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6753231561116546029, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
       insertIndex: -1
@@ -121293,6 +121640,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/2799f976-92ed-44df-b4f1-a91409a63afd/stands/136d1d5c-2626-4923-becc-4c3bf482d68c/assets/video/705a2fb2-9d85-4007-bfd3-f83b8fbfe1f5.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 1934fc66c6f4e394a939b8a200cbe95c, type: 3}
   videoURL: https://unity.acadyne.com/assets/705a2fb2-9d85-4007-bfd3-f83b8fbfe1f5.mp4
@@ -123254,6 +123602,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1613260834}
     m_Modifications:
+    - target: {fileID: 1530986282702579975, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 82438308c0d51e04aaccc0ce88f434a6, type: 2}
     - target: {fileID: 1824566559804860378, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -123298,6 +123650,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 82438308c0d51e04aaccc0ce88f434a6, type: 2}
+    - target: {fileID: 2613483704600162189, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4623167527738521133, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -123310,15 +123666,32 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7457838765775761136, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f2554e4778e1094399051ea7acc536d, type: 2}
+    - target: {fileID: 7507961274988585506, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8773548554862986358, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
       propertyPath: m_Name
       value: Avatar4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8879522798435438535, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+--- !u!4 &1873256048 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3493336658457537066, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+  m_PrefabInstance: {fileID: 1873256047}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1874427099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129383,6 +129756,7 @@ MonoBehaviour:
   standId: 4cf7d0d0-e10f-4872-a077-93c23f73277a
   standNumber: 2
   ecosystemName: Ecosistema 1
+  standType: master
   guardAgainstMultipleEnters: 1
   reenterCooldownSeconds: 0.75
 --- !u!65 &1981217293
@@ -134974,6 +135348,7 @@ MonoBehaviour:
   downloadButton: {fileID: 60501777}
   downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9d229aa0-35ae-4972-b1c1-0f0067ca649e/stands/58c24dc3-58b4-4661-974d-903c1c4689d7/assets/video/66b64038-f54f-40e6-9c02-652f454149a9.mp4
   hideDownloadIfEmpty: 1
+  isSponsoredContent: 1
   contentType: 1
   singleImage: {fileID: 2800000, guid: 4a255f0739bd3814f8fbae43b53dc3ce, type: 3}
   videoURL: https://unity.acadyne.com/assets/66b64038-f54f-40e6-9c02-652f454149a9.mp4
@@ -140193,9 +140568,11 @@ SceneRoots:
   - {fileID: 416140213}
   - {fileID: 336078669}
   - {fileID: 508569180}
+  - {fileID: 1829020214}
   - {fileID: 2122485521}
   - {fileID: 1581492037}
   - {fileID: 876340552}
+  - {fileID: 217694550}
   - {fileID: 833756482}
   - {fileID: 1467105644}
   - {fileID: 1244175386}
@@ -140213,3 +140590,4 @@ SceneRoots:
   - {fileID: 1470786424}
   - {fileID: 381781031}
   - {fileID: 1713205199}
+  - {fileID: 412284233}
