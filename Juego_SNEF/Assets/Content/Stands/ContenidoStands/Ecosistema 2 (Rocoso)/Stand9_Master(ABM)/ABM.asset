@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: ABM
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFC\xF3mo puedo planificar mis gastos?"
+    options:
+    - Fijando objetivos
+    - Priorizar gastos hormiga
+    - Prestando mi dinero
+    - "No s\xE9"
+    correctIndex: 0
+    optionJustifications: []
+  - question: "\xBFCu\xE1les son las estrategias m\xE1s efectivas para pagar deudas?"
+    options:
+    - "Contratar m\xE1s deudas para pagar las antiguas m\xE1s r\xE1pido."
+    - Ignorar los intereses y pagar solo cuando se tenga dinero disponible.
+    - "Elaborar un presupuesto, priorizar deudas con mayor inter\xE9s y pagar m\xE1s
+      del m\xEDnimo."
+    - "No s\xE9"
+    correctIndex: 2
+    optionJustifications: []
+  - question: "\xBFCu\xE1l de las siguientes acciones contribuye a mantener unas
+      finanzas personales saludables?"
+    options:
+    - Ahorrar de manera constante, llevar un presupuesto y controlar gastos.
+    - "Gastar todo el dinero disponible sin planificar y depender de cr\xE9ditos
+      constantemente."
+    - Evitar revisar los movimientos bancarios y no llevar registro de ingresos y
+      gastos
+    - "No s\xE9"
+    correctIndex: 0
+    optionJustifications: []

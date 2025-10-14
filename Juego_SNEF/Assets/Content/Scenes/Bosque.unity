@@ -799,6 +799,7 @@ GameObject:
   - component: {fileID: 18818618}
   - component: {fileID: 18818617}
   - component: {fileID: 18818616}
+  - component: {fileID: 18818619}
   m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -894,6 +895,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18818614}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &18818619
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18818614}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &19917558 stripped
 Transform:
@@ -2357,6 +2380,7 @@ GameObject:
   - component: {fileID: 58005033}
   - component: {fileID: 58005035}
   - component: {fileID: 58005034}
+  - component: {fileID: 58005036}
   m_Layer: 0
   m_Name: Paredes
   m_TagString: Untagged
@@ -2431,6 +2455,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58005032}
+  m_Mesh: {fileID: 8007961498541435068, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
+--- !u!64 &58005036
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58005032}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 8007961498541435068, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
 --- !u!1 &59685790
 GameObject:
@@ -5566,7 +5612,7 @@ PrefabInstance:
     - target: {fileID: -7387694534941982543, guid: 782c064227f4e7e4181ed5f91bd15589, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 904a3f39cc7f4ee4b97d6fb1aac4fcd4, type: 2}
+      objectReference: {fileID: 2100000, guid: 78c64e3a6bf310449833ae616c53fc16, type: 2}
     - target: {fileID: -3274006528333456403, guid: 782c064227f4e7e4181ed5f91bd15589, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.161
@@ -5636,8 +5682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257b64907d3e6b04398f649e43518cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
-  standNumber: 12
+  standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
+  standNumber: 6
   ecosystemName: Ecosistema 3
   miniGameId: b69711f6-177b-49c5-b3b0-ae6664154ef6
   minigameDisplayName: 
@@ -10313,22 +10359,22 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
   screenId: Contenido 1
   standType: Stand Master
   ecosystemName: Ecosistema 3
-  assetId: 9e7ff1de-fe56-437f-915c-cd52df8ddb6d
+  assetId: 0c375122-e723-4879-9925-34d5c760f1d4
   downloadButton: {fileID: 1899728140}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9e72d447-27ed-4708-8031-c370c4501a73/stands/95f4acc2-22f3-494e-ae62-f73e0d6770a7/assets/pdf/3eede4d6-a832-4fe4-9dff-5d755c16c5a0.pdf
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/ba75dfcd-bb10-4119-ba22-ffee5a0b0844/stands/5369f6cc-2e2b-4ef0-8360-0a1f4489be14/assets/image/4654b5a1-ed52-4bc7-acfa-283de5d9fe4a.png
   hideDownloadIfEmpty: 1
   isSponsoredContent: 1
   contentType: 0
-  singleImage: {fileID: 2800000, guid: ddd6443e11205624bb7cf29c18c88a8f, type: 3}
+  singleImage: {fileID: 2800000, guid: 1d5a6b43f92088d4db2e74ad0775f18d, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
   slides: []
-  idleImage: {fileID: 2800000, guid: 024c213daf6bc1f408ab8e5ce2a1af32, type: 3}
+  idleImage: {fileID: 2800000, guid: f51af8506f839cc47b4eccbc545c722e, type: 3}
   imageRawImage: {fileID: 191423780}
   videoRawImage: {fileID: 1245698747}
   tallScrollRoot: {fileID: 0}
@@ -10780,6 +10826,8 @@ GameObject:
   - component: {fileID: 201040635}
   - component: {fileID: 201040634}
   - component: {fileID: 201040633}
+  - component: {fileID: 201040636}
+  - component: {fileID: 201040637}
   m_Layer: 0
   m_Name: Suelo.001
   m_TagString: Untagged
@@ -10876,6 +10924,50 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201040631}
+  m_Mesh: {fileID: 710753337203070409, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
+--- !u!64 &201040636
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201040631}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 710753337203070409, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
+--- !u!64 &201040637
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201040631}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 710753337203070409, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
 --- !u!1 &205401885
 GameObject:
@@ -11441,22 +11533,22 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
   screenId: contenido4
   standType: master
   ecosystemName: Ecosistema 3
-  assetId: 9e7ff1de-fe56-437f-915c-cd52df8ddb6d
+  assetId: 35b4909e-aaf4-4405-a7eb-c9d737341a71
   downloadButton: {fileID: 1899728140}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9e72d447-27ed-4708-8031-c370c4501a73/stands/95f4acc2-22f3-494e-ae62-f73e0d6770a7/assets/pdf/3eede4d6-a832-4fe4-9dff-5d755c16c5a0.pdf
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/ba75dfcd-bb10-4119-ba22-ffee5a0b0844/stands/5369f6cc-2e2b-4ef0-8360-0a1f4489be14/assets/image/dda29d74-5d4f-453e-90d8-9a7f145fece8.png
   hideDownloadIfEmpty: 1
   isSponsoredContent: 1
   contentType: 0
-  singleImage: {fileID: 2800000, guid: cebdcf0940bdb5344bf45b4ff5bfbc33, type: 3}
+  singleImage: {fileID: 2800000, guid: d7b380be3cd2bb845833a41a642116fa, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
   slides: []
-  idleImage: {fileID: 2800000, guid: 024c213daf6bc1f408ab8e5ce2a1af32, type: 3}
+  idleImage: {fileID: 2800000, guid: f51af8506f839cc47b4eccbc545c722e, type: 3}
   imageRawImage: {fileID: 1279735021}
   videoRawImage: {fileID: 641207491}
   tallScrollRoot: {fileID: 0}
@@ -13101,6 +13193,7 @@ GameObject:
   - component: {fileID: 249457520}
   - component: {fileID: 249457519}
   - component: {fileID: 249457518}
+  - component: {fileID: 249457521}
   m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Untagged
@@ -13196,6 +13289,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249457516}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &249457521
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249457516}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &250232342
 GameObject:
@@ -13313,6 +13428,7 @@ GameObject:
   - component: {fileID: 250591642}
   - component: {fileID: 250591644}
   - component: {fileID: 250591643}
+  - component: {fileID: 250591645}
   m_Layer: 0
   m_Name: Mesa
   m_TagString: Untagged
@@ -13387,6 +13503,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 250591641}
+  m_Mesh: {fileID: -3101794883780484172, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
+--- !u!64 &250591645
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250591641}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: -3101794883780484172, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
 --- !u!1 &251305103
 GameObject:
@@ -16598,7 +16736,6 @@ Transform:
   - {fileID: 196973118}
   - {fileID: 1636796146}
   - {fileID: 388438806}
-  - {fileID: 1432427952}
   m_Father: {fileID: 1944026681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &330153993
@@ -20355,7 +20492,7 @@ PrefabInstance:
     - target: {fileID: -2090219681791195633, guid: 6e65f395b27e7414b8b84ec90021b4e9, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 904a3f39cc7f4ee4b97d6fb1aac4fcd4, type: 2}
+      objectReference: {fileID: 2100000, guid: 78c64e3a6bf310449833ae616c53fc16, type: 2}
     - target: {fileID: -1684145606872897425, guid: 6e65f395b27e7414b8b84ec90021b4e9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.57
@@ -20375,7 +20512,7 @@ PrefabInstance:
     - target: {fileID: 1112186713689628849, guid: 6e65f395b27e7414b8b84ec90021b4e9, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 9ce832ea16fd9724b8ae572e222579fd, type: 2}
+      objectReference: {fileID: 2100000, guid: 50142d19e1106bf4cacaaa4523ccb5aa, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -34015,22 +34152,22 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
   screenId: Contenido 1
   standType: Stand Master
   ecosystemName: Ecosistema 3
-  assetId: 2b6a0f4b-062e-4d5e-84fb-1352a3bddadf
+  assetId: e4a25aab-e38f-4e66-9b4e-e5e60034af7d
   downloadButton: {fileID: 1899728140}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9e72d447-27ed-4708-8031-c370c4501a73/stands/95f4acc2-22f3-494e-ae62-f73e0d6770a7/assets/pdf/66af150b-e9eb-4fea-ba72-aea4c790a0c5.pdf
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/ba75dfcd-bb10-4119-ba22-ffee5a0b0844/stands/5369f6cc-2e2b-4ef0-8360-0a1f4489be14/assets/image/97220b4b-ad74-4b36-b930-b9e8fd27bd74.png
   hideDownloadIfEmpty: 1
   isSponsoredContent: 1
   contentType: 0
-  singleImage: {fileID: 2800000, guid: 0deed2a884c3afc4696f7a31f885ce0c, type: 3}
+  singleImage: {fileID: 2800000, guid: 9e82892ac951eff4280f6df3aad8f3ea, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
   slides: []
-  idleImage: {fileID: 2800000, guid: 024c213daf6bc1f408ab8e5ce2a1af32, type: 3}
+  idleImage: {fileID: 2800000, guid: f51af8506f839cc47b4eccbc545c722e, type: 3}
   imageRawImage: {fileID: 106334929}
   videoRawImage: {fileID: 1780639236}
   tallScrollRoot: {fileID: 0}
@@ -36422,7 +36559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6753231561116546029, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -37204,8 +37341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 020a905276dc8f6418f55ba7a08fe6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
-  standNumber: 12
+  standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
+  standNumber: 6
   ecosystemName: Ecosistema 3
   standType: master
   guardAgainstMultipleEnters: 1
@@ -52467,8 +52604,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1259458878}
   m_SourcePrefab: {fileID: 100100000, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
+--- !u!1 &1040518557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
+  m_PrefabInstance: {fileID: 1040518556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1043485836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60746,6 +60891,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5615760146050684825, guid: 8fde6167771b0dd429ee96887e83f07f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 171ebf2125b4504419f2557971eba9ad, type: 2}
     - target: {fileID: 6631263122181412168, guid: 8fde6167771b0dd429ee96887e83f07f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -62692,6 +62841,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
   m_PrefabInstance: {fileID: 1040518556}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &1259458878
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040518557}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2619321203813086353, guid: d38efaecc17c38c408765d2b7ad6f1ce, type: 3}
 --- !u!1 &1263134399
 GameObject:
   m_ObjectHideFlags: 0
@@ -72046,114 +72217,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1432427951
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1432427952}
-  - component: {fileID: 1432427955}
-  - component: {fileID: 1432427954}
-  - component: {fileID: 1432427953}
-  m_Layer: 0
-  m_Name: Cube (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1432427952
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432427951}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9993773, z: -0, w: 0.03528453}
-  m_LocalPosition: {x: -10.45, y: 1.92, z: 1.77}
-  m_LocalScale: {x: 0.6898865, y: 3.6068575, z: 2.1835701}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 327730804}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1432427953
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432427951}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1432427954
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432427951}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8cc0055d3198230449a0b19e8f7e2d7e, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1432427955
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432427951}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1433957000
 GameObject:
   m_ObjectHideFlags: 0
@@ -80284,7 +80347,7 @@ PrefabInstance:
     - target: {fileID: 5700872605525297142, guid: bf22854124951f04ba66f467ed8c8969, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: efa6a6c08287643479e8c755928c77c4, type: 2}
+      objectReference: {fileID: 2100000, guid: 2149ea147047bb8468bad6c29946c433, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -80373,14 +80436,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
   standType: Stand Master
   requiredScreens: 4
   quizManagerRef: {fileID: 1677086062}
   initialLines:
-  - "\xA1Te damos la bienvenida, prep\xE1rate para vivir la experiencia CNBV!"
-  - CNBV ha preparado contenido para ti, te invitamos a revisar el contenido en las
-    pantallas de este mismo stand
+  - "\xA1Te damos la bienvenida, prep\xE1rate para vivir la experiencia CETES!"
+  - CETES ha preparado contenido para ti, te invitamos a revisar el contenido en
+    las pantallas de este mismo stand
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 099db4c91de98dc4ba96c19d84b189df, type: 2}
@@ -82238,14 +82301,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e53f32c99fade94483603fbf7b659f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
-  triviaId: 569c55f8-a77e-4745-b3fd-f8cdcddb1010
+  standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
+  triviaId: 4fc96461-9ceb-4097-9eaa-ba5c3b048f9c
   coinsPerCorrect: 0
   standType: Stand Master
   linkedArcade: {fileID: 105175163}
   linkedNpc: {fileID: 1636796150}
   npcOwner: {fileID: 1636796150}
-  quizData: {fileID: 11400000, guid: f0b9e867388f57742913b5cb8886b0c5, type: 2}
+  quizData: {fileID: 11400000, guid: 48f158365868c1c4993b35ed89eca446, type: 2}
   quizPanel: {fileID: 1036754268}
   questionPanelRT: {fileID: 1659379973}
   optionsGridRT: {fileID: 2131477176}
@@ -82275,11 +82338,11 @@ MonoBehaviour:
   xButton: {fileID: 1969103130}
   linkedinButton: {fileID: 358918833}
   sitioWebButton: {fileID: 1190956503}
-  instagramURL: https://www.fintechmexico.org/
-  facebookURL: https://www.fintechmexico.org/
-  xURL: https://www.fintechmexico.org/
-  linkedinURL: https://www.fintechmexico.org/
-  sitioWebURL: https://www.fintechmexico.org/
+  instagramURL: https://www.instagram.com/cetesdirectomx/
+  facebookURL: https://facebook.com/cetesdirecto
+  xURL: https://x.com/cetesdirecto
+  linkedinURL: 
+  sitioWebURL: www.cetesdirecto.com
   playerController: {fileID: 96176111}
   cameraController: {fileID: 1825383945}
   manageControllers: 1
@@ -84025,6 +84088,8 @@ GameObject:
   - component: {fileID: 1717090554}
   - component: {fileID: 1717090553}
   - component: {fileID: 1717090552}
+  - component: {fileID: 1717090555}
+  - component: {fileID: 1717090556}
   m_Layer: 0
   m_Name: Techo
   m_TagString: Untagged
@@ -84121,6 +84186,50 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1717090550}
+  m_Mesh: {fileID: -7369275342607637648, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
+--- !u!64 &1717090555
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717090550}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7369275342607637648, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
+--- !u!64 &1717090556
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717090550}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: -7369275342607637648, guid: 55ec0db9a813bbf4bb46918aa874d20a, type: 3}
 --- !u!1 &1718418692
 GameObject:
@@ -97802,22 +97911,22 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
   screenId: Contenido 1
   standType: Stand Master
   ecosystemName: Ecosistema 3
-  assetId: 2b6a0f4b-062e-4d5e-84fb-1352a3bddadf
+  assetId: fd47bee6-c65a-4030-9e8e-9edbdf5bc5dd
   downloadButton: {fileID: 1899728140}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9e72d447-27ed-4708-8031-c370c4501a73/stands/95f4acc2-22f3-494e-ae62-f73e0d6770a7/assets/pdf/66af150b-e9eb-4fea-ba72-aea4c790a0c5.pdf
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/ba75dfcd-bb10-4119-ba22-ffee5a0b0844/stands/5369f6cc-2e2b-4ef0-8360-0a1f4489be14/assets/image/f31e902c-bb99-4db3-b912-09fd73b272c3.mp4
   hideDownloadIfEmpty: 1
   isSponsoredContent: 1
-  contentType: 0
+  contentType: 1
   singleImage: {fileID: 2800000, guid: 7f72ac35e325d4f419ecf10c4e6d9e9d, type: 3}
-  videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
+  videoURL: https://unity.acadyne.com/assets/f31e902c-bb99-4db3-b912-09fd73b272c3.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
   slides: []
-  idleImage: {fileID: 2800000, guid: 024c213daf6bc1f408ab8e5ce2a1af32, type: 3}
+  idleImage: {fileID: 2800000, guid: f51af8506f839cc47b4eccbc545c722e, type: 3}
   imageRawImage: {fileID: 1606652207}
   videoRawImage: {fileID: 1587057611}
   tallScrollRoot: {fileID: 0}
@@ -99342,7 +99451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6753231561116546029, guid: ac261b82cd1d59343832e5da2826e997, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

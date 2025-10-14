@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: CETES
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 es cetesdirecto?"
+    options:
+    - Una red social de finanzas
+    - Una plataforma para invertir en valores gubernamentales del Gobierno
+    - "Un banco en l\xEDnea"
+    - Una app para enviar dinero
+    correctIndex: 1
+    optionJustifications:
+    - "CETES Directo no es una red social, sino una plataforma del gobierno mexicano
+      que permite a cualquier persona invertir de forma segura en CETES (Certificados
+      de la Tesorer\xEDa) y otros instrumentos gubernamentales."
+    - 
+    - CETES Directo no es un banco, sino una plataforma del gobierno mexicano que
+      permite invertir en instrumentos de deuda del gobierno, como los CETES.
+    - "CETES directo no es una app para enviar dinero No est\xE1 dise\xF1ada como
+      una plataforma de pagos, sino como una herramienta de ahorro e inversi\xF3n
+      segura con el gobierno mexicano."
+  - question: "\xBFCu\xE1l es la inversi\xF3n m\xEDnima en cetesdirecto?"
+    options:
+    - $1,000 pesos
+    - $10 pesos
+    - $100 pesos
+    - $10,000 pesos
+    correctIndex: 2
+    optionJustifications:
+    - "El monto m\xEDnimo para invertir en CETES directo son 100 pesos"
+    - La plataforma CETES Directo establece que puedes invertir desde 100 pesos.
+    - 
+    - "El monto m\xEDnimo para invertir en Cetesdirecto es de $100 pesos, no de $10,000."
+  - question: "\xBFQui\xE9n respalda las inversiones en cetesdirecto?"
+    options:
+    - Un banco privado
+    - El Gobierno Federal
+    - Una empresa de inversiones
+    - La Bolsa Mexicana de Valores
+    correctIndex: 1
+    optionJustifications:
+    - "Cetesdirecto no lo respalda un banco privado. Es un canal del Gobierno de
+      M\xE9xico (SHCP/Banco de M\xE9xico) para comprar valores gubernamentales; el
+      respaldo es soberano (Gobierno Federal)"
+    - 
+    - "Cetesdirecto no lo respalda una empresa de inversiones, sino el Gobierno de
+      M\xE9xico a trav\xE9s de la SHCP y Banco de M\xE9xico, garantizando la seguridad
+      con respaldo del Estado, no privado."
+    - "Cetesdirecto no est\xE1 respaldado por la Bolsa Mexicana de Valores, sino
+      por el Gobierno de M\xE9xico mediante la SHCP y Banco de M\xE9xico, que garantizan
+      las inversiones en valores gubernamentales."
+  - question: "\xBFQu\xE9 tipo de instrumento puedes comprar en cetesdirecto?"
+    options:
+    - Cetes, Bondes y Bonos
+    - Acciones internacionales
+    - Criptomonedas
+    - "Tarjetas de inversi\xF3n"
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - Cetesdirecto no permite comprar acciones (ni nacionales ni internacionales).
+      Solo sirve para invertir en valores gubernamentales mexicanos (CETES, Bonos
+      M, Udibonos, Bondes F), no en acciones o ETFs.
+    - Cetesdirecto no permite invertir en criptomonedas. Solo se puede invertir en
+      valores gubernamentales mexicanos, respaldados por el Gobierno Federal, no
+      en activos digitales o de riesgo como el Bitcoin.
+    - "Cetesdirecto no ofrece tarjetas de inversi\xF3n. Es una plataforma en l\xEDnea
+      del Gobierno de M\xE9xico para invertir directamente en valores gubernamentales,
+      no en productos bancarios o tarjetas financieras."
+  - question: "\xBFQu\xE9 beneficio tiene el ahorro recurrente en cetesdirecto?"
+    options:
+    - Ganas puntos por invertir
+    - Te olvidas de invertir manualmente cada vez
+    - Solo aplica a grandes inversionistas
+    - "Tiene mejores tasas de inter\xE9s"
+    correctIndex: 2
+    optionJustifications:
+    - "Cetesdirecto no otorga puntos por invertir. Su beneficio est\xE1 en generar
+      rendimientos por invertir en valores gubernamentales, no en un sistema de recompensas."
+    - 
+    - "Cetesdirecto est\xE1 dise\xF1ado para peque\xF1os y grandes inversionistas,
+      permitiendo comenzar desde $100 pesos"
+    - "El ahorro recurrente en Cetesdirecto no ofrece tasas especiales. Todos los
+      inversionistas reciben la misma tasa vigente establecida por el Gobierno de
+      M\xE9xico."

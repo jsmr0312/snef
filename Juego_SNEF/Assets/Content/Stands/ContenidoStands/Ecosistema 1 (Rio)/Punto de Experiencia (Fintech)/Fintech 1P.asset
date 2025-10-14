@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Fintech 1P
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 es lo m\xE1s importante para proteger tu dinero en l\xEDnea?"
+    options:
+    - A) Usar cualquier app que veas en internet
+    - "B) Compartir tus contrase\xF1as con alguien de confianza"
+    - "C) Activar la verificaci\xF3n en dos pasos y usar apps oficiales"
+    - D) Descargar versiones pirata para ahorrar espacio
+    correctIndex: 2
+    optionJustifications:
+    - "Aumentan el riesgo de fraude o robo de informaci\xF3n."
+    - "Aumentan el riesgo de fraude o robo de informaci\xF3n."
+    - 
+    - "Aumentan el riesgo de fraude o robo de informaci\xF3n."
+  - question: "\xBFCu\xE1l es una buena pr\xE1ctica de ciberseguridad?"
+    options:
+    - "A) Usar la misma contrase\xF1a en todo"
+    - B) Cambiar tus claves regularmente
+    - C) Compartir tus accesos con amigos
+    - "D) Dejar tus contrase\xF1as guardadas en notas"
+    correctIndex: 1
+    optionJustifications:
+    - "No protege tu informaci\xF3n"
+    - 
+    - "No protege tu informaci\xF3n"
+    - "No protege tu informaci\xF3n"
+  - question: "\xBFPor qu\xE9 no conviene usar WiFi p\xFAblico para operaciones financieras?"
+    options:
+    - "A) Porque es m\xE1s lento"
+    - "B) Porque cualquiera puede interceptar tu informaci\xF3n"
+    - C) Porque no deja entrar a apps
+    - "D) Porque gasta bater\xEDa"
+    correctIndex: 1
+    optionJustifications:
+    - "Las redes p\xFAblicas son poco seguras y pueden exponer tus datos."
+    - 
+    - "Las redes p\xFAblicas son poco seguras y pueden exponer tus datos."
+    - "Las redes p\xFAblicas son poco seguras y pueden exponer tus datos."

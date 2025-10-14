@@ -13,6 +13,57 @@ MonoBehaviour:
   m_Name: Mercado Pago
   m_EditorClassIdentifier: 
   questions:
+  - question: "\xBFCu\xE1les son algunos de los beneficios de contar con una tarjeta
+      de cr\xE9dito?"
+    options:
+    - Poder hacer compras a meses sin intereses
+    - Tener la posibilidad de no pagar anualidad
+    - Obtener cashback
+    - Todas las anteriores
+    correctIndex: 3
+    optionJustifications:
+    - "No todos los comercios ofrecen esta opci\xF3n, Mercado Pago s\xED."
+    - "Aunque es un beneficio, no es el \xFAnico."
+    - "Es un beneficio adicional, pero no el \xFAnico que ofrece."
+    - 
+  - question: "\xBFC\xF3mo puedo hacer crecer mi dinero y protegerlo de la inflaci\xF3n?"
+    options:
+    - "Guardarlo en una alcanc\xEDa"
+    - "Adquirir un boleto de loter\xEDa"
+    - Utilizar herramientas que permitan generar ganancias
+    - Participar en tandas
+    correctIndex: 2
+    optionJustifications:
+    - No genera rendimientos.
+    - "Es azar, no una inversi\xF3n segura."
+    - 
+    - No garantiza crecimiento ni seguridad.
+  - question: "\xBFQu\xE9 opci\xF3n te permite tener acceso a pagos y gestiones de
+      dinero de forma m\xE1s \xE1gil?"
+    options:
+    - Usar solo dinero en efectivo
+    - Utilizar plataformas que centralizan tus pagos y ahorros
+    - "Hacer todo a trav\xE9s de transferencias bancarias manuales"
+    - No usar ninguna herramienta digital para pagos
+    correctIndex: 1
+    optionJustifications:
+    - "No es pr\xE1ctico ni seguro."
+    - 
+    - "Puede ser limitado o menos \xE1gil."
+    - Dificulta las operaciones y aumenta riesgos.
+  - question: "\xBFQu\xE9 acci\xF3n puede ayudarte a aprovechar mejor tu dinero a
+      largo plazo?"
+    options:
+    - Invertir en opciones que generen rendimientos
+    - Guardar el dinero en casa sin hacer nada
+    - Gastar todo inmediatamente
+    - "Solo ahorrar en monedas f\xEDsicas"
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - No genera intereses ni valor.
+    - Impide crear ahorros o ganancias.
+    - "No aprovecha opciones de inversi\xF3n."
   - question: Pregunta
     options:
     - Opcion 1
