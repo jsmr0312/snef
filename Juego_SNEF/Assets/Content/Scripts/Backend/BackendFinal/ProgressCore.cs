@@ -18,11 +18,10 @@ public class ProgressCore : MonoBehaviour
 
     // en ProgressCore.cs (arriba, junto a las opciones)
     [Header("API remoto (opcional)")]
-    public bool remoteSyncEnabled = false; // ← nuevo (por defecto apagado)
-    public string baseUrl = "https://api.estudiohera.mx";   // ya no se usan si remoteSyncEnabled=false
+    public bool remoteSyncEnabled = false; // ← por defecto apagado
+    public string baseUrl = "https://api.estudiohera.mx";   // no se usan si remoteSyncEnabled=false
     public string progressPath = "/game/progress";
     public string tokenPlayerPrefsKey = "snef_token";
-
 
     [Header("Opciones")]
     public bool saveLocalOnEachChange = true;       // guarda PlayerPrefs cada cambio
@@ -30,11 +29,8 @@ public class ProgressCore : MonoBehaviour
     public float requestTimeout = 8f;
 
     [Header("Dev / Pruebas")]
-    public bool allowSendWithoutToken = false; // antes true
-                                               // para pruebas sin token
+    public bool allowSendWithoutToken = false; // para pruebas sin token
     public bool verboseLogs = true;
-
-
 
     // === Claves de almacenamiento local ===
     public const string STORAGE_KEY = "progress-storage"; // compat con bootstrap nuevo
@@ -42,7 +38,12 @@ public class ProgressCore : MonoBehaviour
     const string KEY_PENDING = "pending_save_v1";
 
     // ===== Modelo principal (el tuyo) =====
-    [Serializable] public class Profile { public string avatar_id; }
+    [Serializable]
+    public class Profile
+    {
+        public string avatar_id;
+        public string avatar_name; // fallback: si viene solo avatar_name en el JSON, lo usamos como id
+    }
 
     // Para evitar choque de nombre con la propiedad Progress, renombramos:
     [Serializable] public class Wallet { public int presupuesto; public int puntaje; }
@@ -91,7 +92,6 @@ public class ProgressCore : MonoBehaviour
     public GameProgressV1 Data { get; private set; } = new GameProgressV1();
 
     // --------- Facade de compatibilidad "Progress" ---------
-    // Permite que scripts usen: ProgressCore.I.Progress.presupuesto / .stands / .owned_items / .profile
     public class ProgressFacade
     {
         readonly GameProgressV1 _d;
@@ -143,7 +143,31 @@ public class ProgressCore : MonoBehaviour
         Data.owned_items.Add(itemId); Touch(); return true;
     }
 
-    // ===== API pública: Misiones / Logros / Minijuegos (igual que tu archivo) =====
+    // --- Reset limpio para invitado / sin bootstrap ---
+    public void ResetLocalProgress(string reason = "guest/no bootstrap")
+    {
+        if (verboseLogs) Debug.Log($"[ProgressCore] ResetLocalProgress: {reason}");
+
+        // 1) Nuevo estado en memoria
+        Data = new GameProgressV1();
+        Data.meta.app_version = Application.version;
+
+        // 2) Limpia claves locales de progreso
+        try
+        {
+            PlayerPrefs.DeleteKey(KEY_LOCAL);
+            PlayerPrefs.DeleteKey(STORAGE_KEY);
+            PlayerPrefs.DeleteKey("pending_save_v1"); // por si quedó un PUT pendiente
+            PlayerPrefs.Save();
+        }
+        catch { }
+
+        // 3) Guarda el limpio y notifica
+        SaveLocal();
+        OnChanged?.Invoke(Data);
+    }
+
+    // === Misiones / Logros / Minijuegos ===
     public void UpsertMission(string id, string state)
     {
         var now = DateTime.UtcNow.ToString("o");
@@ -160,7 +184,6 @@ public class ProgressCore : MonoBehaviour
         e.unlocked = unlocked; e.updated_at = now; Touch();
     }
 
-    // === Helpers de clave compuesta (stand::minigame) ===
     public static string MinigameKey(string standId, string minigameId)
     {
         if (string.IsNullOrEmpty(standId)) return minigameId ?? "minigame";
@@ -171,9 +194,8 @@ public class ProgressCore : MonoBehaviour
     public void UpsertMinigameScoped(string standId, string minigameId, int bestScore, int stars)
     {
         var key = MinigameKey(standId, minigameId);
-        UpsertMinigame(key, bestScore, stars); // usa tu método existente
+        UpsertMinigame(key, bestScore, stars);
     }
-
 
     public void UpsertMinigame(string id, int bestScore, int stars)
     {
@@ -229,9 +251,7 @@ public class ProgressCore : MonoBehaviour
         s.updated_at = DateTime.UtcNow.ToString("o"); Touch();
     }
 
-    // — Compat nueva:
     public void Stand_AddViewedScreen(string standId, string assetId) => Stand_MarkScreenViewed(standId, assetId);
-
     public void Stand_UnlockQuiz(string standId) { var s = EnsureStand(standId); if (s == null) return; s.quiz_unlocked = true; s.updated_at = DateTime.UtcNow.ToString("o"); Touch(); }
     public void Stand_RecordQuiz(string standId, int score, int total)
     {
@@ -243,7 +263,6 @@ public class ProgressCore : MonoBehaviour
     public void Stand_UnlockArcade(string standId) { var s = EnsureStand(standId); if (s == null) return; if (!s.arcade_unlocked) { s.arcade_unlocked = true; s.updated_at = DateTime.UtcNow.ToString("o"); Touch(); } }
     public void Stand_LockArcade(string standId) { var s = EnsureStand(standId); if (s == null) return; if (s.arcade_unlocked) { s.arcade_unlocked = false; s.updated_at = DateTime.UtcNow.ToString("o"); Touch(); } }
 
-    // — Compat nueva: tiempos/visita
     public void Stand_AddTime(string standId, int seconds) { var s = EnsureStand(standId); if (s == null) return; s.time_spent_s += Mathf.Max(0, seconds); s.updated_at = DateTime.UtcNow.ToString("o"); Touch(); }
     public void Stand_SetLastVisitNow(string standId) { var s = EnsureStand(standId); if (s == null) return; s.last_visit_iso = DateTime.UtcNow.ToString("o"); s.updated_at = s.last_visit_iso; Touch(); }
 
@@ -259,7 +278,6 @@ public class ProgressCore : MonoBehaviour
         if (remoteSyncEnabled)         // solo si lo reactivas
             StartCoroutine(PutAllCoroutine(reason));
     }
-
 
     public IEnumerator SaveNowRoutine(string reason = "")
     {
@@ -321,30 +339,78 @@ public class ProgressCore : MonoBehaviour
         public int presupuesto;
         public List<string> owned_items;
         public List<string> store_items;
-        public List<StandProgress> stands;
+        public List<BootstrapStand> stands;
+    }
+    [Serializable]
+    class BootstrapMinigame
+    {
+        public string minigame_id;
+        public string minigame_name;
+        public int monedas_del_minigame;
+        public int puntaje;
+        public string outcome; // "win" | "lose" | etc.
+    }
+
+    [Serializable]
+    class BootstrapStand
+    {
+        public string stand_id;
+        public string stand_number;
+        public string stand_type;
+        public string ecosystem;
+        public bool is_experience_point;
+        public string experience_point;
+        public List<string> assets;
+        public List<BootstrapMinigame> minigames;
+        public List<string> trivias;
     }
 
     public void LoadFromBootstrapJson(string json)
     {
+        bool loaded = false;
+
+        // 1) Envoltorio { state:{ progress:{ ... } }, version }
         try
         {
             var b = JsonUtility.FromJson<BootstrapWrapper>(json);
-            if (b?.state?.progress != null)
+            var p = b?.state?.progress;
+            if (p != null)
             {
-                // adopta campos relevantes
-                Data.profile = b.state.progress.profile ?? new Profile();
-                Data.progress.puntaje = b.state.progress.puntaje;
-                Data.progress.presupuesto = b.state.progress.presupuesto;
-                Data.owned_items = b.state.progress.owned_items ?? new List<string>();
-                Data.stands = b.state.progress.stands ?? new List<StandProgress>();
-                Touch(); // guarda local
-                if (verboseLogs) Debug.Log("[ProgressCore] Bootstrap (envoltura) cargado.");
-                return;
+                // *** Reemplaza COMPLETAMENTE el estado local para evitar residuos ***
+                Data = new GameProgressV1();
+                Data.meta.app_version = Application.version;
+
+                // profile
+                Data.profile = p.profile ?? new Profile();
+                if (string.IsNullOrEmpty(Data.profile.avatar_id) && !string.IsNullOrEmpty(Data.profile.avatar_name))
+                    Data.profile.avatar_id = Data.profile.avatar_name;
+
+                // stats
+                Data.progress.puntaje = p.puntaje;
+                Data.progress.presupuesto = p.presupuesto;
+
+                // inventario
+                Data.owned_items = p.owned_items ?? new List<string>();
+
+                // stands/minijuegos/misiones/logros: arrancan LIMPIOS y se rellenan con el JSON
+                Data.stands = new List<StandProgress>();
+                Data.minigames = new List<MinigameEntry>();
+                Data.missions = new List<MissionEntry>();
+                Data.achievements = new List<AchievementEntry>();
+
+                // mapear stands externos → internos
+                if (p.stands != null) MapBootstrapStands(p.stands);
+
+                Touch(); // guarda local + OnChanged
+                if (verboseLogs) Debug.Log("[ProgressCore] Bootstrap (wrapper externo) cargado.");
+                loaded = true;
             }
         }
-        catch { /* cae al intento plano */ }
+        catch { /* fallback directo */ }
 
-        // Si no es el envoltorio, intenta directamente GameProgressV1
+        if (loaded) return;
+
+        // 2) Fallback: intenta GameProgressV1 directo
         try
         {
             var direct = JsonUtility.FromJson<GameProgressV1>(json);
@@ -353,7 +419,58 @@ public class ProgressCore : MonoBehaviour
         catch { Debug.LogWarning("[ProgressCore] Bootstrap JSON inválido."); }
     }
 
-    // ====== Red (igual a tu archivo, con mejoras menores) ======
+    void MapBootstrapStands(List<BootstrapStand> src)
+    {
+        if (src == null) return;
+
+        foreach (var bs in src)
+        {
+            if (bs == null || string.IsNullOrEmpty(bs.stand_id)) continue;
+
+            // Crea/obtiene el stand interno y asigna type si viene
+            var sp = EnsureStand(bs.stand_id, bs.stand_type);
+
+            // 1) Assets vistos → viewed_screens
+            if (bs.assets != null && bs.assets.Count > 0)
+            {
+                if (sp.viewed_screens == null) sp.viewed_screens = new List<string>();
+                foreach (var a in bs.assets)
+                {
+                    if (string.IsNullOrWhiteSpace(a)) continue;
+                    if (!sp.viewed_screens.Contains(a)) sp.viewed_screens.Add(a);
+                }
+            }
+
+            // 2) Minijuegos → estrellas (puntaje) y mejor marcador
+            if (bs.minigames != null)
+            {
+                foreach (var mg in bs.minigames)
+                {
+                    if (mg == null) continue;
+
+                    // Usa id si existe; si no, el name
+                    string mgId = !string.IsNullOrEmpty(mg.minigame_id) ? mg.minigame_id : mg.minigame_name;
+                    if (!string.IsNullOrEmpty(mgId))
+                    {
+                        // En tu backend, "puntaje" = estrellas (0–3)
+                        int stars = Mathf.Clamp(mg.puntaje, 0, 3);
+                        int best = stars; // si no manejas otro score, usa las mismas estrellas como best_score
+                        UpsertMinigameScoped(bs.stand_id, mgId, best, stars);
+                    }
+                }
+            }
+
+            // 3) Regla tuya: si el stand aparece en la lista, se considera COMPLETADO.
+            //    Promovemos fase y desbloqueamos arcade (solo hacia adelante)
+            Stand_UnlockArcade(bs.stand_id);
+            Stand_SetPhase(bs.stand_id, bs.stand_type, "Final", onlyForward: true);
+            sp.quiz_unlocked = true; // coherencia local para UI/flujo
+
+            sp.updated_at = DateTime.UtcNow.ToString("o");
+        }
+    }
+
+    // ====== Red ======
     IEnumerator GetAndMergeCoroutine()
     {
         string token = PlayerPrefs.GetString(tokenPlayerPrefsKey, "");
@@ -474,6 +591,4 @@ public class ProgressCore : MonoBehaviour
             return r > l;
         return false;
     }
-
-
 }

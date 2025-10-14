@@ -1,4 +1,4 @@
-// Stats.cs (REEMPLAZA por esta versi�n extendida)
+﻿// Stats.cs (REEMPLAZA por esta versión extendida)
 using UnityEngine;
 using System;
 using System.Collections.Generic;
@@ -61,7 +61,7 @@ public class Stats : MonoBehaviour
         if (puntaje < 0) puntaje = 0;
         Debug.Log($"[Stats] AddPuntaje({cantidad}) => {puntaje}");
         OnPuntajeChanged?.Invoke(puntaje);
-        // dentro de Stats.AddPuntaje(int cantidad), despu�s de actualizar 'puntaje':
+        // dentro de Stats.AddPuntaje(int cantidad), después de actualizar 'puntaje':
         MetricsClient.I?.TrackPuntajeGeneralJugador(puntaje, cantidad);
 
     }
@@ -96,9 +96,44 @@ public class Stats : MonoBehaviour
         return p;
     }
 
+    // --- En Stats.cs (clase Stats) ---
+    // Importa/establece el mejor resultado sin otorgar premios ni métricas.
+    // Úsalo al boot para reflejar el historial proveniente de ProgressCore.
+    // Importa/establece el mejor resultado sin otorgar premios ni métricas.
+    // Úsalo al boot para reflejar el historial proveniente de ProgressCore.
+    public void ImportMinigameBest(string minigameId, int bestStars, float bestTime = 0f)
+    {
+        if (string.IsNullOrWhiteSpace(minigameId)) return;
+
+        // Actualiza el registro real dentro del diccionario
+        var p = GetOrCreate(minigameId);
+
+        // Sube como mínimo el histórico (nunca baja)
+        if (bestStars > p.bestStars)
+            p.bestStars = bestStars;
+
+        // Si traes tiempo, guarda el mejor (tu valor por defecto es +∞)
+        if (bestTime > 0f && (float.IsInfinity(p.bestTime) || bestTime < p.bestTime))
+            p.bestTime = bestTime;
+
+        // No llames AddPresupuesto/AddPuntaje ni envíes métricas aquí.
+        // Tampoco hace falta SetProgress: ya modificamos 'p' por referencia.
+    }
+    // --- Stats.cs ---
+    // Setea totales sin enviar métricas ni sumar/restar deltas.
+    public void SetTotalsSilently(int nuevoPresupuesto, int nuevoPuntaje)
+    {
+        presupuesto = Mathf.Max(0, nuevoPresupuesto);
+        puntaje = Mathf.Max(0, nuevoPuntaje);
+        ForceRefresh(); // solo refresca UI
+    }
+
+
+
+
     /// <summary>
-    /// Registra el resultado de un minijuego y devuelve cu�ntos puntos/monedas
-    /// se deben acreditar (solo la diferencia respecto al mejor hist�rico).
+    /// Registra el resultado de un minijuego y devuelve cuántos puntos/monedas
+    /// se deben acreditar (solo la diferencia respecto al mejor histórico).
     /// puntosPorTotalEstrellas: array como [0, 100, 200, 300]
     /// </summary>
     public int RegisterMinigameResult(
@@ -117,7 +152,7 @@ public class Stats : MonoBehaviour
         improvedStars = stars > prevStars;
         improvedTime = timeSeconds < prevTime;
 
-        // Actualiza r�cords
+        // Actualiza récords
         if (improvedStars) p.bestStars = stars;
         if (improvedTime) p.bestTime = timeSeconds;
 

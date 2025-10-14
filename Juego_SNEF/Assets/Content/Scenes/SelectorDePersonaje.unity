@@ -14207,6 +14207,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneName: Menu
+  waitForBootstrapMs: 150
+  log: 1
 --- !u!4 &1558939637
 Transform:
   m_ObjectHideFlags: 0
@@ -14811,6 +14813,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1662061183}
   - component: {fileID: 1662061184}
+  - component: {fileID: 1662061185}
   m_Layer: 0
   m_Name: Progress
   m_TagString: Untagged
@@ -14854,6 +14857,19 @@ MonoBehaviour:
   requestTimeout: 8
   allowSendWithoutToken: 1
   verboseLogs: 1
+--- !u!114 &1662061185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662061181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44bc15330c239e548b186410c7107fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  log: 0
 --- !u!1 &1667405991
 GameObject:
   m_ObjectHideFlags: 0
@@ -15581,6 +15597,8 @@ GameObject:
   - component: {fileID: 1731951221}
   - component: {fileID: 1731951220}
   - component: {fileID: 1731951222}
+  - component: {fileID: 1731951224}
+  - component: {fileID: 1731951223}
   m_Layer: 0
   m_Name: Metricas
   m_TagString: Untagged
@@ -15635,6 +15653,37 @@ MonoBehaviour:
   proactiveRefreshSeconds: 60
   refreshTimeout: 8
   verbose: 1
+--- !u!114 &1731951223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731951219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a40f5e3886d7fec40bd2b639eec4c6fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressKey: progress-storage
+  resetOnGuestToken: 1
+  hardDeleteAllPrefsOnGuest: 1
+  clearKeyAfterRead: 0
+  syncStatsHere: 0
+  log: 0
+--- !u!114 &1731951224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731951219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e356f6106e2812b4fa079280476f9098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  log: 0
 --- !u!1 &1745598775
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,24 +21,28 @@ public class CambiaEscena : MonoBehaviour
         if (confirmButton) confirmButton.interactable = false;
         if (loadingBlocker) loadingBlocker.SetActive(true);
 
-        // 1) Guardado local legacy (si lo usas)
         if (guardarPersonaje) guardarPersonaje.Guardar();
         yield return null;
 
         if (avatarMapper == null) avatarMapper = FindObjectOfType<AvatarIdMapper>();
-
-        // 2) Resolver el avatar seleccionado (índice → nombre)
         int idx = AvatarSelectionBridge.GetSelectedIndexFromPrefs();
         if (idx == 0) idx = AvatarSelectionBridge.GetSelectedIndexFromLegacyPrefs();
         string avatarName = avatarMapper ? avatarMapper.GetByIndex(idx) : null;
 
-        // 3) MÉTRICA canónica (solo AQUÍ, al confirmar)
+        // Asegura que haya instancia (por si tu juego la crea en otra escena)
+        if (MetricsClient.I == null)
+            new GameObject("MetricsClient").AddComponent<MetricsClient>();
+
         if (!string.IsNullOrEmpty(avatarName))
-            MetricsClient.I?.TrackAvatarSeleccionado(avatarName);
+            MetricsClient.I.TrackAvatarSeleccionado(avatarName);
         else
             Debug.LogWarning("[CambiaEscena] avatarName vacío; revisa AvatarIdMapper y el índice guardado.");
+
+        // Da un frame para que la coroutine se enfile antes de cambiar de escena
+        yield return null;
 
         if (loadingBlocker) loadingBlocker.SetActive(false);
         SceneManager.LoadScene(nombreEscena);
     }
+
 }

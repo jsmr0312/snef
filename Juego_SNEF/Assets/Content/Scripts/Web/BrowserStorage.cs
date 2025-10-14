@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -6,16 +5,14 @@ public static class BrowserStorage
 {
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")]
-    private static extern IntPtr LS_GetItem(string key);
+    private static extern string __GetLocalStorageItem(string key);
 #endif
 
     public static string GetItem(string key)
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        var ptr = LS_GetItem(key);
-        return ptr == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(ptr);
+        try { return __GetLocalStorageItem(key); } catch { return null; }
 #else
-        // En Editor simulamos con PlayerPrefs para que no truene
         return PlayerPrefs.GetString(key, null);
 #endif
     }

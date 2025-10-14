@@ -95,7 +95,7 @@ public class TokenLifecycle : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         try { __RequestTokenRefresh(); } catch { }
 #else
-        // Editor: simular que el host actualizará PlayerPrefs("auth_token")
+        // Editor: simular que el host actualizará el token
 #endif
 
         // Esperar hasta que cambie el token o timeout

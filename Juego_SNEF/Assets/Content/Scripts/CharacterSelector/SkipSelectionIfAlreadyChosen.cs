@@ -1,25 +1,62 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-5900)] // corre después de ProgressBootstrapper (-8000) y StatsProgressSync (-7000)
 public class SkipSelectionIfAlreadyChosen : MonoBehaviour
 {
-    [Tooltip("Escena a la que ir si ya hay avatar elegido")]
-    public string nextSceneName = "BosquePrincipal";
+    [Tooltip("Escena a la que ir si ya hay avatar elegido (tu menú)")]
+    public string nextSceneName = "MainMenu";
 
-    // ...
-    void Awake()
+    [Tooltip("Esperar estos ms para que el bootstrap aplique Data antes de decidir")]
+    public int waitForBootstrapMs = 150;
+
+    public bool log = true;
+
+    void Start() => StartCoroutine(Route());
+
+    IEnumerator Route()
     {
-        if (ProgressCore.I == null) new GameObject("ProgressCore").AddComponent<ProgressCore>();
+        // 1) Asegurar que ProgressCore existe (él se auto-spawnea BeforeSceneLoad, pero por si acaso)
+        if (ProgressCore.I == null)
+            new GameObject("ProgressCore").AddComponent<ProgressCore>();
 
-        var id = ProgressCore.I.GetAvatarId();  // <— en lugar de Data?.profile?.avatar_id
-        if (!string.IsNullOrEmpty(id))
+        // 2) Espera corta para que ProgressBootstrapper/StatsSync terminen su Start()
+        float t = 0f, max = waitForBootstrapMs / 1000f;
+        while (t < max)
         {
-            SceneManager.LoadScene(nextSceneName);
-            return;
+            // si ya hay avatar, no esperes más
+            if (HasAvatarSelected()) break;
+            yield return null;
+            t += Time.unscaledDeltaTime;
         }
 
-        if (PlayerPrefs.GetInt("avatar_selected", 0) == 1)
+        // 3) Si hay avatar seleccionado, saltar al menú
+        if (HasAvatarSelected())
+        {
+            if (log) Debug.Log("[Router] Avatar encontrado. Saltando al menú…");
             SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            if (log) Debug.Log("[Router] No hay avatar aún. Mostrar selector.");
+        }
     }
 
+    bool HasAvatarSelected()
+    {
+        // a) si el progreso ya trae avatar_id (inyectado o guardado)
+        if (ProgressCore.I != null && !string.IsNullOrEmpty(ProgressCore.I.GetAvatarId()))
+            return true;
+
+        // b) compat legacy por PlayerPrefs
+        if (PlayerPrefs.GetInt("avatar_selected", 0) == 1)
+            return true;
+
+        // c) si ya hay índice guardado (1..12), también consideramos válido
+        int idx = AvatarSelectionBridge.GetSelectedIndexFromPrefs();
+        if (idx >= 1) return true;
+
+        return false;
+    }
 }

@@ -10,7 +10,7 @@ public class MetricsClient : MonoBehaviour
     public static MetricsClient I { get; private set; }
 
     [Header("API")]
-    public string baseUrl = "https://api.tu-backend.com";
+    public string baseUrl = "https://api.estudiohera.mx";
     public string metricsPath = "/metricas/metricas";
 
     [Header("Comportamiento")]
@@ -24,6 +24,19 @@ public class MetricsClient : MonoBehaviour
     const string KEY_SESSION = "metrics_session_id";
     string _sessionId;
     List<string> _preTokenBuffer = new();
+
+    class Runner : MonoBehaviour { }
+    static Runner _runner;
+    static Runner EnsureRunner()
+    {
+        if (_runner == null)
+        {
+            var go = new GameObject("MetricsRunner");
+            DontDestroyOnLoad(go);
+            _runner = go.AddComponent<Runner>();
+        }
+        return _runner;
+    }
 
     [Serializable] class Envelope<T> { public string name; public T contenido; }
 
@@ -152,10 +165,10 @@ public class MetricsClient : MonoBehaviour
     }
 
     [Serializable]
-    class PuntajeJugadorPayload : CanonicalBase
+    class PuntajeGeneralJugadorPayload : CanonicalBase
     {
-        public int total;
-        public int delta;
+        public int puntaje;   // valor numérico
+        public string tipo;   // "total" o "delta"
     }
 
 
@@ -374,10 +387,17 @@ public class MetricsClient : MonoBehaviour
 
     public void TrackPuntajeGeneralJugador(int total, int delta)
     {
-        var p = NewCanonical<PuntajeJugadorPayload>();
-        p.total = Mathf.Max(0, total);
-        p.delta = delta;
-        PostEvent("puntaje_general_jugador", p);
+        // total
+        var pTotal = NewCanonical<PuntajeGeneralJugadorPayload>();
+        pTotal.puntaje = Mathf.Max(0, total);
+        pTotal.tipo = "total";
+        PostEvent("puntaje_general_jugador", pTotal);
+
+        // delta (permite negativos)
+        var pDelta = NewCanonical<PuntajeGeneralJugadorPayload>();
+        pDelta.puntaje = delta;
+        pDelta.tipo = "delta";
+        PostEvent("puntaje_general_jugador", pDelta);
     }
     public void TrackPresupuesto(int amount, string motivo, string standId = null, string ecosystemName = null)
     {
@@ -426,7 +446,8 @@ public class MetricsClient : MonoBehaviour
     {
         var env = new Envelope<T> { name = name, contenido = contenido };
         var json = JsonUtility.ToJson(env);
-        StartCoroutine(PostJson(json, name));
+      
+        EnsureRunner().StartCoroutine(PostJson(json, name));
     }
 
     // MetricsClient.cs — reemplaza tu IEnumerator PostJson(...) por esta versión
