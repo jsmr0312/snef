@@ -2079,7 +2079,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 202620620}
-  - component: {fileID: 202620622}
   - component: {fileID: 202620621}
   m_Layer: 0
   m_Name: "L\xF3gicaMinijuegoAtrapaYEsquiva"
@@ -2119,7 +2118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e7bff520c5bf246bf66c8578884770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minijuegoId: lluvia_objetos
+  minijuegoId: Minijuego3-E1
   itemWorldScale: 1.5
   killMarginBelowArea: 3
   usarTiempo: 1
@@ -2252,57 +2251,6 @@ MonoBehaviour:
   umbral2: 10
   umbral3: 15
   controladoresAInhabilitar: []
-  panelPregunta: {fileID: 0}
---- !u!114 &202620622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202620619}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b077b8fd0528e2049b3fbfce8b049e4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tiempoNivel: 90
-  contadorText: {fileID: 1293528691}
-  panelDerrota: {fileID: 1718420928}
-  btnReintentarDerrota: {fileID: 875154293}
-  btnAbandonar: {fileID: 1496562273}
-  escenaAbandonar: Rio
-  panelVictoria: {fileID: 1340075325}
-  estrella1: {fileID: 1198688993}
-  estrella2: {fileID: 253535865}
-  estrella3: {fileID: 1799655879}
-  colorEstrellaGanada: {r: 0.9490196, g: 0.7607843, b: 0.14509805, a: 1}
-  colorEstrellaPerdida: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  puntuacionText: {fileID: 785353162}
-  recordText: {fileID: 0}
-  btnJugarOtraVez: {fileID: 1199406336}
-  btnContinuar: {fileID: 1922493193}
-  escenaContinuar: Rio
-  sfxSource: {fileID: 583576082}
-  estrellaSfx: {fileID: 8300000, guid: 164cfbca0ef85c5478ec9dc81e46db32, type: 3}
-  estrellaSfxVolume: 1
-  sfxSoloSiEstrellaGanada: 1
-  sfxPitchAscendente: 1
-  sfxPitchBase: 1
-  sfxPitchStep: 0.07
-  tiempo3Estrellas: 40
-  tiempo2Estrellas: 60
-  tiempo1Estrella: 80
-  puntosPorTotalEstrellas: 0000000064000000c80000002c010000
-  acreditarEnPresupuesto: 1
-  acreditarEnPuntaje: 1
-  minijuegoId: Minijuego1-E3
-  respawner: {fileID: 1695596977}
-  controladoresAInhabilitar:
-  - {fileID: 1695596983}
-  mostrarMejorMarcaEnUI: 1
-  scoreCountDuration: 0.8
-  scorePrefix: +
-  completadoTexto: completado
 --- !u!1 &203822651
 GameObject:
   m_ObjectHideFlags: 0

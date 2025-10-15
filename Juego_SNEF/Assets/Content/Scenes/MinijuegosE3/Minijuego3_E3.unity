@@ -20633,7 +20633,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1766795427}
-  - component: {fileID: 1766795429}
   - component: {fileID: 1766795428}
   m_Layer: 0
   m_Name: "L\xF3gicaMinijuegoAtrapaYEsquiva"
@@ -20673,7 +20672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e7bff520c5bf246bf66c8578884770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minijuegoId: lluvia_objetos
+  minijuegoId: Minijuego3_E3
   itemWorldScale: 1.5
   killMarginBelowArea: 3
   usarTiempo: 1
@@ -20806,57 +20805,6 @@ MonoBehaviour:
   umbral2: 10
   umbral3: 15
   controladoresAInhabilitar: []
-  panelPregunta: {fileID: 0}
---- !u!114 &1766795429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1766795426}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b077b8fd0528e2049b3fbfce8b049e4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tiempoNivel: 90
-  contadorText: {fileID: 1392141809}
-  panelDerrota: {fileID: 2109113858}
-  btnReintentarDerrota: {fileID: 59475291}
-  btnAbandonar: {fileID: 781001903}
-  escenaAbandonar: Bosque
-  panelVictoria: {fileID: 549240459}
-  estrella1: {fileID: 2024495731}
-  estrella2: {fileID: 1639592617}
-  estrella3: {fileID: 1354536867}
-  colorEstrellaGanada: {r: 0.9490196, g: 0.7607843, b: 0.14509805, a: 1}
-  colorEstrellaPerdida: {r: 0.4, g: 0.4, b: 0.4, a: 1}
-  puntuacionText: {fileID: 1144487828}
-  recordText: {fileID: 0}
-  btnJugarOtraVez: {fileID: 2092597441}
-  btnContinuar: {fileID: 501297100}
-  escenaContinuar: Bosque
-  sfxSource: {fileID: 978939223}
-  estrellaSfx: {fileID: 8300000, guid: 164cfbca0ef85c5478ec9dc81e46db32, type: 3}
-  estrellaSfxVolume: 1
-  sfxSoloSiEstrellaGanada: 1
-  sfxPitchAscendente: 1
-  sfxPitchBase: 1
-  sfxPitchStep: 0.07
-  tiempo3Estrellas: 40
-  tiempo2Estrellas: 60
-  tiempo1Estrella: 80
-  puntosPorTotalEstrellas: 0000000064000000c80000002c010000
-  acreditarEnPresupuesto: 1
-  acreditarEnPuntaje: 1
-  minijuegoId: Minijuego1-E3
-  respawner: {fileID: 765653679}
-  controladoresAInhabilitar:
-  - {fileID: 765653685}
-  mostrarMejorMarcaEnUI: 1
-  scoreCountDuration: 0.8
-  scorePrefix: +
-  completadoTexto: completado
 --- !u!1 &1777151562
 GameObject:
   m_ObjectHideFlags: 0

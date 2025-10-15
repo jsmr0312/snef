@@ -503,6 +503,10 @@ public class CompraResponsivaManager : MonoBehaviour
         _corriendo = false;
 
         int estrellasPartida = CalcularEstrellasPorCorrectas(_correctas);
+        // Asegura que Stats ya conozca el histórico del JSON
+        int preBest = GetPreBest(minijuegoId);
+        if (preBest > 0) Stats.I?.ImportMinigameBest(minijuegoId, preBest);
+
 
         // Registrar y calcular premio por estrellas (como runner)
         int premio = 0; bool improvedStars, improvedTime;
@@ -548,11 +552,12 @@ public class CompraResponsivaManager : MonoBehaviour
 
         // estrellas a mostrar (best o partida)
         int estrellasUI = estrellasPartida;
-        if (Stats.I != null && mostrarMejorMarcaEnUI)
+        if (mostrarMejorMarcaEnUI)
         {
-            var snap = Stats.I.GetProgress(minijuegoId);
-            estrellasUI = snap.bestStars;
+            int bestStats = (Stats.I != null) ? Stats.I.GetProgress(minijuegoId).bestStars : 0;
+            estrellasUI = Mathf.Max(bestStats, preBest);
         }
+
 
         if (recordText) recordText.text = $"Correctas: {_correctas}/{rondasTotales}";
 
@@ -770,4 +775,26 @@ public class CompraResponsivaManager : MonoBehaviour
         public string key; public string displayName; public bool isCorrect;
         public OptionTriple(string k, string d, bool c) { key = k; displayName = string.IsNullOrEmpty(d) ? k : d; isCorrect = c; }
     }
+
+    int GetPreBest(string scopedId)
+    {
+        int pre = 0;
+        if (Stats.I != null) pre = Stats.I.GetProgress(scopedId).bestStars;
+
+        var list = ProgressCore.I?.Data?.minigames;
+        if (list != null)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                var m = list[i];
+                if (m != null && m.id == scopedId)
+                {
+                    if (m.stars > pre) pre = m.stars;
+                    break;
+                }
+            }
+        }
+        return pre;
+    }
+
 }

@@ -591,4 +591,71 @@ public class ProgressCore : MonoBehaviour
             return r > l;
         return false;
     }
+
+    // En ProgressCore.cs (añade estas clases DTO y el método ImportMinigamesFromRemoteJson)
+
+    [Serializable] class RemoteProgressStorage { public RemoteState state; }
+    [Serializable] class RemoteState { public RemoteProgress progress; }
+    [Serializable]
+    class RemoteProgress
+    {
+        public int puntaje;
+        public int presupuesto;
+        public RemoteStand[] stands;
+    }
+    [Serializable]
+    class RemoteStand
+    {
+        public string stand_id;
+        public RemoteMini[] minigames;
+    }
+    [Serializable]
+    class RemoteMini
+    {
+        public string minijuego_id;   // por si algún día te llega así
+        public string minigame_id;    // alias alterno
+        public string minigame_name;  // ← tu caso actual
+        public int puntaje;           // 1..3 (estrellas)
+    }
+
+    public void ImportMinigamesFromRemoteJson(string rawJson)
+    {
+        if (string.IsNullOrWhiteSpace(rawJson)) return;
+
+        RemoteProgressStorage root = null;
+        try { root = UnityEngine.JsonUtility.FromJson<RemoteProgressStorage>(rawJson); }
+        catch { /* ignora parse errors seguros */ }
+
+        var progress = root?.state?.progress;
+        if (progress == null || progress.stands == null) return;
+
+        // 1) Totales (sin métricas)
+        Stats.I?.SetTotalsSilently(progress.presupuesto, progress.puntaje); // Presupuesto/Score en HUD
+
+        // 2) Importar “bestStars” por minijuego
+        foreach (var stand in progress.stands)
+        {
+            if (stand == null || string.IsNullOrEmpty(stand.stand_id) || stand.minigames == null) continue;
+
+            foreach (var mini in stand.minigames)
+            {
+                if (mini == null) continue;
+
+                // intentamos varios campos típicos
+                var remoteName = !string.IsNullOrWhiteSpace(mini.minigame_name) ? mini.minigame_name
+                               : !string.IsNullOrWhiteSpace(mini.minigame_id) ? mini.minigame_id
+                               : mini.minijuego_id;
+
+                var baseId = RemoteMinigameIdResolver.ToBaseId(remoteName);
+                if (string.IsNullOrWhiteSpace(baseId)) continue;
+
+                string scopedId = stand.stand_id + "::" + baseId; // ← igual que MinigameScope.ScopedId
+
+                int stars = UnityEngine.Mathf.Clamp(mini.puntaje, 0, 3);
+                // Guarda en tu “Data” si llevas espejo, y sobre todo súbelo a Stats (sin premios):
+                Stats.I?.ImportMinigameBest(scopedId, stars); // no dispara métricas ni premios
+            }
+        }
+    }
+
 }

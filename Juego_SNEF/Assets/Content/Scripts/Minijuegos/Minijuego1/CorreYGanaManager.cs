@@ -1,5 +1,4 @@
-﻿// CorreYGanaManager.cs (versión ajustada)
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -25,34 +24,27 @@ public class CorreYGanaManager : MonoBehaviour
     public Image estrella3;
     public Color colorEstrellaGanada = new Color(1f, 0.84f, 0f);
     public Color colorEstrellaPerdida = new Color(0.4f, 0.4f, 0.4f);
-    public TextMeshProUGUI puntuacionText;   // "Obtuviste XXX"
-    public TextMeshProUGUI recordText;       // opcional: "Mejor tiempo: 00:18.52"
+    public TextMeshProUGUI puntuacionText;
+    public TextMeshProUGUI recordText;
     public Button btnJugarOtraVez;
     public Button btnContinuar;
     public string escenaContinuar = "SiguienteEscena";
 
     [Header("SFX Estrellas")]
-    [Tooltip("AudioSource para reproducir el sonido de cada estrella (desactiva Play On Awake).")]
     public AudioSource sfxSource;
-    [Tooltip("Clip de sonido (tu mp3 de estrella).")]
     public AudioClip estrellaSfx;
     [Range(0f, 1f)] public float estrellaSfxVolume = 1f;
-    [Tooltip("Si está activo, sólo suena cuando la estrella es ganada (amarilla).")]
     public bool sfxSoloSiEstrellaGanada = true;
-    [Tooltip("Hace que la 2a/3a estrella suenen un poquito más agudas (efecto 'ti-ri-ring').")]
     public bool sfxPitchAscendente = true;
-    [Tooltip("Pitch base para la 1a estrella.")]
     public float sfxPitchBase = 1f;
-    [Tooltip("Incremento de pitch por estrella (2a=base+step, 3a=base+2*step).")]
     public float sfxPitchStep = 0.07f;
 
     [Header("Umbrales de estrellas (segundos, MENOS es mejor)")]
-    public float tiempo3Estrellas = 20f;     // <= 3★
-    public float tiempo2Estrellas = 35f;     // <= 2★
-    public float tiempo1Estrella = 50f;      // <= 1★
+    public float tiempo3Estrellas = 20f;
+    public float tiempo2Estrellas = 35f;
+    public float tiempo1Estrella = 50f;
 
     [Header("Puntos TOTALES por estrellas (cumulativos)")]
-    [Tooltip("Index 0..3 = total que corresponde a 0,1,2,3 estrellas. El premio de la partida es (totalNuevo - totalPrevio).")]
     public int[] puntosPorTotalEstrellas = new int[] { 0, 100, 200, 300 };
 
     [Header("A dónde acreditar el premio")]
@@ -68,15 +60,11 @@ public class CorreYGanaManager : MonoBehaviour
     public MonoBehaviour[] controladoresAInhabilitar;
 
     [Header("Visual de estrellas")]
-    [Tooltip("Si está activo, la UI muestra la MEJOR marca histórica; si se desactiva, muestra las estrellas de la partida actual.")]
     public bool mostrarMejorMarcaEnUI = true;
 
     [Header("Puntuación (Animación)")]
-    [Tooltip("Duración del conteo animado de la puntuación (en segundos, usando tiempo real).")]
     public float scoreCountDuration = 0.8f;
-    [Tooltip("Prefijo de la puntuación mostrada (p.ej. '+').")]
     public string scorePrefix = "+";
-    [Tooltip("Texto a mostrar cuando ya no hay más puntos por ganar (3 estrellas alcanzadas históricamente y premio=0).")]
     public string completadoTexto = "COMPLETADO";
 
     // ---- estado interno ----
@@ -85,16 +73,16 @@ public class CorreYGanaManager : MonoBehaviour
     bool _terminado;
     float _tardo;
 
-    // === Métricas / sesión minijuego ===
+    // Métricas / salida
     float _sessionStart;
     bool _victoriaMostrada;
-    int _premioPartida;          // para enviar monedas en salida
-    int _estrellasPartida;       // score para minijuego_finalizado
+    int _premioPartida;
+    int _estrellasPartida;
 
-    // Cache de objetos reseteables (monedas, etc.)
+    // Cache reseteables
     readonly List<ILevelResettable> _reseteables = new List<ILevelResettable>();
 
-    // Corrutinas activas
+    // Rutinas UI
     Coroutine _scoreRoutine;
     Coroutine _starsRoutine;
 
@@ -106,22 +94,20 @@ public class CorreYGanaManager : MonoBehaviour
         I = this;
         _presupuestoPickups = 0;
 
-        // === Scope del id (stand::minijuego) y entrada ===
-        {
-            string baseId = string.IsNullOrWhiteSpace(minijuegoId)
-                ? UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
-                : minijuegoId;
-            minijuegoId = MinigameScope.ScopedId(baseId);
+        // Scope id y ENTRADA
+        string baseId = string.IsNullOrWhiteSpace(minijuegoId)
+            ? SceneManager.GetActiveScene().name
+            : minijuegoId;
+        minijuegoId = MinigameScope.ScopedId(baseId);
 
-            _sessionStart = Time.unscaledTime;
-            _victoriaMostrada = false;
-            _premioPartida = 0;
-            _estrellasPartida = 0;
+        _sessionStart = Time.unscaledTime;
+        _victoriaMostrada = false;
+        _premioPartida = 0;
+        _estrellasPartida = 0;
 
-            // ENTRADA A MINIJUEGO (al entrar a la escena)
-            if (MinigameScope.I)
-                MetricsClient.I?.TrackEntradaMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName);
-        }
+        if (MinigameScope.I)
+            MetricsClient.I?.TrackEntradaMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName);
+
         if (panelVictoria) panelVictoria.SetActive(false);
         if (panelDerrota) panelDerrota.SetActive(false);
 
@@ -145,8 +131,6 @@ public class CorreYGanaManager : MonoBehaviour
 
         CacheReseteables();
         ResetearNivel(true);
-       
-
     }
 
     void Update()
@@ -162,7 +146,7 @@ public class CorreYGanaManager : MonoBehaviour
         ActualizarContador();
     }
 
-    // -------- FINISH (lo llama el FinishTrigger) --------
+    // ========= FINISH =========
     public void NotificarMeta()
     {
         if (_terminado) return;
@@ -171,12 +155,15 @@ public class CorreYGanaManager : MonoBehaviour
 
         _tardo = tiempoNivel - _tiempoRestante;
 
-        // --- calcular estrellas de la partida ---
+        // estrellas de la PARTIDA
         int estrellasPartida = CalcularEstrellas(_tardo);
 
-        // --- registrar progreso y calcular premio ---
-        int premio = 0;
-        bool improvedStars, improvedTime;
+        // --- ROBUSTEZ: asegurar histórico previo (Stats ← Progress) ---
+        int preBest = GetPreBest(minijuegoId);
+        if (preBest > 0) Stats.I?.ImportMinigameBest(minijuegoId, preBest);
+
+        // Registrar y calcular premio
+        int premio = 0; bool improvedStars, improvedTime;
         if (Stats.I != null)
         {
             premio = Stats.I.RegisterMinigameResult(
@@ -195,17 +182,14 @@ public class CorreYGanaManager : MonoBehaviour
             }
         }
 
-        // --- mostrar UI ---
+        // UI
         MostrarCursor(true);
         Pausar(true);
         if (panelVictoria) panelVictoria.SetActive(true);
 
-        // ... ya calculaste estrellasPartida, premio, mostraste panel, etc.
-
         _estrellasPartida = estrellasPartida;
         _premioPartida = Mathf.Max(0, premio);
 
-        // TIEMPO EN MINIJUEGO (cuando se muestra la pantalla de victoria)
         if (!_victoriaMostrada)
         {
             _victoriaMostrada = true;
@@ -214,77 +198,59 @@ public class CorreYGanaManager : MonoBehaviour
                 MetricsClient.I?.TrackTiempoEnMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName, dur, true);
         }
 
-
-        // Determinar si ya NO es posible ganar más puntos:
-        // condición: premio==0 Y bestStars ya es 3 (máximo histórico alcanzado)
         bool sinMasPuntosPosibles = false;
+        int bestStarsNow = 0;
         if (Stats.I != null)
         {
-            var snap = Stats.I.GetProgress(minijuegoId); // ya actualizado tras RegisterMinigameResult
-            sinMasPuntosPosibles = (premio <= 0) && (snap.bestStars >= 3);
+            var snap = Stats.I.GetProgress(minijuegoId);
+            bestStarsNow = snap.bestStars;
+            sinMasPuntosPosibles = (premio <= 0) && (bestStarsNow >= 3);
         }
 
-        // Texto de puntuación
         if (puntuacionText)
         {
             if (sinMasPuntosPosibles)
             {
-                // Ya no hay forma de ganar más: muestra "completado"
                 if (_scoreRoutine != null) StopCoroutine(_scoreRoutine);
                 puntuacionText.text = completadoTexto;
             }
             else
             {
-                // Aún se puede ganar (o se ganó en esta corrida): mostrar +N con animación
                 if (_scoreRoutine != null) StopCoroutine(_scoreRoutine);
                 _scoreRoutine = StartCoroutine(AnimarPuntuacion(premio));
             }
         }
 
-        // Usa MEJOR marca para la UI si el toggle está activo
-        int estrellasUI = estrellasPartida;
-        if (Stats.I != null)
-        {
-            var snap = Stats.I.GetProgress(minijuegoId);
-            if (mostrarMejorMarcaEnUI)
-                estrellasUI = snap.bestStars;
+        // Estrellas UI → mejor marca real (Stats) o fallback al preBest
+        int estrellasUI = mostrarMejorMarcaEnUI ? Mathf.Max(bestStarsNow, preBest) : estrellasPartida;
 
-            if (recordText)
-                recordText.text = $"Mejor tiempo: {FormatearTiempo(snap.bestTime)}";
-        }
+        if (recordText && Stats.I != null)
+            recordText.text = $"Mejor tiempo: {FormatearTiempo(Stats.I.GetProgress(minijuegoId).bestTime)}";
 
-        // Resetea y anima usando estrellasUI (no las de la partida)
         PrepararEstrellas();
         if (_starsRoutine != null) StopCoroutine(_starsRoutine);
         _starsRoutine = StartCoroutine(AnimarEstrellas(estrellasUI));
 
-        // Misión: 3★ en cualquier minijuego del ecosistema
+        // Misiones / Logros
         if (MinigameScope.I)
             MissionManager.I?.NotifyMinigameResultByStand(MinigameScope.I.standId, estrellasPartida);
-
-        // Logro "Gamer": marcar tipo/base del minijuego como completado si ganó (>=1★)
         if (MinigameScope.I && estrellasPartida > 0)
             AchievementsManager.I?.NotifyMinigameCompletedType(MinigameScope.I.minigameId);
-
     }
 
-    // -------- Derrota --------
+    // ========= Derrota =========
     void PerderPorTiempo()
     {
         if (_terminado) return;
         _terminado = true;
         _corriendo = false;
 
-        // (opcional) si quieres mandar tiempo aun en derrota, omite completed o mándalo false.
-        // El usuario pidió tiempo al mostrar victoria, así que aquí NO lo mandamos.
-
-
         MostrarCursor(true);
         Pausar(true);
         if (panelDerrota) panelDerrota.SetActive(true);
     }
 
-    // -------- Botones --------
+    // ========= Botones =========
     public void Reintentar()
     {
         Pausar(false);
@@ -293,91 +259,39 @@ public class CorreYGanaManager : MonoBehaviour
         if (panelVictoria) panelVictoria.SetActive(false);
         if (panelDerrota) panelDerrota.SetActive(false);
 
-        // Detener corrutinas de UI si quedaran vivas
         if (_scoreRoutine != null) { StopCoroutine(_scoreRoutine); _scoreRoutine = null; }
         if (_starsRoutine != null) { StopCoroutine(_starsRoutine); _starsRoutine = null; }
 
-        // Respawn jugador
         if (respawner != null) respawner.Respawn();
-
-        // Respawn monedas / reseteables
         ResetReseteables();
-
         ResetearNivel(false);
     }
     public void Abandonar()
     {
-        // Monedas recogidas en la corrida (no hay premio por estrellas al abandonar)
-        int coinsFromPickups = Mathf.Max(0, _presupuestoPickups);
-        int coinsTotal = coinsFromPickups;
-
-        // SALIDA (finalizado) como LOSE
+        // Solo monedas recogidas
+        int coins = Mathf.Max(0, _presupuestoPickups);
         if (MinigameScope.I)
         {
-            MetricsClient.I?.TrackMinijuegoFinalizado(
-                MinigameScope.I.standId,
-                MinigameScope.I.minigameName,
-                0,                 // score (sin estrellas al abandonar)
-                "lose",            // outcome
-                coinsTotal,        // coins = solo lo recogido
-                0                  // xp (si aplica)
-            );
-
-            // Registrar presupuesto por lo recogido (si hubo)
-            if (coinsFromPickups > 0)
-            {
-                MetricsClient.I?.TrackPresupuesto(
-                    coinsFromPickups,
-                    "minijuego",
-                    MinigameScope.I.standId,
-                    MinigameScope.I.ecosystemName
-                );
-            }
+            MetricsClient.I?.TrackMinijuegoFinalizado(MinigameScope.I.standId, MinigameScope.I.minigameName, 0, "lose", coins, 0);
+            if (coins > 0)
+                MetricsClient.I?.TrackPresupuesto(coins, "minijuego", MinigameScope.I.standId, MinigameScope.I.ecosystemName);
         }
 
         Pausar(false);
         MostrarCursor(false);
         SceneManager.LoadScene(escenaAbandonar);
     }
-
     public void Continuar()
     {
-        // Monedas por estrellas + monedas recogidas en el nivel
-        int coinsFromPrize = Mathf.Max(0, _premioPartida);
-        int coinsFromPickups = Mathf.Max(0, _presupuestoPickups);
-        int coinsTotal = coinsFromPrize + coinsFromPickups;
+        int coinsPrize = Mathf.Max(0, _premioPartida);
+        int coinsPick = Mathf.Max(0, _presupuestoPickups);
+        int coinsTotal = coinsPrize + coinsPick;
 
-        // SALIDA (finalizado) como WIN
         if (MinigameScope.I)
         {
-            MetricsClient.I?.TrackMinijuegoFinalizado(
-                MinigameScope.I.standId,
-                MinigameScope.I.minigameName,
-                _estrellasPartida, // score (estrellas obtenidas)
-                "win",             // outcome
-                coinsTotal,        // coins = premio + recogidas
-                0                  // xp (si aplica)
-            );
-
-            // Registrar presupuesto desglosado (para auditoría)
-            if (coinsFromPickups > 0)
-            {
-                MetricsClient.I?.TrackPresupuesto(
-                    coinsFromPickups,
-                    "minijuego",
-                    MinigameScope.I.standId,
-                    MinigameScope.I.ecosystemName
-                );
-            }
-            if (coinsFromPrize > 0)
-            {
-                MetricsClient.I?.TrackPresupuesto(
-                    coinsFromPrize,
-                    "minijuego",
-                    MinigameScope.I.standId,
-                    MinigameScope.I.ecosystemName
-                );
-            }
+            MetricsClient.I?.TrackMinijuegoFinalizado(MinigameScope.I.standId, MinigameScope.I.minigameName, _estrellasPartida, "win", coinsTotal, 0);
+            if (coinsPick > 0) MetricsClient.I?.TrackPresupuesto(coinsPick, "minijuego", MinigameScope.I.standId, MinigameScope.I.ecosystemName);
+            if (coinsPrize > 0) MetricsClient.I?.TrackPresupuesto(coinsPrize, "minijuego", MinigameScope.I.standId, MinigameScope.I.ecosystemName);
         }
 
         Pausar(false);
@@ -385,8 +299,28 @@ public class CorreYGanaManager : MonoBehaviour
         SceneManager.LoadScene(escenaContinuar);
     }
 
+    // ========= Helpers =========
+    int GetPreBest(string scopedId)
+    {
+        int pre = 0;
+        if (Stats.I != null) pre = Stats.I.GetProgress(scopedId).bestStars;
 
-    // -------- Helpers --------
+        var list = ProgressCore.I?.Data?.minigames;
+        if (list != null)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                var m = list[i];
+                if (m != null && m.id == scopedId)
+                {
+                    if (m.stars > pre) pre = m.stars;
+                    break;
+                }
+            }
+        }
+        return pre;
+    }
+
     void ResetearNivel(bool primeraVez)
     {
         _tiempoRestante = tiempoNivel;
@@ -435,14 +369,12 @@ public class CorreYGanaManager : MonoBehaviour
             Color c0 = colorEstrellaPerdida;
             Color c1 = ganada ? colorEstrellaGanada : colorEstrellaPerdida;
 
-            // --- SFX: justo cuando empieza a "aparecer" la estrella ---
             if (estrellaSfx && sfxSource && (!sfxSoloSiEstrellaGanada || ganada))
             {
                 sfxSource.pitch = sfxPitchAscendente ? (sfxPitchBase + sfxPitchStep * i) : 1f;
                 sfxSource.PlayOneShot(estrellaSfx, estrellaSfxVolume);
             }
 
-            // --- Animación de pop con tiempo real ---
             float t = 0f, dur = 0.28f;
             while (t < 1f)
             {
@@ -457,11 +389,9 @@ public class CorreYGanaManager : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(0.12f);
         }
-
         if (sfxSource) sfxSource.pitch = 1f;
     }
 
-    // --- Animación del contador de puntuación con prefijo "+" y tiempo real ---
     IEnumerator AnimarPuntuacion(int premio)
     {
         if (puntuacionText == null) yield break;
@@ -482,7 +412,6 @@ public class CorreYGanaManager : MonoBehaviour
             }
             yield return null;
         }
-
         puntuacionText.text = $"{scorePrefix}{premio}";
     }
 
@@ -523,4 +452,6 @@ public class CorreYGanaManager : MonoBehaviour
         float s = seconds % 60f;
         return $"{m:00}:{s:00.00}";
     }
+
+
 }

@@ -14856,7 +14856,7 @@ MonoBehaviour:
   autoCreateRemoteIfMissing: 1
   requestTimeout: 8
   allowSendWithoutToken: 1
-  verboseLogs: 1
+  verboseLogs: 0
 --- !u!114 &1662061185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14869,7 +14869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44bc15330c239e548b186410c7107fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  log: 0
+  log: 1
 --- !u!1 &1667405991
 GameObject:
   m_ObjectHideFlags: 0
@@ -15652,7 +15652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   proactiveRefreshSeconds: 60
   refreshTimeout: 8
-  verbose: 1
+  verbose: 0
 --- !u!114 &1731951223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15670,7 +15670,9 @@ MonoBehaviour:
   hardDeleteAllPrefsOnGuest: 1
   clearKeyAfterRead: 0
   syncStatsHere: 0
-  log: 0
+  waitForProgressSeconds: 1.5
+  pollIntervalSeconds: 0.1
+  log: 1
 --- !u!114 &1731951224
 MonoBehaviour:
   m_ObjectHideFlags: 0
