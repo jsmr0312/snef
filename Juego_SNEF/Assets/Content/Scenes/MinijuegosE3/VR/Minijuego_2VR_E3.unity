@@ -13967,7 +13967,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1774306159}
+  - {fileID: 761448110}
   m_Father: {fileID: 2129610438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &221129370
@@ -20557,6 +20557,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+--- !u!4 &284142973 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+  m_PrefabInstance: {fileID: 284142972}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &289613517
 GameObject:
   m_ObjectHideFlags: 0
@@ -69509,6 +69514,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+--- !u!4 &761448110 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3493336658457537066, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+  m_PrefabInstance: {fileID: 761448109}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &773788367
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -143054,11 +143064,6 @@ Transform:
   - {fileID: 855987901}
   m_Father: {fileID: 1724636656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1706022787 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-  m_PrefabInstance: {fileID: 284142972}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1711500574 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2520804367851691179, guid: b3fd63ea6f5f0aa4aa27bcda729998df, type: 3}
@@ -143512,7 +143517,7 @@ MonoBehaviour:
   puntosPorTotalEstrellas: 0000000064000000c80000002c010000
   acreditarEnPresupuesto: 1
   acreditarEnPuntaje: 1
-  minijuegoId: Minijuego1-E3
+  minijuegoId: Minijuego_2VR_E3
   respawner: {fileID: 2129610439}
   controladoresAInhabilitar:
   - {fileID: 910250321}
@@ -144201,7 +144206,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1706022787}
+  - {fileID: 284142973}
   m_Father: {fileID: 2129610438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1743829710
@@ -145135,11 +145140,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5614180682871420595, guid: 2196e66c52d25ac469e55fb8f4d54d4a, type: 3}
   m_PrefabInstance: {fileID: 1746485251}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1774306159 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1824566559804860378, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
-  m_PrefabInstance: {fileID: 761448109}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1778859037
 PrefabInstance:

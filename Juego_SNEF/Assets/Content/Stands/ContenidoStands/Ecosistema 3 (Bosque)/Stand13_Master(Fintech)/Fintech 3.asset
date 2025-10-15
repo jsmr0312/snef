@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253815f0a97070b4cb4f9f404259ea84, type: 3}
+  m_Name: Fintech 3
+  m_EditorClassIdentifier: 
+  questions:
+  - question: "\xBFQu\xE9 es un fondo de emergencia digital?"
+    options:
+    - "Un pr\xE9stamo inmediato."
+    - Un ahorro para imprevistos.
+    - "Un seguro m\xE9dico."
+    - "Un cr\xE9dito sin intereses."
+    correctIndex: 1
+    optionJustifications:
+    - Es un ahorro que te permite cubrir emergencias sin endeudarte.
+    - 
+    - Es un ahorro que te permite cubrir emergencias sin endeudarte.
+    - Es un ahorro que te permite cubrir emergencias sin endeudarte.
+  - question: "\xBFQu\xE9 ofrecen las InsurTech o seguros digitales?"
+    options:
+    - "Contrataci\xF3n desde el celular, r\xE1pida y personalizada."
+    - "P\xF3lizas solo en sucursales."
+    - "Tr\xE1mites con muchos papeles."
+    - "Atenci\xF3n solo presencial."
+    correctIndex: 0
+    optionJustifications:
+    - 
+    - "Las InsurTech hacen que contratar y usar un seguro sea m\xE1s f\xE1cil y r\xE1pido."
+    - "Las InsurTech hacen que contratar y usar un seguro sea m\xE1s f\xE1cil y r\xE1pido."
+    - "Las InsurTech hacen que contratar y usar un seguro sea m\xE1s f\xE1cil y r\xE1pido."
+  - question: "\xBFQu\xE9 debes revisar antes de pedir un cr\xE9dito digital?"
+    options:
+    - Solo la cantidad.
+    - Tasas, plazos y tu capacidad de pago.
+    - El color de la app.
+    - Que no cobren nunca.
+    correctIndex: 1
+    optionJustifications:
+    - Entender los costos y condiciones te ayuda a evitar sobreendeudarte.
+    - 
+    - Entender los costos y condiciones te ayuda a evitar sobreendeudarte.
+    - Entender los costos y condiciones te ayuda a evitar sobreendeudarte.
+  - question: "Si detectas movimientos sospechosos en tu cuenta FinTech, \xBFqu\xE9
+      haces?"
+    options:
+    - Esperas a que se resuelva.
+    - Reportas de inmediato.
+    - Lo ignoras.
+    - Cierras la app.
+    correctIndex: 1
+    optionJustifications:
+    - "Actuar r\xE1pido evita p\xE9rdidas y permite a la FinTech proteger tu dinero."
+    - 
+    - "Actuar r\xE1pido evita p\xE9rdidas y permite a la FinTech proteger tu dinero."
+    - "Actuar r\xE1pido evita p\xE9rdidas y permite a la FinTech proteger tu dinero."
+  - question: "\xBFQu\xE9 ventaja tienen las FinTech ante emergencias financieras?"
+    options:
+    - Que todo es lento y complicado.
+    - "Que ofrecen soluciones r\xE1pidas y accesibles."
+    - Que solo atienden en oficinas.
+    - Que piden papeles innecesarios.
+    correctIndex: 1
+    optionJustifications:
+    - "Las FinTech digitalizan procesos y te dan acceso inmediato a productos financieros
+      \xFAtiles."
+    - 
+    - "Las FinTech digitalizan procesos y te dan acceso inmediato a productos financieros
+      \xFAtiles."
+    - "Las FinTech digitalizan procesos y te dan acceso inmediato a productos financieros
+      \xFAtiles."

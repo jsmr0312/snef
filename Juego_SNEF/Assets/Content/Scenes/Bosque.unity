@@ -4856,22 +4856,22 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
   screenId: Contenido 1
   standType: Stand Master
   ecosystemName: Ecosistema 3
-  assetId: 2b6a0f4b-062e-4d5e-84fb-1352a3bddadf
+  assetId: d9b5d487-6aa8-4148-b87a-cec9298b2c40
   downloadButton: {fileID: 1899728140}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9e72d447-27ed-4708-8031-c370c4501a73/stands/95f4acc2-22f3-494e-ae62-f73e0d6770a7/assets/pdf/66af150b-e9eb-4fea-ba72-aea4c790a0c5.pdf
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/080c8f86-b719-4374-9614-98de4c618ee7/stands/56cd120e-7a5f-4d41-aed8-95e0608fd5f5/assets/image/574f04a9-58af-40e3-a9f5-777d27422c3c.png
   hideDownloadIfEmpty: 1
   isSponsoredContent: 1
   contentType: 0
-  singleImage: {fileID: 2800000, guid: 0deed2a884c3afc4696f7a31f885ce0c, type: 3}
+  singleImage: {fileID: 2800000, guid: c4fdbf5412b82fa4ca85e0ad400ed308, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
   slides: []
-  idleImage: {fileID: 2800000, guid: 024c213daf6bc1f408ab8e5ce2a1af32, type: 3}
+  idleImage: {fileID: 2800000, guid: d21ec4652b0182c4e98c15337a4b0281, type: 3}
   imageRawImage: {fileID: 2052384852}
   videoRawImage: {fileID: 1201680565}
   tallScrollRoot: {fileID: 0}
@@ -5685,7 +5685,7 @@ MonoBehaviour:
   standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
   standNumber: 6
   ecosystemName: Ecosistema 3
-  miniGameId: b69711f6-177b-49c5-b3b0-ae6664154ef6
+  miniGameId: Minijuego2_E3
   minigameDisplayName: 
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
@@ -18483,7 +18483,7 @@ MonoBehaviour:
   facebookURL: https://www.facebook.com/bbvaenmexico
   xURL: https://x.com/BBVA_Mex/?1
   linkedinURL: https://www.linkedin.com/company/bbva-mexico/
-  sitioWebURL: bbva.mx/edufin
+  sitioWebURL: https://www.bbva.mx/educacion-financiera.html
   playerController: {fileID: 96176111}
   cameraController: {fileID: 1825383945}
   manageControllers: 1
@@ -22202,114 +22202,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 417571813}
   m_CullTransparentMesh: 1
---- !u!1 &421452758
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 421452759}
-  - component: {fileID: 421452762}
-  - component: {fileID: 421452761}
-  - component: {fileID: 421452760}
-  m_Layer: 0
-  m_Name: Cube (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &421452759
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421452758}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9993773, z: -0, w: 0.03528453}
-  m_LocalPosition: {x: -10.45, y: 1.92, z: 1.77}
-  m_LocalScale: {x: 0.6898865, y: 3.6068575, z: 2.1835701}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1331473784}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &421452760
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421452758}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &421452761
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421452758}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8cc0055d3198230449a0b19e8f7e2d7e, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &421452762
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421452758}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &422082191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27471,22 +27363,24 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
   screenId: contenido4
   standType: master
   ecosystemName: Ecosistema 3
-  assetId: 9e7ff1de-fe56-437f-915c-cd52df8ddb6d
+  assetId: 84c4cb9a-a6cb-4931-8c8f-878982ef690b
   downloadButton: {fileID: 1899728140}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9e72d447-27ed-4708-8031-c370c4501a73/stands/95f4acc2-22f3-494e-ae62-f73e0d6770a7/assets/pdf/3eede4d6-a832-4fe4-9dff-5d755c16c5a0.pdf
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/080c8f86-b719-4374-9614-98de4c618ee7/stands/56cd120e-7a5f-4d41-aed8-95e0608fd5f5/assets/powerpoint/1b1f6947-ada2-41e4-8a19-692195cd4768.pptx
   hideDownloadIfEmpty: 1
   isSponsoredContent: 1
-  contentType: 0
+  contentType: 2
   singleImage: {fileID: 2800000, guid: cebdcf0940bdb5344bf45b4ff5bfbc33, type: 3}
   videoURL: https://files.catbox.moe/i3wsr0.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
-  slides: []
-  idleImage: {fileID: 2800000, guid: 024c213daf6bc1f408ab8e5ce2a1af32, type: 3}
+  slides:
+  - {fileID: 2800000, guid: 6faae812555b310469b6c3d30ee52dd8, type: 3}
+  - {fileID: 2800000, guid: 1caeb270a42c11243a085a2aa9a6272d, type: 3}
+  idleImage: {fileID: 2800000, guid: d21ec4652b0182c4e98c15337a4b0281, type: 3}
   imageRawImage: {fileID: 597065475}
   videoRawImage: {fileID: 1068681860}
   tallScrollRoot: {fileID: 0}
@@ -39611,10 +39505,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257b64907d3e6b04398f649e43518cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
-  standNumber: 12
+  standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
+  standNumber: 13
   ecosystemName: Ecosistema 3
-  miniGameId: b69711f6-177b-49c5-b3b0-ae6664154ef6
+  miniGameId: Minijuego2_E3
   minigameDisplayName: 
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
@@ -49165,14 +49059,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570d3065f5dc4f84591289f5b78ed5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
   standType: Stand Master
   requiredScreens: 4
   quizManagerRef: {fileID: 1573462856}
   initialLines:
-  - "\xA1Te damos la bienvenida, prep\xE1rate para vivir la experiencia CNBV!"
-  - CNBV ha preparado contenido para ti, te invitamos a revisar el contenido en las
-    pantallas de este mismo stand
+  - "\xA1Te damos la bienvenida, prep\xE1rate para vivir la experiencia Fintech M\xE9xico!"
+  - "Fintech M\xE9xico ha preparado contenido para ti, te invitamos a revisar el
+    contenido en las pantallas de este mismo stand"
   waitingDialogue: {fileID: 11400000, guid: 2667f07a3ad46544c8c5d43c56972683, type: 2}
   postScreensDialogue: {fileID: 11400000, guid: cabe752b6dccd474fb8435d8fce8a15c, type: 2}
   finalDialogue: {fileID: 11400000, guid: 099db4c91de98dc4ba96c19d84b189df, type: 2}
@@ -64629,22 +64523,22 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
   screenId: Contenido 1
   standType: Stand Master
   ecosystemName: Ecosistema 3
-  assetId: 9e7ff1de-fe56-437f-915c-cd52df8ddb6d
+  assetId: 601ccd6c-1b5f-4b98-8db5-f84bb9e0bd96
   downloadButton: {fileID: 1899728140}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9e72d447-27ed-4708-8031-c370c4501a73/stands/95f4acc2-22f3-494e-ae62-f73e0d6770a7/assets/pdf/3eede4d6-a832-4fe4-9dff-5d755c16c5a0.pdf
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/080c8f86-b719-4374-9614-98de4c618ee7/stands/56cd120e-7a5f-4d41-aed8-95e0608fd5f5/assets/image/0d71e386-f651-4948-909d-cfe6ff63e0cd.png
   hideDownloadIfEmpty: 1
   isSponsoredContent: 1
   contentType: 0
-  singleImage: {fileID: 2800000, guid: ddd6443e11205624bb7cf29c18c88a8f, type: 3}
+  singleImage: {fileID: 2800000, guid: 7eb31e25994cd824a83a714078059981, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
   slides: []
-  idleImage: {fileID: 2800000, guid: 024c213daf6bc1f408ab8e5ce2a1af32, type: 3}
+  idleImage: {fileID: 2800000, guid: d21ec4652b0182c4e98c15337a4b0281, type: 3}
   imageRawImage: {fileID: 1885389957}
   videoRawImage: {fileID: 1264995259}
   tallScrollRoot: {fileID: 0}
@@ -66889,7 +66783,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1331473784}
   m_Layer: 0
-  m_Name: Stand10_Master
+  m_Name: Stand13_Master
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66917,7 +66811,6 @@ Transform:
   - {fileID: 1286292968}
   - {fileID: 970481313}
   - {fileID: 517374829}
-  - {fileID: 421452759}
   m_Father: {fileID: 1944026681}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1332200861 stripped
@@ -72545,8 +72438,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 020a905276dc8f6418f55ba7a08fe6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
-  standNumber: 12
+  standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
+  standNumber: 13
   ecosystemName: Ecosistema 3
   standType: master
   guardAgainstMultipleEnters: 1
@@ -73118,7 +73011,7 @@ MonoBehaviour:
   standId: 302f053d-21e8-44d0-abf3-6b300b82b4f7
   standNumber: 3
   ecosystemName: Ecosistema 3
-  miniGameId: 5ea90f04-d4b6-43a0-b587-9be0cf69d09e
+  miniGameId: Minijuego4_E3
   minigameDisplayName: 
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
@@ -76228,22 +76121,25 @@ MonoBehaviour:
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
   promptOpenButton: {fileID: 944468740}
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
+  standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
   screenId: Contenido 1
   standType: Stand Master
   ecosystemName: Ecosistema 3
-  assetId: 2b6a0f4b-062e-4d5e-84fb-1352a3bddadf
+  assetId: 3ce85218-d0f4-4abe-94b7-0751ba4bfaf3
   downloadButton: {fileID: 1899728140}
-  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/9e72d447-27ed-4708-8031-c370c4501a73/stands/95f4acc2-22f3-494e-ae62-f73e0d6770a7/assets/pdf/66af150b-e9eb-4fea-ba72-aea4c790a0c5.pdf
+  downloadURL: https://s3.estudiohera.mx/snefgame/sponsors/080c8f86-b719-4374-9614-98de4c618ee7/stands/56cd120e-7a5f-4d41-aed8-95e0608fd5f5/assets/powerpoint/aef4f6e9-b738-4817-952a-e300dc24925b.pptx
   hideDownloadIfEmpty: 1
   isSponsoredContent: 1
-  contentType: 0
+  contentType: 2
   singleImage: {fileID: 2800000, guid: 7f72ac35e325d4f419ecf10c4e6d9e9d, type: 3}
   videoURL: https://res.cloudinary.com/dnbgzhfk5/video/upload/v1756160189/fcbf50cf-a8a6-41fe-8502-9aa065b6c9b5_dwo65n.mp4
   videoClip: {fileID: 0}
   videoPlayer: {fileID: 972299792}
-  slides: []
-  idleImage: {fileID: 2800000, guid: 024c213daf6bc1f408ab8e5ce2a1af32, type: 3}
+  slides:
+  - {fileID: 2800000, guid: 649cb70a3ff345842830a8d60ee9cb45, type: 3}
+  - {fileID: 2800000, guid: abbeb8ba7972bd14aa562c8fdeb0e8c8, type: 3}
+  - {fileID: 2800000, guid: 2964679df16bbef4a9ee8b57a81fe5c4, type: 3}
+  idleImage: {fileID: 2800000, guid: d21ec4652b0182c4e98c15337a4b0281, type: 3}
   imageRawImage: {fileID: 40006050}
   videoRawImage: {fileID: 1348664300}
   tallScrollRoot: {fileID: 0}
@@ -77598,14 +77494,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e53f32c99fade94483603fbf7b659f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
-  triviaId: 569c55f8-a77e-4745-b3fd-f8cdcddb1010
+  standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
+  triviaId: 98ae4fe0-3dd3-4f30-bf32-520c44a120fd
   coinsPerCorrect: 0
   standType: Stand Master
   linkedArcade: {fileID: 801811150}
   linkedNpc: {fileID: 970481317}
   npcOwner: {fileID: 970481317}
-  quizData: {fileID: 11400000, guid: f0b9e867388f57742913b5cb8886b0c5, type: 2}
+  quizData: {fileID: 11400000, guid: 2a54be967f08db641b653fb0d226b239, type: 2}
   quizPanel: {fileID: 1036754268}
   questionPanelRT: {fileID: 1659379973}
   optionsGridRT: {fileID: 2131477176}
@@ -77635,10 +77531,10 @@ MonoBehaviour:
   xButton: {fileID: 1969103130}
   linkedinButton: {fileID: 358918833}
   sitioWebButton: {fileID: 1190956503}
-  instagramURL: https://www.fintechmexico.org/
-  facebookURL: https://www.fintechmexico.org/
-  xURL: https://www.fintechmexico.org/
-  linkedinURL: https://www.fintechmexico.org/
+  instagramURL: https://www.instagram.com/fintech.mx/#
+  facebookURL: https://www.facebook.com/fintechmexico?locale=es_LA
+  xURL: https://x.com/fintechmx
+  linkedinURL: https://www.linkedin.com/company/asociacion-fintech-mexico/
   sitioWebURL: https://www.fintechmexico.org/
   playerController: {fileID: 96176111}
   cameraController: {fileID: 1825383945}
@@ -92087,7 +91983,7 @@ MonoBehaviour:
   standId: 95f4acc2-22f3-494e-ae62-f73e0d6770a7
   standNumber: 12
   ecosystemName: Ecosistema 3
-  miniGameId: b69711f6-177b-49c5-b3b0-ae6664154ef6
+  miniGameId: Minijuego2_E3
   minigameDisplayName: 
   promptUI: {fileID: 944468739}
   lookAtCamera: 0
@@ -95103,8 +94999,8 @@ Transform:
   - {fileID: 327730804}
   - {fileID: 703837693}
   - {fileID: 638227136}
-  - {fileID: 1331473784}
   - {fileID: 1441274104}
+  - {fileID: 1331473784}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1944890351

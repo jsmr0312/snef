@@ -17,9 +17,9 @@ MonoBehaviour:
       tus fotos, contactos y mensajes?"
     options:
     - Para darles like
-    - Para evaluar tu perfil crediticio
+    - Para evaluar tu perfil crediticio y decidir si te prestan.
     - "Para imprimirlas en un \xE1lbum de fotos"
-    - Para decidir si te prestan o no
+    - Para repostearlas
     correctIndex: 1
     optionJustifications:
     - "Porque a una app de pr\xE9stamos no le interesar\xEDa darle like a tus fotos,
@@ -27,16 +27,18 @@ MonoBehaviour:
     - 
     - "Porque a una app de pr\xE9stamos no le interesar\xEDa imprimir tus fotos,
       sino tener tu informaci\xF3n."
-    - 
+    - "Porque a una app de pr\xE9stamos desconfiable no le interesar\xEDa repostear
+      tus fotos, sino tener tu informaci\xF3n."
   - question: "\xBFQu\xE9 pueden saber con esa informaci\xF3n?"
     options:
-    - "Qu\xE9 tipos de mensajes recibes"
+    - Tu serie favorita
     - Tu color favorito
     - La probabilidad de atraso en tus pagos
     - "Tu pel\xEDcula favorita"
     correctIndex: 2
     optionJustifications:
-    - 
+    - "Porque no es el tipo de informaci\xF3n que querr\xEDan saber sobre ti para
+      evaluar tu perfil financiero."
     - "Porque no es el tipo de informaci\xF3n que querr\xEDan saber sobre ti para
       evaluar tu perfil financiero."
     - 
@@ -59,14 +61,17 @@ MonoBehaviour:
     - 
   - question: "\xBFC\xF3mo puedes protegerte?"
     options:
-    - "Revisando los permisos antes de instalar apps de pr\xE9stamos"
-    - Descargando solo apps oficiales
-    - "Pidiendo pr\xE9stamos en todas las apps que encuentres"
-    - Eligiendo financieras reguladas por CONDUSEF
+    - "Pidiendo pr\xE9stamos en todas las apps que encuentres."
+    - Descargando apps no oficiales por internet.
+    - Otorgando todos los permisos que me pidan sin revisarlos, incluyendo fotos,
+      mensajes y contactos.
+    - Eligiendo financieras reguladas por CONDUSEF y revisando los permisos que otorgas.
     correctIndex: 3
     optionJustifications:
-    - 
-    - 
     - "Porque no es una acci\xF3n recomendada, ya que podr\xEDas caer en apps que
       no son confiables."
+    - "Porque no es una acci\xF3n recomendada, ya que podr\xEDas caer en apps que
+      no son confiables."
+    - "Porque no es una acci\xF3n recomendada, ya que podr\xEDas caer en apps que
+      no son confiables y poner en riesgo tu informaci\xF3n"
     - 

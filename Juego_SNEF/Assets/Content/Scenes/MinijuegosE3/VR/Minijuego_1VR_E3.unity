@@ -29328,6 +29328,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+--- !u!4 &152738336 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+  m_PrefabInstance: {fileID: 152738335}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &152752319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68813,7 +68818,7 @@ MonoBehaviour:
   puntosPorTotalEstrellas: 0000000064000000c80000002c010000
   acreditarEnPresupuesto: 1
   acreditarEnPuntaje: 1
-  minijuegoId: Minijuego1-E3
+  minijuegoId: Minijuego_1VR_E3
   respawner: {fileID: 1430719761}
   controladoresAInhabilitar:
   - {fileID: 7232867819779417072}
@@ -212740,11 +212745,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46de324f523705a4e949d70b85a89e29, type: 3}
---- !u!4 &1766587062 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1824566559804860378, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
-  m_PrefabInstance: {fileID: 1836273853}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1768560133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2987802703028286346, guid: 46de324f523705a4e949d70b85a89e29, type: 3}
@@ -222117,6 +222117,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+--- !u!4 &1836273854 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3493336658457537066, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+  m_PrefabInstance: {fileID: 1836273853}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1836612348
 GameObject:
   m_ObjectHideFlags: 0
@@ -259081,11 +259086,6 @@ Transform:
   - {fileID: 1085778638}
   m_Father: {fileID: 490993388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &2107308356 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-  m_PrefabInstance: {fileID: 152738335}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2108064202 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5610173030194038561, guid: c7b89a7eba346c34faba791b8fa554dd, type: 3}
@@ -268668,7 +268668,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2107308356}
+  - {fileID: 152738336}
   m_Father: {fileID: 1430719760}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1917230355958625777
@@ -270535,7 +270535,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1766587062}
+  - {fileID: 1836273854}
   m_Father: {fileID: 1430719760}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3556688906267255212

@@ -20,7 +20,11 @@ MonoBehaviour:
     - "Para gastar m\xE1s dinero."
     - Para complicar tus finanzas.
     correctIndex: 1
-    optionJustifications: []
+    optionJustifications:
+    - Incorrecta, porque controlar gastos impulsa tener presupesto; no busca evitarlo
+    - 
+    - El control de gastos busca optimizar y reducir gastos, no aumentarlos
+    - El objetivo es simplificar y dar claridad, no complicar
   - question: "\xBFCu\xE1l de los siguientes NO es un consejo para gestionar tu presupuesto
       como un pro?"
     options:
@@ -29,7 +33,11 @@ MonoBehaviour:
     - Comprar todo lo que quieras sin pensar.
     - Categorizar tus gastos.
     correctIndex: 2
-    optionJustifications: []
+    optionJustifications:
+    - Incorrecta, si es un buen consejo, da visibilidad para decidir mejor
+    - "Incorrecta, porque si es una pr\xE1ctica clave para no exceder el presupuesto"
+    - 
+    - Si es recomendable; ayuda a detectectar fugas y ajustar
   - question: "\xBFQu\xE9 debes hacer para reducir tus gastos de forma inteligente?"
     options:
     - Evitar analizar tus gastos.
@@ -37,7 +45,11 @@ MonoBehaviour:
     - Comparar precios y crear un fondo de emergencia.
     - No elaborar un presupuesto mensual.
     correctIndex: 2
-    optionJustifications: []
+    optionJustifications:
+    - Incorrecta, porque analizar es esencial para identificar excesos y recortar
+    - Incorrecta, porque endeudarte aumenta costos (intereses) y no reduce gastos
+    - 
+    - "Incorrecta porque sin presupuesto no hay control ni metas de reducci\xF3n"
   - question: "\xBFCu\xE1l de los siguientes es un consejo clave para el control
       de gastos?"
     options:
@@ -46,4 +58,8 @@ MonoBehaviour:
     - Evitar identificar tus ingresos.
     - "Gastar sin l\xEDmites."
     correctIndex: 1
-    optionJustifications: []
+    optionJustifications:
+    - Incorrecta, porque las apps facilitan el seguimiento y control.
+    - 
+    - "Incorrecta, porque conocer ingresos es base para fijar l\xEDmites realistas."
+    - Incorrecta, porque carece de control y pone en riesgo tus finanzas.

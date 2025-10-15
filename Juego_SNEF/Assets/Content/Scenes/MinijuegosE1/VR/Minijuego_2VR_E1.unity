@@ -662,7 +662,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 330459366}
+  - {fileID: 2062873742}
   m_Father: {fileID: 773736799}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4207258
@@ -38569,7 +38569,7 @@ MonoBehaviour:
   puntosPorTotalEstrellas: 0000000064000000c80000002c010000
   acreditarEnPresupuesto: 1
   acreditarEnPuntaje: 1
-  minijuegoId: Minijuego1-E3
+  minijuegoId: MInijuego_2VR_E1
   respawner: {fileID: 914497831}
   controladoresAInhabilitar:
   - {fileID: 1816262590}
@@ -49574,11 +49574,6 @@ Transform:
   - {fileID: 547772927}
   m_Father: {fileID: 100627416}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &330459366 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1824566559804860378, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
-  m_PrefabInstance: {fileID: 2062873741}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &332588720
 GameObject:
   m_ObjectHideFlags: 0
@@ -106372,7 +106367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1465782534}
+  - {fileID: 1250540111}
   m_Father: {fileID: 773736799}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1247534454
@@ -106923,6 +106918,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+--- !u!4 &1250540111 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7626191499178401568, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
+  m_PrefabInstance: {fileID: 1250540110}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1251428980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122857,11 +122857,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 990a82e105ef90041aa65c6230025aee, type: 3}
---- !u!4 &1465782534 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3420309801892875781, guid: 2c9e705c44103ae49a1e80828e30a66f, type: 3}
-  m_PrefabInstance: {fileID: 1250540110}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1466366880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -167684,6 +167679,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+--- !u!4 &2062873742 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3493336658457537066, guid: ced0ea9446dcf354e937de728ff5e1bf, type: 3}
+  m_PrefabInstance: {fileID: 2062873741}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2064217828
 PrefabInstance:
   m_ObjectHideFlags: 0
