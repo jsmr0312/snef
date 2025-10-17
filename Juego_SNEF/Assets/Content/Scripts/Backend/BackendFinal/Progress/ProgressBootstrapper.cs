@@ -45,10 +45,39 @@ public class ProgressBootstrapper : MonoBehaviour
 #endif
 #endif
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+[DllImport("__Internal")] private static extern void __SubscribeProgressMessages();
+#endif
+
+    void Awake()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+    try { __SubscribeProgressMessages(); } catch {}
+#endif
+    }
+
     void Start()
     {
         StartCoroutine(BootstrapRoutine());
     }
+
+    public void ReceiveBootstrapJson(string json)
+    {
+        if (string.IsNullOrEmpty(json)) return;
+
+        // Si venía entrecomillado, desescapar
+        json = UnwrapIfQuoted(json);
+
+        // Aplica TODO el modelo (ya reemplaza el local y hace Touch/OnChanged dentro)
+        ProgressCore.I?.LoadFromBootstrapJson(json);
+
+        // Si quieres que el HUD de presupuesto/puntaje refleje al instante
+        // incluso si StatsProgressSync ya no está escuchando, activa este flag en el Inspector:
+        if (syncStatsHere) MirrorStatsFromProgress();
+
+        if (log) Debug.Log("[Bootstrap] Progreso recibido por postMessage y aplicado.");
+    }
+
 
     IEnumerator BootstrapRoutine()
     {
@@ -80,7 +109,7 @@ public class ProgressBootstrapper : MonoBehaviour
         if (noBootstrap)
         {
             if (log) Debug.Log("[Bootstrap] No hay progress-storage; reseteo limpio (modo estricto).");
-            GuestHardReset();            // ← limpio real: sin avatar, sin stands, sin minijuegos
+            GuestHardReset(); // limpio real
             yield break;
         }
 
@@ -91,13 +120,17 @@ public class ProgressBootstrapper : MonoBehaviour
         if (clearKeyAfterRead) RemoveLocal(progressKey);
         if (syncStatsHere) MirrorStatsFromProgress();
 
-        if (log) Debug.Log("[Bootstrap] Progreso inicial aplicado desde localStorage.");
+        // Rehidratación determinista (misiones + logros) desde el modelo cargado:
+        MissionManager.I?.RecomputeFromProgressFromProgressCore();
+        AchievementsManager.I?.RecheckFromGameState();
+
+        if (log) Debug.Log("[Bootstrap] Progreso inicial aplicado y derivaciones recalculadas.");
     }
 
     // ---------------- helpers ----------------
     void GuestHardReset()
     {
-        // Opcional: limpiar todos los PlayerPrefs si quieres un reset 100% limpio
+        // Opcional: limpiar TODOS los PlayerPrefs si quieres un reset 100% limpio
         if (hardDeleteAllPrefsOnGuest)
         {
             PlayerPrefs.DeleteAll();
@@ -109,12 +142,22 @@ public class ProgressBootstrapper : MonoBehaviour
             PlayerPrefs.DeleteKey("personaje1Select");
             PlayerPrefs.DeleteKey("personaje2Select");
             PlayerPrefs.DeleteKey("personaje3Select");
+            // Limpia misiones locales
+            PlayerPrefs.DeleteKey("SNEF_MISSIONS_V1");
             PlayerPrefs.Save();
         }
+
+        // Limpia logros namespaced del usuario actual (en invitado será ::guest)
+        if (AchievementsManager.I != null)
+            AchievementsManager.I.ResetCurrentUserAchievements();
 
         // Reset del modelo central y UI (sin métricas)
         ProgressCore.I?.ResetLocalProgress("guest mode");
         Stats.I?.SetTotalsSilently(0, 0);
+
+        // Empuja estado base a UI
+        MissionManager.I?.RecomputeFromProgressFromProgressCore();
+        AchievementsManager.I?.RecheckFromGameState();
     }
 
     string ReadLocal(string key)
@@ -162,7 +205,6 @@ public class ProgressBootstrapper : MonoBehaviour
             }
             string json = Encoding.UTF8.GetString(Convert.FromBase64String(payloadB64)).ToLowerInvariant();
 
-            // Acepta varias convenciones comunes
             if (json.Contains("\"is_anon\":true")) return true;
             if (json.Contains("\"isanonymous\":true")) return true;
             if (json.Contains("\"anonymous\":true")) return true;

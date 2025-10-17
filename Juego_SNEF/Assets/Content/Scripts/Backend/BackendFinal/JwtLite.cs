@@ -1,12 +1,11 @@
-// JwtLite.cs — añade helpers para exp (unix) y verificación de caducidad
+// JwtLite.cs — helpers para claims, exp y verificación de caducidad
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
 public static class JwtLite
 {
-    // (EXISTENTE) — GetClaim(...) y GetUserId(...)
-
+    // Lee un claim del JWT (string o numérico)
     public static string GetClaim(string jwt, string claimKey)
     {
         if (string.IsNullOrWhiteSpace(jwt)) return null;
@@ -42,7 +41,7 @@ public static class JwtLite
         return v;
     }
 
-    // --- NUEVO: lectura de exp (segundos UNIX) + utilidades ---
+    // --- Nuevos: exp (segundos UNIX) + utilidades ---
     public static long GetExpiryUnix(string jwt)
     {
         var raw = GetClaim(jwt, "exp");
@@ -53,18 +52,14 @@ public static class JwtLite
     {
         if (string.IsNullOrWhiteSpace(jwt)) return int.MinValue;
         var expUnix = GetExpiryUnix(jwt);
-        if (expUnix <= 0) return int.MaxValue; // sin exp => trátalo como no expirable
+        if (expUnix <= 0) return int.MaxValue;
         var nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         return (int)(expUnix - nowUnix - clockSkewSeconds);
     }
 
     public static bool IsExpired(string jwt, int clockSkewSeconds = 30)
-    {
-        return SecondsToExpiry(jwt, clockSkewSeconds) <= 0;
-    }
+        => SecondsToExpiry(jwt, clockSkewSeconds) <= 0;
 
     public static bool WillExpireSoon(string jwt, int thresholdSeconds = 60)
-    {
-        return SecondsToExpiry(jwt) <= thresholdSeconds;
-    }
+        => SecondsToExpiry(jwt) <= thresholdSeconds;
 }

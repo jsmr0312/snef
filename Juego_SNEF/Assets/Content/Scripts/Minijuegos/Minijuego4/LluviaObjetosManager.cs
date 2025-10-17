@@ -140,7 +140,19 @@ public class LluviaObjetosManager : MonoBehaviour
         _estrellasPartida = 0;
 
         if (MinigameScope.I)
+        {
             MetricsClient.I?.TrackEntradaMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName);
+            string friendly = string.IsNullOrEmpty(MinigameScope.I.minigameName)
+                   ? UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+                   : MinigameScope.I.minigameName;
+            MetricsClient.I?.TrackEscenaVisitada(
+            "minigame",
+            minijuegoId,
+            friendly,
+            MinigameScope.I.ecosystemName
+               );
+        }
+
 
         if (panelDerrota) panelDerrota.SetActive(false);
         if (panelVictoria) panelVictoria.SetActive(false);

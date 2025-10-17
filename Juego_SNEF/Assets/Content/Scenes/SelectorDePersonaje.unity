@@ -2894,6 +2894,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323206035}
   m_CullTransparentMesh: 1
+--- !u!1 &338086155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 338086157}
+  - component: {fileID: 338086156}
+  m_Layer: 0
+  m_Name: MisionesYlogros
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &338086156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338086155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22766205b39046349816592a2204d7f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ach_Gamer_Id: ach_gamer
+  ach_Collector_Id: ach_collector
+  ach_Saver_Id: ach_saver
+  ach_Expert_Id: ach_expert
+  points_Gamer: 50
+  points_Collector: 50
+  points_Saver: 50
+  points_Expert: 100
+  gamerRequiredTypes: 3
+  totalCollectibles: 9
+  saverTarget: 10000
+--- !u!4 &338086157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338086155}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.000999, y: 11.8214855, z: 65.48482}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &348485609
 GameObject:
   m_ObjectHideFlags: 0
@@ -5320,6 +5375,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645544098}
   m_CullTransparentMesh: 1
+--- !u!1 &668490127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 668490129}
+  - component: {fileID: 668490128}
+  m_Layer: 0
+  m_Name: MisionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &668490128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668490127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 668e85f72f0863b42a3fa72c2b4fb0a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ecosystems:
+  - ecosystemName: Ecosistema 1
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 2
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 3
+    requiredStandCompletions: 4
+  - ecosystemName: Ecosistema 4
+    requiredStandCompletions: 4
+--- !u!4 &668490129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668490127}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.017853, y: 5.8139954, z: -27.67}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &673458853
 GameObject:
   m_ObjectHideFlags: 0
@@ -6150,7 +6258,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1979330285}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.32089064
+  m_Size: 0.32089067
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10685,6 +10793,239 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181524893}
   m_CullTransparentMesh: 1
+--- !u!1 &1182386043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1182386045}
+  - component: {fileID: 1182386044}
+  m_Layer: 0
+  m_Name: StandsCatalogo (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1182386044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182386043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 973a4669650444945baf78f59f00754a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entries:
+  - standId: f10774c8-0b12-4749-afa4-5066d9570604
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 3
+  - standId: 7a6e20e3-27e9-40ce-ac08-f0d338350040
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 4
+  - standId: 040dcb9b-2349-4334-8f6e-1c8592fa0d1f
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 6
+  - standId: f463ff8f-5365-43ef-a013-0bef144b38f8
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 8
+  - standId: 42891984-c786-446f-b5e2-f1f5ba016bd7
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 9
+  - standId: f82776cd-e2be-435e-8a24-838afdf3a96b
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 10
+  - standId: 1ed6c6f9-1244-47b6-85f4-d6d2438f0b03
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 10
+  - standId: 0ef34651-525e-42ff-b92c-307dbc078681
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 12
+  - standId: 1ed6c6f9-1244-47b6-85f4-d6d2438f0b03
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 13
+  - standId: '58c24dc3-58b4-4661-974d-903c1c4689d7 '
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 1
+  - standId: 4bc8c140-997c-4b9d-816f-59584b744fd5
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 2
+  - standId: 4cf7d0d0-e10f-4872-a077-93c23f73277a
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 3
+  - standId: '94478e37-8481-4dae-a747-c6510fe6ee9f '
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 4
+  - standId: 05b1369b-bf80-436b-a2c3-8d584c553e34
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 5
+  - standId: 09273eac-8029-4e11-a43c-8dbd641b8478
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 7
+  - standId: '109ac3f2-130c-4a04-9be1-66f60e41273e '
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 8
+  - standId: 'd5b5330b-9803-4b7f-9154-7f8b68834c42 '
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 9
+  - standId: 136d1d5c-2626-4923-becc-4c3bf482d68c
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 10
+  - standId: 1a995871-9fab-4781-9160-8f21665523ef
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 1
+  - standId: 175f9232-c0fd-4293-aa75-cd15e195859f
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 2
+  - standId: b4a4ef35-5d92-4baa-b84e-bced01de641b
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 3
+  - standId: '0f5e10ea-f35e-4fc6-a90e-55ba20a43772 '
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 5
+  - standId: 'fdb0ca54-f9c5-4ceb-b518-2ea362c51f69 '
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 6
+  - standId: '21bcc2ab-f8c3-4a91-888f-ad6e4f5bc3c5 '
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 8
+  - standId: '558caf75-c9d2-429c-9abd-672ab977df9e '
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 9
+  - standId: 4021faeb-b66c-41ea-a40f-520f50b66900
+    ecosystemName: Ecosistema 2
+    kind: 1
+    displayName: Stand 0
+  - standId: '6175ffcb-3234-4759-afe9-9ba03971f59d '
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 1
+  - standId: d775e6f6-d687-4264-b0b6-e7ab42e88471
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 2
+  - standId: '302f053d-21e8-44d0-abf3-6b300b82b4f7 '
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 3
+  - standId: '4aa64571-b351-4ddf-888d-116c45d87b72 '
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 4
+  - standId: '4cb1e8bf-81c3-44ce-a4ec-c182fd832a82 '
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 5
+  - standId: 48f881d2-5620-4616-8dcb-d4178c161811
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 7
+  - standId: 058e91ed-b3ca-4c59-ba31-69db5015b7dd
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 10
+  - standId: '95f4acc2-22f3-494e-ae62-f73e0d6770a7 '
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 12
+  - standId: 'f8a54d5b-98eb-449e-853f-51bdb1c081c1 '
+    ecosystemName: Ecosistema 3
+    kind: 1
+    displayName: Stand 0
+  - standId: 42891984-c786-446f-b5e2-f1f5ba016bd7
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 9
+  - standId: 558caf75-c9d2-429c-9abd-672ab977df9e
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 9
+  - standId: 5369f6cc-2e2b-4ef0-8360-0a1f4489be14
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 6
+  - standId: 53c5ccb9-bbeb-4aa5-9729-6f0eeb7237fd
+    ecosystemName: Ecosistema 1
+    kind: 1
+    displayName: Stand 0
+  - standId: e64b8ece-05fd-4179-a597-541805b99d87
+    ecosystemName: Ecosistema 1
+    kind: 0
+    displayName: Stand 6
+  - standId: 3a42c9ad-2758-4483-a01a-5b96fb0bb00c
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 7
+  - standId: da94ca42-b485-4ffe-9c5b-f7546c8ae0d5
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 4
+  - standId: 8d97e21a-d28c-4db3-b90b-faff1388bc1f
+    ecosystemName: Ecosistema 2
+    kind: 0
+    displayName: Stand 10
+  - standId: 0a4307a7-6919-4f7f-8cd2-801f8385758a
+    ecosystemName: Ecosistema 4
+    kind: 1
+    displayName: Stand 0
+  - standId: 0a4307a7-6919-4f7f-8cd2-801f8385758a
+    ecosystemName: Ecosistema 4
+    kind: 1
+    displayName: Stand 0
+  - standId: b98c61c2-2cfd-4e0f-b482-77a1c166ca39
+    ecosystemName: Ecosistema 4
+    kind: 0
+    displayName: Stand 1
+  - standId: 56cd120e-7a5f-4d41-aed8-95e0608fd5f5
+    ecosystemName: Ecosistema 3
+    kind: 0
+    displayName: Stand 13
+--- !u!4 &1182386045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182386043}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 303.71408, y: 9.3497095, z: 254.25896}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1192550237
 GameObject:
   m_ObjectHideFlags: 0
@@ -15652,7 +15993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   proactiveRefreshSeconds: 60
   refreshTimeout: 8
-  verbose: 0
+  verbose: 1
 --- !u!114 &1731951223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15669,8 +16010,8 @@ MonoBehaviour:
   resetOnGuestToken: 1
   hardDeleteAllPrefsOnGuest: 1
   clearKeyAfterRead: 0
-  syncStatsHere: 0
-  waitForProgressSeconds: 1.5
+  syncStatsHere: 1
+  waitForProgressSeconds: 5
   pollIntervalSeconds: 0.1
   log: 1
 --- !u!114 &1731951224
@@ -19545,3 +19886,6 @@ SceneRoots:
   - {fileID: 1715937992}
   - {fileID: 858415415}
   - {fileID: 1933015775}
+  - {fileID: 338086157}
+  - {fileID: 668490129}
+  - {fileID: 1182386045}

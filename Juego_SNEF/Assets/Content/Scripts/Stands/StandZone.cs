@@ -50,6 +50,14 @@ public class StandZone : MonoBehaviour
 
         StandContext.I?.SetCurrentStand(standId, standNumber, ecosystemName);
 
+        // Registrar flujo del jugador: visita a stand
+        MetricsClient.I?.TrackEscenaVisitada(
+            "stand",
+            standId,          // scene_id (uuid del stand)
+            standNumber,      // scene_name (p.ej. "E1-03")
+            ecosystemName
+        );
+
         // IMPORTANTE:
         // - Stands normales: sponsor_visitado
         // - Punto de experiencia: NO mandamos sponsor_visitado (sólo medimos tiempo XP)

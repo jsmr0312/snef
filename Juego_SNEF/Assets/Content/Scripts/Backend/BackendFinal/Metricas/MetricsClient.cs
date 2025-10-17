@@ -203,7 +203,14 @@ public class MetricsClient : MonoBehaviour
     }
 
 
-
+    [Serializable]
+    class EscenaVisitadaPayload : CanonicalBase
+    {
+        public string scene_type;      // ecosystem|stand|minigame|content|other
+        public string scene_id;        // uuid / id lógico
+        public string scene_name;      // nombre legible (escena, standNumber, etc.)
+        public string ecosystem_name;  // contexto del ecosistema si aplica
+    }
 
     // === Trackers nuevos (en la sección de métodos públicos) ===
 
@@ -310,6 +317,15 @@ public class MetricsClient : MonoBehaviour
         PostEvent("contenido_visualizado", p);
     }
 
+    public void TrackEscenaVisitada(string sceneType, string sceneId, string sceneName, string ecosystemName)
+    {
+        var p = NewCanonical<EscenaVisitadaPayload>();
+        p.scene_type = string.IsNullOrEmpty(sceneType) ? "other" : sceneType;
+        p.scene_id = sceneId ?? "";
+        p.scene_name = sceneName ?? "";
+        p.ecosystem_name = ecosystemName ?? "";
+        PostEvent("escena_visitada", p);
+    }
     public void TrackClickEnlaceExterno(string standId, string url, string network)
     {
         var p = NewCanonical<ClickEnlaceExternoPayload>();

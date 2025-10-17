@@ -401,6 +401,12 @@ public class ProgressCore : MonoBehaviour
                 // mapear stands externos → internos
                 if (p.stands != null) MapBootstrapStands(p.stands);
 
+                // Tras mapear y Touch():
+                MissionManager.I?.RecomputeFromProgressFromProgressCore();
+                AchievementsManager.I?.RecheckFromGameState();
+
+
+
                 Touch(); // guarda local + OnChanged
                 if (verboseLogs) Debug.Log("[ProgressCore] Bootstrap (wrapper externo) cargado.");
                 loaded = true;

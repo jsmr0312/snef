@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -9,7 +9,7 @@ public class WebGLBridge : MonoBehaviour
     public static string Token { get; private set; } = "";
     public static Action<string> OnTokenChanged;
 
-    [Header("Auto detección")]
+    [Header("Auto detecciï¿½n")]
     public bool tryQueryParam = true;
     public bool tryLocalStorage = true;
     public bool trySessionStorage = true;
@@ -87,10 +87,10 @@ public class WebGLBridge : MonoBehaviour
         }
 
         if (verbose)
-            Debug.Log("[WebGLBridge] No se encontró token en local/session storage ni en querystring. " +
+            Debug.Log("[WebGLBridge] No se encontrï¿½ token en local/session storage ni en querystring. " +
                       "Esperando postMessage o SendMessage(\"WebBridge\",\"ReceiveToken\",token).");
 #else
-        if (verbose) Debug.Log("[WebGLBridge] Editor: no se resuelve token automáticamente.");
+        if (verbose) Debug.Log("[WebGLBridge] Editor: no se resuelve token automï¿½ticamente.");
 #endif
     }
 
@@ -117,7 +117,7 @@ public class WebGLBridge : MonoBehaviour
     static string ExtractTokenFromAuthData(string raw)
     {
         if (string.IsNullOrEmpty(raw)) return "";
-        // intenta JSON “barato”: busca "token":"..."
+        // intenta JSON ï¿½baratoï¿½: busca "token":"..."
         try
         {
             var m = Regex.Match(raw, "\"token\"\\s*:\\s*\"([^\"]+)\"");
@@ -129,7 +129,7 @@ public class WebGLBridge : MonoBehaviour
     static bool LooksLikeJwt(string s)
     {
         if (string.IsNullOrEmpty(s)) return false;
-        // patrón simple: tres segmentos base64url separados por punto
+        // patrï¿½n simple: tres segmentos base64url separados por punto
         return Regex.IsMatch(s, "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$");
     }
 
@@ -189,7 +189,7 @@ public class WebGLBridge : MonoBehaviour
         return null;
     }
 
-    // WebGLBridge.cs — añade esto dentro de la clase
+    // WebGLBridge.cs ï¿½ aï¿½ade esto dentro de la clase
 #if UNITY_WEBGL && !UNITY_EDITOR
 [System.Runtime.InteropServices.DllImport("__Internal")] private static extern void __RequestTokenRefresh();
 #endif

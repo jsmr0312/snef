@@ -82,6 +82,49 @@ mergeInto(LibraryManager.library, {
     }
   },
 
+  // ---------- escucha de postMessage -> PROGRESO ----------
+__SubscribeProgressMessages: function () {
+  if (typeof window === "undefined") return;
+
+  function deliverProgress(jsonStr) {
+    try {
+      var inst =
+        window.unityInstance ||
+        (typeof Module !== "undefined" && (Module.unityInstance || Module.UnityInstance)) ||
+        null;
+      var s = (jsonStr == null) ? "" : String(jsonStr);
+      if (inst && inst.SendMessage) {
+        // IMPORTANTE: el GameObject en Unity debe llamarse EXACTAMENTE "ProgressBootstrapper"
+        inst.SendMessage("ProgressBootstrapper", "ReceiveBootstrapJson", s);
+      } else {
+        window.__pendingUnityProgress = s; // Unity aún no listo
+      }
+    } catch (_) {}
+  }
+
+  window.addEventListener("message", function (e) {
+    var d = e && e.data;
+    if (!d) return;
+
+    // Aceptamos dos nombres por comodidad:
+    if (d.kind === "SNEF_PROGRESS" || d.type === "unity.progress") {
+      // Si viene como objeto, lo convertimos a string
+      var s = (typeof d.value === "string") ? d.value : JSON.stringify(d.value);
+
+      // Opcional: también clonar al localStorage del IFRAME (dominio de Unity)
+      try { localStorage.setItem("progress-storage", s); } catch(_) {}
+
+      deliverProgress(s);
+    }
+  }, false);
+
+  if (window.__pendingUnityProgress) {
+    deliverProgress(window.__pendingUnityProgress);
+    window.__pendingUnityProgress = null;
+  }
+},
+
+
   // ---------- escucha de postMessage desde el padre ----------
   __SubscribeTokenMessages: function () {
     if (typeof window === "undefined") return;

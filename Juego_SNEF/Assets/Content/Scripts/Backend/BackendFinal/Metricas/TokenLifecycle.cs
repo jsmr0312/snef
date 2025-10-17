@@ -1,4 +1,4 @@
-// TokenLifecycle.cs — gestor de ciclo de vida del token (equivalente a axios interceptor)
+ï»¿// TokenLifecycle.cs ï¿½ gestor de ciclo de vida del token (equivalente a axios interceptor)
 using System;
 using System.Collections;
 using UnityEngine;
@@ -8,9 +8,9 @@ public class TokenLifecycle : MonoBehaviour
     public static TokenLifecycle I { get; private set; }
 
     [Header("Refresh")]
-    [Tooltip("Segundos antes de expirar para intentar refrescar automáticamente")]
+    [Tooltip("Segundos antes de expirar para intentar refrescar automï¿½ticamente")]
     public int proactiveRefreshSeconds = 60;
-    [Tooltip("Tiempo máximo para esperar un refresh (segundos)")]
+    [Tooltip("Tiempo mï¿½ximo para esperar un refresh (segundos)")]
     public float refreshTimeout = 8f;
 
     [Header("Logs")]
@@ -61,7 +61,7 @@ public class TokenLifecycle : MonoBehaviour
             // Si expira pronto -> dispara refresh proactivo
             if (JwtLite.WillExpireSoon(tok, proactiveRefreshSeconds) && !RefreshInProgress)
             {
-                if (verbose) Debug.Log("[TokenLifecycle] Token por expirar: solicitando refresh proactivo…");
+                if (verbose) Debug.Log("[TokenLifecycle] Token por expirar: solicitando refresh proactivoï¿½");
                 yield return RequestRefreshAndWait();
             }
         }
@@ -78,7 +78,7 @@ public class TokenLifecycle : MonoBehaviour
             yield return null;
         }
 
-        // Si está expirado o por expirar, refrescamos
+        // Si estï¿½ expirado o por expirar, refrescamos
         if (JwtLite.IsExpired(WebGLBridge.Token) || JwtLite.WillExpireSoon(WebGLBridge.Token, 10))
         {
             yield return RequestRefreshAndWait();
@@ -95,7 +95,7 @@ public class TokenLifecycle : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         try { __RequestTokenRefresh(); } catch { }
 #else
-        // Editor: simular que el host actualizará el token
+        // Editor: simular que el host actualizarï¿½ el token
 #endif
 
         // Esperar hasta que cambie el token o timeout
@@ -105,7 +105,7 @@ public class TokenLifecycle : MonoBehaviour
         {
             yield return null;
             t += Time.unscaledDeltaTime;
-            // ¿llegó uno nuevo?
+            // ï¿½llegï¿½ uno nuevo?
             if (!string.IsNullOrEmpty(WebGLBridge.Token) && WebGLBridge.Token != before)
                 break;
         }

@@ -1,16 +1,17 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Video;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
 
 [RequireComponent(typeof(Collider), typeof(Renderer))]
 public class UnifiedScreenDisplay : MonoBehaviour,
     Interactor.IInteractable,
     Interactor.IInteractableFeedback
 {
-    public enum ContentType { Image, Video, Presentation, TallImageScrollable }
+    public enum ContentType { Image, Video, Presentation, TallImageScrollable, TallPresentationScrollable }
+
 
     #region Inspector
 
@@ -432,8 +433,9 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         }
 
 
-        prevButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex - 1));
-        nextButton?.onClick.AddListener(() => ShowPresentationItem(_currentIndex + 1));
+        prevButton?.onClick.AddListener(PrevSlide);
+        nextButton?.onClick.AddListener(NextSlide);
+
         closeButton?.onClick.AddListener(ExitViewMode);
 
         if (screenViewpoint == null && autoCreateViewpointIfNull)
@@ -483,6 +485,22 @@ public class UnifiedScreenDisplay : MonoBehaviour,
         }
 
     }
+    private void PrevSlide()
+    {
+        if (contentType == ContentType.Presentation)
+            ShowPresentationItem(_currentIndex - 1);
+        else if (contentType == ContentType.TallPresentationScrollable)
+            ShowTallPresentationItem(_currentIndex - 1);
+    }
+
+    private void NextSlide()
+    {
+        if (contentType == ContentType.Presentation)
+            ShowPresentationItem(_currentIndex + 1);
+        else if (contentType == ContentType.TallPresentationScrollable)
+            ShowTallPresentationItem(_currentIndex + 1);
+    }
+
     private void GetLiftTargetLocal(out Vector3 localPos, out Quaternion localRot)
     {
         localPos = _liftOrigLocalPos;
@@ -809,9 +827,11 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     void OnEnteredViewMode()
     {
         navButtonPanel?.SetActive(true);
-        bool isPres = contentType == ContentType.Presentation;
+        bool isPres = contentType == ContentType.Presentation
+           || contentType == ContentType.TallPresentationScrollable;
         prevButton?.gameObject.SetActive(isPres);
         nextButton?.gameObject.SetActive(isPres);
+
         closeButton?.gameObject.SetActive(true);
 
         switch (contentType)
@@ -831,9 +851,25 @@ public class UnifiedScreenDisplay : MonoBehaviour,
                 ShowTallImageScrollable();
                 _completed = true; _progressPct = 100;
                 break;
+
+            case ContentType.TallPresentationScrollable:
+                _currentIndex = 0;
+                _totalSlides = slides?.Length ?? 0;
+                ShowTallPresentationItem(0);
+                break;
+
         }
 
         SetupDownloadUI();
+
+           // Registrar flujo del jugador: vista de contenido (al entrar)
+        string asset = string.IsNullOrEmpty(assetId) ? screenId : assetId;
+        MetricsClient.I?.TrackEscenaVisitada(
+        "content",
+        asset,                 // scene_id
+        screenId,              // scene_name (o usa gameObject.name si prefieres)
+        ecosystemName
+           );
     }
 
     void ExitViewMode()
@@ -981,6 +1017,46 @@ public class UnifiedScreenDisplay : MonoBehaviour,
             );
         }
     }
+    private void ShowTallPresentationItem(int idx)
+    {
+        if (!_isViewing || contentType != ContentType.TallPresentationScrollable) return;
+        if (slides == null || slides.Length == 0)
+        {
+            // Fallback: no hay slides → desactiva scroll y muestra idle
+            SetTallScrollActive(false);
+            ShowIdleImage();
+            _progressPct = 0;
+            _completed = false;
+            if (prevButton) prevButton.interactable = false;
+            if (nextButton) nextButton.interactable = false;
+            return;
+        }
+
+        idx = Mathf.Clamp(idx, 0, slides.Length - 1);
+        _currentIndex = idx;
+
+        // Activar el contenedor de scroll vertical y asignar la textura de la slide actual
+        SetImageVisualActive(false);
+        SetVideoVisualActive(false);
+        SetTallScrollActive(true);
+
+        if (tallImage) tallImage.texture = slides[idx];
+
+        // Recalcular layout al siguiente frame y posicionar el scroll al inicio (arriba)
+        StopCoroutine(nameof(SetupTallLayoutNextFrame));
+        StartCoroutine(SetupTallLayoutNextFrame());
+
+        // Progreso (igual que Presentation normal)
+        _totalSlides = slides.Length;
+        _progressPct = (_totalSlides <= 1)
+            ? 100
+            : Mathf.RoundToInt(((idx + 1) / (float)_totalSlides) * 100f);
+        _completed = (_currentIndex >= _totalSlides - 1);
+
+        // Habilitar/Deshabilitar botones
+        if (prevButton) prevButton.interactable = idx > 0;
+        if (nextButton) nextButton.interactable = idx < _totalSlides - 1;
+    }
 
 
 
@@ -991,10 +1067,13 @@ public class UnifiedScreenDisplay : MonoBehaviour,
     private void ShowIdleImage()
     {
         Texture2D tex = idleImage != null
-            ? idleImage
-            : contentType == ContentType.Presentation && _totalSlides > 0
-                ? slides[0]
-                : singleImage;
+    ? idleImage
+    : ((contentType == ContentType.Presentation
+        || contentType == ContentType.TallPresentationScrollable)
+        && _totalSlides > 0)
+        ? slides[0]
+        : singleImage;
+
         ShowImage(tex);
     }
 

@@ -106,7 +106,19 @@ public class CorreYGanaManager : MonoBehaviour
         _estrellasPartida = 0;
 
         if (MinigameScope.I)
+        {
             MetricsClient.I?.TrackEntradaMinijuego(MinigameScope.I.standId, MinigameScope.I.minigameName);
+            string friendly = string.IsNullOrEmpty(MinigameScope.I.minigameName)
+                   ? UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+                   : MinigameScope.I.minigameName;
+            MetricsClient.I?.TrackEscenaVisitada(
+            "minigame",
+            minijuegoId,                 // scoped id ya calculado arriba
+            friendly,
+            MinigameScope.I.ecosystemName
+               );
+        }
+
 
         if (panelVictoria) panelVictoria.SetActive(false);
         if (panelDerrota) panelDerrota.SetActive(false);
