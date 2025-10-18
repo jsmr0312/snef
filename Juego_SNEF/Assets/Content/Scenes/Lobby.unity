@@ -4724,6 +4724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joysticks: {fileID: 273951809}
+  pausa: {fileID: 0}
   desktopUIRoot: {fileID: 1369233975}
 --- !u!4 &336277603 stripped
 Transform:
@@ -8989,7 +8990,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10000
   m_TargetDisplay: 0
 --- !u!1 &747294963
 GameObject:
@@ -9459,7 +9460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1812013956263557963, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: m_SortingOrder
-      value: 100
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 3198869413519254947, guid: 7b4e2ab611a2ac449a36bd18bbf90f7e, type: 3}
       propertyPath: m_AnchorMax.y
@@ -17656,7 +17657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activation: 0
-  delayOnStart: 2
+  delayOnStart: 0
   triggerZoneCenter: {fileID: 912358723}
   triggerRadius: 3
   playerTransform: {fileID: 683010829}

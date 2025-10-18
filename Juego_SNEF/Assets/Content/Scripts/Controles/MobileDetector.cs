@@ -10,6 +10,9 @@ public class MobileDetector : MonoBehaviour
     [Header("Asigna tu Canvas de joysticks")]
     public GameObject joysticks;
 
+    [Header("Asigna tu Canvas de pausa")]
+    public GameObject pausa;
+
     [Header("Opcional: UI de escritorio para alternar")]
     public GameObject desktopUIRoot;
 
@@ -18,6 +21,7 @@ public class MobileDetector : MonoBehaviour
         bool isMobile = IsRunningOnMobile();
 
         if (joysticks) joysticks.SetActive(isMobile);
+        if (pausa) pausa.SetActive(isMobile);
         if (desktopUIRoot) desktopUIRoot.SetActive(!isMobile);
 
         // En WebGL dejamos el cursor libre por defecto.

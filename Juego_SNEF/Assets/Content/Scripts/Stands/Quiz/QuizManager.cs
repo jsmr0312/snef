@@ -470,6 +470,21 @@ public class QuizManager : MonoBehaviour
 
         yield break;
     }
+    // --- Reward por única vez (por stand+trivia) ---
+    static string RewardKey(string stand, string trivia)
+    {
+        var s = string.IsNullOrWhiteSpace(stand) ? "no-stand" : stand;
+        var t = string.IsNullOrWhiteSpace(trivia) ? "no-trivia" : trivia;
+        return $"QUIZ_REWARD::{s}::{t}";
+    }
+    static bool AlreadyRewarded(string stand, string trivia) =>
+        PlayerPrefs.GetInt(RewardKey(stand, trivia), 0) == 1;
+
+    static void MarkRewarded(string stand, string trivia)
+    {
+        PlayerPrefs.SetInt(RewardKey(stand, trivia), 1);
+        PlayerPrefs.Save();
+    }
 
     void EndQuiz()
     {
@@ -495,6 +510,11 @@ public class QuizManager : MonoBehaviour
         MetricsClient.I?.TrackIntentoQuiz(standId, triviaId, _attemptIndex, elapsedSecs, _score, errores);
         MetricsClient.I?.TrackTriviaCompletada(standId, triviaId, _score, errores, elapsedSecs, coins);
         _attemptIndex++;
+
+
+        // ===== PUNTAJE FIJO SOLO UNA VEZ POR QUIZ =====
+        if (!AlreadyRewarded(standId, triviaId)) { Stats.I?.AddPuntaje(100); MarkRewarded(standId, triviaId); }  // ← NUEVO
+
 
         // ----- UI de resultado -----
         if (resultadoText) resultadoText.text = $"{_score}/{total}";

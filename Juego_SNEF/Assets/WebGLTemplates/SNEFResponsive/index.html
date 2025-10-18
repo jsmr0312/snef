@@ -30,7 +30,7 @@
     </div>
 
     <!-- Footer con botón de fullscreen -->
-    <div id="unity-footer">
+    <div id="unity-footer" style="display:none">
       <button id="unity-fullscreen-button" title="Pantalla completa">⛶</button>
     </div>
   </div>
@@ -104,9 +104,23 @@
           } catch(e) { /* iOS no soporta lock; ignorar */ }
         }
         fsBtn.addEventListener('click', async () => {
-          await requestLandscape();
-          unityInstance.SetFullscreen(1);
-        });
+  await requestLandscape();
+
+  // iOS + embebido sin permiso => abrir fuera del iframe
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const inIframe = (() => { try { return window.top !== window.self; } catch { return true; } })();
+  const canFullscreen = document.fullscreenEnabled || document.webkitFullscreenEnabled || false;
+
+  if (isIOS && (inIframe || !canFullscreen)) {
+    window.open(window.location.href, '_blank');
+    return;
+  }
+
+  unityInstance.SetFullscreen(1);
+});
+
       });
     };
     document.body.appendChild(script);
