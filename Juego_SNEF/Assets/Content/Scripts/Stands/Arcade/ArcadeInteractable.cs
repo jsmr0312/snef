@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;            // ← NUEVO
+using UnityEngine.UI;            // Slider
 using TMPro;
 using System.Collections;
 
@@ -24,7 +24,6 @@ public class ArcadeInteractable : MonoBehaviour,
     [Tooltip("¿Debe el prompt mirar a la cámara?")]
     public bool lookAtCamera = true;
 
-    // ← NUEVO: botón dentro del prompt que inicia la interacción
     [Tooltip("Botón del prompt que debe lanzar Interact()")]
     [SerializeField] private Button promptOpenButton;
 
@@ -53,20 +52,22 @@ public class ArcadeInteractable : MonoBehaviour,
     public Color outlineColorNear = Color.cyan;
     [Range(0, 10f)] public float outlineWidthNear = 4f;
 
+    [Header("Pantalla de carga (básica)")]
+    [SerializeField] private GameObject loadPanel; // Panel/canvas con el slider
+    [SerializeField] private Slider loadbar;       // Slider de la barra
+
     // Estado interno
     private bool _isLocked = true;
     private Coroutine _hideMsgRoutine;
 
     void Start()
     {
-        // Aplicar estado inicial según el toggle del inspector
+        // Estado inicial
         SetLocked(!startUnlocked);
 
-        // Si ya estaba desbloqueada en progreso, reflejarlo
         if (ProgressCore.I != null && ProgressCore.I.Stand_IsArcadeUnlocked(standId))
             SetLocked(false);
 
-        // Si la fase ya es Final, asegúrate de que se vea desbloqueada
         var phase = ProgressCore.I?.Stand_GetPhase(standId);
         if (phase == "Final")
         {
@@ -78,40 +79,33 @@ public class ArcadeInteractable : MonoBehaviour,
             }
         }
 
-        // Ocultar prompt y mensaje
         if (promptUI) promptUI.SetActive(false);
         if (lockMessageText) lockMessageText.gameObject.SetActive(false);
 
-        // Outline...
         if (outline == null) outline = GetComponent<Outline>() ?? GetComponentInChildren<Outline>();
         if (outline != null) outline.enabled = false;
 
-        // ← NUEVO: auto-resolver el botón dentro del prompt si no se asignó
+        // Botón dentro del prompt
         if (!promptOpenButton && promptUI)
             promptOpenButton = promptUI.GetComponentInChildren<Button>(true);
-
-        // Asegurar que no queden listeners “pegados” desde el prefab
         if (promptOpenButton) promptOpenButton.onClick.RemoveAllListeners();
+
+        // Loader UI inicial apagado
+        if (loadPanel) loadPanel.SetActive(false);
+        if (loadbar) loadbar.value = 0f;
     }
 
     void OnDisable()
     {
-        // Seguridad extra: soltar el botón si este objeto se desactiva
         BindPromptButton(false);
     }
 
-    /// <summary>
-    /// Cambia el estado de bloqueo y actualiza el UI del candado.
-    /// </summary>
     private void SetLocked(bool value)
     {
         _isLocked = value;
         if (lockCanvas) lockCanvas.gameObject.SetActive(_isLocked);
     }
 
-    /// <summary>
-    /// Llamar desde QuizManager.EndQuiz() para desbloquear la arcade.
-    /// </summary>
     public void UnlockArcade()
     {
         SetLocked(false);
@@ -119,9 +113,6 @@ public class ArcadeInteractable : MonoBehaviour,
         ProgressCore.I?.SaveNow("arcade_unlocked_" + standId);
     }
 
-    /// <summary>
-    /// (Opcional) Volver a bloquear en runtime.
-    /// </summary>
     public void LockArcade()
     {
         SetLocked(true);
@@ -142,8 +133,6 @@ public class ArcadeInteractable : MonoBehaviour,
             ApplyOutlineSettings();
             outline.enabled = true;
         }
-
-        // ← NUEVO: mientras este arcade está en foco, el botón del prompt dispara ESTE Interact()
         BindPromptButton(true);
     }
 
@@ -153,8 +142,6 @@ public class ArcadeInteractable : MonoBehaviour,
         if (lockMessageText) lockMessageText.gameObject.SetActive(false);
         if (_hideMsgRoutine != null) StopCoroutine(_hideMsgRoutine);
         if (outline) outline.enabled = false;
-
-        // ← NUEVO: soltar el botón al perder foco
         BindPromptButton(false);
     }
 
@@ -169,7 +156,7 @@ public class ArcadeInteractable : MonoBehaviour,
             return;
         }
 
-        // Guardar la posición del jugador antes de cambiar de escena
+        // Guardar retorno
         var player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -181,34 +168,52 @@ public class ArcadeInteractable : MonoBehaviour,
             PlayerPrefs.Save();
         }
 
-        // === CONTEXTO DE STAND + MINIJUEGO (MinigameScope) ===
+        // Scope de minijuego para métricas
         if (MinigameScope.I == null)
             new GameObject("MinigameScope").AddComponent<MinigameScope>();
 
-        // Nombre legible para métricas (si no pones override, usa el nombre de la escena)
         string friendlyName = string.IsNullOrEmpty(minigameDisplayName) ? arcadeSceneName : minigameDisplayName;
 
         MinigameScope.I.Begin(
             standId,
             standNumber,
             ecosystemName,
-            miniGameId,     // ID base de la plantilla (sirve para scoping de progreso)
-            friendlyName    // nombre legible para métricas
+            miniGameId,
+            friendlyName
         );
 
-        // Importante: NO dispares aquí "entrada_minijuego".
-        // Ese evento se manda en Start() del manager del minijuego.
-
-        // Cargar escena del minijuego
+        // --- Cargar escena con loader básico ---
         if (!string.IsNullOrEmpty(arcadeSceneName))
-            SceneManager.LoadScene(arcadeSceneName);
+        {
+            if (promptUI) promptUI.SetActive(false);
+            if (loadPanel) loadPanel.SetActive(true);
+            if (loadbar) loadbar.value = 0f;
+
+            // Si no hay referencias al loader, cae a carga directa
+            if (loadPanel && loadbar) StartCoroutine(LoadAsync(arcadeSceneName));
+            else SceneManager.LoadScene(arcadeSceneName);
+        }
         else
+        {
             Debug.LogWarning("ArcadeInteractable: arcadeSceneName no asignado.");
+        }
     }
 
     // ============================
     //          Helpers
     // ============================
+    private IEnumerator LoadAsync(string sceneName)
+    {
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+        while (!op.isDone)
+        {
+            // op.progress 0..0.9 → normalizamos 0..1
+            float p = Mathf.Clamp01(op.progress / 0.9f);
+            if (loadbar) loadbar.value = p;
+            yield return null;
+        }
+    }
+
     private void ShowLockMessage()
     {
         if (lockMessageText == null) return;
@@ -252,7 +257,6 @@ public class ArcadeInteractable : MonoBehaviour,
         outline.OutlineWidth = outlineWidthNear;
     }
 
-    // ← NUEVO: (des)enlaza el botón del prompt a este interactuable
     private void BindPromptButton(bool bind)
     {
         if (!promptOpenButton) return;

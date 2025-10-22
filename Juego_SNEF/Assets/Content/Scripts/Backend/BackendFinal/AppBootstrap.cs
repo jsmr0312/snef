@@ -1,3 +1,4 @@
+﻿// AppBootstrap.cs
 using UnityEngine;
 
 public static class AppBootstrap
@@ -5,8 +6,6 @@ public static class AppBootstrap
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void EnsureSingletons()
     {
-        // Stats ya lo garantizas con StatsBootstrap.cs
-
         if (WebGLBridge.I == null)
             new GameObject("WebGLBridge").AddComponent<WebGLBridge>();
 
@@ -19,7 +18,10 @@ public static class AppBootstrap
         if (Object.FindObjectOfType<StatsProgressSync>() == null)
             new GameObject("StatsProgressSync").AddComponent<StatsProgressSync>();
 
-        if (Object.FindObjectOfType<MinigamesBootstrapper>() == null)
-            new GameObject("MinigamesBootstrapper").AddComponent<MinigamesBootstrapper>();
+        if (MissionManager.I == null)
+            new GameObject("MissionManager").AddComponent<MissionManager>(); // ← NUEVO
+
+        if (AchievementsManager.I == null)
+            new GameObject("AchievementsManager").AddComponent<AchievementsManager>(); // (opcional si no es singleton)
     }
 }

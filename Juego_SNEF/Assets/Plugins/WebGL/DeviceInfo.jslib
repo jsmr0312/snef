@@ -2,15 +2,38 @@ mergeInto(LibraryManager.library, {
   IsMobile: function () {
     var ua = "";
     try { ua = (navigator.userAgent || navigator.vendor || window.opera || "").toLowerCase(); } catch (e) {}
-    var looksMobile = /android|iphone|ipad|ipod|windows phone|iemobile|mobile/.test(ua);
+
+    // iPadOS "Macintosh" con pantalla táctil
+    var isiPadOSLike = (function(){
+      try {
+        return (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      } catch(e){ return false; }
+    })();
+
+    var isIOS = /iphone|ipod|ipad/.test(ua) || isiPadOSLike;
+    var isAndroid = /android/.test(ua);
+    var isMobileWord = /windows phone|iemobile|mobile/.test(ua);
+
+    var looksMobile = isIOS || isAndroid || isMobileWord;
     return looksMobile ? 1 : 0;
   },
 
-  // Alias para compatibilidad con otros scripts
+  // Alias
   IsMobileBrowser: function () {
     var ua = "";
     try { ua = (navigator.userAgent || navigator.vendor || window.opera || "").toLowerCase(); } catch (e) {}
-    var looksMobile = /android|iphone|ipad|ipod|windows phone|iemobile|mobile/.test(ua);
+
+    var isiPadOSLike = (function(){
+      try {
+        return (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      } catch(e){ return false; }
+    })();
+
+    var isIOS = /iphone|ipod|ipad/.test(ua) || isiPadOSLike;
+    var isAndroid = /android/.test(ua);
+    var isMobileWord = /windows phone|iemobile|mobile/.test(ua);
+
+    var looksMobile = isIOS || isAndroid || isMobileWord;
     return looksMobile ? 1 : 0;
   }
 });

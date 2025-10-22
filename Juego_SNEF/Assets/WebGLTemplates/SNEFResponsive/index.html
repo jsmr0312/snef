@@ -4,6 +4,9 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <title>{{{ PRODUCT_NAME }}}</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
@@ -15,6 +18,11 @@
       <div class="rotate-icon">↻</div>
       <div>Para jugar mejor, gira tu dispositivo.</div>
       <div>Mantén el teléfono en horizontal.</div>
+      <!-- Agrega este bloque dentro de .overlay-card -->
+      <div class="browser-tip">
+        <strong>Consejo:</strong> Te recomendamos utilizar un navegador de google para tener una mejor experiencia.
+      </div>
+
     </div>
   </div>
 
@@ -23,45 +31,51 @@
 
     <!-- Loader simple con tu logo arriba -->
     <div id="unity-loading-bar">
-      <img id="loader-brand" src="logoCargaDusef.png" alt="Logo SNEF"/>
+      <img id="loader-brand" src="logoCargaDusef.png" alt="Logo SNEF" />
       <div id="unity-progress-bar-empty">
         <div id="unity-progress-bar-full"></div>
       </div>
+
     </div>
 
     <!-- Footer con botón de fullscreen -->
-    <div id="unity-footer" style="display:none">
-      <button id="unity-fullscreen-button" title="Pantalla completa">⛶</button>
+    <div id="unity-footer" >
+      <button id="unity-fullscreen-button" title="Pantalla completa" hidden>⛶</button>
     </div>
   </div>
 
   <script>
     // Ajuste de DPR para rendimiento móvil
-    const MAX_DPR = 1.5;
+   const MAX_DPR = 1.5;
+  const canvas = document.getElementById('unity-canvas');
 
-    // Medida fiable del viewport visible en móvil
-    const canvas = document.getElementById('unity-canvas');
-    const container = document.getElementById('unity-container');
+  // 1) Solo tocamos el TAMAÑO CSS del canvas; Unity ajusta el interno (matchWebGLToCanvasSize:true)
+  function sizeCanvasCssToViewport() {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    canvas.style.width  = vw + 'px';
+    canvas.style.height = vh + 'px';
+  }
 
-    function resizeCanvasToViewport() {
-      const vw = Math.max(window.visualViewport ? window.visualViewport.width  : window.innerWidth,  1);
-      const vh = Math.max(window.visualViewport ? window.visualViewport.height : window.innerHeight, 1);
+  // 2) En iOS a veces el primer cálculo llega "a destiempo".
+  //    Disparamos varios ajustes escalonados (doble rAF + timeouts).
+  function kickIOSFullScreenFix() {
+    sizeCanvasCssToViewport();
+    requestAnimationFrame(() => {
+      sizeCanvasCssToViewport();
+      requestAnimationFrame(sizeCanvasCssToViewport);
+    });
+    setTimeout(sizeCanvasCssToViewport, 250);
+    setTimeout(sizeCanvasCssToViewport, 1200);
+  }
 
-      canvas.style.width  = vw + 'px';
-      canvas.style.height = vh + 'px';
+  // Listeners de viewport
+  window.addEventListener('resize', sizeCanvasCssToViewport);
+  window.addEventListener('orientationchange', () => setTimeout(kickIOSFullScreenFix, 150));
+  window.addEventListener('pageshow', kickIOSFullScreenFix, { once: true });
 
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-      canvas.width  = Math.floor(vw * dpr);
-      canvas.height = Math.floor(vh * dpr);
-    }
-
-    window.addEventListener('resize', resizeCanvasToViewport);
-    window.addEventListener('orientationchange', () => setTimeout(resizeCanvasToViewport, 150));
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', resizeCanvasToViewport);
-    }
-    resizeCanvasToViewport();
-
+  // Primer ajuste
+  kickIOSFullScreenFix();
     // Config estándar de Unity con tokens del template
     var buildUrl  = "Build";
     var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";

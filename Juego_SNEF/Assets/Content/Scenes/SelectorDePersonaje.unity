@@ -2927,12 +2927,12 @@ MonoBehaviour:
   ach_Collector_Id: ach_collector
   ach_Saver_Id: ach_saver
   ach_Expert_Id: ach_expert
-  points_Gamer: 50
-  points_Collector: 50
-  points_Saver: 50
-  points_Expert: 100
+  points_Gamer: 0
+  points_Collector: 0
+  points_Saver: 0
+  points_Expert: 0
   gamerRequiredTypes: 3
-  totalCollectibles: 9
+  totalCollectibles: 10
   saverTarget: 10000
 --- !u!4 &338086157
 Transform:
@@ -6258,7 +6258,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1979330285}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.40463924
+  m_Size: 0.32076025
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7911,6 +7911,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2dd31517a2e86f247af8cdf4fe47b3ab, type: 3}
   - {fileID: 21300000, guid: c23fdfa450576f840af5927f2fedf215, type: 3}
   - {fileID: 21300000, guid: 0847a3b1c026c964bab787ac88c4da40, type: 3}
+  - {fileID: 21300000, guid: 3d3b23467cc478f4b80d9be5c6f32de1, type: 3}
   slideImage: {fileID: 1427944715}
   nextButton: {fileID: 1093211317}
   prevButton: {fileID: 1745598779}
@@ -15193,10 +15194,12 @@ MonoBehaviour:
   baseUrl: https://api.estudiohera.mx
   progressPath: /game/progress
   tokenPlayerPrefsKey: snef_token
+  reconcileBudgetFromStoreItems: 0
+  chargedStoreKeyPrefix: 'SNEF_CHARGED_STORE_IDS::'
   saveLocalOnEachChange: 1
   autoCreateRemoteIfMissing: 1
   requestTimeout: 8
-  allowSendWithoutToken: 1
+  allowSendWithoutToken: 0
   verboseLogs: 0
 --- !u!114 &1662061185
 MonoBehaviour:
@@ -15210,7 +15213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44bc15330c239e548b186410c7107fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  log: 1
+  log: 0
 --- !u!1 &1667405991
 GameObject:
   m_ObjectHideFlags: 0
@@ -15961,9 +15964,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseUrl: https://api.estudiohera.mx
   metricsPath: /metricas/metricas
+  heartbeatSeconds: 540
   requestTimeout: 4
   verboseLogs: 1
   allowSendWithoutToken: 0
+  verboseRecovery: 1
+  recoveryCooldownSeconds: 30
 --- !u!4 &1731951221
 Transform:
   m_ObjectHideFlags: 0

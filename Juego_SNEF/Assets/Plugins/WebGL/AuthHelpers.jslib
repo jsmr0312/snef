@@ -36,13 +36,9 @@ mergeInto(LibraryManager.library, {
     }
   },
 
-  __RequestTokenRefresh: function () {
-  try {
-    if (window.parent) {
-      // Pide al host (tu app React) que haga el refresh
-      window.parent.postMessage({ type: 'token.refresh.request' }, '*');
-    }
-  } catch (e) {}
+__RequestTokenRefresh: function () {
+  // No-op: tokens permanentes; se mantiene por compatibilidad binaria
+  // (antes hacía: window.parent.postMessage({ type: 'token.refresh.request' }, '*'))
 },
 
 
@@ -141,13 +137,17 @@ __SubscribeProgressMessages: function () {
       } catch (_) {}
     }
 
-    window.addEventListener("message", function (e) {
-      var d = e && e.data;
-      if (!d) return;
-      if (d.type === "unity.token" || d.type === "token.update") {
-        deliver(d.value);
-      }
-    });
+   window.addEventListener("message", function (e) {
+  var d = e && e.data;
+  if (!d) return;
+  if (d.type === "unity.token" || d.type === "token.update") {
+    // << evita mandar tokens vacíos a Unity
+    if (d.value && String(d.value).trim() !== "") {
+      deliver(d.value);
+    }
+  }
+});
+
 
     if (window.__pendingUnityToken) {
       deliver(window.__pendingUnityToken);

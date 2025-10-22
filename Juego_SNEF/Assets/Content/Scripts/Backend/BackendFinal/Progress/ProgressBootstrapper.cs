@@ -43,16 +43,13 @@ public class ProgressBootstrapper : MonoBehaviour
 #if SNEF_LS_REMOVE
     [DllImport("__Internal")] private static extern void __RemoveLocalStorageItem(string key);
 #endif
-#endif
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-[DllImport("__Internal")] private static extern void __SubscribeProgressMessages();
+    [DllImport("__Internal")] private static extern void __SubscribeProgressMessages();
 #endif
 
     void Awake()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-    try { __SubscribeProgressMessages(); } catch {}
+        try { __SubscribeProgressMessages(); } catch {}
 #endif
     }
 
@@ -61,76 +58,165 @@ public class ProgressBootstrapper : MonoBehaviour
         StartCoroutine(BootstrapRoutine());
     }
 
+    /// <summary>
+    /// Recibe progreso por postMessage/bridge (string json), lo aplica una sola vez
+    /// y recalcula misiones/logros asegurando aislamiento por usuario.
+    /// </summary>
     public void ReceiveBootstrapJson(string json)
     {
-        if (string.IsNullOrEmpty(json)) return;
+        if (string.IsNullOrEmpty(json))
+        {
+            if (log) Debug.LogWarning("[Bootstrap] JSON vacío recibido por postMessage.");
+            return;
+        }
 
         // Si venía entrecomillado, desescapar
         json = UnwrapIfQuoted(json);
 
-        // Aplica TODO el modelo (ya reemplaza el local y hace Touch/OnChanged dentro)
+        // Detectar límite de usuario ANTES de aplicar el progreso
+        bool boundaryChanged = UserBoundaryChanged();
+        if (boundaryChanged)
+        {
+            // Limpiar estados locales dependientes de usuario
+            MissionManager.I?.ResetCurrentUserMissions();
+            AchievementsManager.I?.ResetCurrentUserAchievements();
+        }
+
+        // Aplicar el progreso remoto UNA SOLA VEZ
         ProgressCore.I?.LoadFromBootstrapJson(json);
 
-        // Si quieres que el HUD de presupuesto/puntaje refleje al instante
-        // incluso si StatsProgressSync ya no está escuchando, activa este flag en el Inspector:
+        // Opcional: reflejar HUD/Stats del ProgressCore al inicio
         if (syncStatsHere) MirrorStatsFromProgress();
 
+        // Rehidratación determinista (misiones + logros)
+        MissionManager.I?.RecomputeFromProgressFromProgressCore(mergeWithLocal: !boundaryChanged);
+        AchievementsManager.I?.RecheckFromGameState();
+
         if (log) Debug.Log("[Bootstrap] Progreso recibido por postMessage y aplicado.");
+
+        StartCoroutine(EnsureMissionRecomputeAfterManagers());
+    }
+
+    // ProgressBootstrapper.cs - al final de ReceiveBootstrapJson y también al final de BootstrapRoutine
+
+
+    private IEnumerator EnsureMissionRecomputeAfterManagers()
+    {
+        // Espera a que el MissionManager esté presente (si ya está, pasa de inmediato)
+        float waited = 0f;
+        while (MissionManager.I == null && waited < 1.5f)
+        {
+            yield return null;
+            waited += Time.deltaTime;
+        }
+
+        // Recomputa otra vez por seguridad (no afecta métricas)
+        MissionManager.I?.RecomputeFromProgressFromProgressCore(mergeWithLocal: true);
+        AchievementsManager.I?.RecheckFromGameState();
     }
 
 
-    IEnumerator BootstrapRoutine()
+    /// <summary>
+    /// Rutina de arranque: lee localStorage, espera opcionalmente, aplica progreso,
+    /// limpia clave si procede, y recalcula estados derivados.
+    /// </summary>
+    private IEnumerator BootstrapRoutine()
     {
-        string token = WebGLBridge.Token ?? "";
-        string raw = ReadLocal(progressKey);
+        if (log) Debug.Log("[Bootstrap] Inicio de rutina de bootstrap…");
 
-        // --- Espera corta si aún no existe (primer ingreso típico) ---
-        float waited = 0f;
-        while ((string.IsNullOrEmpty(raw) || raw == "{}") &&
-               waited < waitForProgressSeconds)
+        // Reset duro si es invitado (opcional)
+        if (resetOnGuestToken && IsGuestToken(WebGLBridge.Token))
         {
-            yield return new WaitForSecondsRealtime(pollIntervalSeconds);
-            waited += pollIntervalSeconds;
-            raw = ReadLocal(progressKey);
-        }
-
-        bool noBootstrap = string.IsNullOrEmpty(raw) || raw == "{}";
-        bool isGuest = resetOnGuestToken && IsGuestToken(token);
-
-        // ======= Caso invitado (con o sin token) o sin bootstrap =======
-        if (noBootstrap && (isGuest || string.IsNullOrEmpty(token)))
-        {
-            if (log) Debug.Log($"[Bootstrap] Reset invitado. noBootstrap={noBootstrap}, isGuest={isGuest}, hasToken={!string.IsNullOrEmpty(token)}");
+            if (log) Debug.Log("[Bootstrap] Token invitado detectado. Reseteando…");
             GuestHardReset();
             yield break;
         }
 
-        // ======= Sin bootstrap => NO mezclar con progreso local =======
-        if (noBootstrap)
+        // Esperar dependencias mínimas
+        yield return new WaitUntil(() => ProgressCore.I != null);
+        // Stats / managers pueden inicializar un frame después en algunos casos
+        yield return null;
+
+        // Leer el raw del host/localStorage
+        string raw = ReadLocal(progressKey);
+
+        // Espera opcional (primer ingreso) si no está aún
+        if (string.IsNullOrEmpty(raw) && waitForProgressSeconds > 0f)
         {
-            if (log) Debug.Log("[Bootstrap] No hay progress-storage; reseteo limpio (modo estricto).");
-            GuestHardReset(); // limpio real
+            float t = 0f;
+            while (t < waitForProgressSeconds)
+            {
+                yield return new WaitForSeconds(pollIntervalSeconds);
+                raw = ReadLocal(progressKey);
+                if (!string.IsNullOrEmpty(raw)) break;
+                t += pollIntervalSeconds;
+            }
+        }
+
+        if (string.IsNullOrEmpty(raw))
+        {
+            if (log) Debug.Log("[Bootstrap] No se encontró bootstrap en localStorage. Fin de rutina.");
             yield break;
         }
 
         // ======= Sí hay bootstrap => aplicarlo =======
         string json = UnwrapIfQuoted(raw);
+
+        // Detectar límite de usuario ANTES de aplicar el progreso
+        bool boundaryChanged = UserBoundaryChanged();
+        if (boundaryChanged)
+        {
+            // Limpiar estados locales dependientes de usuario
+            MissionManager.I?.ResetCurrentUserMissions();
+            AchievementsManager.I?.ResetCurrentUserAchievements();
+        }
+
+        // Aplicar el progreso remoto UNA SOLA VEZ
         ProgressCore.I?.LoadFromBootstrapJson(json);
 
+        // Limpiar el key si así está configurado
+#if UNITY_WEBGL && !UNITY_EDITOR && SNEF_LS_REMOVE
         if (clearKeyAfterRead) RemoveLocal(progressKey);
+#endif
+
+        // Reflejar Stats del ProgressCore al HUD si se desea
         if (syncStatsHere) MirrorStatsFromProgress();
 
-        // Rehidratación determinista (misiones + logros) desde el modelo cargado:
-        MissionManager.I?.RecomputeFromProgressFromProgressCore();
+        // Rehidratación determinista (misiones + logros)
+        MissionManager.I?.RecomputeFromProgressFromProgressCore(mergeWithLocal: !boundaryChanged);
         AchievementsManager.I?.RecheckFromGameState();
 
         if (log) Debug.Log("[Bootstrap] Progreso inicial aplicado y derivaciones recalculadas.");
     }
 
     // ---------------- helpers ----------------
+
+    static string CurrentUid()
+    {
+        string uid = JwtLite.GetUserId(WebGLBridge.Token);
+        return string.IsNullOrEmpty(uid) ? "guest" : uid;
+    }
+
+    /// <summary>
+    /// Devuelve true si cambió el límite de usuario (uid) respecto al último usado.
+    /// Guarda el uid actual en PlayerPrefs para próximas comparaciones.
+    /// </summary>
+    static bool UserBoundaryChanged()
+    {
+        const string KEY = "SNEF_LAST_UID";
+        string uid = CurrentUid();
+        string last = PlayerPrefs.GetString(KEY, "");
+        bool changed = !string.Equals(uid, last, StringComparison.Ordinal);
+        if (changed)
+        {
+            PlayerPrefs.SetString(KEY, uid);
+            PlayerPrefs.Save();
+        }
+        return changed;
+    }
+
     void GuestHardReset()
     {
-        // Opcional: limpiar TODOS los PlayerPrefs si quieres un reset 100% limpio
         if (hardDeleteAllPrefsOnGuest)
         {
             PlayerPrefs.DeleteAll();
@@ -138,25 +224,22 @@ public class ProgressBootstrapper : MonoBehaviour
         }
         else
         {
-            // Limpia selección de personaje/legacy si los usas
             PlayerPrefs.DeleteKey("personaje1Select");
             PlayerPrefs.DeleteKey("personaje2Select");
             PlayerPrefs.DeleteKey("personaje3Select");
-            // Limpia misiones locales
-            PlayerPrefs.DeleteKey("SNEF_MISSIONS_V1");
+            PlayerPrefs.DeleteKey("SNEF_MISSIONS_V1::guest");
+            PlayerPrefs.DeleteKey("SNEF_ACHIEVEMENTS_V1::guest");
             PlayerPrefs.Save();
         }
 
-        // Limpia logros namespaced del usuario actual (en invitado será ::guest)
         if (AchievementsManager.I != null)
             AchievementsManager.I.ResetCurrentUserAchievements();
 
-        // Reset del modelo central y UI (sin métricas)
         ProgressCore.I?.ResetLocalProgress("guest mode");
         Stats.I?.SetTotalsSilently(0, 0);
 
-        // Empuja estado base a UI
-        MissionManager.I?.RecomputeFromProgressFromProgressCore();
+        // En reset sí queremos recomputar sin fusionar (estado limpio)
+        MissionManager.I?.RecomputeFromProgressFromProgressCore(mergeWithLocal: false);
         AchievementsManager.I?.RecheckFromGameState();
     }
 
@@ -165,6 +248,7 @@ public class ProgressBootstrapper : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
         try { return __GetLocalStorageItem(key); } catch { return ""; }
 #else
+        // En Editor/Standalone no hay localStorage; si lo necesitas, emúlalo con PlayerPrefs aquí.
         return "";
 #endif
     }
@@ -180,7 +264,7 @@ public class ProgressBootstrapper : MonoBehaviour
     {
         if (string.IsNullOrEmpty(s)) return s;
         s = s.Trim();
-        if (s.Length >= 2 && s[0] == '\"' && s[^1] == '\"')
+        if (s.Length >= 2 && s[0] == '\"' && s[s.Length - 1] == '\"')
         {
             s = s.Substring(1, s.Length - 2);
             s = Regex.Unescape(s);
@@ -188,7 +272,6 @@ public class ProgressBootstrapper : MonoBehaviour
         return s;
     }
 
-    // ---- Detección robusta de token invitado ----
     static bool IsGuestToken(string tok)
     {
         if (string.IsNullOrEmpty(tok)) return false;

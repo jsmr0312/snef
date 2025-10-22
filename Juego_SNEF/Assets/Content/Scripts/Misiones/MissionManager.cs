@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -30,7 +29,7 @@ public class MissionManager : MonoBehaviour
         new EcosystemConfig{ ecosystemName = "Ecosistema 4", requiredStandCompletions = 4 },
     };
 
-    // --------- Estado persistente local (opcional para recordar UI) ---------
+    // --------- Estado persistente local (para UI y merge) ---------
     [Serializable]
     public class EcoState
     {
@@ -44,13 +43,23 @@ public class MissionManager : MonoBehaviour
     class SaveData { public List<EcoState> ecos = new List<EcoState>(); }
 
     const string PP_KEY = "SNEF_MISSIONS_V1";
+    static string CurrentUserKey()
+    {
+        string uid = JwtLite.GetUserId(WebGLBridge.Token);
+        if (string.IsNullOrEmpty(uid)) uid = "guest";
+        return $"{PP_KEY}::{uid}";
+    }
+
     readonly Dictionary<string, EcoState> _byEco =
         new Dictionary<string, EcoState>(StringComparer.OrdinalIgnoreCase);
 
     public event Action<string, EcoState> OnEcoStateChanged;
 
-    // Guardia para evitar recomputes mientras estamos procesando eventos locales
+    // Guardia para evitar recomputes mientras procesamos eventos locales
     bool _suppressRecompute;
+
+    // Recordar qué clave cargamos (para detectar cambio de usuario)
+    string _loadedKey;
 
     // ============================== Ciclo de vida ==============================
 
@@ -60,6 +69,21 @@ public class MissionManager : MonoBehaviour
         I = this;
         DontDestroyOnLoad(gameObject);
         Load();
+    }
+
+    public void ResetCurrentUserMissions()
+    {
+        try
+        {
+            var key = CurrentUserKey();             // SNEF_MISSIONS_V1::<uid>
+            PlayerPrefs.DeleteKey(key);             // borra solo las del usuario ACTUAL
+            PlayerPrefs.Save();
+        }
+        catch { /* seguro */ }
+
+        _byEco.Clear();                             // limpia caché en memoria
+        Debug.Log("[Mission] Reset de misiones para el usuario actual.");
+        PushAllConfigured();                        // refresca UI/observadores
     }
 
     void OnEnable()
@@ -80,25 +104,38 @@ public class MissionManager : MonoBehaviour
 
     void Start()
     {
-        // Primer frame: refleja lo que ya haya (por si el bootstrap corrió antes)
+        // Recompute inmediato
         TryRecomputeAndPush();
+
+        // Y otro un poquito después para asegurar que StandCatalog.I ya esté listo
+        Invoke(nameof(TryRecomputeAndPush), 0.05f);
     }
 
     void OnProgressChanged(ProgressCore.GameProgressV1 _)
     {
-        if (_suppressRecompute) return;
-        TryRecomputeAndPush(); // ahora fusiona, no borra
+        if (_suppressRecompute)
+        {
+            // Programa un recompute en el próximo frame para no perder el evento
+            CancelInvoke(nameof(TryRecomputeAndPush));
+            Invoke(nameof(TryRecomputeAndPush), 0.01f);
+            return;
+        }
+        TryRecomputeAndPush();
     }
 
     void OnTokenChanged(string _)
     {
-        // Cambió de usuario → recomputar limpio desde Data y refrescar UI
-        TryRecomputeAndPush();
+        // Cambió de usuario → carga su estado y recalcula SOLO con progreso remoto
+        Load();
+        RecomputeFromProgressFromProgressCore(mergeWithLocal: false);
+        PushAllConfigured();
     }
 
     void TryRecomputeAndPush()
     {
-        RecomputeFromProgressFromProgressCore(mergeWithLocal: true);
+        var keyNow = CurrentUserKey();
+        bool sameUser = (keyNow == _loadedKey);
+        RecomputeFromProgressFromProgressCore(mergeWithLocal: sameUser); // solo fusiona si es el mismo usuario
         PushAllConfigured();
     }
 
@@ -106,52 +143,51 @@ public class MissionManager : MonoBehaviour
 
     public void NotifyStandCompleted(string ecosystemName, string standId, string standType)
     {
+        // Evita que un throw deje el flag prendido
+        bool prev = _suppressRecompute;
         _suppressRecompute = true;
-
-        ecosystemName = ResolveEcoByIdOrName(ecosystemName, standId);
-        if (string.IsNullOrEmpty(ecosystemName))
+        try
         {
-            Debug.LogWarning($"[Mission] No se pudo resolver ecosistema para standId={standId}. Revisa StandCatalog/EcosystemBootstrap.");
-            _suppressRecompute = false;
-            return;
-        }
-
-        var st = GetEco(ecosystemName);
-
-        // Resolver tipo: catálogo → texto → regular
-        StandKind kind = ParseStandType(standType);
-        if (StandCatalog.I && StandCatalog.I.TryGet(standId, out var entry))
-            kind = entry.kind;
-
-        if (kind == StandKind.Experience)
-        {
-            if (!st.experienceCompleted)
+            ecosystemName = ResolveEcoByIdOrName(ecosystemName, standId);
+            if (string.IsNullOrEmpty(ecosystemName))
             {
-                st.experienceCompleted = true;
-                Debug.Log($"[Mission] ({ecosystemName}) Punto de experiencia COMPLETADO. standId={standId}");
-                Save(); Push(ecosystemName);
-                MetricsClient.I?.TrackMisionCompletada(ecosystemName, "Completa punto de experiencia");
+                Debug.LogWarning($"[Mission] No se pudo resolver ecosistema para standId={standId}. Revisa StandCatalog/EcosystemBootstrap.");
+                return;
             }
-            _suppressRecompute = false;
-            return;
+
+            var st = GetEco(ecosystemName);
+
+            StandKind kind = ParseStandType(standType);
+            if (StandCatalog.I && StandCatalog.I.TryGet(standId, out var entry))
+                kind = entry.kind;
+
+            if (kind == StandKind.Experience)
+            {
+                if (!st.experienceCompleted)
+                {
+                    st.experienceCompleted = true;
+                    Save(); Push(ecosystemName);
+                    MetricsClient.I?.TrackMisionCompletada(ecosystemName, "Completa punto de experiencia");
+                }
+                return;
+            }
+
+            bool beforeWasComplete = st.standsCompleted.Count >= Required(ecosystemName);
+
+            if (!st.standsCompleted.Contains(standId))
+            {
+                st.standsCompleted.Add(standId);
+                st.standsCompleted = st.standsCompleted.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+                Save(); Push(ecosystemName);
+
+                if (!beforeWasComplete && st.standsCompleted.Count >= Required(ecosystemName))
+                    MetricsClient.I?.TrackMisionCompletada(ecosystemName, "Completa 4 stands");
+            }
         }
-
-        bool beforeWasComplete = st.standsCompleted.Count >= Required(ecosystemName);
-
-        if (!st.standsCompleted.Contains(standId))
+        finally
         {
-            st.standsCompleted.Add(standId);
-            // Asegura unicidad por si algo raro pasó
-            st.standsCompleted = st.standsCompleted.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-
-            Debug.Log($"[Mission] ({ecosystemName}) Stand REGULAR COMPLETADO: {standId}. Total={st.standsCompleted.Count}");
-            Save(); Push(ecosystemName);
-
-            if (!beforeWasComplete && st.standsCompleted.Count >= Required(ecosystemName))
-                MetricsClient.I?.TrackMisionCompletada(ecosystemName, "Completa 4 stands");
+            _suppressRecompute = prev; // ← SIEMPRE restaurar
         }
-
-        _suppressRecompute = false;
     }
 
     public void NotifyMinigameResultByStand(string standId, int stars)
@@ -193,37 +229,25 @@ public class MissionManager : MonoBehaviour
 
     // ====================== Recomputar TODO desde el progreso (bootstrap) ======================
 
-    /// Reconstruye a partir de ProgressCore.I.Data (o Data.progress).
-    /// IMPORTANTE: si mergeWithLocal=true, fusiona con lo que ya esté en memoria
-    /// para no perder los avances recién hechos que aún no aparecen en el JSON.
     public void RecomputeFromProgressFromProgressCore(bool mergeWithLocal = true)
     {
         var pc = ProgressCore.I;
-        if (pc == null) { return; }
+        if (pc == null) return;
 
-        object data = pc.GetType().GetProperty("Data", BindingFlags.Public | BindingFlags.Instance)?.GetValue(pc);
-        if (data == null) { return; }
-
-        object progressNode = data;
-        var pProgress = data.GetType().GetProperty("progress");
-        if (pProgress != null) progressNode = pProgress.GetValue(data) ?? data;
-
-        var pStands = progressNode.GetType().GetProperty("stands") ?? data.GetType().GetProperty("stands");
-        object standsObj = pStands?.GetValue(progressNode) ?? pStands?.GetValue(data);
-
-        // Construye un estado NUEVO (por ecosistema) a partir del JSON
+        // Construye un estado NUEVO (por ecosistema) a partir del modelo ACTUAL
         var newByEco = new Dictionary<string, EcoState>(StringComparer.OrdinalIgnoreCase);
 
-        if (standsObj is System.Collections.IEnumerable standsEnum)
+        // --- A) Derivar por minijuegos ya guardados en ProgressCore (fuente para 3★ + stands regulares)
+        if (pc.Data?.minigames != null)
         {
-            foreach (var st in standsEnum)
+            foreach (var mg in pc.Data.minigames)
             {
-                if (st == null) continue;
+                if (mg == null || mg.stars < 3 || string.IsNullOrEmpty(mg.id)) continue;
+                // id = "<standId>::<minigameId>"
+                var parts = mg.id.Split(new[] { "::" }, StringSplitOptions.None);
+                if (parts.Length < 2) continue;
+                var standId = parts[0];
 
-                string standId = st.GetType().GetProperty("stand_id")?.GetValue(st)?.ToString();
-                if (string.IsNullOrWhiteSpace(standId)) continue;
-
-                // Resolver entrada de catálogo
                 string ecoName = null;
                 StandKind kind = StandKind.Regular;
                 if (StandCatalog.I && StandCatalog.I.TryGet(standId, out var entry))
@@ -245,47 +269,104 @@ public class MissionManager : MonoBehaviour
                     newByEco[ecoName] = ecoState;
                 }
 
-                // ¿Stand "completado"? Regla: algún minijuego con 3★
-                bool completed = false;
-                bool any3 = false;
-
-                var minigamesObj = st.GetType().GetProperty("minigames")?.GetValue(st);
-                if (minigamesObj is System.Collections.IEnumerable mgEnum)
+                if (kind != StandKind.Experience)
                 {
-                    foreach (var mg in mgEnum)
-                    {
-                        if (mg == null) continue;
-                        int stars = 0;
-                        var pStars = mg.GetType().GetProperty("stars") ?? mg.GetType().GetProperty("puntaje");
-                        if (pStars != null)
-                        {
-                            var val = pStars.GetValue(mg);
-                            if (val is int i) stars = i; else if (val is long l) stars = (int)l;
-                        }
-                        if (stars >= 3) any3 = true;
-                        if (stars >= 3) completed = true;
-                    }
-                }
-
-                if (kind == StandKind.Experience)
-                {
-                    // XP completo si hubo cualquier progreso
-                    bool anyProgress = completed
-                        || (st.GetType().GetProperty("trivias")?.GetValue(st) is System.Collections.IEnumerable te && te.GetEnumerator().MoveNext())
-                        || (st.GetType().GetProperty("assets")?.GetValue(st) is System.Collections.IEnumerable ae && ae.GetEnumerator().MoveNext());
-
-                    if (anyProgress) ecoState.experienceCompleted = true;
-                }
-                else
-                {
-                    if (completed && !ecoState.standsCompleted.Contains(standId))
+                    if (!ecoState.standsCompleted.Contains(standId))
                         ecoState.standsCompleted.Add(standId);
-                    if (any3) ecoState.anyMinigame3Stars = true;
+                    ecoState.anyMinigame3Stars = true;
                 }
             }
         }
 
-        // FUSIÓN con el estado local (para no perder sesiones recientes)
+        // --- B) Derivar experiencia completada: usa stands tipados (fase/vistas)
+        if (pc.Data?.stands != null)
+        {
+            foreach (var s in pc.Data.stands)
+            {
+                if (s == null || string.IsNullOrEmpty(s.stand_id)) continue;
+
+                string ecoName = null;
+                StandKind kind = StandKind.Regular;
+                if (StandCatalog.I && StandCatalog.I.TryGet(s.stand_id, out var entry))
+                {
+                    ecoName = entry.ecosystemName;
+                    kind = entry.kind;
+                }
+                else if (StandContext.I != null && !string.IsNullOrWhiteSpace(StandContext.I.ecosystemName))
+                {
+                    ecoName = StandContext.I.ecosystemName; // fallback
+                }
+
+                ecoName = NormalizeEcoName(ecoName);
+                if (string.IsNullOrEmpty(ecoName)) ecoName = "Ecosistema 1";
+
+                if (!newByEco.TryGetValue(ecoName, out var ecoState))
+                {
+                    ecoState = new EcoState { eco = ecoName };
+                    newByEco[ecoName] = ecoState;
+                }
+
+                if (kind == StandKind.Experience)
+                {
+                    bool anyProgress =
+                        (s.viewed_screens != null && s.viewed_screens.Count > 0) ||
+                        string.Equals(s.phase, "Final", StringComparison.OrdinalIgnoreCase);
+                    if (anyProgress) ecoState.experienceCompleted = true;
+                }
+            }
+        }
+
+        // --- C) **Declarativas desde backend** (pc.Data.missions)
+        if (pc.Data?.missions != null)
+        {
+            foreach (var m in pc.Data.missions)
+            {
+                if (m == null) continue;
+
+                // id formato: "Ecosistema N::Nombre de misión"
+                string ecoRaw = null;
+                string name = null;
+
+                if (!string.IsNullOrEmpty(m.id) && m.id.Contains("::"))
+                {
+                    var parts = m.id.Split(new[] { "::" }, StringSplitOptions.None);
+                    ecoRaw = parts.Length > 0 ? parts[0] : null;
+                    name = parts.Length > 1 ? parts[1] : null;
+                }
+
+                ecoRaw = NormalizeEcoName(ecoRaw);
+                if (string.IsNullOrEmpty(ecoRaw)) ecoRaw = "Ecosistema 1";
+
+                if (!newByEco.TryGetValue(ecoRaw, out var ecoState))
+                {
+                    ecoState = new EcoState { eco = ecoRaw };
+                    newByEco[ecoRaw] = ecoState;
+                }
+
+                var n = (name ?? "").ToLowerInvariant();
+                bool isDone = string.Equals(m.state, "done", StringComparison.OrdinalIgnoreCase);
+
+                if (!isDone) continue;
+
+                if (n.Contains("4 stands"))
+                {
+                    // Satisface el conteo mínimo con marcadores lógicos si hace falta
+                    int req = Required(ecoRaw);
+                    while (ecoState.standsCompleted.Count < req)
+                        ecoState.standsCompleted.Add($"remote_{ecoState.standsCompleted.Count + 1}");
+                }
+                else if (n.Contains("punto de experiencia") || n.Contains("experience"))
+                {
+                    ecoState.experienceCompleted = true;
+                }
+                else if (n.Contains("3 estrellas") || n.Contains("3★") || n.Contains("3 *") || n.Contains("3*"))
+                {
+                    ecoState.anyMinigame3Stars = true;
+                }
+            }
+        }
+
+        // --- D) FUSIÓN con el estado local (para no perder sesiones recientes)
         foreach (var cfg in ecosystems)
         {
             string eco = NormalizeEcoName(cfg.ecosystemName);
@@ -309,17 +390,23 @@ public class MissionManager : MonoBehaviour
         }
 
         Save();
-        Debug.Log("[Mission] Recomputadas (fusionadas) desde progreso.");
+        Debug.Log("[Mission] Recomputadas desde progreso (merge=" + mergeWithLocal + ").");
     }
 
     // ============================ Internals ==================================
 
-    static string NormalizeEcoName(string raw)
+    public static string NormalizeEcoName(string raw)
     {
         if (string.IsNullOrWhiteSpace(raw)) return "";
         raw = raw.Trim();
-        var m = Regex.Match(raw, @"ecosistema\s*[-_ ]?\s*(\d+)", RegexOptions.IgnoreCase);
-        if (m.Success) return $"Ecosistema {m.Groups[1].Value}";
+        var m = Regex.Match(raw, @"ecosistema\s*[-_ ]?\s*(\n?\d+|\d+)", RegexOptions.IgnoreCase);
+        if (m.Success)
+        {
+            var digits = Regex.Match(raw, @"(\d+)");
+            if (digits.Success) return $"Ecosistema {digits.Groups[1].Value}";
+        }
+        var m2 = Regex.Match(raw, @"ecosistema\s*(\d+)", RegexOptions.IgnoreCase);
+        if (m2.Success) return $"Ecosistema {m2.Groups[1].Value}";
         return raw;
     }
 
@@ -391,16 +478,16 @@ public class MissionManager : MonoBehaviour
         _byEco.Clear();
         try
         {
-            if (!PlayerPrefs.HasKey(PP_KEY)) return;
-            var json = PlayerPrefs.GetString(PP_KEY, "{}");
+            var key = CurrentUserKey();
+            _loadedKey = key; // <-- recuerda qué clave cargaste
+            if (!PlayerPrefs.HasKey(key)) return;
+            var json = PlayerPrefs.GetString(key, "{}");
             var data = JsonUtility.FromJson<SaveData>(json);
             if (data?.ecos != null)
             {
                 foreach (var e in data.ecos)
-                {
                     if (e != null && !string.IsNullOrWhiteSpace(e.eco))
                         _byEco[NormalizeEcoName(e.eco)] = e;
-                }
             }
         }
         catch (Exception ex) { Debug.LogWarning("[MissionManager] Load fail: " + ex.Message); }
@@ -412,19 +499,63 @@ public class MissionManager : MonoBehaviour
         {
             var data = new SaveData { ecos = new List<EcoState>(_byEco.Values) };
             var json = JsonUtility.ToJson(data);
-            PlayerPrefs.SetString(PP_KEY, json);
+            var key = CurrentUserKey();
+            PlayerPrefs.SetString(key, json);
             PlayerPrefs.Save();
         }
         catch (Exception ex) { Debug.LogWarning("[MissionManager] Save fail: " + ex.Message); }
+    }
+
+    // ======== Bootstrap declarativo desde DTOs (opcional) ========
+    public void ApplyBootstrapMissionsFromDtos(System.Collections.IEnumerable missions)
+    {
+        if (missions == null) return;
+
+        bool any = false;
+        foreach (var m in missions)
+        {
+            if (m == null) continue;
+            var ecoRaw = m.GetType().GetProperty("ecosystem_name")?.GetValue(m)?.ToString();
+            var name = m.GetType().GetProperty("mision_name")?.GetValue(m)?.ToString();
+            var doneObj = m.GetType().GetProperty("done")?.GetValue(m);
+            bool done = (doneObj is bool b && b);
+            if (!done) continue;
+
+            var eco = NormalizeEcoName(ecoRaw);
+            if (string.IsNullOrEmpty(eco)) eco = "Ecosistema 1";
+            var st = GetEco(eco);
+
+            if (string.IsNullOrWhiteSpace(name)) continue;
+            var n = name.ToLowerInvariant();
+
+            if (n.Contains("4 stands"))
+            {
+                int req = Required(eco);
+                // crear marcadores lógicos para cumplir el conteo
+                while (st.standsCompleted.Count < req)
+                    st.standsCompleted.Add($"remote_{st.standsCompleted.Count + 1}");
+                any = true;
+            }
+            else if (n.Contains("punto de experiencia") || n.Contains("experience"))
+            {
+                st.experienceCompleted = true; any = true;
+            }
+            else if (n.Contains("3 estrellas") || n.Contains("3★") || n.Contains("3 *") || n.Contains("3*"))
+            {
+                st.anyMinigame3Stars = true; any = true;
+            }
+        }
+
+        if (any) { Save(); PushAllConfigured(); }
     }
 
 #if UNITY_EDITOR
     [ContextMenu("Reset MISIONS (local)")]
     void ResetMissionsLocal()
     {
-        PlayerPrefs.DeleteKey(PP_KEY);
+        PlayerPrefs.DeleteKey(CurrentUserKey());
         _byEco.Clear();
-        Debug.Log("[Mission] Misiones reseteadas localmente.");
+        Debug.Log("[Mission] Misiones reseteadas localmente para usuario actual.");
         PushAllConfigured();
     }
 #endif

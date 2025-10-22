@@ -9,16 +9,16 @@ public class WebGLBridge : MonoBehaviour
     public static string Token { get; private set; } = "";
     public static Action<string> OnTokenChanged;
 
-    [Header("Auto detecci�n")]
+    [Header("Auto detección")]
     public bool tryQueryParam = true;
     public bool tryLocalStorage = true;
     public bool trySessionStorage = true;
-    public bool autoScanStorages = true; // escanear todas las claves buscando un JWT
+    public bool autoScanStorages = true;   // escanear todas las claves buscando un JWT
     public bool listenPostMessage = true;
 
     [Header("Claves comunes (editable en inspector)")]
-    public string keyAuthToken = "auth_token";   // JWT plano
-    public string keyAuthData = "auth_data";    // JSON con { token: "..." }
+    public string keyAuthToken = "auth_token"; // JWT plano
+    public string keyAuthData = "auth_data";  // JSON con { token: "..." }
 
     [Header("Logs")]
     public bool verbose = true;
@@ -31,6 +31,7 @@ public class WebGLBridge : MonoBehaviour
     [DllImport("__Internal")] static extern int    __GetSessionStorageKeyCount();
     [DllImport("__Internal")] static extern string __GetSessionStorageKeyAt(int index);
     [DllImport("__Internal")] static extern void   __SubscribeTokenMessages();
+    [DllImport("__Internal")] static extern void   __RequestTokenRefresh();
 #endif
 
     void Awake()
@@ -63,7 +64,7 @@ public class WebGLBridge : MonoBehaviour
             if (!string.IsNullOrEmpty(t2)) { ReceiveToken(t2); return; }
         }
 
-        // 3) sessionStorage por si el proyecto lo usa
+        // 3) sessionStorage
         if (string.IsNullOrEmpty(Token) && trySessionStorage)
         {
             var s1 = SanitizeToken(SafeGetSession(keyAuthToken));
@@ -87,22 +88,87 @@ public class WebGLBridge : MonoBehaviour
         }
 
         if (verbose)
-            Debug.Log("[WebGLBridge] No se encontr� token en local/session storage ni en querystring. " +
+            Debug.Log("[WebGLBridge] No se encontró token en local/session storage ni en querystring. " +
                       "Esperando postMessage o SendMessage(\"WebBridge\",\"ReceiveToken\",token).");
 #else
-        if (verbose) Debug.Log("[WebGLBridge] Editor: no se resuelve token autom�ticamente.");
+        if (verbose) Debug.Log("[WebGLBridge] Editor: no se resuelve token automáticamente.");
 #endif
     }
 
-    // Llamado desde JS/React: unityInstance.SendMessage("WebBridge","ReceiveToken", token)
+    /// <summary>
+    /// Reintenta detectar el token ahora mismo desde query/local/session o escaneo completo.
+    /// </summary>
+    public bool TryRescanStoragesNow()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // query ?token=
+        if (tryQueryParam)
+        {
+            var qTok = GetQuery("token");
+            if (!string.IsNullOrEmpty(qTok)) { ReceiveToken(qTok); return true; }
+        }
+        // localStorage
+        if (tryLocalStorage)
+        {
+            var t1 = SanitizeToken(SafeGetLocal(keyAuthToken));
+            if (!string.IsNullOrEmpty(t1)) { ReceiveToken(t1); return true; }
+
+            var rawL = SafeGetLocal(keyAuthData);
+            var t2 = SanitizeToken(ExtractTokenFromAuthData(rawL));
+            if (!string.IsNullOrEmpty(t2)) { ReceiveToken(t2); return true; }
+        }
+        // sessionStorage
+        if (trySessionStorage)
+        {
+            var s1 = SanitizeToken(SafeGetSession(keyAuthToken));
+            if (!string.IsNullOrEmpty(s1)) { ReceiveToken(s1); return true; }
+
+            var rawS = SafeGetSession(keyAuthData);
+            var s2 = SanitizeToken(ExtractTokenFromAuthData(rawS));
+            if (!string.IsNullOrEmpty(s2)) { ReceiveToken(s2); return true; }
+        }
+        // escaneo total
+        if (autoScanStorages && TryAutoScan(out _, out var found))
+        {
+            ReceiveToken(found);
+            return true;
+        }
+
+        if (verbose) Debug.Log("[WebGLBridge] TryRescanStoragesNow() no encontró token.");
+        return false;
+#else
+        return false;
+#endif
+    }
+
+    // Llamado desde JS/React por postMessage bridge: unityInstance.SendMessage("WebBridge","ReceiveToken", token)
     public void ReceiveToken(string token)
     {
-        Token = SanitizeToken(token ?? "");
+        var newToken = SanitizeToken(token ?? "");
+        if (string.IsNullOrEmpty(newToken))
+        {
+            if (verbose) Debug.LogWarning("[WebGLBridge] Token vacío recibido por postMessage. Se ignora.");
+            return; // no borrar el token vigente
+        }
+        if (newToken == Token) return;
+
+        Token = newToken;
         if (verbose) Debug.Log($"[WebGLBridge] Token set (len={Token.Length})");
         OnTokenChanged?.Invoke(Token);
     }
 
     public void ClearToken() => ReceiveToken("");
+
+    public void RequestTokenRefresh()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // No-op: tokens permanentes; dejamos rastro por compatibilidad
+        if (verbose) Debug.Log("[WebGLBridge] RequestTokenRefresh() ignorado (token permanente).");
+        // __RequestTokenRefresh(); // si en un futuro vuelves a habilitar refresh en el wrapper
+#else
+        if (verbose) Debug.Log("[WebGLBridge] Editor: RequestTokenRefresh() ignorado.");
+#endif
+    }
 
     // ----------------- Auxiliares -----------------
     static string SanitizeToken(string s)
@@ -117,9 +183,9 @@ public class WebGLBridge : MonoBehaviour
     static string ExtractTokenFromAuthData(string raw)
     {
         if (string.IsNullOrEmpty(raw)) return "";
-        // intenta JSON �barato�: busca "token":"..."
         try
         {
+            // JSON barato: busca "token":"..."
             var m = Regex.Match(raw, "\"token\"\\s*:\\s*\"([^\"]+)\"");
             return m.Success ? m.Groups[1].Value : "";
         }
@@ -129,21 +195,24 @@ public class WebGLBridge : MonoBehaviour
     static bool LooksLikeJwt(string s)
     {
         if (string.IsNullOrEmpty(s)) return false;
-        // patr�n simple: tres segmentos base64url separados por punto
+        // patrón simple: tres segmentos base64url separados por punto
         return Regex.IsMatch(s, "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$");
     }
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     string SafeGetLocal(string key)   { try { return __GetLocalStorageItem(key)   ?? ""; } catch { return ""; } }
     string SafeGetSession(string key) { try { return __GetSessionStorageItem(key) ?? ""; } catch { return ""; } }
-    int    LocalCount()   { try { return __GetLocalStorageKeyCount(); }   catch { return 0; } }
-    int    SessionCount() { try { return __GetSessionStorageKeyCount(); } catch { return 0; } }
-    string LocalKeyAt(int i)   { try { return __GetLocalStorageKeyAt(i)   ?? ""; } catch { return ""; } }
-    string SessionKeyAt(int i) { try { return __GetSessionStorageKeyAt(i) ?? ""; } catch { return ""; } }
+    int    LocalCount()               { try { return __GetLocalStorageKeyCount(); }   catch { return 0; } }
+    int    SessionCount()             { try { return __GetSessionStorageKeyCount(); } catch { return 0; } }
+    string LocalKeyAt(int i)          { try { return __GetLocalStorageKeyAt(i)   ?? ""; } catch { return ""; } }
+    string SessionKeyAt(int i)        { try { return __GetSessionStorageKeyAt(i) ?? ""; } catch { return ""; } }
 #else
     string SafeGetLocal(string key) => "";
     string SafeGetSession(string key) => "";
-    int LocalCount() => 0; string LocalKeyAt(int i) => ""; int SessionCount() => 0; string SessionKeyAt(int i) => "";
+    int LocalCount() => 0;
+    int SessionCount() => 0;
+    string LocalKeyAt(int i) => "";
+    string SessionKeyAt(int i) => "";
 #endif
 
     bool TryAutoScan(out string foundKey, out string token)
@@ -156,9 +225,12 @@ public class WebGLBridge : MonoBehaviour
         {
             var k = LocalKeyAt(i);
             var v = SafeGetLocal(k);
+
             var t = SanitizeToken(ExtractTokenFromAuthData(v));
             if (LooksLikeJwt(t)) { foundKey = "localStorage:" + k; token = t; return true; }
-            if (LooksLikeJwt(SanitizeToken(v))) { foundKey = "localStorage:" + k; token = SanitizeToken(v); return true; }
+
+            var sv = SanitizeToken(v);
+            if (LooksLikeJwt(sv)) { foundKey = "localStorage:" + k; token = sv; return true; }
         }
 
         // 2) sessionStorage
@@ -167,9 +239,12 @@ public class WebGLBridge : MonoBehaviour
         {
             var k = SessionKeyAt(i);
             var v = SafeGetSession(k);
+
             var t = SanitizeToken(ExtractTokenFromAuthData(v));
             if (LooksLikeJwt(t)) { foundKey = "sessionStorage:" + k; token = t; return true; }
-            if (LooksLikeJwt(SanitizeToken(v))) { foundKey = "sessionStorage:" + k; token = SanitizeToken(v); return true; }
+
+            var sv = SanitizeToken(v);
+            if (LooksLikeJwt(sv)) { foundKey = "sessionStorage:" + k; token = sv; return true; }
         }
 
         return false;
@@ -184,24 +259,9 @@ public class WebGLBridge : MonoBehaviour
         foreach (var p in pairs)
         {
             var kv = p.Split('=');
-            if (kv.Length == 2 && kv[0] == key) return Uri.UnescapeDataString(kv[1]);
+            if (kv.Length == 2 && kv[0] == key)
+                return Uri.UnescapeDataString(kv[1]);
         }
         return null;
     }
-
-    // WebGLBridge.cs � a�ade esto dentro de la clase
-#if UNITY_WEBGL && !UNITY_EDITOR
-[System.Runtime.InteropServices.DllImport("__Internal")] private static extern void __RequestTokenRefresh();
-#endif
-
-
-    public void RequestTokenRefresh()
-    {
-#if UNITY_WEBGL && !UNITY_EDITOR
-    try { __RequestTokenRefresh(); } catch {}
-#else
-        if (verbose) Debug.Log("[WebGLBridge] Editor: RequestTokenRefresh() (simulado)");
-#endif
-    }
-
 }

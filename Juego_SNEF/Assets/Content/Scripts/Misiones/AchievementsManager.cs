@@ -54,6 +54,15 @@ public class AchievementsManager : MonoBehaviour
     public bool Unlocked_Expert => _state?.expert ?? false;
     public int Gamer_TypesCompleted => _state?.completedMinigameTypes?.Count ?? 0;
 
+    // ============================== Ciclo de vida ==============================
+    void Awake()
+    {
+        if (I != null && I != this) { Destroy(gameObject); return; }
+        I = this;
+        DontDestroyOnLoad(gameObject);
+        LoadState();
+    }
+
     void OnEnable()
     {
         if (ProgressCore.I != null)
@@ -70,42 +79,34 @@ public class AchievementsManager : MonoBehaviour
         WebGLBridge.OnTokenChanged -= OnTokenChanged;
     }
 
-    void OnProgressChanged(ProgressCore.GameProgressV1 _)
-    {
-        RecheckFromGameState(); // ya tienes este método para revalidar en bloque
-    }
-
-    void OnTokenChanged(string _)
-    {
-        // Si reseteas cache/estado interno de achievements, hazlo aquí.
-        // Luego revalidas según progreso actual:
-        RecheckFromGameState();
-    }
-
-    void Awake()
-    {
-        if (I != null && I != this) { Destroy(gameObject); return; }
-        I = this;
-        DontDestroyOnLoad(gameObject);
-        LoadState();
-    }
-
     void Start()
     {
-        // Revisa el estado actual (presupuesto, inventario, misiones) y
-        // rellena Gamer desde progreso si ya viene con minijuegos jugados.
-        Invoke(nameof(RecheckFromGameState), 0.1f);
+        // Evaluación inicial (por si el bootstrap ya corrió)
+        Invoke(nameof(RecheckFromGameState), 0.05f);
         RecheckFromGameState();
     }
 
-    // ===================== Notificaciones públicas (llamadas del juego) =====================
+    void OnProgressChanged(ProgressCore.GameProgressV1 _)
+    {
+        RecheckFromGameState();
+    }
+    
+    void OnTokenChanged(string _)
+    {
+        // Cambio de usuario → carga estado del usuario actual y reevalúa desde progreso remoto
+        LoadState();
+        Emit();
+        RecheckFromGameState();
+    }
 
-    /// Llamar cuando un minijuego se gana (>=1★). baseId = el miniGameId "base" de la Arcade.
+    // ===================== Notificaciones públicas =====================
+
+    /// Marca un tipo base de minijuego como completado (p. ej., "Minijuego1").
     public void NotifyMinigameCompletedType(string baseId)
     {
         if (string.IsNullOrWhiteSpace(baseId)) return;
 
-        string key = baseId.Trim(); // 1 baseId = 1 tipo (ajusta si quieres agrupar)
+        string key = baseId.Trim();
         if (!_state.completedMinigameTypes.Contains(key))
         {
             _state.completedMinigameTypes.Add(key);
@@ -116,7 +117,7 @@ public class AchievementsManager : MonoBehaviour
         }
     }
 
-    /// Llamar tras comprar/obtener un ítem (o al abrir la tienda) para verificar el conteo.
+    /// Llamar cuando cambie el inventario de coleccionables/tienda.
     public void OnInventoryChanged(int ownedNow)
     {
         if (totalCollectibles <= 0) return;
@@ -125,23 +126,24 @@ public class AchievementsManager : MonoBehaviour
             UnlockCollector();
     }
 
-    /// Llamar cada vez que cambie el presupuesto actual del jugador.
+    /// Llamar al cambiar presupuesto (o rehidratar desde Stats).
     public void NotifyBudgetChanged(int newValue)
     {
         if (!_state.saver && newValue >= saverTarget)
             UnlockSaver();
     }
 
-    /// MissionManager llamará esto cuando cambie cualquier misión.
+    /// Llamar cuando MissionManager actualice su estado (stands/xp/3★ por ecosistema).
     public void OnMissionsUpdated()
     {
         TryUnlockExpert();
     }
 
-    // ====================== Rehidratación desde progreso (reflexión segura) ======================
+    // ====================== Rehidratación desde progreso ======================
 
     public void RecheckFromGameState()
     {
+        if (CurrentUserKey() != _loadedKey) LoadState();
         // 1) Rellenar tipos de minijuego completados desde el progreso cargado
         try
         {
@@ -151,13 +153,14 @@ public class AchievementsManager : MonoBehaviour
                 if (!set.Contains(baseId))
                 {
                     set.Add(baseId);
-                    NotifyMinigameCompletedType(baseId); // ya guarda y evalúa unlock
+                    // Usa el mismo flujo de notificación para mantener persistencia/eventos
+                    NotifyMinigameCompletedType(baseId);
                 }
             }
         }
         catch (Exception ex) { Debug.LogWarning("[Achievements] Refill Gamer types fail: " + ex.Message); }
 
-        // 2) Presupuesto actual
+        // 2) Presupuesto actual (si hay Stats)
         if (Stats.I != null)
             NotifyBudgetChanged(Stats.I.Presupuesto);
 
@@ -171,6 +174,7 @@ public class AchievementsManager : MonoBehaviour
         OnMissionsUpdated();
     }
 
+    // Extrae el "tipo base" de un id de minijuego como "Minijuego4_E1" → "Minijuego4".
     static string ExtractBaseType(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) return null;
@@ -179,12 +183,31 @@ public class AchievementsManager : MonoBehaviour
         return name.Trim();
     }
 
+    /// Recorre el progreso actual y devuelve baseIds de minijuegos con estrellas > 0.
     IEnumerable<string> EnumerateCompletedMinigameBaseIdsFromProgress()
     {
         var pc = ProgressCore.I;
         if (pc == null) yield break;
 
-        // Reflection: ProgressCore.I.Data.(progress.)stands[*].minigames[*].(minigame_name|id, puntaje|stars)
+        // Preferir ProgressCore.Data.minigames (fuente consolidada y estable)
+        var minis = pc.Data?.minigames;
+        if (minis != null && minis.Count > 0)
+        {
+            foreach (var m in minis)
+            {
+                if (m == null || m.stars <= 0 || string.IsNullOrEmpty(m.id)) continue;
+
+                // id esperado: "<standId>::<minigameIdBase>"
+                var parts = m.id.Split(new[] { "::" }, StringSplitOptions.None);
+                string mg = parts.Length >= 2 ? parts[1] : m.id;
+                var baseId = ExtractBaseType(mg);
+                if (!string.IsNullOrEmpty(baseId))
+                    yield return baseId;
+            }
+            yield break; // ya cubrimos la fuente principal
+        }
+
+        // Fallback: revisar stands[].minigames del bootstrap remoto
         object data = pc.GetType().GetProperty("Data", BindingFlags.Public | BindingFlags.Instance)?.GetValue(pc);
         if (data == null) yield break;
 
@@ -204,7 +227,6 @@ public class AchievementsManager : MonoBehaviour
                     {
                         if (mg == null) continue;
 
-                        // stars/puntaje (>=1 cuenta como jugado; cámbialo a >=3 si quieres exigir 3★)
                         int stars = 0;
                         var pStars = mg.GetType().GetProperty("stars") ?? mg.GetType().GetProperty("puntaje");
                         if (pStars != null)
@@ -215,7 +237,6 @@ public class AchievementsManager : MonoBehaviour
                         }
                         if (stars <= 0) continue;
 
-                        // id/nombre
                         string id = null;
                         var pName = mg.GetType().GetProperty("minigame_name") ?? mg.GetType().GetProperty("id") ?? mg.GetType().GetProperty("name");
                         if (pName != null)
@@ -243,6 +264,7 @@ public class AchievementsManager : MonoBehaviour
     {
         if (_state.expert) return;
         if (MissionManager.I == null) return;
+
         int ok = 0;
         foreach (var cfg in MissionManager.I.ecosystems)
         {
@@ -300,11 +322,14 @@ public class AchievementsManager : MonoBehaviour
         return $"{PP_BASE_KEY}::{uid}";
     }
 
+    string _loadedKey;
+
     void LoadState()
     {
         try
         {
             var key = CurrentUserKey();
+            _loadedKey = key; // <-- recuerda
             if (PlayerPrefs.HasKey(key))
                 _state = JsonUtility.FromJson<State>(PlayerPrefs.GetString(key));
         }
@@ -335,6 +360,41 @@ public class AchievementsManager : MonoBehaviour
             Debug.Log("[Achievements] Reset de logros para el usuario actual.");
         }
         catch (Exception ex) { Debug.LogWarning("[Achievements] Reset fail: " + ex.Message); }
+    }
+
+    // ======== NUEVO: Aplicar bootstrap declarativo de logros ========
+    public void ApplyBootstrapAchievementsFromDtos(System.Collections.IEnumerable list)
+    {
+        if (list == null) return;
+
+        bool changed = false;
+        foreach (var a in list)
+        {
+            if (a == null) continue;
+            string id = a.GetType().GetProperty("achievement_id")?.GetValue(a)?.ToString();
+            string nm = a.GetType().GetProperty("name")?.GetValue(a)?.ToString();
+            bool on = (a.GetType().GetProperty("status")?.GetValue(a) is bool b && b);
+            if (!on)
+            {
+                var atProp = a.GetType().GetProperty("at") ?? a.GetType().GetProperty("unlocked_at");
+                var atVal = atProp?.GetValue(a)?.ToString();
+                if (!string.IsNullOrEmpty(atVal)) on = true;
+            }
+            if (!on)
+            {
+                var puntosProp = a.GetType().GetProperty("puntos");
+                int pv = 0; if (puntosProp != null) { var v = puntosProp.GetValue(a); if (v is int i) pv = i; else if (v is long l) pv = (int)l; }
+                if (pv > 0) on = true;
+            }
+            if (!on) continue;
+            id = string.IsNullOrEmpty(id) ? (nm ?? "").ToLowerInvariant() : id.ToLowerInvariant();
+
+            if ((id.Contains("gamer")) && !_state.gamer) { _state.gamer = true; changed = true; }
+            if ((id.Contains("saver") || id.Contains("ahorrador")) && !_state.saver) { _state.saver = true; changed = true; }
+            if ((id.Contains("collector") || id.Contains("coleccionista")) && !_state.collector) { _state.collector = true; changed = true; }
+            if ((id.Contains("expert") || id.Contains("experto")) && !_state.expert) { _state.expert = true; changed = true; }
+        }
+        if (changed) { SaveState(); Emit(); }
     }
 
 #if UNITY_EDITOR

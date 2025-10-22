@@ -439,7 +439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11, y: -1}
+  m_AnchoredPosition: {x: -11, y: -0.9999962}
   m_SizeDelta: {x: 348.3173, y: 47.1444}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &100449335
@@ -2614,7 +2614,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4.3847046, y: -73.1}
+  m_AnchoredPosition: {x: -1532, y: -73.1}
   m_SizeDelta: {x: 64.072, y: 47.7562}
   m_Pivot: {x: 0.9315654, y: 0.9315667}
 --- !u!114 &438331411
@@ -4543,6 +4543,7 @@ GameObject:
   - component: {fileID: 581931064}
   - component: {fileID: 581931063}
   - component: {fileID: 581931065}
+  - component: {fileID: 581931066}
   m_Layer: 0
   m_Name: CertificadoLogica
   m_TagString: Untagged
@@ -4609,12 +4610,28 @@ MonoBehaviour:
   encuestaURL: https://docs.google.com/forms/d/e/1FAIpQLSc8zy8poZS5c5WLQPfuNlSQX5VzJjdYDUmaB5WKdScQPbH50Q/viewform
   inputNameTMP: {fileID: 447878060}
   enviarNombreButton: {fileID: 1929025547}
-  guardarNombreEnPlayerPrefs: 1
+  guardarNombreEnPlayerPrefs: 0
   playerPrefsKey: certificado_nombre
   imagePrevisualizacionCertificado: {fileID: 1154694726}
   generarPreviewDinamica: 1
   descargarCertificadoButton: {fileID: 1858206346}
   downloader: {fileID: 581931063}
+--- !u!114 &581931066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581931062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a670f5fd671cdb4c8cc7b3c66be5ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  container: {fileID: 829237175}
+  gateByExpertOnly: 1
+  gateByAllAchievements: 0
+  forceEligibleForTests: 0
 --- !u!1 &600750104
 GameObject:
   m_ObjectHideFlags: 0
@@ -6961,7 +6978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &829237176
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7932,7 +7949,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 831cbb9636a49904f83a76e84e566e79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ba60f3e50d62b4247870529b92f78c3a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

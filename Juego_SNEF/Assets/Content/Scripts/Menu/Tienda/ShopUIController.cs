@@ -110,6 +110,9 @@ public class ShopUIController : MonoBehaviour
         // 6) Logro "Ahorrador"
         AchievementsManager.I?.NotifyBudgetChanged(Stats.I.Presupuesto);
 
+        MetricsClient.I?.TrackTiendaItemActualizado(_selected.id, _selected.displayName, true, _selected.price);
+        MetricsClient.I?.TrackPresupuesto(-_selected.price, "tienda", null, null);
+
         Feedback("¡Comprado!");
 
         RefreshBuyState();

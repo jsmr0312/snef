@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[DefaultExecutionOrder(100)] // corre después de otros setup para poder reenganchar botones
 public class CertificateUIController : MonoBehaviour
 {
     [Header("Botones principales")]
@@ -28,8 +29,8 @@ public class CertificateUIController : MonoBehaviour
     public bool generarPreviewDinamica = true;
 
     [Header("Descarga")]
-    public Button descargarCertificadoButton; // (si no lo usa el downloader, déjalo null)
-    public CertificateDownloader downloader;  // referencia al que ya tienes en escena
+    public Button descargarCertificadoButton; // Botón que detona la descarga
+    public CertificateDownloader downloader;  // Tu downloader existente
 
     void Awake()
     {
@@ -38,32 +39,45 @@ public class CertificateUIController : MonoBehaviour
 
         openCertificateButton?.onClick.AddListener(OpenWindow);
         closePanelButton?.onClick.AddListener(CloseWindow);
-
         responderEncuestaButton?.onClick.AddListener(OpenSurvey);
-
         enviarNombreButton?.onClick.AddListener(OnSubmitName);
 
-        // (Opcional) si quieres que el botón de "Descargar" llame al downloader
-        if (descargarCertificadoButton != null && downloader != null)
-            descargarCertificadoButton.onClick.AddListener(downloader.ExportAsPng);
-
-        // Si hay nombre guardado, saltar directo a la fase de descarga
-        if (guardarNombreEnPlayerPrefs && PlayerPrefs.HasKey(playerPrefsKey))
+        // Reemplazar listeners del botón de descarga por nuestro wrapper (evita doble enganche)
+        if (descargarCertificadoButton != null)
         {
-            string n = PlayerPrefs.GetString(playerPrefsKey, "");
-            if (!string.IsNullOrWhiteSpace(n))
+            descargarCertificadoButton.onClick.RemoveAllListeners();
+            descargarCertificadoButton.onClick.AddListener(DownloadAndTrack);
+        }
+
+        // Si ProgressCore ya tiene nombre/descarga, respetarlo
+        var cert = ProgressCore.I?.Data?.certificate;
+        if (cert != null)
+        {
+            if (!string.IsNullOrWhiteSpace(cert.name))
             {
-                downloader?.SetNombre(n);
-                inputNameTMP?.SetTextWithoutNotify(n);
+                downloader?.SetNombre(cert.name);
+                inputNameTMP?.SetTextWithoutNotify(cert.name);
+            }
+
+            if (cert.downloaded || !string.IsNullOrWhiteSpace(cert.name))
                 ShowDownloadPhase();
-            }
             else
-            {
                 ShowNamePhase();
-            }
         }
         else
         {
+            // Fallback: PlayerPrefs (opcional)
+            if (guardarNombreEnPlayerPrefs && PlayerPrefs.HasKey(playerPrefsKey))
+            {
+                string n = PlayerPrefs.GetString(playerPrefsKey, "");
+                if (!string.IsNullOrWhiteSpace(n))
+                {
+                    downloader?.SetNombre(n);
+                    inputNameTMP?.SetTextWithoutNotify(n);
+                    ShowDownloadPhase();
+                    return;
+                }
+            }
             ShowNamePhase();
         }
     }
@@ -72,11 +86,17 @@ public class CertificateUIController : MonoBehaviour
     {
         if (!panelVentanaCertificado) return;
         panelVentanaCertificado.SetActive(true);
-        // Siempre que abras, si no hay nombre válido, muestra fase de nombre
-        if (string.IsNullOrWhiteSpace(GetCurrentName()))
-            ShowNamePhase();
-        else
-            ShowDownloadPhase();
+
+        // Si ya hay nombre, pasa directo a fase descarga
+        var n = GetCurrentName();
+        if (string.IsNullOrWhiteSpace(n))
+        {
+            var cert = ProgressCore.I?.Data?.certificate;
+            if (!string.IsNullOrWhiteSpace(cert?.name)) n = cert.name;
+        }
+
+        if (string.IsNullOrWhiteSpace(n)) ShowNamePhase();
+        else ShowDownloadPhase();
     }
 
     void CloseWindow()
@@ -89,6 +109,8 @@ public class CertificateUIController : MonoBehaviour
     {
         if (string.IsNullOrEmpty(encuestaURL)) return;
         Application.OpenURL(encuestaURL);
+        // Si algún día quieres guardar esto, podrías añadir:
+        // ProgressCore.I?.MarkSurveyOpened(); (si implementas ese flag)
     }
 
     void OnSubmitName()
@@ -96,14 +118,15 @@ public class CertificateUIController : MonoBehaviour
         string nombre = GetCurrentName();
         if (string.IsNullOrWhiteSpace(nombre))
         {
-            // feedback mínimo: bordes rojos o log
             Debug.LogWarning("[Certificado] Ingresa un nombre válido.");
             return;
         }
 
         // Entregar el nombre al generador/descargador
-        if (downloader != null)
-            downloader.SetNombre(nombre); // <- usa tu método público del script existente
+        if (downloader != null) downloader.SetNombre(nombre);
+
+        // Guardar en progreso y opcionalmente en PlayerPrefs
+        ProgressCore.I?.SetCertificateName(nombre);
 
         if (guardarNombreEnPlayerPrefs)
         {
@@ -112,6 +135,32 @@ public class CertificateUIController : MonoBehaviour
         }
 
         ShowDownloadPhase();
+    }
+
+    void DownloadAndTrack()
+    {
+        // 1) Asegurar nombre
+        string nombre = GetCurrentName();
+        if (string.IsNullOrWhiteSpace(nombre))
+        {
+            // intenta leer el del downloader si ya lo tenía
+            nombre = downloader != null ? (downloader.nombrePersona ?? "").Trim() : "";
+        }
+
+        if (string.IsNullOrWhiteSpace(nombre))
+        {
+            Debug.LogWarning("[Certificado] Ingresa un nombre antes de descargar.");
+            return;
+        }
+
+        // 2) Preparar downloader y exportar
+        downloader?.SetNombre(nombre);
+        downloader?.ExportAsPng(); // tu implementación de descarga
+
+        // 3) Persistir y enviar métrica mínima
+        ProgressCore.I?.SetCertificateName(nombre);
+        ProgressCore.I?.MarkCertificateDownloaded();
+        MetricsClient.I?.TrackCertificadoDescargado(nombre, true);
     }
 
     string GetCurrentName()
@@ -171,7 +220,7 @@ public class CertificateUIController : MonoBehaviour
         RenderTexture.active = prevActive;
         Destroy(rt);
 
-        // Si el certificado no estaba visible antes, vuelve a ocultarlo
+        // Si el certificado no estaba visible antes, vuelve a ocultarlo si corresponde
         if (!wasActive && d.certificateRoot != null && d.hideRootAfterExport)
             d.certificateRoot.SetActive(false);
 
