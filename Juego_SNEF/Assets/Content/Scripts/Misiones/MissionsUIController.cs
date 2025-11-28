@@ -52,7 +52,7 @@ public class MissionsUIController : MonoBehaviour
 
         // Títulos (opcional)
         if (cardExperience) cardExperience.SetTitle("VISITA Y COMPLETA EL PUNTO DE EXPERIENCIA");
-        if (cardMinigame) cardMinigame.SetTitle("JUEGA Y CONSIGUE 3★ EN UN MINIJUEGO");
+        if (cardMinigame) cardMinigame.SetTitle("JUEGA Y CONSIGUE 3 ESTRELLAS EN UN MINIJUEGO");
         if (cardFourStands) cardFourStands.SetTitle("VISITA Y COMPLETA 4 STANDS");
     }
 

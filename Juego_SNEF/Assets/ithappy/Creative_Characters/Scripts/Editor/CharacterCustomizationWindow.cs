@@ -3,7 +3,7 @@ using System.Linq;
 using CharacterCustomizationTool.Editor.Character;
 using CharacterCustomizationTool.Editor.FaceEditor;
 using CharacterCustomizationTool.Editor.MaterialManagement;
-using Controller;
+
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -129,8 +129,7 @@ namespace CharacterCustomizationTool.Editor
         private static void AddMovementComponents(GameObject character)
         {
             AddCharacterController(character);
-            character.AddComponent<CharacterMover>();
-            character.AddComponent<MovePlayerInput>();
+         
         }
 
         private static void AddCharacterController(GameObject character)
